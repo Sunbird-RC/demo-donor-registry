@@ -4,7 +4,6 @@
   "definitions": {
     "PersonalDetails": {
       "type": "object",
-      "additionalProperties": false,
       "title": "Personal Details",
       "required": ["name", "fatherName", "dob", "gender", "emailId", "mobileNumber"],
       "properties": {
@@ -72,7 +71,6 @@
     },
     "IdentificationDetails": {
       "type": "object",
-      "additionalProperties": false,
       "required": ["proof", "number"],
       "title": "Identification Details",
       "properties": {
@@ -89,7 +87,6 @@
     },
     "PledgeDetails": {
       "type": "object",
-      "additionalProperties": false,
       "required": ["organs", "tissues"],
       "title": "Pledge Details",
       "properties": {

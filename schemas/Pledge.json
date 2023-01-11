@@ -50,7 +50,21 @@
       "osCreatedBy",
       "osUpdatedBy"
     ],
-    "attestationPolicies": [],
+    "attestationPolicies": [
+      {
+        "name": "pledgeAffiliation",
+        "conditions": "(ATTESTOR#$.[*]#.contains('nha-admin'))",
+        "type": "AUTOMATED",
+        "attestorPlugin": "did:internal:ClaimPluginActor?entity=nha-admin",
+        "attestationProperties": {
+          "emergencyDetails": "$.emergencyDetails",
+          "pledgeDetails": "$.pledgeDetails",
+          "dateOfBirth": "$.personalDetails.dob",
+          "bloodGroup": "$.personalDetails.bloodGroup",
+          "identificationDetails": "$.identificationDetails"
+        }
+      }
+    ],
     "inviteRoles":["anonymous"],
     "ownershipAttributes": [
       {
