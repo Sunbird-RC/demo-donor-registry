@@ -79,7 +79,6 @@
         },
         "addressDetails": {
           "type": "object",
-          "additionalProperties": false,
           "required": ["addressLine1", "country", "state", "district", "pincode"],
           "title": "Address Details",
           "allOf": [{"$ref": "Common.json/#/definitions/addressDetails"}]
@@ -114,7 +113,6 @@
         },
         "emergencyDetails": {
           "type": "object",
-          "additionalProperties": false,
           "required": [],
           "title": "Emergency Contact Details",
           "properties": {
@@ -141,7 +139,6 @@
           "maxItems": 2,
           "items": {
             "type": "object",
-            "additionalProperties": false,
             "required": [],
             "properties": {
               "name": {
