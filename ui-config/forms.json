@@ -1,0 +1,77 @@
+{
+    "type": "opensaberLayoutSchema",
+    "version": "0.1",
+    "forms": [
+        {
+            "signup": {
+                "api": "/Pledge/invite",
+                "type": "entity",
+                "formclass": "row",
+                "header": "default",
+                "title": "REGISTER",
+                "langKey": "institute",
+                "isSignupForm": "true",
+                "fieldsets": [
+                    {
+                        "definition": "Pledge",
+                        "fields": [
+                            {
+                                "name": "personalDetails"
+                            },
+                            {
+                                "name": "identificationDetails"
+                            },
+                             {
+                                "name": "addressDetails"
+                            },
+                            {
+                                "name": "pledgeDetails"
+                            },
+                            {
+                                "name": "emergencyDetails"
+                            },
+                            {
+                                "name": "witnessDetails"
+                            }
+                        ]
+                    }
+                ],
+                "redirectTo": "/profile/Pledge"
+            }
+        },
+        {
+            "pledge-setup": {
+                "api": "/Pledge",
+                "type": "entity",
+                "formclass": "row",
+                "langKey": "institute",
+                "fieldsets": [
+                    {
+                        "definition": "Pledge",
+                        "fields": [
+                            {
+                                "name": "personalDetails"
+                            },
+                            {
+                                "name": "identificationDetails"
+                            },
+                             {
+                                "name": "addressDetails"
+                            },
+                            {
+                                "name": "pledgeDetails"
+                            },
+                            {
+                                "name": "emergencyDetails"
+                            },
+                            {
+                                "name": "witnessDetails"
+                            }
+                        ]
+                    }
+                ],
+                "redirectTo": "/profile/Pledge"
+            }
+        }
+    ]
+}
