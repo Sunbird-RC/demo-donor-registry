@@ -2,8 +2,51 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "title": "Common",
   "definitions": {
+    "personalDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "title": "Personal Details",
+      "required": ["name", "fatherName", "dob", "gender", "emailId", "mobileNumber"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Donor Name* (First Name+Middle Name+Last Name)"
+        },
+        "fatherName": {
+          "type": "string",
+          "title": "Father’s/Husband’s Name"
+        },
+        "dob": {
+          "type": "string",
+          "format": "date",
+          "title": "Date of Birth"
+        },
+        "gender": {
+          "type": "string",
+          "enum": ["Male","Female", "Transgender"],
+          "title": "Gender"
+        },
+        "bloodGroup": {
+          "type": "string",
+          "enum": ["A+","A-","B+","B-","AB+","AB-","O+","O-"],
+          "title": "Blood Group"
+        },
+        "emailId": {
+          "type": "string",
+          "format": "email",
+          "title": "Email Id"
+        },
+        "mobileNumber": {
+          "type": "string",
+          "pattern": "^[6-9]\\d{9}$",
+          "title": "Mobile Number"
+        }
+      }
+    },
     "addressDetails": {
       "type": "object",
+      "title": "Address Details",
+      "required": ["addressLine1", "country", "state", "district", "pincode"],
       "properties": {
         "addressLine1": {
           "type": "string",
@@ -24,6 +67,145 @@
         },
         "pincode": {
           "type": "string"
+        }
+      }
+    },
+    "identificationDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proof", "number"],
+      "title": "Identification Details",
+      "properties": {
+        "proof": {
+          "type": "string",
+          "enum": ["Aadhaar", "Pan Card", "Abha ID"],
+          "title": "Identification Proof"
+        },
+        "number": {
+          "type": "string",
+          "title": "Identification Number"
+        }
+      }
+    },
+    "pledgeDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["organs", "tissues"],
+      "title": "Pledge Details",
+      "properties": {
+        "organs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Liver","Kidney","Heart","Intestine","Pancreas","Lungs"]
+          },
+          "title": "Organs to Pledge"
+        },
+        "tissues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Bone","Heart Valve","Skin","Cornea","Cartilage","Blood Vessels"]
+          },
+          "title": "Tissues to Pledge"
+        },
+        "other": {
+          "type": "string",
+          "title": "Other Organs/Tissues"
+        }
+      }
+    },
+    "emergencyDetails": {
+      "type": "object",
+      "required": [],
+      "title": "Emergency Contact Details",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "relation": {
+          "type": "string",
+          "enum": ["Father", "Mother"]
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "addressLine1": {
+          "type": "string",
+          "title": "Address Line 1"
+        },
+        "addressLine2": {
+          "type": "string",
+          "title": "Address Line 2"
+        },
+        "country": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "district": {
+          "type": "string"
+        },
+        "pincode": {
+          "type": "string"
+        }
+      }
+    },
+    "witnessDetails": {
+      "type": "array",
+      "title": "Witness Details",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "fatherName": {
+            "type": "string",
+            "title": "Father’s/Husband’s Name"
+          },
+          "dob": {
+            "type": "string",
+            "format": "date",
+            "title": "Date of Birth"
+          },
+          "relation": {
+            "type": "string",
+            "enum": ["Father", "Mother"]
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "mobileNumber": {
+            "type": "string",
+            "pattern": "^[6-9]\\d{9}$",
+            "title": "Mobile Number"
+          },
+          "addressLine1": {
+            "type": "string",
+            "title": "Address Line 1"
+          },
+          "addressLine2": {
+            "type": "string",
+            "title": "Address Line 2"
+          },
+          "country": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "pincode": {
+            "type": "string"
+          }
         }
       }
     }
