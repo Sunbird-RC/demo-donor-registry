@@ -59,9 +59,9 @@
         "attestationProperties": {
           "emergencyDetails": "$.emergencyDetails",
           "pledgeDetails": "$.pledgeDetails",
-          "dateOfBirth": "$.personalDetails.dob",
           "bloodGroup": "$.personalDetails.bloodGroup",
-          "identificationDetails": "$.identificationDetails"
+          "identificationDetails": "$.identificationDetails",
+          "personalDetails": "$.personalDetails"
         },
         "credentialTemplate": {
           "@context": [
