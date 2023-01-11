@@ -20,22 +20,22 @@
       ],
       "properties": {
         "personalDetails": {
-          "$ref": "Common.json/#/definitions/personalDetails"
+          "$ref": "Common.json/#/definitions/PersonalDetails"
         },
         "identificationDetails": {
-          "$ref": "Common.json/#/definitions/identificationDetails"
+          "$ref": "Common.json/#/definitions/IdentificationDetails"
         },
         "addressDetails": {
-          "$ref": "Common.json/#/definitions/addressDetails"
+          "$ref": "Common.json/#/definitions/AddressDetails"
         },
         "pledgeDetails": {
-          "$ref": "Common.json/#/definitions/pledgeDetails"
+          "$ref": "Common.json/#/definitions/PledgeDetails"
         },
         "emergencyDetails": {
-          "$ref": "Common.json/#/definitions/emergencyDetails"
+          "$ref": "Common.json/#/definitions/EmergencyDetails"
         },
         "witnessDetails": {
-          "$ref": "Common.json/#/definitions/witnessDetails"
+          "$ref": "Common.json/#/definitions/WitnessDetails"
         }
       }
     }

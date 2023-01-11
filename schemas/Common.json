@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "title": "Common",
   "definitions": {
-    "personalDetails": {
+    "PersonalDetails": {
       "type": "object",
       "additionalProperties": false,
       "title": "Personal Details",
@@ -43,7 +43,7 @@
         }
       }
     },
-    "addressDetails": {
+    "AddressDetails": {
       "type": "object",
       "title": "Address Details",
       "required": ["addressLine1", "country", "state", "district", "pincode"],
@@ -70,7 +70,7 @@
         }
       }
     },
-    "identificationDetails": {
+    "IdentificationDetails": {
       "type": "object",
       "additionalProperties": false,
       "required": ["proof", "number"],
@@ -87,7 +87,7 @@
         }
       }
     },
-    "pledgeDetails": {
+    "PledgeDetails": {
       "type": "object",
       "additionalProperties": false,
       "required": ["organs", "tissues"],
@@ -115,7 +115,7 @@
         }
       }
     },
-    "emergencyDetails": {
+    "EmergencyDetails": {
       "type": "object",
       "required": [],
       "title": "Emergency Contact Details",
@@ -153,7 +153,7 @@
         }
       }
     },
-    "witnessDetails": {
+    "WitnessDetails": {
       "type": "array",
       "title": "Witness Details",
       "maxItems": 2,
