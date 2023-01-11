@@ -91,7 +91,7 @@ services:
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
     environment:
-      - KEYCLOAK_LOGO=https://svgshare.com/i/hCs.svg
+      - KEYCLOAK_LOGO=https://raw.githubusercontent.com/Sunbird-RC/Admin-Portal/main/src/assets/images/admin_portal.svg
       - DB_VENDOR=postgres
       - DB_ADDR=db
       - DB_PORT=5432
@@ -102,6 +102,8 @@ services:
       - KEYCLOAK_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD-admin}
       - KEYCLOAK_IMPORT=/opt/jboss/keycloak/imports/realm-export.json
       - PROXY_ADDRESS_FORWARDING=true
+      - KEYCLOAK_PORTAL_TITLE=Organ Pledge Registry
+      - KEYCLOAK_PORTAL_SUB_TITLE=Organ Pledge Registry
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:9990/ || exit 1"]
