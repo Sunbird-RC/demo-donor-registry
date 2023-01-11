@@ -62,6 +62,36 @@
           "dateOfBirth": "$.personalDetails.dob",
           "bloodGroup": "$.personalDetails.bloodGroup",
           "identificationDetails": "$.identificationDetails"
+        },
+        "credentialTemplate": {
+          "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            "https://gist.githubusercontent.com/varadeth/1a860d3545bbecbfe26791e545a0d5e3/raw/93557f33dea01e2837a8f9c7aa4fab686838e676/pledgeAttestation.json"
+          ],
+          "type": [
+            "VerifiableCredential",
+            "PledgeCertificate"
+          ],
+          "issuer": "https://nha.gov.in",
+          "issuanceDate": "{{issuanceDate}}",
+          "credentialSubject": {
+            "type": "Donor",
+            "name": "{{personalDetails.name}}",
+            "dob": "{{personalDetails.dob}}",
+            "gender": "{{personalDetails.gender}}",
+            "identificationProof": "{{identificationDetails.proof}}",
+            "identificationNumber": "{{identificationDetails.number}}",
+            "mobileNumber": "{{personalDetails.mobileNumber}}",
+            "emailId": "{{personalDetails.emailId}}",
+            "emergencyMobileNumber": "{{emergencyDetails.email}}"
+          },
+          "evidence": {
+            "type": "Pledge",
+            "organs": "{{pledgeDetails.organs}}",
+            "tissues": "{{pledgeDetails.tissues}}",
+            "bloodGroup": "{{personalDetails.bloodGroup}}",
+            "witness": "{{witnessDetails.0.name}}"
+          }
         }
       }
     ],
