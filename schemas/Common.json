@@ -124,6 +124,11 @@
           "type": "string",
           "enum": ["Father", "Mother"]
         },
+        "mobileNumber": {
+          "type": "string",
+          "pattern": "^[6-9]\\d{9}$",
+          "title": "Mobile Number"
+        },
         "email": {
           "type": "string",
           "format": "email"

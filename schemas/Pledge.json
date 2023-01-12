@@ -66,7 +66,7 @@
         "credentialTemplate": {
           "@context": [
             "https://www.w3.org/2018/credentials/v1",
-            "https://gist.githubusercontent.com/varadeth/1a860d3545bbecbfe26791e545a0d5e3/raw/93557f33dea01e2837a8f9c7aa4fab686838e676/pledgeAttestation.json"
+            "https://gist.githubusercontent.com/varadeth/1a860d3545bbecbfe26791e545a0d5e3/raw/ac5a15eddfae2c9b5e1a0b6e4ebcfcda00c90299/pledgeAttestation.json"
           ],
           "type": [
             "VerifiableCredential",
@@ -83,7 +83,8 @@
             "identificationNumber": "{{identificationDetails.number}}",
             "mobileNumber": "{{personalDetails.mobileNumber}}",
             "emailId": "{{personalDetails.emailId}}",
-            "emergencyMobileNumber": "{{emergencyDetails.email}}"
+            "emergencyMobileNumber": "{{emergencyDetails.mobileNumber}}",
+            "registrationNumber": "{{osid}}"
           },
           "evidence": {
             "type": "Pledge",
