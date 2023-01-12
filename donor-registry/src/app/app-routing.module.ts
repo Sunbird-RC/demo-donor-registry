@@ -24,8 +24,8 @@ import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-v
 // import { FaqComponent } from './custom-components/faq/faq.component';
 const routes: Routes = [
 // Home
-// { path: '', component: HomeComponent },
-{ path: '', component: KeycloakloginComponent,  canActivate: [AuthGuard]},
+{ path: '', component: HomeComponent },
+//{ path: '', component: KeycloakloginComponent,  canActivate: [AuthGuard]},
 
 // Auth
 { path: 'login', component: KeycloakloginComponent ,  canActivate: [AuthGuard]},
