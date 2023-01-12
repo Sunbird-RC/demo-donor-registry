@@ -70,7 +70,8 @@
                     <ng-template [ngIf]="model['pledgeAffiliation'][0]['_osState'] == 'PUBLISHED'"> 
                         <span class="badge  font-weight-bold badge-success" data-mdb-toggle="tooltip" title="{{'SAVED_TO_DRAFT' | translate}}">Verified</span> &nbsp;
 
-                        <span class="badge font-weight-bold badge-info" data-mdb-toggle="tooltip" (click)="dowbloadCard(model['pledgeAffiliation'][0])" >Download Card</span>
+                        <span class="badge font-weight-bold badge-info" data-mdb-toggle="tooltip" data-toggle="modal"
+                        data-target="#prewiewProfile" (click)="dowbloadCard(model['pledgeAffiliation'][0])" >View Card</span>
 
                     </ng-template>
                    
@@ -221,21 +222,24 @@
         </div>
 
         <!-- Preview Profile Modal -->
-        <div *ngIf="isPreview" class="modal right fade right-xl-modal" id="prewiewProfile" tabindex="-1" role="dialog" aria-labelledby="prewiewProfile">
+        <div  class="modal right fade right-xl-modal" id="prewiewProfile" tabindex="-1" role="dialog" aria-labelledby="prewiewProfile">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h6 class="modal-title">{{'PREVIEW_PUBLIC_PROFILE' | translate}}</h6>
+                        <h6 class="modal-title">Download Card</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                        <app-layouts layout={{layout}} identifier={{identifier}} public="true"></app-layouts>
+                        <iframe width="100%" height="100%" [src]="url"></iframe>
+
+                        <!-- <app-layouts layout={{layout}} identifier={{identifier}} public="true"></app-layouts> -->
                     </div>
                 </div>
             </div>
         </div>
+        
 
         <ng-template #noData>
             <div *ngIf="!public">

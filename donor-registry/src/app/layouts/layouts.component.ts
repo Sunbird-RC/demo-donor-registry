@@ -4,7 +4,7 @@ import { SchemaService } from '../services/data/schema.service';
 import { GeneralService } from '../services/general/general.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
-import { Title } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../app.config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -40,8 +40,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
   params: any;
   langKey;
   titleVal;
+  url: any;
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
-    public router: Router, public translate: TranslateService,
+    public router: Router, public translate: TranslateService,public sanitizer: DomSanitizer,
     private http: HttpClient,
     private config: AppConfig) {
   }
@@ -567,4 +568,32 @@ export class LayoutsComponent implements OnInit, OnChanges {
     })).subscribe((result: any) => {
     });
   }
+
+
+  dowbloadCard(item){
+    let pdfName = (item.name) ? item.name : 'abc';
+   
+    let headerOptions = new HttpHeaders({
+      'template-key':'svg',
+      'Accept': 'application/pdf'
+    });
+
+    let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
+    // post or get depending on your requirement
+    this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  item.entityId + '/attestation/pledgeAffiliation/' + item.osid, requestOptions).pipe(map((data: any) => {
+
+      
+        let blob = new Blob([data], {
+            type: 'application/pdf' // must match the Accept type
+        });
+
+        this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
+
+    })).subscribe((result: any) => {
+    });
+  }
+
+
+
+
 }
