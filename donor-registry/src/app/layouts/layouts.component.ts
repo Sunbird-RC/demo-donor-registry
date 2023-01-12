@@ -6,6 +6,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
+import { AppConfig } from '../app.config';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-layouts',
@@ -38,7 +41,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
   langKey;
   titleVal;
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
-    public router: Router, public translate: TranslateService) {
+    public router: Router, public translate: TranslateService,
+    private http: HttpClient,
+    private config: AppConfig) {
   }
 
   ngOnChanges(): void {
@@ -536,5 +541,30 @@ export class LayoutsComponent implements OnInit, OnChanges {
         fieldValue.length ? this.subHeadername.push(fieldValue) : [];
       }
     }
+  }
+
+  dowbloadCard(item){
+    let pdfName = (item.name) ? item.name : 'abc';
+   
+    let headerOptions = new HttpHeaders({
+      'template-key':'svg',
+        'Accept': 'image/svg+xml'
+    });
+
+    let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
+    // post or get depending on your requirement
+    this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  item.entityId + '/attestation/pledgeAffiliation/' + item.osid, requestOptions).pipe(map((data: any) => {
+
+        let blob = new Blob([data], {
+            type: 'image/svg+xml' // must match the Accept type
+        });
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = pdfName + '.svg';
+        link.click();
+        window.URL.revokeObjectURL(link.href);
+
+    })).subscribe((result: any) => {
+    });
   }
 }

@@ -6,13 +6,16 @@
         <div class="container my-2 pt-2" >
             <div class=" d-inline ">
                 <h3 class="mb-1 text-wb">
-                    {{headerName}}
+                    <p *ngIf="subHeadername.length">  <span *ngFor="let a of subHeadername;let i = index">
+                        {{a}}
+                    </span>
+                </p>
                 </h3>
-                <p *ngIf="subHeadername.length"> <i class="fa fa-map-marker"></i> <span *ngFor="let a of subHeadername;let i = index">
+                <!-- <p *ngIf="subHeadername.length"> <i class="fa fa-map-marker"></i> <span *ngFor="let a of subHeadername;let i = index">
                         {{a}}
                         <span *ngIf="subHeadername.length > 1 && subHeadername.length != i+1">, </span>
                     </span>
-                </p>
+                </p> -->
             </div>
             <a *ngIf="!public" class=" p-2 p14 btn-bg label-primary btn-style float-end" data-toggle="modal" data-target="#prewiewProfile" (click)="openPreview()">{{'PREVIEW_PUBLIC_PROFILE' | translate}}</a>
         </div>
@@ -64,10 +67,13 @@
 
                       
                     </ng-template>
-                    <ng-template [ngIf]="!model['pledgeAffiliation'][0]['_osState'] == 'PUBLISHED'"> 
-                        <span class="badge  font-weight-bold badge-success" data-mdb-toggle="tooltip" title="{{'SAVED_TO_DRAFT' | translate}}">Verified</span>
+                    <ng-template [ngIf]="model['pledgeAffiliation'][0]['_osState'] == 'PUBLISHED'"> 
+                        <span class="badge  font-weight-bold badge-success" data-mdb-toggle="tooltip" title="{{'SAVED_TO_DRAFT' | translate}}">Verified</span> &nbsp;
+
+                        <span class="badge font-weight-bold badge-info" data-mdb-toggle="tooltip" (click)="dowbloadCard(model['pledgeAffiliation'][0])" >Download Card</span>
 
                     </ng-template>
+                   
                 </span> 
                 <ng-template [ngIf]="block.add">
                     <a *ngIf="!public" panelAddLink="{{block.addform}}" class="fs-7 text-secondary-color"><i

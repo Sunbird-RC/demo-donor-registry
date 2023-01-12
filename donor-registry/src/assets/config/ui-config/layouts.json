@@ -7,8 +7,8 @@
                 "api": "/Pledge",
                 "title": "INSTITUTE_PROFILE",
                 "langKey" : "institute",
-                "headerName" : "personalDetails.firstName",
-                "subHeadername" : "address.state,contactDetails.address.city",
+                "headerName" : "personalDetails.firstName,personalDetails.firstName",
+                "subHeadername" : "personalDetails.firstName,personalDetails.middleName,personalDetails.lastName",
                 "blocks": [
                     {
                         "definition": "Pledge",
