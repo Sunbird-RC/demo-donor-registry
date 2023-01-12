@@ -16,7 +16,47 @@
                         "definition": "Pledge",
                         "fields": [
                             {
-                                "name": "personalDetails"
+                                "name": "personalDetails",
+                                "children": {
+                                    "definition": "PersonalDetails",
+                                    "title": "Personal Details",
+                                    "fields": [
+                                        {
+                                            "name": "firstName"
+                                        },
+                                        {
+                                            "name": "middleName"
+
+                                        },
+                                        {
+                                            "name": "lastName"
+                                        },
+                                        {
+                                            "name": "fatherName"
+                                        },
+                                        {
+                                            "name": "dob",
+                                            "type": "date"
+                                        },
+                                        {
+                                            "name": "gender"
+                                        },
+                                        {
+                                            "name": "bloodGroup"
+                                        },
+                                        {
+                                            "name": "emailId"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            }
+                                        }
+                                    ]
+                                }
+
                             },
                             {
                                 "name": "identificationDetails"
@@ -66,7 +106,46 @@
                         "definition": "Pledge",
                         "fields": [
                             {
-                                "name": "personalDetails"
+                                "name": "personalDetails",
+                                "children": {
+                                    "definition": "PersonalDetails",
+                                    "title": "Personal Details",
+                                    "fields": [
+                                        {
+                                            "name": "firstName"
+                                        },
+                                        {
+                                            "name": "middleName"
+
+                                        },
+                                        {
+                                            "name": "lastName"
+                                        },
+                                        {
+                                            "name": "fatherName"
+                                        },
+                                        {
+                                            "name": "dob",
+                                            "type": "date"
+                                        },
+                                        {
+                                            "name": "gender"
+                                        },
+                                        {
+                                            "name": "bloodGroup"
+                                        },
+                                        {
+                                            "name": "emailId"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            }
+                                        }
+                                    ]
+                                }
                             },
                             {
                                 "name": "identificationDetails"

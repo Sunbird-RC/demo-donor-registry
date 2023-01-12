@@ -45,7 +45,7 @@ export class FormsComponent implements OnInit {
   fields: FormlyFieldConfig[];
   customFields = [];
   header = null;
-exLength : number = 0
+  exLength: number = 0
   type: string;
   apiUrl: string;
   redirectTo: any;
