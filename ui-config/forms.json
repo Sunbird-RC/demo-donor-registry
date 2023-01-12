@@ -25,7 +25,23 @@
                                 "name": "addressDetails"
                             },
                             {
-                                "name": "pledgeDetails"
+                                "name": "pledgeDetails",
+                                "title": "Pledge Details",
+                                "children": {
+                                    "definition": "PledgeDetails",
+                                    "title": "Pledge Details",
+                                    "fields": [
+                                        {
+                                            "name": "organs"
+                                        },
+                                        {
+                                            "name": "tissues"
+                                        },
+                                        {
+                                            "name": "other"
+                                        }
+                                    ]
+                                }
                             },
                             {
                                 "name": "emergencyDetails"
@@ -59,7 +75,21 @@
                                 "name": "addressDetails"
                             },
                             {
-                                "name": "pledgeDetails"
+                                "name": "pledgeDetails",
+                                "children": {
+                                    "definition": "PledgeDetails",
+                                    "fields": [
+                                        {
+                                            "name": "organs"
+                                        },
+                                        {
+                                            "name": "tissues"
+                                        },
+                                        {
+                                            "name": "other"
+                                        }
+                                    ]
+                                }
                             },
                             {
                                 "name": "emergencyDetails"
