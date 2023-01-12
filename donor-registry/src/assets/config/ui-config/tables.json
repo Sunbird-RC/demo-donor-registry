@@ -14,7 +14,7 @@
                         "formate": "date"
                     },
                     {
-                        "name": "requestorName",
+                        "name": "propertyData.personalDetails.firstName",
                         "title": "NAME"
                     },
                     {   

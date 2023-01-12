@@ -54,7 +54,6 @@ export class TablesComponent implements OnInit {
     }
     this.generalService.getData(get_url).subscribe((res) => {
       this.model = res.content;
-      // this.entity = res[0].osid;
       this.addData()
     });
   }
@@ -64,14 +63,16 @@ export class TablesComponent implements OnInit {
     var temp_array;
     let temp_object
     this.model.forEach(element => {
+    
       if (element.status === "OPEN") {
+        element['propertyData'] = JSON.parse(element['propertyData']);
         temp_array = [];
         this.tableSchema.fields.forEach((field) => {
 
           temp_object = field;
 
           if (temp_object.name) {
-            temp_object['value'] = element[field.name]
+            temp_object['value'] = this.getValue(element, field.name); 
             temp_object['status'] = element['status']
           }
           if (temp_object.formate) {
@@ -107,6 +108,43 @@ export class TablesComponent implements OnInit {
         object[key] = data[key];
     }
     return object;
+  }
+
+
+  getValue(item, fieldsPath) {
+      var propertySplit = fieldsPath.split(".");
+
+      let fieldValue = [];
+
+      for (let j = 0; j < propertySplit.length; j++) {
+        let a = propertySplit[j];
+
+        if (j == 0 && item.hasOwnProperty(a)) {
+          fieldValue = item[a];
+        } else if (fieldValue.hasOwnProperty(a)) {
+
+          fieldValue = fieldValue[a];
+
+        } else if (fieldValue[0]) {
+          let arryItem = []
+          if (fieldValue.length > 0) {
+            for (let i = 0; i < fieldValue.length; i++) {
+            }
+
+            fieldValue = arryItem;
+
+          } else {
+            fieldValue = fieldValue[a];
+          }
+
+        } else {
+          fieldValue = [];
+        }
+      }
+
+      return fieldValue;
+    
+
   }
 
 }
