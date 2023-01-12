@@ -7,7 +7,7 @@
                 "api": "/Pledge",
                 "title": "INSTITUTE_PROFILE",
                 "langKey" : "institute",
-                "headerName" : "personalDetails.name",
+                "headerName" : "personalDetails.firstName",
                 "subHeadername" : "address.state,contactDetails.address.city",
                 "blocks": [
                     {
@@ -22,7 +22,7 @@
                         "fields": {
                             "includes": ["*"]
                         },
-                        "propertyShowFirst" : [ "name"]
+                        "propertyShowFirst" : [ "personalDetails.firstName"]
                     }
                 ]
             }
