@@ -4,7 +4,7 @@
  <div *ngIf="params?.layout && !public" class="mb-2">
     <nav class="navbar navbar-expand-lg navbar-light bg-header mt-85">
         <div class="container my-2 pt-2" >
-            <div class=" d-inline ">
+            <div class=" d-inline mt-3">
                 <h3 class="mb-1 text-wb">
                     <p *ngIf="subHeadername.length">  <span *ngFor="let a of subHeadername;let i = index">
                         {{a}}
@@ -17,7 +17,7 @@
                     </span>
                 </p> -->
             </div>
-            <a *ngIf="!public" class=" p-2 p14 btn-bg label-primary btn-style float-end" data-toggle="modal" data-target="#prewiewProfile" (click)="openPreview()">{{'PREVIEW_PUBLIC_PROFILE' | translate}}</a>
+            <!-- <a *ngIf="!public" class=" p-2 p14 btn-bg label-primary btn-style float-end" data-toggle="modal" data-target="#prewiewProfile" (click)="openPreview()">{{'PREVIEW_PUBLIC_PROFILE' | translate}}</a> -->
         </div>
     </nav>
 </div>
@@ -44,7 +44,7 @@
             <div [ngClass]="public ? 'd-flex flex-justify-between' : 'd-flex flex-justify-between mt-1'">
                 <div class="mt-1">
                     <p class="d-inline-block fs-6 font-weight-bold mb-2">{{block.title | translate}}</p>
-                    <ng-template [ngIf]="block.edit">
+                    <ng-template [ngIf]="block.edit" *ngIf="model['pledgeAffiliation'][0]['_osState'] != 'PUBLISHED'">
                         <a *ngIf="!public" panelEditLink="{{block.editform}}" class="pl-1 fs-7 text-secondary-color">{{'EDIT'| translate}} 
                         </a>
 
