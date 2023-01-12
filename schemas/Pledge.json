@@ -16,7 +16,10 @@
       "type": "object",
       "title": "The Pledge Schema",
       "required": [
-
+        "personalDetails",
+        "emergencyDetails",
+        "pledgeDetails",
+        "identificationDetails"
       ],
       "properties": {
         "personalDetails": {

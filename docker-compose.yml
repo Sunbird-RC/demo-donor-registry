@@ -238,7 +238,7 @@ services:
       timeout: 10s
       retries: 10
   nginx:
-    image: dockerhub/sunbird-rc-nginx
+    image: tejashjl/sunbird-rc-donor-portal:${PORTAL_RELEASE_VERSION}
     ports:
       - "80:80"
     depends_on:
