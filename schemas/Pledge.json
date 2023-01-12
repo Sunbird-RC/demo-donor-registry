@@ -64,7 +64,9 @@
           "pledgeDetails": "$.pledgeDetails",
           "bloodGroup": "$.personalDetails.bloodGroup",
           "identificationDetails": "$.identificationDetails",
-          "personalDetails": "$.personalDetails"
+          "personalDetails": "$.personalDetails",
+          "createdAt": "$.osCreatedAt",
+          "registrationId": "$.osid"
         },
         "credentialTemplate": {
           "@context": [
@@ -76,7 +78,7 @@
             "PledgeCertificate"
           ],
           "issuer": "https://nha.gov.in",
-          "issuanceDate": "{{issuanceDate}}",
+          "issuanceDate": "{{createdAt}}",
           "credentialSubject": {
             "type": "Donor",
             "name": "{{personalDetails.name}}",
@@ -87,7 +89,7 @@
             "mobileNumber": "{{personalDetails.mobileNumber}}",
             "emailId": "{{personalDetails.emailId}}",
             "emergencyMobileNumber": "{{emergencyDetails.mobileNumber}}",
-            "registrationNumber": "{{osid}}"
+            "registrationNumber": "{{registrationId}}"
           },
           "evidence": {
             "type": "Pledge",
