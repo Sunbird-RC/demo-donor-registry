@@ -213,6 +213,18 @@ export class LayoutsComponent implements OnInit, OnChanges {
               }
             }
           }
+
+         let tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
+                  if (this.model.hasOwnProperty(tempName)) {
+                    let objects1;
+
+                    for (let j = 0; j < this.model[tempName].length; j++) {
+                      objects1 = this.model[tempName][j];
+                    }
+
+                      this.model[element].sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
+
+                  }
         }
         else {
           block.fields.includes.forEach(element => {

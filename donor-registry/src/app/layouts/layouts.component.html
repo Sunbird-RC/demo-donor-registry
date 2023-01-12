@@ -42,11 +42,33 @@
                 <div class="mt-1">
                     <p class="d-inline-block fs-6 font-weight-bold mb-2">{{block.title | translate}}</p>
                     <ng-template [ngIf]="block.edit">
-                        <a *ngIf="!public" panelEditLink="{{block.editform}}" class="pl-1 fs-7 text-secondary-color">{{'EDIT'| translate}}
-                            <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
+                        <a *ngIf="!public" panelEditLink="{{block.editform}}" class="pl-1 fs-7 text-secondary-color">{{'EDIT'| translate}} 
                         </a>
+
+                      
                     </ng-template>
                 </div>
+                <span  class="float-end">
+                 
+                    <ng-template  [ngIf]="model['pledgeAffiliation'][0]['_osState'] == 'ATTESTATION_REQUESTED' || model['pledgeAffiliation'][0]['_osState'] == 'DRAFT'"> 
+
+                        <span class=" badge  font-weight-bold badge-primary" data-mdb-toggle="tooltip" title="{{Pending | translate}}">In Review</span>
+
+
+                      
+                    </ng-template>
+                    <ng-template [ngIf]="model['pledgeAffiliation'][0]['_osState'] == 'REJECTED'"> 
+
+                        <span class="badge  font-weight-bold badge-danger" data-mdb-toggle="tooltip" title="{{REJECTED | translate}}">Rejected</span>
+
+
+                      
+                    </ng-template>
+                    <ng-template [ngIf]="!model['pledgeAffiliation'][0]['_osState'] == 'PUBLISHED'"> 
+                        <span class="badge  font-weight-bold badge-success" data-mdb-toggle="tooltip" title="{{'SAVED_TO_DRAFT' | translate}}">Verified</span>
+
+                    </ng-template>
+                </span> 
                 <ng-template [ngIf]="block.add">
                     <a *ngIf="!public" panelAddLink="{{block.addform}}" class="fs-7 text-secondary-color"><i
                             class="fa fa-plus pr-1" aria-hidden="true"></i><span
@@ -55,6 +77,7 @@
                 <!-- <a *ngIf="!public" class="text-end d-block text-primary-color blue-shade-btn float-end" data-toggle="modal"
                 data-target="#prewiewProfile">Preview Public Profile</a> -->
             </div>
+            
             <div *ngIf="block.multiple; else singleBlock" class="card">
                 <div *ngIf="!public; else publicMultiBlock" class="card-body lh-lg fs-6">
                     <ng-template ngFor let-item [ngForOf]="block.items" let-itemIndex="index">
@@ -118,11 +141,11 @@
 
                 </div>
                 <ng-template #publicMultiBlock>
-                    <div class="card-body my-4">
+                    <div class="card-body my-4"> 
                         <div class="d-flex justify-content-center"> {{'NO_DATA_FOUND' | translate}}</div>
-                        <ng-template ngFor let-item [ngForOf]="block.items" let-itemIndex="index">
+                        <ng-template ngFor let-item [ngForOf]="block.items" let-itemIndex="index"> 
                             <ng-template ngFor let-element [ngForOf]="item" let-elementIndex="index">
-                                <div class="noDataMsg"> {{element[objectIndex]._osState}} ------
+                                <div class="noDataMsg">
                                     <ng-template ngFor let-objects [ngForOf]="element" let-objectIndex="index">
                                         <!-- {{element[objectIndex]}} {{objectIndex}} -->
                                         <ng-template [ngIf]="(element[objectIndex].value && element[objectIndex]._osState == 'PUBLISHED') || !block?.canRaiseClaim">
@@ -160,6 +183,7 @@
                 </ng-template>
             </div>
             <ng-template #singleBlock>
+                
                 <div class="card mb-3">
                     <div class="card-body">
                         <ng-template ngFor let-item [ngForOf]="block.items" let-itemIndex="index">
