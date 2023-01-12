@@ -1,0 +1,36 @@
+{
+    "type": "opensaberLayoutSchema",
+    "version": "0.1",
+    "layouts": [
+        {
+            "pledge": {
+                "api": "/Pledge",
+                "title": "INSTITUTE_PROFILE",
+                "langKey" : "institute",
+                "headerName" : "personalDetails.name",
+                "subHeadername" : "address.state,contactDetails.address.city",
+                "blocks": [
+                    {
+                        "definition": "Pledge",
+                        "title": "INSTITUTE_DEATILS",
+                        "add": false,
+                        "edit": true,
+                        "claimEdit": true,
+                        "editform":"pledge-setup",
+                        "multiple": false,
+                        "canRaiseClaim" : true,
+                        "fields": {
+                            "includes": ["*"]
+                        },
+                        "propertyShowFirst" : [ "name"]
+                    }
+                ]
+            }
+        },
+        {
+            "nha-admin": {
+                "table": "nha-admin-attestation"
+            }
+        }
+    ]
+}
