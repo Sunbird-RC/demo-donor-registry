@@ -213,31 +213,6 @@ export class LayoutsComponent implements OnInit, OnChanges {
               }
             }
           }
-
-          let tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
-                  if (this.model.hasOwnProperty(tempName)) {
-                    let objects1;
-                    var tempObj = []
-                    //this.model[tempName].forEach((objects1, j) => {
-                    for (let j = 0; j < this.model[tempName].length; j++) {
-                      objects1 = this.model[tempName][j];
-                      console.log( this.model[element].osid + '  ' + objects1.propertiesOSID[element][0]);
-                      if ( this.model[element].osid == objects1.propertiesOSID[element][0]) {
-                        objects1.propertiesOSID.F = new Date(objects1.propertiesOSID.osUpdatedAt);
-                        tempObj.push(objects1)
-                      }
-
-                    }
-
-                    if (tempObj.length) {
-
-                      tempObj.sort((a, b) => (b.propertiesOSID.osUpdatedAt) - (a.propertiesOSID.osUpdatedAt));
-                      this.model[element]['_osState'] = tempObj[0]._osState;
-                      console.log({ tempObj });
-                    }
-
-
-                  }
         }
         else {
           block.fields.includes.forEach(element => {
@@ -299,7 +274,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
                   // alert(i + ' ----1--- ' + objects.osid);
 
                   let tempName = localStorage.getItem('entity').toLowerCase() + element.charAt(0).toUpperCase() + element.slice(1);
-                  tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
+                  tempName = (localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
                   if (this.model.hasOwnProperty(tempName)) {
                     let objects1;
                     var tempObj = []
