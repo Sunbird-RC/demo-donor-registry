@@ -83,7 +83,7 @@
           "issuanceDate": "{{createdAt}}",
           "credentialSubject": {
             "type": "Donor",
-            "name": "{{credentialSubject.firstName}} {{credentialSubject.middleName}} {{credentialSubject.lastName}}",
+            "name": "{{personalDetails.firstName}} {{personalDetails.middleName}} {{personalDetails.lastName}}",
             "dob": "{{personalDetails.dob}}",
             "gender": "{{personalDetails.gender}}",
             "identificationProof": "{{identificationDetails.proof}}",
