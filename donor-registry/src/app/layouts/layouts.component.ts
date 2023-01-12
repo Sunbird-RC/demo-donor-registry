@@ -544,24 +544,25 @@ export class LayoutsComponent implements OnInit, OnChanges {
     }
   }
 
-  dowbloadCard(item){
+  dowbloadCard1(item){
     let pdfName = (item.name) ? item.name : 'abc';
    
     let headerOptions = new HttpHeaders({
       'template-key':'svg',
-        'Accept': 'image/svg+xml'
+      'Accept': 'application/pdf'
     });
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
     this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  item.entityId + '/attestation/pledgeAffiliation/' + item.osid, requestOptions).pipe(map((data: any) => {
 
+      
         let blob = new Blob([data], {
-            type: 'image/svg+xml' // must match the Accept type
+            type: 'application/pdf' // must match the Accept type
         });
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = pdfName + '.svg';
+        link.download = pdfName + '.pdf';
         link.click();
         window.URL.revokeObjectURL(link.href);
 
