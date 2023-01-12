@@ -104,6 +104,7 @@ services:
       - PROXY_ADDRESS_FORWARDING=true
       - KEYCLOAK_PORTAL_TITLE=Organ Pledge Registry
       - KEYCLOAK_PORTAL_SUB_TITLE=Organ Pledge Registry
+      - SIGN_UP_LINK=/form/signup
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:9990/ || exit 1"]
