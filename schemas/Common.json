@@ -5,11 +5,19 @@
     "PersonalDetails": {
       "type": "object",
       "title": "Personal Details",
-      "required": ["name", "fatherName", "dob", "gender", "emailId", "mobileNumber"],
+      "required": ["firstName", "lastName", "fatherName", "dob", "gender", "emailId", "mobileNumber"],
       "properties": {
-        "name": {
+        "firstName": {
           "type": "string",
-          "title": "Donor Name* (First Name+Middle Name+Last Name)"
+          "title": "Donor First Name"
+        },
+        "middleName": {
+          "type": "string",
+          "title": "Donor Middle Name"
+        },
+        "lastName": {
+          "type": "string",
+          "title": "Donor Last Name"
         },
         "fatherName": {
           "type": "string",
@@ -56,7 +64,8 @@
           "title": "Address Line 2"
         },
         "country": {
-          "type": "string"
+          "type": "string",
+          "title": "Country"
         },
         "state": {
           "type": "string",
@@ -98,13 +107,16 @@
             "Uttar Pradesh",
             "Uttarakhand",
             "West Bengal"
-          ]
+          ],
+          "title": "State"
         },
         "district": {
-          "type": "string"
+          "type": "string",
+          "title": "District"
         },
         "pincode": {
-          "type": "string"
+          "type": "string",
+          "title": "Pincode"
         }
       }
     },
@@ -157,11 +169,13 @@
       "title": "Emergency Contact Details",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "Name"
         },
         "relation": {
           "type": "string",
-          "enum": ["Father", "Mother"]
+          "enum": ["Father", "Mother"],
+          "title": "Relation"
         },
         "mobileNumber": {
           "type": "string",
@@ -170,7 +184,8 @@
         },
         "email": {
           "type": "string",
-          "format": "email"
+          "format": "email",
+          "title": "Email"
         },
         "addressLine1": {
           "type": "string",
@@ -181,7 +196,8 @@
           "title": "Address Line 2"
         },
         "country": {
-          "type": "string"
+          "type": "string",
+          "title": "Country"
         },
         "state": {
           "type": "string",
@@ -223,13 +239,16 @@
             "Uttar Pradesh",
             "Uttarakhand",
             "West Bengal"
-          ]
+          ],
+          "title": "State"
         },
         "district": {
-          "type": "string"
+          "type": "string",
+          "title": "District"
         },
         "pincode": {
-          "type": "string"
+          "type": "string",
+          "title": "Pincode"
         }
       }
     },
@@ -242,7 +261,8 @@
         "required": [],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "title": "Name"
           },
           "fatherName": {
             "type": "string",
@@ -255,11 +275,13 @@
           },
           "relation": {
             "type": "string",
-            "enum": ["Father", "Mother"]
+            "enum": ["Father", "Mother"],
+            "title": "Relation"
           },
           "email": {
             "type": "string",
-            "format": "email"
+            "format": "email",
+            "title": "Email"
           },
           "mobileNumber": {
             "type": "string",
@@ -275,7 +297,8 @@
             "title": "Address Line 2"
           },
           "country": {
-            "type": "string"
+            "type": "string",
+            "title": "Country"
           },
           "state": {
             "type": "string",
@@ -317,13 +340,16 @@
               "Uttar Pradesh",
               "Uttarakhand",
               "West Bengal"
-            ]
+            ],
+            "title": "State"
           },
           "district": {
-            "type": "string"
+            "type": "string",
+            "title": "District"
           },
           "pincode": {
-            "type": "string"
+            "type": "string",
+            "title": "Pincode"
           }
         }
       }
