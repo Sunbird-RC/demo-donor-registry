@@ -1,0 +1,31 @@
+{
+    "type": "opensaberLayoutSchema",
+    "version": "0.1",
+    "limit" : "15",
+    "tables": [
+        {
+            "nha-admin-attestation": {
+                "api": "/nha-admin/claims",
+                "title": "CBSE_BOARD_ATTESTATIONS",
+                "fields": [
+                    {
+                        "name": "createdAt",
+                        "title": "SUBMITTED_DATE",
+                        "formate": "date"
+                    },
+                    {
+                        "name": "requestorName",
+                        "title": "NAME"
+                    },
+                    {   
+                        "custom": true,
+                        "title": "ACTION",
+                        "type": "button",
+                        "buttonText": "ATTEST",
+                        "redirectTo": "/nha-admin/attestation/nha-admin-attestation/:id"
+                    }
+                ]
+            }
+        }
+    ]
+}

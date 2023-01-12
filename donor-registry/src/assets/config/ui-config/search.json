@@ -1,0 +1,26 @@
+{
+    "type": "opensaberLayoutSchema",
+    "version": "0.1",
+    "header": "default",
+    "limit" : "5",
+    "searches": [
+         {
+            "pedge": {
+                "tab": "Pedge",
+                "tabTitle": "SEARCH_INSTITUTE",
+                "api": "/Pedge/search",
+                "activeTab": "active",
+                "privateFields": "PedgeOsConfig",
+                "filters": [
+                   
+                    
+                ],
+                "results": {
+                    "fields": [
+                        
+                    ]
+                }
+            }
+        }
+    ]
+}

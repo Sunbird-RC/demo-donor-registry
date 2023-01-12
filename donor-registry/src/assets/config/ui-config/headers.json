@@ -1,0 +1,51 @@
+{
+    "type": "opensaberLayoutSchema",
+    "version": "0.1",
+    "headers": [
+        {
+            "default":{
+                "left": [],
+                "right":[
+                    {
+                        "title": "LOGIN",
+                        "redirectTo": "/login"
+                    }
+                ]
+            }
+        },
+        {
+            "pledge": {
+                "left": [
+                    {
+                        "title": "HOME",
+                        "redirectTo": "/profile/Pledge"
+                    }
+                ],
+                "right": [
+                    {
+                        "title": "LOGOUT",
+                        "redirectTo": "/logout",
+                        "className" : "font-weight-bold"
+                    }
+                ]
+            }
+        },
+        {
+            "nha-admin": {
+                "left": [
+                    {
+                        "title": "ATTESTATIONS",
+                        "redirectTo": "/profile/nha-admin"
+                    }
+                ],
+                "right": [
+                    {
+                        "title": "LOGOUT",
+                        "redirectTo": "/logout",
+                        "className" : "font-weight-bold"
+                    }
+                ]
+            }
+        }
+    ]
+}
