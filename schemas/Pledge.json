@@ -60,6 +60,8 @@
         "type": "AUTOMATED",
         "attestorPlugin": "did:internal:ClaimPluginActor?entity=nha-admin",
         "attestationProperties": {
+          "osid": "$.osid",
+          "createdAt": "$.osCreatedAt",
           "emergencyDetails": "$.emergencyDetails",
           "pledgeDetails": "$.pledgeDetails",
           "bloodGroup": "$.personalDetails.bloodGroup",
@@ -81,7 +83,7 @@
           "issuanceDate": "{{createdAt}}",
           "credentialSubject": {
             "type": "Donor",
-            "name": "{{personalDetails.name}}",
+            "name": "{{credentialSubject.firstName}} {{credentialSubject.middleName}} {{credentialSubject.lastName}}",
             "dob": "{{personalDetails.dob}}",
             "gender": "{{personalDetails.gender}}",
             "identificationProof": "{{identificationDetails.proof}}",
@@ -108,6 +110,9 @@
         "mobile": "/personalDetails/mobileNumber",
         "userId": "/personalDetails/mobileNumber"
       }
-    ]
+    ],
+    "certificateTemplates": {
+      "svg": "https://gist.githubusercontent.com/varadeth/f9bcf38e5ae4b3bb818224e1722b8778/raw/2dce4fe0d17ad948b57df9d9d57141654e0c820a/certificate.svg"
+    }
   }
 }
