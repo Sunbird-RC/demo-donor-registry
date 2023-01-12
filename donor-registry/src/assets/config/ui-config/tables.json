@@ -5,7 +5,7 @@
     "tables": [
         {
             "nha-admin-attestation": {
-                "api": "/nha-admin/claims",
+                "api": "/nha-admin/claims?size=1000",
                 "title": "CBSE_BOARD_ATTESTATIONS",
                 "fields": [
                     {
