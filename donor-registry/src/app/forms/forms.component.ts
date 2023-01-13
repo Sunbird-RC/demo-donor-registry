@@ -12,6 +12,7 @@ import { ToastMessageService } from '../services/toast-message/toast-message.ser
 import { of as observableOf } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError } from 'rxjs';
+import { templateJitUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-forms',
@@ -1111,6 +1112,9 @@ this.isSubmitForm = true;
 
   }
 
+
+
+
   filtersearchResult(term: string) {
     if (term && term != '') {
       var formData = {
@@ -1198,12 +1202,13 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     this.model['sorder']  = this.exLength;
     await this.generalService.postData(this.apiUrl, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+       this.modalSuccess();
        this.router.navigate([this.redirectTo])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+
         this.toastMsg.error('error', res.params.errmsg);
         this.isSubmitForm = false;
-
       }
     }, (err) => {
       this.toastMsg.error('error', err.error.params.errmsg);
@@ -1226,6 +1231,17 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       this.isSubmitForm = false;
 
     });
+  }
+  modalSuccess(){
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("submitBtn");
+  modal.style.display = "block";
+  window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    window.location = this.router.navigate(["/login"]);
+  }
+} 
   }
 
   ObjectbyString = function (o, s) {
