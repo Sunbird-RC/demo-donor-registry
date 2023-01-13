@@ -14,7 +14,7 @@
                         "definition": "Pledge",
                         "title": "INSTITUTE_DEATILS",
                         "add": false,
-                        "edit": true,
+                        "edit": false,
                         "claimEdit": true,
                         "editform":"pledge-setup",
                         "multiple": false,

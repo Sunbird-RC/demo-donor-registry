@@ -44,36 +44,21 @@
             <div [ngClass]="public ? 'd-flex flex-justify-between' : 'd-flex flex-justify-between mt-1'">
                 <div class="mt-1">
                     <p class="d-inline-block fs-6 font-weight-bold mb-2">{{block.title | translate}}</p>
-                    <ng-template [ngIf]="block.edit" *ngIf="model['pledgeAffiliation'][0]['_osState'] != 'PUBLISHED'">
+                    <ng-template [ngIf]="block.edit">
                         <a *ngIf="!public" panelEditLink="{{block.editform}}" class="pl-1 fs-7 text-secondary-color">{{'EDIT'| translate}} 
                         </a>
 
                       
                     </ng-template>
                 </div>
-                <span  class="float-end">
+                <span>
+
+                    <span class="badge font-weight-bold badge-info" data-mdb-toggle="tooltip" data-toggle="modal"
+                    data-target="#prewiewProfile" (click)="dowbloadCard()" >View VC</span>
+
                  
-                    <ng-template  [ngIf]="model['pledgeAffiliation'][0]['_osState'] == 'ATTESTATION_REQUESTED' || model['pledgeAffiliation'][0]['_osState'] == 'DRAFT'"> 
-
-                        <span class=" badge  font-weight-bold badge-primary" data-mdb-toggle="tooltip" title="{{Pending | translate}}">In Review</span>
-
-
-                      
-                    </ng-template>
-                    <ng-template [ngIf]="model['pledgeAffiliation'][0]['_osState'] == 'REJECTED'"> 
-
-                        <span class="badge  font-weight-bold badge-danger" data-mdb-toggle="tooltip" title="{{REJECTED | translate}}">Rejected</span>
-
-
-                      
-                    </ng-template>
-                    <ng-template [ngIf]="model['pledgeAffiliation'][0]['_osState'] == 'PUBLISHED'"> 
-                        <span class="badge  font-weight-bold badge-success" data-mdb-toggle="tooltip" title="{{'SAVED_TO_DRAFT' | translate}}">Verified</span> &nbsp;
-
-                        <span class="badge font-weight-bold badge-info" data-mdb-toggle="tooltip" data-toggle="modal"
-                        data-target="#prewiewProfile" (click)="dowbloadCard(model['pledgeAffiliation'][0])" >View VC</span>
-
-                    </ng-template>
+                 
+                
                    
                 </span> 
                 <ng-template [ngIf]="block.add">
@@ -233,7 +218,7 @@
                     </div>
                     <div class="modal-body">
                         <iframe width="100%" height="100%" [src]="url"></iframe>
-                        <span class="badge font-weight-bold badge-info p-2" data-mdb-toggle="tooltip"  (click)="dowbloadCard1(model['pledgeAffiliation'][0])" >Download</span>
+                        <span class="badge font-weight-bold badge-info p-2" data-mdb-toggle="tooltip"  (click)="dowbloadCard1()" >Download</span>
 
                         <!-- <app-layouts layout={{layout}} identifier={{identifier}} public="true"></app-layouts> -->
                     </div>

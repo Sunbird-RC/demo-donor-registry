@@ -220,7 +220,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
             }
           }
 
-         let tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
+       /* let tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
                   if (this.model.hasOwnProperty(tempName)) {
                     let objects1;
 
@@ -230,7 +230,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
                       this.model[element].sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
 
-                  }
+                  }*/
         }
         else {
           block.fields.includes.forEach(element => {
@@ -554,7 +554,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
-    this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  item.entityId + '/attestation/pledgeAffiliation/' + item.osid, requestOptions).pipe(map((data: any) => {
+    this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  this.identifier, requestOptions).pipe(map((data: any) => {
 
       
         let blob = new Blob([data], {
@@ -581,7 +581,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
-    this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  item.entityId + '/attestation/pledgeAffiliation/' + item.osid, requestOptions).pipe(map((data: any) => {
+    this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  this.identifier, requestOptions).pipe(map((data: any) => {
 
       
         let blob = new Blob([data], {
