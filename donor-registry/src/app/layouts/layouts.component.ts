@@ -544,8 +544,8 @@ export class LayoutsComponent implements OnInit, OnChanges {
     }
   }
 
-  dowbloadCard1(item){
-    let pdfName = (item.name) ? item.name : 'abc';
+  dowbloadCard1(){
+    let pdfName =  'vc-card';
    
     let headerOptions = new HttpHeaders({
       'template-key':'svg',
@@ -571,9 +571,8 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
 
-  dowbloadCard(item){
-    let pdfName = (item.name) ? item.name : 'abc';
-   
+  dowbloadCard(){
+  
     let headerOptions = new HttpHeaders({
       'template-key':'svg',
       'Accept': 'application/pdf'
