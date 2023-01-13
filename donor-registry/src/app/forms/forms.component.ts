@@ -1202,7 +1202,8 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     this.model['sorder']  = this.exLength;
     await this.generalService.postData(this.apiUrl, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-       this.modalSuccess();
+                this.modalSuccess();
+    
        this.router.navigate([this.redirectTo])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {

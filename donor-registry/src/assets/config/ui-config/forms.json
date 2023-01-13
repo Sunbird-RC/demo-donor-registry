@@ -88,6 +88,24 @@
                             },
                             {
                                 "name": "witnessDetails"
+                            },
+                            {
+                                "name": "consent",
+                                "custom": true,
+                                "required": true,
+                                "element": {
+                                    "title": "CONSENT",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "checkbox",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "checkbox",
+                                            "templateOptions": {
+                                                "required": true
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         ]
                     }
