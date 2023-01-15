@@ -8,7 +8,7 @@
                 "type": "entity",
                 "formclass": "row",
                 "header": "default",
-                "title": "REGISTER",
+                "title": "Register to Pledge Organ",
                 "langKey": "institute",
                 "isSignupForm": "true",
                 "fieldsets": [

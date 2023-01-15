@@ -6,6 +6,7 @@ import { Observable, Subscriber } from 'rxjs';
 import { AppConfig } from 'src/app/app.config';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
+import { KeycloakService } from 'keycloak-angular';
 
 
 @Injectable({
@@ -14,7 +15,8 @@ import { map } from 'rxjs/operators';
 export class GeneralService {
   baseUrl = this.config.getEnv('baseUrl');
   translatedString: string;
-  constructor(public dataService: DataService, 
+  constructor(public dataService: DataService,
+    public keycloak: KeycloakService,
     private http: HttpClient, private config: AppConfig, public translate: TranslateService) {
   }
 
@@ -153,6 +155,15 @@ export class GeneralService {
 
     })).subscribe((result: any) => {
     });
+  }
+
+
+ async isUserLoggedIn()
+  {
+   await this.keycloak.isLoggedIn().then((res)=>{
+      console.log(res);
+      return res;
+    })
   }
   
 }

@@ -423,8 +423,15 @@ export class LayoutsComponent implements OnInit, OnChanges {
         this.model = res
       }
       else {
-        this.model = res[0];
-        this.identifier = res[0].osid;
+        if( res.length > 1)
+        {
+          this.model = res[res.length -1 ];
+          this.identifier = res[res.length - 1].osid;
+        }else{
+          this.model = res[0];
+          this.identifier = res[0].osid;
+        }
+      
       }
 
       this.getHeadingTitle(this.model);
