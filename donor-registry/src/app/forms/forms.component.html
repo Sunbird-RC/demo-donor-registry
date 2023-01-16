@@ -13,6 +13,8 @@
 
           <form [formGroup]="form2" (ngSubmit)="submit()">
             <formly-form [model]="model" [fields]="fieldsNew" [options]="options" [form]="form2"></formly-form>
+           <spna style="font-size: 12px;" >Note: (i) Organ donation is a family decision. Therefore, it is important that you discuss your decision with family members and loved ones so that it will be easier for them to follow through with your wishes. (ii) One copy of the pledge form/pledge card to be with respective networking organisation, one copy to be retained by institution where the pledge is made and one copy to be handed over to the pledger.(iii) The person making the pledge has the option to withdraw the pledge",</spna>
+
             <button type="submit" class="btn btn-primary submit-button float-end" [disabled]="!form2.valid"  data-toggle="modal" data-target="#confirmationModal">Register</button>
           </form>
 

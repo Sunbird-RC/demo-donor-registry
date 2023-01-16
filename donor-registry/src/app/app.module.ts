@@ -122,6 +122,8 @@ import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-v
 // import { FaqComponent } from './custom-components/faq/faq.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { initTheme } from './theme.config';
+import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
+import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 
 @NgModule({
@@ -138,6 +140,7 @@ import { initTheme } from './theme.config';
     ModalRouterAddLinkDirective,
     PanelsComponent, EditPanelComponent, AddPanelComponent, TablesComponent,
     AutocompleteTypeComponent,
+    VerifyIndentityCode,
     FormlyColorInput,
     HeaderComponent,
     AttestationComponent,
@@ -218,6 +221,8 @@ import { initTheme } from './theme.config';
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
         { name: 'multiselect', component: FormlyFieldNgSelect },
         { name: 'color', component: FormlyColorInput },
+        { name: 'verify-code', component: VerifyIndentityCode },
+        { name: 'select1', component: FormlyFieldSelect }
       ],
     }),
     ToastrModule.forRoot({

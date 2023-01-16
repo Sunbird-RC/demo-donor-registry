@@ -96,7 +96,7 @@ export class FormsComponent implements OnInit {
         },
         {
           className: 'col-4',
-          type: 'input',
+          type: 'verify-code',
           key: 'number',
           templateOptions: {
             label: 'Identification Number',
@@ -283,7 +283,6 @@ export class FormsComponent implements OnInit {
           type: 'select',
           key: 'relation',
           templateOptions: {
-            required: true,
             label: 'Relation',
             options: [
               { value: 'Father', label: 'Father' },
@@ -379,7 +378,7 @@ export class FormsComponent implements OnInit {
     },
     {
       className: 'section-label',
-      template: '<hr><div><strong>WitnessD Details</strong></div><br>',
+      template: '<hr><div><strong>Witness Details</strong></div><br>',
     },
     {
       fieldGroupClassName: 'row',
@@ -415,13 +414,6 @@ export class FormsComponent implements OnInit {
           templateOptions: {
             label: 'In the presence of persons mentioned above, I hereby unequivocally authorize the removal of the above mentioned organ(s) and/or tissue(s), from my body after being declared brain stem dead by the board of medical experts and consent to donate the same for therapeutic purposes.',
           }
-        },
-        {
-          type: 'checkbox',
-          key: 'note',
-          templateOptions: {
-            label: "Note: (i) Organ donation is a family decision. Therefore, it is important that you discuss your decision with family members and loved ones so that it will be easier for them to follow through with your wishes. (ii) One copy of the pledge form/pledge card to be with respective networking organisation, one copy to be retained by institution where the pledge is made and one copy to be handed over to the pledger.(iii) The person making the pledge has the option to withdraw the pledge",
-          }
         }
       ]
     }
@@ -432,6 +424,7 @@ export class FormsComponent implements OnInit {
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location) { }
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
 
