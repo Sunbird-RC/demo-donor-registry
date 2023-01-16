@@ -1268,7 +1268,7 @@ export class FormsComponent implements OnInit {
           }
 
           let id = (this.entityId) ? this.entityId : this.identifier;
-          var url = [this.apiUrl, id , property, 'documents']
+          var url = [this.apiUrl, id, property, 'documents']
           this.generalService.postData(url.join('/'), formData).subscribe((res) => {
             var documents_list: any[] = [];
             var documents_obj = {
@@ -1297,7 +1297,7 @@ export class FormsComponent implements OnInit {
               } else {
                 var url = [this.apiUrl, this.identifier, property];
               }
-  
+
               this.apiUrl = (url.join("/"));
               if (this.model[property]) {
                 this.model = this.model[property];
@@ -1499,7 +1499,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
 
       if (res.hasOwnProperty(propertyUniqueName)) {
 
-      let  attestionRes= res[propertyUniqueName];
+        let attestionRes = res[propertyUniqueName];
 
 
         var tempObj = [];
@@ -1515,13 +1515,12 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         let claimId = tempObj[0]["_osClaimId"];
 
 
-        if(claimId)
-        {
+        if (claimId) {
           this.generalService.getData(entity + "/claims/" + claimId).subscribe((res) => {
             this.notes = res.notes;
           });
         }
-       
+
       }
     });
 
@@ -1565,7 +1564,6 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
        this.router.navigate([this.redirectTo])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
-
         this.toastMsg.error('error', res.params.errmsg);
         this.isSubmitForm = false;
       }
@@ -1578,7 +1576,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
 
   updateData() {
     this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
-      if (res.params.status == 'SUCCESSFUL'  && !this.model['attest']) {
+      if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
         this.router.navigate([this.redirectTo])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
@@ -1685,7 +1683,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         this.exLength = res[0][this.propertyName].length;
 
       });
-    }else{
+    } else {
       this.generalService.getData(apiUrl).subscribe((res) => {
         this.exLength = res[0][this.propertyName].length;
       });
@@ -1694,7 +1692,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
   }
 
   updateClaims() {
-    this.sorder = this.model.hasOwnProperty('sorder')? this.model['sorder'] : '';
+    this.sorder = this.model.hasOwnProperty('sorder') ? this.model['sorder'] : '';
 
     this.generalService.updateclaims(this.apiUrl, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
