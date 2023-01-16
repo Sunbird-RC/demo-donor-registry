@@ -100,14 +100,8 @@ export class VerifyIndentityCode extends FieldType {
   }
 
   submitOtp(){
-
-    let inputValue = (document.getElementById("otpVal") as HTMLInputElement).value;
-
-    
-    if(inputValue)
-    {
     this.isVerify = true;
-    }
+
 
   }
  
