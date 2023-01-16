@@ -378,7 +378,7 @@ export class FormsComponent implements OnInit {
     },
     {
       className: 'section-label',
-      template: '<hr><div><strong>Witness Details</strong></div><br>',
+      template: '<hr><div><strong>Members to be Notified</strong></div><br>',
     },
     {
       fieldGroupClassName: 'row',
@@ -398,6 +398,18 @@ export class FormsComponent implements OnInit {
           key: 'mobileNumber',
           templateOptions: {
             label: 'Mobile Number',
+          }
+        },
+        {
+          className: 'col-4',
+          type: 'select',
+          key: 'relation',
+          templateOptions: {
+            label: 'Relation',
+            options: [
+              { value: 'Father', label: 'Father' },
+              { value: 'Mother', label: 'Mother' }
+            ]
           }
         }
       ]
