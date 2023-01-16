@@ -17,7 +17,12 @@
                     </span>
                 </p> -->
             </div>
-            <!-- <a *ngIf="!public" class=" p-2 p14 btn-bg label-primary btn-style float-end" data-toggle="modal" data-target="#prewiewProfile" (click)="openPreview()">{{'PREVIEW_PUBLIC_PROFILE' | translate}}</a> -->
+          
+                <button class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end" data-mdb-toggle="tooltip" data-toggle="modal"
+                data-target="#prewiewProfile" (click)="dowbloadCard()">
+                     <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
+                </button> 
+          
         </div>
     </nav>
 </div>
@@ -51,16 +56,11 @@
                       
                     </ng-template>
                 </div>
-                <span>
+                <!-- <span>
 
                     <span class="badge font-weight-bold badge-info" data-mdb-toggle="tooltip" data-toggle="modal"
                     data-target="#prewiewProfile" (click)="dowbloadCard()" >View VC</span>
-
-                 
-                 
-                
-                   
-                </span> 
+                </span>  -->
                 <ng-template [ngIf]="block.add">
                     <a *ngIf="!public" panelAddLink="{{block.addform}}" class="fs-7 text-secondary-color"><i
                             class="fa fa-plus pr-1" aria-hidden="true"></i><span
@@ -207,7 +207,7 @@
         </div>
 
         <!-- Preview Profile Modal -->
-        <div  class="modal right fade right-xl-modal" id="prewiewProfile" tabindex="-1" role="dialog" aria-labelledby="prewiewProfile">
+        <div id="downloadCardModal" class="modal right fade right-xl-modal w-100" id="prewiewProfile" tabindex="-1" role="dialog" aria-labelledby="prewiewProfile">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
 

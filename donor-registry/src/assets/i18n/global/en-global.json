@@ -184,7 +184,8 @@
     "SOMETHING_WENT_WRONG": "Something went wrong while uploading files, please try again",
     "DEMO":"This is a demo of the Donor Portal. Check documentation",
     "HERE" : "here",
-    "CONSENT" : "In the presence of persons mentioned above, I hereby unequivocally authorise the removal of the above mentioned organ(s) and/or tissue(s), from my body after being declared brain stem dead by the board of medical experts and consent to donate the same for therapeutic purposes"
+    "CONSENT" : "In the presence of persons mentioned above, I hereby unequivocally authorise the removal of the above mentioned organ(s) and/or tissue(s), from my body after being declared brain stem dead by the board of medical experts and consent to donate the same for therapeutic purposes",
+    "DOWNLOAD_DONOR_CARD":"Download Donor Card"
 
     
 }
