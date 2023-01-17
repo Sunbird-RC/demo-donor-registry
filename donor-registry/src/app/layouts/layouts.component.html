@@ -207,7 +207,7 @@
         </div>
 
         <!-- Preview Profile Modal -->
-        <div id="downloadCardModal" class="modal right fade right-xl-modal w-100" id="prewiewProfile" tabindex="-1" role="dialog" aria-labelledby="prewiewProfile">
+        <div id="downloadCardModal" *ngIf="url" class="modal right fade right-xl-modal w-100" id="prewiewProfile" tabindex="-1" role="dialog" aria-labelledby="prewiewProfile">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
 
@@ -228,7 +228,7 @@
         
 
         <ng-template #noData>
-            <div *ngIf="!public">
+            <div *ngIf="!public && block.addform">
                 <a panelAddLink="{{block.addform}}" class="text-end d-block btn-sec-bg blue-shade-btn mt-4"><i
                         class="fa fa-plus pr-1 text-primary-color" aria-hidden="true"></i> <span
                         class="text-primary-color font-weight-bold">{{block.title | translate}} </span></a>

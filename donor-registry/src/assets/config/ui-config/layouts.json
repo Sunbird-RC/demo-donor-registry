@@ -57,10 +57,9 @@
                         "title": "Pledge Details",
                         "add": false,
                         "edit": false,
-                        "claimEdit": true,
+                        "claimEdit": false,
                         "editform":"pledge-setup",
-                        "multiple": false,
-                        "canRaiseClaim" : true,
+                        "canRaiseClaim" : false,
                         "fields": {
                             "includes": ["pledgeDetails"]
                         }
@@ -71,17 +70,17 @@
                         "title": "Emergency Details",
                         "add": false,
                         "edit": false,
-                        "claimEdit": true,
+                        "claimEdit": false,
                         "editform":"pledge-setup",
                         "multiple": false,
-                        "canRaiseClaim" : true,
+                        "canRaiseClaim" : false,
                         "fields": {
                             "includes": ["emergencyDetails"]
                         }                      
                     },
                     {
                         "definition": "Pledge",
-                        "title": "Witness Details",
+                        "title": "Members to be Notified",
                         "add": false,
                         "edit": false,
                         "claimEdit": true,

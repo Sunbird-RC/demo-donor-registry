@@ -9,7 +9,9 @@ import { FieldType } from '@ngx-formly/core';
       <div>
         <span>Identification Number</span> <br>
          <div class="d-flex">
-              <input [(ngModel)]="identityNo" type="input" [ngClass]="(isIdentityNo) ? 'form-control' : 'form-control is-invalid'" />
+              <input id="number"
+              [formControl]="formControl"
+              [formlyAttributes]="field"[(ngModel)]="number" type="input" [ngClass]="(isIdentityNo) ? 'form-control' : 'form-control is-invalid'" />
               <span class="text-primary fw-bold p-1 p14" *ngIf="!isVerify"  (click)="verifyOtp()" data-toggle="modal" data-target="#verifyOtp">Verify</span>
               <span class="text-success fw-bold p-1" *ngIf="isVerify">
                   <div>
@@ -45,7 +47,7 @@ export class VerifyIndentityCode extends FieldType {
   res = "Verify";
   isVerify: boolean = false;
   optVal: string;
-  identityNo: string;
+  number: string;
   isIdentityNo: boolean = true;
   constructor() {
     super();
@@ -55,7 +57,7 @@ export class VerifyIndentityCode extends FieldType {
 
 
   verifyOtp(){
-    if (this.identityNo) {
+    if (this.number) {
       this.isIdentityNo = true;
     }else{
       this.isIdentityNo = false;
