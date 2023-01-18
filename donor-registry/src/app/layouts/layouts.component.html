@@ -45,7 +45,7 @@
 
 <div [ngClass]="public ? 'container noToBottom' : 'container mt-0'" *ngIf="identifier != null && schemaloaded; else loader">
     <ng-template ngFor let-block [ngForOf]="Data" let-blockIndex="index">
-        <div *ngIf="block.items[0].length > 0; else noData">
+        <div *ngIf="(block.items[0].length > 0 || block.items); else noData">
             <div [ngClass]="public ? 'd-flex flex-justify-between' : 'd-flex flex-justify-between mt-1'">
                 <div class="mt-1">
                     <p class="d-inline-block fs-6 font-weight-bold mb-2">{{block.title | translate}}</p>
