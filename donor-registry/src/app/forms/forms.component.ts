@@ -100,7 +100,14 @@ export class FormsComponent implements OnInit {
           key: 'number',
           templateOptions: {
             label: 'Identification Number',
-          }
+            type:'number',
+            pattern:"^[0-9]+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Number cannot have an Alphaber"
+           }
+       }
         }
       ]
     },
@@ -118,7 +125,13 @@ export class FormsComponent implements OnInit {
           key: 'firstName',
           templateOptions: {
             label: 'Donor First Name',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid name"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -126,7 +139,13 @@ export class FormsComponent implements OnInit {
           key: 'middleName',
           templateOptions: {
             label: 'Donor Middle Name',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid name"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -134,7 +153,13 @@ export class FormsComponent implements OnInit {
           key: 'lastName',
           templateOptions: {
             label: 'Donor Last Name',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid name"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -142,7 +167,13 @@ export class FormsComponent implements OnInit {
           key: 'fatherName',
           templateOptions: {
             label: 'Father’s/Husband’s Name',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid name"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -150,7 +181,13 @@ export class FormsComponent implements OnInit {
           key: 'motherName',
           templateOptions: {
             label: 'Mother’s Name',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid name"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -200,7 +237,13 @@ export class FormsComponent implements OnInit {
           key: 'emailId',
           templateOptions: {
             label: 'Email Id',
-          }
+            pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid email"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -208,7 +251,16 @@ export class FormsComponent implements OnInit {
           key: 'mobileNumber',
           templateOptions: {
             label: 'Mobile Number',
-          }
+            pattern: "[6-9]{1}[0-9]{9}",   
+           
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid mobile number"
+           }
+       }
+         
+          
         }
       ],
     },
@@ -276,7 +328,13 @@ export class FormsComponent implements OnInit {
           key: 'name',
           templateOptions: {
             label: 'Name',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid name"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -296,7 +354,14 @@ export class FormsComponent implements OnInit {
           key: 'mobileNumber',
           templateOptions: {
             label: 'Mobile Number',
-          }
+            pattern: "[6-9]{1}[0-9]{9}",   
+          },
+          validation: { 
+            messages: {
+              pattern: "Enter a valid mobile number"
+            }
+
+        }
         },
         {
           className: 'col-4',
@@ -304,7 +369,14 @@ export class FormsComponent implements OnInit {
           key: 'email',
           templateOptions: {
             label: 'Email',
-          }
+            pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+          },
+          validation: { 
+            messages: {
+              pattern: "Enter a valid email"
+            }
+        
+        }
         },
         {
           className: 'col-4',
@@ -328,7 +400,13 @@ export class FormsComponent implements OnInit {
           key: 'country',
           templateOptions: {
             label: 'Country',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid value"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -364,7 +442,13 @@ export class FormsComponent implements OnInit {
           key: 'district',
           templateOptions: {
             label: 'District',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: {
+            messages: {
+             pattern: "Enter a valid value"
+           }
+       }
         },
         {
           className: 'col-4',
@@ -372,7 +456,15 @@ export class FormsComponent implements OnInit {
           key: 'pincode',
           templateOptions: {
             label: 'Pincode',
-          }
+            pattern:"^[0-9]+$",
+            maxLength:6
+          },
+          validation: { 
+            messages: {
+              pattern: "Alphabet"
+            }
+        
+        }
         }
       ]
     },
@@ -390,7 +482,14 @@ export class FormsComponent implements OnInit {
           key: 'name',
           templateOptions: {
             label: 'Name',
-          }
+            pattern:"^[A-Z][a-zA-Z\\s-']+$"
+          },
+          validation: { 
+            messages: {
+              pattern: "Name cannot have a number"
+            }
+        
+        }
         },
         {
           className: 'col-4',
@@ -398,8 +497,15 @@ export class FormsComponent implements OnInit {
           key: 'mobileNumber',
           templateOptions: {
             label: 'Mobile Number',
-          }
-        },
+            pattern: "[6-9]{1}[0-9]{9}",           
+          },
+          validation: { 
+            messages: {
+              pattern: "Enter a valid mobile number"
+            }
+        
+        }
+      },
         {
           className: 'col-4',
           type: 'select',
