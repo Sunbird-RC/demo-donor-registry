@@ -188,33 +188,33 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: "2181"
-      ZOOKEEPER_TICK_TIME: "2000"
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      zookeeper:
-        condition: service_started
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: "1"
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9092,OUTSIDE://localhost:9094"
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT"
-      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
-    healthcheck:
-      test:
-        [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
-      interval: 30s
-      timeout: 10s
-      retries: 10
+#  zookeeper:
+#    image: confluentinc/cp-zookeeper:latest
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: "2181"
+#      ZOOKEEPER_TICK_TIME: "2000"
+#  kafka:
+#    image: confluentinc/cp-kafka:latest
+#    depends_on:
+#      zookeeper:
+#        condition: service_started
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_BROKER_ID: "1"
+#      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+#      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9092,OUTSIDE://localhost:9094"
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT"
+#      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+#    healthcheck:
+#      test:
+#        [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 10
   public-key-service:
     image: dockerhub/sunbird-rc-public-key-service
     environment:
@@ -259,7 +259,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
+#  redis:
+#    image: redis:latest
+#    ports:
+#      - "6379:6379"

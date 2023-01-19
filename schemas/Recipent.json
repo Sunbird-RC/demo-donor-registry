@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Recipient": {
+      "$ref": "#/definitions/Recipient"
+    }
+  },
+  "required": [
+    "Recipient"
+  ],
+  "$comment": "The below definition is a draft version",
+  "title":"Recipient",
+  "definitions": {
+    "Recipient": {
+      "$id": "#/properties/Recipient",
+      "type": "object",
+      "title": "The Recipient Schema",
+      "required": [
+        "personalDetails",
+        "identificationDetails"
+      ],
+      "properties": {
+        "personalDetails": {
+          "$ref": "Common.json/#/definitions/PersonalDetails"
+        },
+        "identificationDetails": {
+          "$ref": "Common.json/#/definitions/IdentificationDetails"
+        },
+        "addressDetails": {
+          "$ref": "Common.json/#/definitions/AddressDetails"
+        },
+        "organs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Liver","Kidney","Heart","Intestine","Pancreas","Lungs"]
+          },
+          "title": "Organs Needed"
+        },
+        "tissues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Bone","Heart Valve","Skin","Cornea","Cartilage","Blood Vessels"]
+          },
+          "title": "Tissues Needed"
+        },
+        "donors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "donorId": {
+                "type": "string"
+              },
+              "hlaMatching": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "Draft",
+                  "Under Review"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "_osConfig": {
+    "privateFields": [],
+    "indexFields": [],
+    "uniqueIndexFields": [],
+    "systemFields": [
+      "osCreatedAt",
+      "osUpdatedAt",
+      "osCreatedBy",
+      "osUpdatedBy"
+    ],
+    "inviteRoles":["TransplantCoordinator"],
+    "roles": ["TransplantCoordinator"],
+    "ownershipAttributes": []
+  }
+}

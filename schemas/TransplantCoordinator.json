@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "TransplantCoordinator": {
+      "$ref": "#/definitions/TransplantCoordinator"
+    }
+  },
+  "required": [
+    "TransplantCoordinator"
+  ],
+  "title":"TransplantCoordinator",
+  "definitions": {
+    "TransplantCoordinator": {
+      "$id": "#/properties/TransplantCoordinator",
+      "type": "object",
+      "title": "The TransplantCoordinator Schema",
+      "required": [
+
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "mobile": {
+          "type": "string",
+          "pattern": "^[6-9]\\d{9}$"
+        },
+        "facilityId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "_osConfig": {
+    "privateFields": [],
+    "indexFields": [],
+    "uniqueIndexFields": [],
+    "systemFields": [
+      "osCreatedAt",
+      "osUpdatedAt",
+      "osCreatedBy",
+      "osUpdatedBy"
+    ],
+    "credentialTemplate": {},
+    "inviteRoles":["admin"],
+    "roles": [],
+    "ownershipAttributes": [
+      {
+        "email": "/email",
+        "mobile": "/mobile",
+        "userId": "/mobile"
+      }
+    ]
+  }
+}
