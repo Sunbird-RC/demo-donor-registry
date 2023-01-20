@@ -26,6 +26,30 @@
                     }
                 ]
             }
+        },
+        {
+            "transplantcoordinator": {
+                "api": "/LiveDonor",
+                "title": "CBSE_BOARD_ATTESTATIONS",
+                "fields": [
+                    {
+                        "name": "createdAt",
+                        "title": "SUBMITTED_DATE",
+                        "formate": "date"
+                    },
+                    {
+                        "name": "propertyData.personalDetails.firstName",
+                        "title": "NAME"
+                    },
+                    {   
+                        "custom": true,
+                        "title": "ACTION",
+                        "type": "button",
+                        "buttonText": "ATTEST",
+                        "redirectTo": "/transplantCoordinator/attestation/nha-admin-attestation/:id"
+                    }
+                ]
+            }
         }
     ]
 }

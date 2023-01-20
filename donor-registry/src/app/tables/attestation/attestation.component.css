@@ -10,3 +10,13 @@ nav {
 .container{
     margin-top: 100px;
 }
+
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0 160px;
+  }
+
+  .rm-mrg{
+    margin: 0 -148px;
+  }

@@ -19,6 +19,7 @@ export class TablesComponent implements OnInit {
   Data: string[] = [];
   property: any[] = [];
   field;
+  bloodGroup = ["Select", "O+", "A+","B+", "AB+"];
 
   page: number = 1;
   limit: number = 10;

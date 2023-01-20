@@ -31,6 +31,12 @@
             }
         },
         {
+            "donor-setup": {
+                "left": [],
+                "right": []
+            }
+        },
+        {
             "nha-admin": {
                 "left": [
                     {
@@ -45,6 +51,12 @@
                         "className" : "font-weight-bold"
                     }
                 ]
+            }
+        },
+        {
+            "transplantcoordinator": {
+                "left": [ ],
+                "right": [ ]
             }
         }
     ]

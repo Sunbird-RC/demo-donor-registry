@@ -117,8 +117,8 @@
             "pledge-setup": {
                 "api": "/Pledge",
                  "type": "property:pledge",
-                "formclass": "row",
                 "langKey": "institute",
+                "wrapper": "stepper",
                 "fieldsets": [
                     {
                         "definition": "Pledge",
@@ -193,6 +193,314 @@
                             },
                             {
                                 "name": "witnessDetails"
+                            }
+                        ]
+                    }
+                ],
+                "redirectTo": "/profile/Pledge"
+            }
+        },
+        {
+            "signup-test": {
+                "api": "/Pledge",
+                "type": "entity",
+                "formclass": "row",
+                "header": "default",
+                "title": "Register to Pledge Organ",
+                "langKey": "institute",
+                "isSignupForm": "true",
+                "fieldsets": [
+                    {
+                        "definition": "Pledge",
+                        "fields": [
+                            {
+                                "name": "identificationDetails",
+                                "title": "Identification Details",
+                                "children": {
+                                    "definition": "IdentificationDetails",
+                                    "title": "Identification Details",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "proof",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "number",
+                                            "wrapper": "verify-code",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "personalDetails",
+                                "children": {
+                                    "definition": "PersonalDetails",
+                                    "title": "Personal Details",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "firstName",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "middleName",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "lastName",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "fatherName",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "dob",
+                                            "type": "date",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "gender",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "bloodGroup",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "emailId",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            },
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "addressDetails"
+                            },
+                            {
+                                "name": "pledgeDetails",
+                                "title": "Pledge Details",
+                                "children": {
+                                    "definition": "PledgeDetails",
+                                    "title": "Pledge Details",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "organs",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "tissues",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "other",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "emergencyDetails",
+                                "title": "Emergency Details",
+                                "children": {
+                                    "definition": "EmergencyDetails",
+                                    "title": "Emergency Details",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "name",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "relation",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "email",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "addressLine1",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "addressLine2",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "country",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "state",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "district",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "pincode",
+                                            "class": "col-6"
+                                        }
+                                        
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "witnessDetails",
+                                "title": "Members to be Notified",
+                                "children": {
+                                    "definition": "WitnessDetails",
+                                    "title": "Members to be Notified",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "name",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "consent",
+                                "custom": true,
+                                "required": true,
+                                "element": {
+                                    "title": "CONSENT",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "checkbox",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "checkbox",
+                                            "templateOptions": {
+                                                "required": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "redirectTo": "/profile/Pledge"
+            }
+        },
+        {
+            "Recipient": {
+                "api": "Recipient",
+                 "type": "property:pledge",
+                "langKey": "institute",
+                "fieldsets": [
+                    {
+                        "definition": "Pledge",
+                        "fields": [
+                            {
+                                "name": "personalDetails"
+                            },
+                            {
+                                "name": "identificationDetails"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "donor-setup": {
+                "api": "/LiveDonoe",
+                 "type": "property:liveDonoe",
+                "langKey": "institute",
+                "wrapper": "stepper",
+                "fieldsets": [
+                    {
+                        "definition": "Pledge",
+                        "fields": [
+                            {
+                                "name": "identificationDetails",
+                                "children": {
+                                    "definition": "IdentificationDetails",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "number",
+                                            "class" : "col-6",
+                                            "type": "verify-code"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "personalDetails",
+                                "children": {
+                                    "definition": "PersonalDetails",
+                                    "title": "Personal Details",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "firstName",
+                                            "class" : "col-6"
+                                        },
+                                        {
+                                            "name": "middleName",
+                                            "class" : "col-6"
+
+                                        },
+                                        {
+                                            "name": "lastName",
+                                            "class" : "col-6"
+                                        },
+                                        {
+                                            "name": "fatherName",
+                                            "class" : "col-6"
+                                        },
+                                        {
+                                            "name": "dob",
+                                            "type": "date",
+                                            "format" : "date",
+                                            "class" : "col-6"
+                                        },
+                                        {
+                                            "name": "gender",
+                                            "class" : "col-6"
+                                        },
+                                        {
+                                            "name": "bloodGroup",
+                                            "class" : "col-6"
+                                        },
+                                        {
+                                            "name": "emailId",
+                                            "class" : "col-6"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            },
+                                            "class" : "col-6"
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }

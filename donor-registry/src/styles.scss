@@ -789,3 +789,26 @@ label {
 
    a, li { cursor: pointer; }
 
+   .gobackBtn {
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .align{
+    display: flex;
+    justify-content: center;
+}
+.card-radius{
+    border-radius: 1.25rem !important;
+}
+
+.btn {
+    border-radius: 25px !important;
+     text-transform: capitalize !important;
+     box-shadow: none !important;
+ }
+
+ .mt-150{
+    margin-top: 120px;
+}

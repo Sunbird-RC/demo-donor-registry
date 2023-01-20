@@ -668,8 +668,18 @@ export class FormsComponent implements OnInit {
           this.property = this.definations[fieldset.definition].properties;
 
           if (fieldset.formclass) {
-            this.schema['widget'] = {};
+            if(!this.schema.hasOwnProperty('widget')){
+              this.schema['widget'] = {};
+            }
             this.schema['widget']['formlyConfig'] = { fieldGroupClassName: fieldset.formclass }
+          }
+
+          if (this.formSchema.hasOwnProperty('wrapper') && this.formSchema.wrapper == 'stepper') {
+            if(!this.schema.hasOwnProperty('widget')){
+              this.schema['widget'] = {};
+            }
+           
+            this.schema['widget']['formlyConfig'] = { type: this.formSchema.wrapper }
           }
 
           if (fieldset.fields[0] === "*") {
@@ -781,6 +791,19 @@ export class FormsComponent implements OnInit {
     var ref_properties = {}
     var ref_required = []
     if (field.children.fields && field.children.fields.length > 0) {
+
+      if (field.children.formclass ) {
+        this.responseData.definitions[fieldset.definition].properties[field.name]['widget'] = {
+          "formlyConfig": {
+            "templateOptions": {
+            }
+          }
+  
+         }
+        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = { fieldGroupClassName: field.children.formclass}
+      }
+
+      
       field.children.fields.forEach(reffield => {
 
         this.addWidget(field.children, reffield, field.name);
@@ -854,6 +877,15 @@ export class FormsComponent implements OnInit {
   }
 
   addFields(fieldset) {
+
+    if (this.formSchema.wrapper) {
+      this.responseData.definitions[fieldset.definition].properties['widget'] = {
+        "formlyConfig": {
+          "templateOptions": {
+          }
+        }
+       }
+      }
 
     if (fieldset.fields.length) {
 
@@ -1369,8 +1401,11 @@ export class FormsComponent implements OnInit {
 
   submit() {
     this.isSubmitForm = true;
+    if(this.model.hasOwnProperty('pledgeDetails'))
+    {
     this.model["pledgeDetails"]["organs"] = Object.keys(this.model["pledgeDetails"]["organs"]);
     this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
+    }
 
     if (this.fileFields.length > 0) {
       this.fileFields.forEach(fileField => {
@@ -1798,12 +1833,16 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     if (this.identifier !== undefined) {
       this.generalService.getData(apiUrl).subscribe((res) => {
         this.entityId = res[0].osid;
+        if(res[0].hasOwnProperty(this.propertyName)){
         this.exLength = res[0][this.propertyName].length;
+        }
 
       });
     } else {
       this.generalService.getData(apiUrl).subscribe((res) => {
-        this.exLength = res[0][this.propertyName].length;
+        if(res[0].hasOwnProperty(this.propertyName)){
+          this.exLength = res[0][this.propertyName].length;
+        }
       });
     }
 

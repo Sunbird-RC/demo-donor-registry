@@ -47,10 +47,11 @@ export class HeaderComponent implements OnInit {
 
       if(this.headerSchema.hasOwnProperty('left') && this.headerSchema['left'].length){
         this.headerSchema['left'][0]["activeTab"] = (this.headerSchema['left'].length == 1 || (localStorage.getItem('activeTab') == null)) ? 'active' : '';
-
       }
-      this.headerSchema['right'][0]["activeTab"] = (this.headerSchema['right'].length == 1 || (localStorage.getItem('activeTab') == null)) ? 'active' : '';
 
+      if(this.headerSchema.hasOwnProperty('right') && this.headerSchema['left'].length){
+      this.headerSchema['right'][0]["activeTab"] = (this.headerSchema['right'].length == 1 || (localStorage.getItem('activeTab') == null)) ? 'active' : '';
+      }
 
       if (localStorage.getItem('activeTab')) {
         let activeT = JSON.parse(localStorage.getItem('activeTab'));

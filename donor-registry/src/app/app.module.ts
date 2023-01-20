@@ -22,9 +22,11 @@ import { MultiSchemaTypeComponent } from '../app/forms/types/multischema.type';
 import { NullTypeComponent } from '../app/forms/types/null.type';
 import { AutocompleteTypeComponent } from '../app/forms/types/autocomplete.type';
 import { FormlyColorInput } from '../app/forms/types/color.type';
+import { FormlyFieldStepper } from '../app/forms/types/stepper.type';
+
 import { initializeKeycloak } from './utility/app.init';
 import { initLang } from './multilingual.init';
-
+import { MatStepperModule } from '@angular/material/stepper';
 
 //Local imports
 import { FormsComponent } from './forms/forms.component';
@@ -142,6 +144,7 @@ import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
     AutocompleteTypeComponent,
     VerifyIndentityCode,
     FormlyColorInput,
+    FormlyFieldStepper,
     HeaderComponent,
     AttestationComponent,
     FileValueAccessor,
@@ -221,7 +224,8 @@ import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
         { name: 'multiselect', component: FormlyFieldNgSelect },
         { name: 'color', component: FormlyColorInput },
-        { name: 'verify-code', component: VerifyIndentityCode }
+        { name: 'verify-code', component: VerifyIndentityCode },
+        { name: 'stepper', component: FormlyFieldStepper, wrappers: [] }
       ],
     }),
     ToastrModule.forRoot({
@@ -229,6 +233,7 @@ import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
       preventDuplicates: true,
     }),
     NgxPaginationModule,
+    MatStepperModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   exports: [TranslateModule],

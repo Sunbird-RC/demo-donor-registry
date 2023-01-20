@@ -1,5 +1,46 @@
 <app-header [headerFor]='entity' [tab]='tab'></app-header>
 <div class="container mt-150">
+
+    <div class=" d-flex flex-row flex-wrap justify-content-center">
+        <div class="card card-block card-radius mr-5 p-4 col-sm-3 ">
+            <h2 class="font-600 align">240</h2>
+            <h4 class="p12 mb-1 align">Recipients</h4>
+        </div>
+        <div class="card card-block card-radius mr-5 p-4 col-sm-3 ">
+            <h2 class="font-600 align">450</h2>
+            <h4 class="p12 mb-1 align">Live Donors</h4>
+        </div>
+        <div class="card card-block card-radius mr-5 p-4 col-sm-3 ">
+            <h2 class="font-600 align">700</h2>
+            <h4 class="p12 mb-1 align">Cadaver Donors</h4>
+        </div>
+    </div>
+    
+    <div class=" d-flex my-5">
+        <div class="mr-3">
+            <h6>ABHA ID</h6>
+            <input type="text" class="form-control" placeholder="Enter ABHA Number" size="30">
+        </div>
+    
+        <div class="mr-3">
+            <h6>Recipient Name</h6>
+            <input type="text" class="form-control" placeholder="Content" size="30">
+        </div>
+    
+        <div class="mr-3">
+            <h6>Blood Group</h6>
+            <select class="form-control">
+                <option *ngFor="let i of bloodGroup">{{i}}</option>
+               
+              </select>
+        </div>
+    
+        <div class="mr-3">
+            
+          <a href="/form/donor-setup">  <button class="btn btn-bg btn-style btn-primary mt-4">Add Donor</button></a>
+        </div>
+    </div>
+
     <h6 class="d-inline-block p16 font-weight-bold">{{tableSchema?.title | translate}}</h6>
     <table class="table table-striped">
         <thead>
