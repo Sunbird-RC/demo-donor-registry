@@ -426,25 +426,39 @@
             }
         },
         {
-            "donor-setup": {
-                "api": "/LiveDonoe",
+            "livedonor-setup": {
+                "api": "/LiveDonor",
                  "type": "property:liveDonoe",
                 "langKey": "institute",
                 "wrapper": "stepper",
                 "fieldsets": [
                     {
-                        "definition": "Pledge",
+                        "definition": "LiveDonor",
                         "fields": [
                             {
-                                "name": "identificationDetails",
+                                "name": "basicDetails",
                                 "children": {
-                                    "definition": "IdentificationDetails",
+                                    "definition": "BasicDetails",
+                                    "title": "Donor Details",
                                     "formclass": "row",
                                     "fields": [
                                         {
-                                            "name": "number",
-                                            "class" : "col-6",
-                                            "type": "verify-code"
+                                            "name": "identificationValue",
+                                            "class" : "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "basicDetails",
+                                "children": {
+                                    "definition": "BasicDetails",
+                                    "title": "Recipient Details",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "residentialValue",
+                                            "class" : "col-6"
                                         }
                                     ]
                                 }

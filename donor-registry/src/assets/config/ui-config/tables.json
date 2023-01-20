@@ -33,20 +33,41 @@
                 "title": "CBSE_BOARD_ATTESTATIONS",
                 "fields": [
                     {
-                        "name": "createdAt",
-                        "title": "SUBMITTED_DATE",
-                        "formate": "date"
+                        "name": "donorDetails.firstName",
+                        "title": "Donors",
+                        "formate": ""
                     },
                     {
-                        "name": "propertyData.personalDetails.firstName",
-                        "title": "NAME"
+                        "name": "",
+                        "title": "Blood Group",
+                        "formate": ""
                     },
-                    {   
+                    {
+                        "name": "",
+                        "title": "Recipient",
+                        "formate": ""
+                    },
+                    {
+                        "name": "",
+                        "title": "Blood Group",
+                        "formate": ""
+                    },
+                    {
+                        "name": "",
+                        "title": "HLA Cross Match",
+                        "formate": ""
+                    },
+                    {
+                        "name": "",
+                        "title": "Type",
+                        "formate": ""
+                    },
+                    {
                         "custom": true,
-                        "title": "ACTION",
+                        "title": "Status of Match",
                         "type": "button",
                         "buttonText": "ATTEST",
-                        "redirectTo": "/transplantCoordinator/attestation/nha-admin-attestation/:id"
+                        "redirectTo": "form/livedonor-setup"
                     }
                 ]
             }

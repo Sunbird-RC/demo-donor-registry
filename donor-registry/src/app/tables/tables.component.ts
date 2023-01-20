@@ -54,7 +54,7 @@ export class TablesComponent implements OnInit {
       console.log("Something went wrong")
     }
     this.generalService.getData(get_url).subscribe((res) => {
-      this.model = res.content;
+      this.model = res;
       this.addData()
     });
   }
@@ -65,8 +65,11 @@ export class TablesComponent implements OnInit {
     let temp_object
     this.model.forEach(element => {
     
-      if (element.status === "OPEN") {
-        element['propertyData'] = JSON.parse(element['propertyData']);
+      if (!element.hasOwnProperty('status') || (element.hasOwnProperty('status') && element.status === "OPEN")) {
+        if(element.hasOwnProperty('propertyData')){
+          element['propertyData'] = JSON.parse(element['propertyData']);
+        }
+        
         temp_array = [];
         this.tableSchema.fields.forEach((field) => {
 
