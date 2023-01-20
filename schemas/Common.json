@@ -5,7 +5,15 @@
     "PersonalDetails": {
       "type": "object",
       "title": "Personal Details",
-      "required": ["firstName", "lastName", "fatherName", "dob", "gender", "emailId", "mobileNumber"],
+      "required": [
+        "firstName",
+        "lastName",
+        "fatherName",
+        "dob",
+        "gender",
+        "emailId",
+        "mobileNumber"
+      ],
       "properties": {
         "firstName": {
           "type": "string",
@@ -34,12 +42,25 @@
         },
         "gender": {
           "type": "string",
-          "enum": ["Male","Female", "Transgender"],
+          "enum": [
+            "Male",
+            "Female",
+            "Transgender"
+          ],
           "title": "Gender"
         },
         "bloodGroup": {
           "type": "string",
-          "enum": ["A+","A-","B+","B-","AB+","AB-","O+","O-"],
+          "enum": [
+            "A+",
+            "A-",
+            "B+",
+            "B-",
+            "AB+",
+            "AB-",
+            "O+",
+            "O-"
+          ],
           "title": "Blood Group"
         },
         "emailId": {
@@ -57,7 +78,13 @@
     "AddressDetails": {
       "type": "object",
       "title": "Address Details",
-      "required": ["addressLine1", "country", "state", "district", "pincode"],
+      "required": [
+        "addressLine1",
+        "country",
+        "state",
+        "district",
+        "pincode"
+      ],
       "properties": {
         "addressLine1": {
           "type": "string",
@@ -126,12 +153,19 @@
     },
     "IdentificationDetails": {
       "type": "object",
-      "required": ["proof", "number"],
+      "required": [
+        "proof",
+        "number"
+      ],
       "title": "Identification Details",
       "properties": {
         "proof": {
           "type": "string",
-          "enum": ["Aadhaar", "Pan Card", "Abha ID"],
+          "enum": [
+            "Aadhaar",
+            "Pan Card",
+            "Abha ID"
+          ],
           "title": "Identification Proof"
         },
         "number": {
@@ -142,14 +176,24 @@
     },
     "PledgeDetails": {
       "type": "object",
-      "required": ["organs", "tissues"],
+      "required": [
+        "organs",
+        "tissues"
+      ],
       "title": "Pledge Details",
       "properties": {
         "organs": {
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["Liver","Kidney","Heart","Intestine","Pancreas","Lungs"]
+            "enum": [
+              "Liver",
+              "Kidney",
+              "Heart",
+              "Intestine",
+              "Pancreas",
+              "Lungs"
+            ]
           },
           "title": "Organs to Pledge"
         },
@@ -157,7 +201,14 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["Bone","Heart Valve","Skin","Cornea","Cartilage","Blood Vessels"]
+            "enum": [
+              "Bone",
+              "Heart Valve",
+              "Skin",
+              "Cornea",
+              "Cartilage",
+              "Blood Vessels"
+            ]
           },
           "title": "Tissues to Pledge"
         },
@@ -178,7 +229,10 @@
         },
         "relation": {
           "type": "string",
-          "enum": ["Father", "Mother"],
+          "enum": [
+            "Father",
+            "Mother"
+          ],
           "title": "Relation"
         },
         "mobileNumber": {
@@ -259,7 +313,10 @@
     "WitnessDetails": {
       "type": "object",
       "title": "Witness Details",
-      "required": ["name", "mobileNumber"],
+      "required": [
+        "name",
+        "mobileNumber"
+      ],
       "properties": {
         "name": {
           "type": "string",

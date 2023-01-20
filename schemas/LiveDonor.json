@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "LiveDonor": {
+      "$ref": "#/definitions/LiveDonor"
+    }
+  },
+  "required": [
+    "LiveDonor"
+  ],
+  "title": "LiveDonor",
+  "definitions": {
+    "LiveDonor": {
+      "$id": "#/properties/LiveDonor",
+      "type": "object",
+      "title": "The LiveDonor Schema",
+      "required": [],
+      "properties": {
+        "donorDetails": {
+          "type": "object",
+          "required": [
+            "firstName",
+            "lastName",
+            "dob",
+            "gender",
+            "mobileNumber",
+            "identificationProof",
+            "identificationValue",
+            "residentialProof",
+            "residentialValue"
+          ],
+          "properties": {
+            "firstName": {
+              "type": "string",
+              "title": "Donor First Name"
+            },
+            "middleName": {
+              "type": "string",
+              "title": "Donor Middle Name"
+            },
+            "lastName": {
+              "type": "string",
+              "title": "Donor Last Name"
+            },
+            "dob": {
+              "type": "string",
+              "format": "date",
+              "title": "Date of Birth"
+            },
+            "gender": {
+              "type": "string",
+              "enum": [
+                "Male",
+                "Female",
+                "Transgender"
+              ],
+              "title": "Gender"
+            },
+            "emailId": {
+              "type": "string",
+              "format": "email",
+              "title": "Email Id"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "pattern": "^[6-9]\\d{9}$",
+              "title": "Mobile Number"
+            },
+            "identificationProof": {
+              "type": "string",
+              "enum": [
+                "Voter Id",
+                "Aadhaar",
+                "Driving License",
+                "Passport no",
+                "PAN",
+                "Ration no"
+              ],
+              "title": "Identification Proof"
+            },
+            "identificationValue": {
+              "type": "string",
+              "title": "Identification Value"
+            },
+            "residentialProof": {
+              "type": "string",
+              "enum": [
+                "Voter Id",
+                "Aadhaar",
+                "Driving License",
+                "Passport no",
+                "Ration no"
+              ],
+              "title": "Residential Proof"
+            },
+            "residentialValue": {
+              "type": "string",
+              "title": "Residential Number"
+            }
+          }
+        },
+        "recipientDetails": {
+          "type": "object",
+          "required": [
+            "recipientId"
+          ],
+          "properties": {
+            "recipientId": {
+              "type": "string"
+            }
+          }
+        },
+        "proofOfRelation": {
+          "type": "object",
+          "properties": {
+            "relationType": {
+              "type": "string",
+              "enum": ["related", "unrelated"]
+            },
+            "relation": {
+              "type": "string",
+              "enum": ["father", "mother", "spouse"]
+            },
+            "documentaryEvidence": {
+              "type": "array",
+              "minimum": 2,
+
+              "items": {
+                "type": "object",
+                "properties": {
+                  "documentaryType": {
+                    "type": "string"
+                  },
+                  "documentaryUri": {
+                    "type": "string"
+                  },
+                  "issuedDate": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "_osConfig": {
+    "privateFields": [],
+    "indexFields": [],
+    "uniqueIndexFields": [],
+    "systemFields": [
+      "osCreatedAt",
+      "osUpdatedAt",
+      "osCreatedBy",
+      "osUpdatedBy"
+    ],
+    "inviteRoles": [
+      "anonymous"
+    ],
+    "roles": [
+      "anonymous"
+    ],
+    "ownershipAttributes": []
+  }
+}
