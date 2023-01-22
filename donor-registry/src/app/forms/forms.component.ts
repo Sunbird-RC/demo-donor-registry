@@ -105,7 +105,7 @@ export class FormsComponent implements OnInit {
           },
           validation: {
             messages: {
-             pattern: "Number cannot have an Alphaber"
+             pattern: "Number cannot have an Alphabet"
            }
        }
         }
@@ -537,6 +537,12 @@ export class FormsComponent implements OnInit {
     }
   ];
 
+  ngAfterContentChecked(): void {
+    console.log(this.model);
+    if (this.model["memberToBeNotified"] == 'Yes') {
+      this.model["details"] = { ...this.model["emergencyDetails"] };
+    }
+  }
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location) { }
@@ -1044,7 +1050,8 @@ export class FormsComponent implements OnInit {
             },
             "validation": {},
             "expressionProperties": {},
-            "modelOptions": {}
+            "modelOptions": {},
+            
           }
 
         }
@@ -1052,6 +1059,7 @@ export class FormsComponent implements OnInit {
         if (field.placeholder) {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.generalService.translateString(this.langKey + '.' + field.placeholder);
         }
+
 
         if (field.description) {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['description'] = this.generalService.translateString(this.langKey + '.' + field.description);

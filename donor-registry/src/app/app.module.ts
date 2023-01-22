@@ -68,6 +68,9 @@ import { config } from 'process';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 
+
+
+
 //form validations
 export function minItemsValidationMessage(err, field: FormlyFieldConfig) {
   return `should NOT have fewer than ${field.templateOptions.minItems} items`;
@@ -125,6 +128,7 @@ import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-v
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { initTheme } from './theme.config';
 import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
+import { FormlyTemplateType } from './forms/types/template.type';
 // import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 
@@ -159,7 +163,8 @@ import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
     ScanDocumentComponent,
     ScanQrCodeComponent,
     BrowseDocumentsComponent,
-    AuthImagePipe
+    AuthImagePipe,
+    FormlyTemplateType
   ],
   imports: [
     BrowserModule,
@@ -225,7 +230,8 @@ import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
         { name: 'multiselect', component: FormlyFieldNgSelect },
         { name: 'color', component: FormlyColorInput },
         { name: 'verify-code', component: VerifyIndentityCode },
-        { name: 'stepper', component: FormlyFieldStepper, wrappers: [] }
+        { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
+        { name: 'template', component: FormlyTemplateType }
       ],
     }),
     ToastrModule.forRoot({

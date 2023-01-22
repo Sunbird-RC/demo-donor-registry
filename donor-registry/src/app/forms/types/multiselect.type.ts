@@ -3,7 +3,9 @@ import { FieldType } from '@ngx-formly/core';
 
 @Component({
   selector: 'formly-field-ng-select',
+  styleUrls: ["../forms.component.scss"],
   template: `
+  <span class="fw-bold p12">{{ to.label }}</span> <br>
     <ng-select [items]="to.options"
       [bindLabel]="labelProp"
       [bindValue]="valueProp"
