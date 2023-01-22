@@ -193,6 +193,7 @@
     },
     "MedicalDetails": {
       "type": "object",
+      "title": "Medical Details",
       "required": [
         "height",
         "weight",
@@ -215,6 +216,7 @@
     },
     "MedicalHistory": {
       "type": "object",
+      "title": "Medical History",
       "required": [
         "hypertension",
         "systolic",
@@ -274,6 +276,7 @@
     },
     "BloodGroupDetails": {
       "type": "object",
+      "title": "Blood Group Details",
       "required": [
         "group",
         "transfusion"
@@ -313,6 +316,7 @@
     },
     "CrossMatchDetails": {
       "type": "object",
+      "title": "",
       "properties": {
         "crossMatchStatus": {
           "type": "string",
@@ -333,6 +337,7 @@
     },
     "DnaProfiling": {
       "type": "object",
+      "title": "",
       "properties": {
         "status": {
           "type": "string",
@@ -353,6 +358,7 @@
     },
     "SwapDetails": {
       "type": "object",
+      "title": "",
       "properties": {
         "swapStatus": {
           "type": "string",
