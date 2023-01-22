@@ -50,7 +50,9 @@
         "Class XII": "Class XII",
         "classes": "Classes / Grades",
         "medium": "Medium of Education",
-        "address": "Address"
+        "address": "Address",
+        "organs":"Organs",
+        "tissues":"Tissues"
     },
     "teacherStudent": {
         "employeeName": "Employee Full name",

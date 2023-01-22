@@ -52,7 +52,9 @@
     "Class XII": "कक्षा XII",
     "classes": "कक्षाएं / ग्रेड",
     "medium": "शिक्षा का माध्यम",
-    "address":"पता"
+    "address":"पता",
+    "organs":"अंग",
+    "tissues":"ऊतकों"
 
   },
   "teacherStudent" : {

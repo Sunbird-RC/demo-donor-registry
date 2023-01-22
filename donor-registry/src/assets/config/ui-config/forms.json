@@ -14,81 +14,373 @@
                 "fieldsets": [
                     {
                         "definition": "Pledge",
+                        "dependencies": {
+                            "memberToBeNotified": {
+                                "oneOf": [
+                                    {
+                                        "properties": {
+                                            "memberToBeNotified": {
+                                                "enum": [
+                                                    "Yes"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": " ",
+                                                "formclass": "row",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "title": "Name",
+                                                        "class":"col-4"
+                                                        
+                                                        
+                                                    },
+                                                    "relation": {
+                                                        "type": "string",
+                                                        "title": "Relation"
+                                                       
+                                                    },
+                                                    "mobileNumber": {
+                                                        "type": "number",
+                                                        "title": "Mobile Number"
+                                                       
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "properties": {
+                                            "memberToBeNotified": {
+                                                "enum": [
+                                                    "No"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": " ",
+                                                "formclass": "row",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "title": "Name",
+                                                        "class":"col-4"
+                                                        
+                                                    },
+                                                    "relation": {
+                                                        "type": "string",
+                                                        "title": "Relation",
+                                                        "class":"col-4"
+                                                    },
+                                                    "mobileNumber": {
+                                                        "type": "number",
+                                                        "title": "Mobile Number",
+                                                        "class":"col-4"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
                         "fields": [
+
+                            {
+                                "name": "identificationDetails",
+                                "children": {
+                                    "definition": "IdentificationDetails",
+                                    "title": "Identification Details",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "proof",
+                                            "class":"col-4"
+                                        
+                                        },
+                                        {
+                                            "name": "number",
+                                            "type":"verify-code",
+                                            "class":"col-4"
+                                        
+                                        }
+                                      
+                                    ]
+                                }
+                            },
                             {
                                 "name": "personalDetails",
                                 "children": {
                                     "definition": "PersonalDetails",
                                     "title": "Personal Details",
+                                    "formclass": "row",
                                     "fields": [
                                         {
-                                            "name": "firstName"
-                                        },
-                                        {
-                                            "name": "middleName"
+                                            "name": "firstName",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
+                                            
+                                          
 
                                         },
                                         {
-                                            "name": "lastName"
+                                            "name": "middleName",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
+                                          
                                         },
                                         {
-                                            "name": "fatherName"
+                                            "name": "lastName",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
+                                           
+                                        },
+                                        {
+                                            "name": "fatherName",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
+                                        },
+                                        {
+                                            "name": "motherName",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
                                         },
                                         {
                                             "name": "dob",
-                                            "type": "date"
+                                            "type": "date",
+                                            "class":"col-4",
+                                            "validation": {
+                                             "future":false
+                                            }
                                         },
                                         {
-                                            "name": "gender"
+                                            "name": "gender",
+                                            "class":"col-4"
+                                            
                                         },
                                         {
-                                            "name": "bloodGroup"
+                                            "name": "bloodGroup",
+                                            "class":"col-4"
+                                     
                                         },
                                         {
-                                            "name": "emailId"
+                                            "name": "emailId",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern":"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+                                                "message": "Enter a valid email"
+                                            }
                                         },
                                         {
                                             "name": "mobileNumber",
                                             "validation": {
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
-                                            }
+                                            },
+                                            "class":"col-4"
                                         }
                                     ]
                                 }
-
                             },
+    
                             {
-                                "name": "identificationDetails"
+                                "name": "addressDetails",
+                                "children": {
+                                    "definition": "AddressDetails",
+                                    "formclass": "row",
+                                    "title": "Address Details",
+                                    "fields": [
+                                        {
+                                            "name": "addressLine1",
+                                            "class":"col-4"
+                                        
+                                        },
+                                        {
+                                            "name": "addressLine2",
+                                            "class":"col-4"
+                                        
+                                        },
+                                        {
+                                            "name": "country",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid country"
+                                            }
+                                        
+                                        },
+                                        
+                                        {
+                                            "name": "state",
+                                            "class":"col-4"
+                                        
+                                        },
+                                        {
+                                            "name": "district",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid district"
+                                            }
+                                        
+                                        },
+                                        {
+                                            "name": "pincode",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern": "^[0-9]+$",
+                                                "message": "Enter a valid pincode"
+                                            }
+                                            
+                                        
+                                        }
+
+                                    ]
+                                }
+                                
                             },
-                             {
-                                "name": "addressDetails"
-                            },
+                           
+                            
                             {
                                 "name": "pledgeDetails",
                                 "title": "Pledge Details",
                                 "children": {
                                     "definition": "PledgeDetails",
+                                    "formclass": "row",
                                     "title": "Pledge Details",
                                     "fields": [
                                         {
-                                            "name": "organs"
+                                            "name": "organs",
+                                            "type":"multiselect",
+                                            "class":"col-4"
+                                            
+                                        
                                         },
                                         {
-                                            "name": "tissues"
+                                            "name": "tissues",
+                                            "type":"multiselect",
+                                            "class":"col-4"
+                                           
                                         },
                                         {
-                                            "name": "other"
+                                            "name": "other",
+                                            "class":"col-4"
                                         }
                                     ]
                                 }
                             },
                             {
-                                "name": "emergencyDetails"
+                                "name": "emergencyDetails",
+                                "children": {
+                                    "definition": "EmergencyDetails",
+                                    "formclass": "row",
+                                    "title": "Emergency Details",
+                                    "fields": [
+                                        {
+                                            "name": "name",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
+                                        
+                                        },
+                                        {
+                                            "name": "relation",
+                                            "class":"col-4"
+                                        
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            }
+                                        
+                                        }
+                                      
+                                      
+                                    ]
+                                }
+                               
                             },
                             {
-                                "name": "witnessDetails"
+                                "name": " ",
+                                "custom": true,
+                                "element": {
+                                    "title": "Members to be notified (optional)",
+                                    "properties": {
+                                        "name": {                                           
+                                        }
+                                    }
+                                }
                             },
+                            {
+                                "name": "memberToBeNotified",
+                                "custom": true,
+                                "element": {
+                                    "title": "Same as emergency Contact ",
+                                    "enum": [
+                                        "Yes",
+                                        "No"
+                                    ],
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "select",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "select",
+                                            "class":"col-4"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "witnessDetails",
+                                "children": {
+                                    "definition": "WitnessDetails",
+                                    "formclass": "row",
+                                    "title": "Members to be Notified",
+                                        
+                                    "fields": [
+                                        {
+                                            "name": "name",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
+                                        
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "class":"col-4",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            }
+                                        
+                                        }
+                                    ]
+                                }
+                                
+                            },             
                             {
                                 "name": "consent",
                                 "custom": true,
@@ -102,6 +394,24 @@
                                             "className": "checkbox",
                                             "templateOptions": {
                                                 "required": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "Note",
+                                "custom": true,
+                                "required": false,
+                                "element": {
+                                    "title": "TO_NOTE",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "template",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "checkbox",
+                                            "templateOptions": {
+                                                "required": false
                                             }
                                         }
                                     }
