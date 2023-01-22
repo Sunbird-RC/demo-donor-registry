@@ -328,34 +328,7 @@
           "title": "Mobile Number"
         }
       }
-    },
-    "HLATypingDetails": {
-      "type": "object",
-      "title": "HLA Typing Details",
-      "required": [
-        "a",
-        "b",
-        "dr",
-        "dq",
-        "other"
-      ],
-      "properties": {
-        "a": {
-          "type": "string"
-        },
-        "b": {
-          "type": "string"
-        },
-        "dr": {
-          "type": "string"
-        },
-        "dq": {
-          "type": "string"
-        },
-        "other": {
-          "type": "string"
-        }
-      }
     }
+
   }
 }
