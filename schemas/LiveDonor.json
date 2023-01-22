@@ -65,6 +65,7 @@
       }
     },
     "DonorDetails": {
+      "title": "Details of the Donor",
       "type": "object",
       "required": [
         "firstName",
@@ -148,6 +149,7 @@
       }
     },
     "RecipientDetails": {
+      "title": "Details of the Recipient",
       "type": "object",
       "required": [
         "recipientId"
@@ -160,6 +162,7 @@
     },
     "ProofOfRelation": {
       "type": "object",
+      "title": "Relation of Donor and Recipient",
       "required": [
         "relation",
         "relationType",
@@ -183,7 +186,8 @@
         },
         "form": {
           "type": "string",
-          "format": "file"
+          "format": "file",
+          "title": "Upload Form # for ## Relative"
         }
       }
     },
