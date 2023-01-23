@@ -633,7 +633,8 @@
       ],
       "clientRoles": {
         "realm-management": [
-          "manage-users"
+          "manage-users",
+          "manage-realm"
         ],
         "admin-api": [
           "api"
@@ -831,7 +832,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "d112548e-09b8-411d-a1e0-b5870247affa",
+      "secret": "**********",
       "redirectUris": [
         "https://localhost:4202/*",
         "https://divoc.xiv.in",
