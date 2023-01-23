@@ -1,15 +1,15 @@
 {
     "environment": "development",
     "keycloak": {
-        "url": "https://demo-donor-registry.xiv.in/auth",
+        "url": "/auth",
         "clientId": "registry-frontend",
         "realm": "sunbird-rc"
     },
     "configFolder": "/assets/config/ui-config",
     "languageFolder": "/assets/i18n",
     "title": "Organ donation registry",
-    "baseUrl": "https://demo-donor-registry.xiv.in/registry/api/v1",
-    "schemaUrl": "https://demo-donor-registry.xiv.in/registry/api/docs/swagger.json",
+    "baseUrl": "/registry/api/v1",
+    "schemaUrl": "/registry/api/docs/swagger.json",
     "footerText": "Organ donation registry",
     "languages": [
         "en",
