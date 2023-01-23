@@ -72,470 +72,7 @@ export class FormsComponent implements OnInit {
   sorder: any;
   isSubmitForm: boolean = false;
   isSignupFormPOPup: boolean = false;
-  fieldsNew: FormlyFieldConfig[] = [
-    {
-      className: 'section-label',
-      template: '<div><strong>Identification Details</strong></div><br>',
-    },
-    {
-      fieldGroupClassName: 'row',
-      key: 'identificationDetails',
-      fieldGroup: [
-        {
-          className: 'col-4',
-          key: 'proof',
-          type: 'select',
-          templateOptions: {
-            required: true,
-            label: 'Identification Proof',
-            options: [
-              { value: 'Aadhaar', label: 'Aadhaar' },
-              { value: 'Abha ID', label: 'Abha ID' }
-            ]
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'verify-code',
-          key: 'number',
-          templateOptions: {
-            label: 'Identification Number',
-            type:'number',
-            pattern:"^[0-9]+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Number cannot have an Alphabet"
-           }
-       }
-        }
-      ]
-    },
-    {
-      className: 'section-label',
-      template: '<hr><div><strong>Personal Details of the Donor</strong></div><br>',
-    },
-    {
-      fieldGroupClassName: 'row',
-      key: 'personalDetails',
-      fieldGroup: [
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'firstName',
-          templateOptions: {
-            label: 'Donor First Name',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid name"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'middleName',
-          templateOptions: {
-            label: 'Donor Middle Name',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid name"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'lastName',
-          templateOptions: {
-            label: 'Donor Last Name',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid name"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'fatherName',
-          templateOptions: {
-            label: 'Father’s/Husband’s Name',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid name"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'motherName',
-          templateOptions: {
-            label: 'Mother’s Name',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid name"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'dob',
-          templateOptions: {
-            type: 'date',
-            label: 'Date of Birth',
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'select',
-          key: 'gender',
-          templateOptions: {
-            required: true,
-            label: 'Gender',
-            options: [
-              { value: 'Male', label: 'Male' },
-              { value: 'Female', label: 'Female' },
-              { value: 'Transgender', label: 'Transgender' },
-            ]
-          }
-        },
-        {
-          className: 'col-4',
-          key: 'bloodGroup',
-          type: 'select',
-          templateOptions: {
-            required: true,
-            label: 'Blood Group',
-            options: [
-              { value: 'A+', label: 'A+' },
-              { value: 'A-', label: 'A-' },
-              { value: 'B+', label: 'B+' },
-              { value: 'B-', label: 'B-' },
-              { value: 'AB+', label: 'AB+' },
-              { value: 'AB-', label: 'AB-' },
-              { value: 'O+', label: 'O+' },
-              { value: 'O-', label: 'O-' }
-            ]
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'emailId',
-          templateOptions: {
-            label: 'Email Id',
-            pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid email"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'mobileNumber',
-          templateOptions: {
-            label: 'Mobile Number',
-            pattern: "[6-9]{1}[0-9]{9}",   
-           
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid mobile number"
-           }
-       }
-         
-          
-        }
-      ],
-    },
-    {
-      className: 'section-label',
-      template: '<hr><div><strong>Pledge Details</strong></div><br>',
-    },
-    {
-      fieldGroupClassName: 'row',
-      key: "pledgeDetails",
-      fieldGroup: [
-        {
-          className: 'col-4',
-          type: 'multicheckbox',
-          key: 'organs',
-          templateOptions: {
-            label: 'Organs to Pledge',
-            options: [
-              { value: 'Liver', label: 'Liver' },
-              { value: 'Kidney', label: 'Kidney' },
-              { value: 'Heart', label: 'Heart' },
-              { value: 'Intestine', label: 'Intestine' },
-              { value: 'Pancreas', label: 'Pancreas' },
-              { value: 'Lungs', label: 'Lungs' }
-            ]
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'multicheckbox',
-          key: 'tissues',
-          templateOptions: {
-            label: 'Tissues to Pledge',
-            options: [
-              { value: 'Bone', label: 'Bone' },
-              { value: 'Heart Valve', label: 'Heart Valve' },
-              { value: 'Skin', label: 'Skin' },
-              { value: 'Cornea', label: 'Cornea' },
-              { value: 'Cartilage', label: 'Cartilage' },
-              { value: 'Blood Vessels', label: 'Blood Vessels' }
-            ]
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'other',
-          templateOptions: {
-            label: 'Other Organs/Tissues',
-          }
-        }
-      ]
-    },
-    {
-      className: 'section-label',
-      template: '<hr><div><strong>Emergency Contact Details</strong></div><br>',
-    },
-    {
-      fieldGroupClassName: 'row',
-      key: "emergencyDetails",
-      fieldGroup: [
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'name',
-          templateOptions: {
-            label: 'Name',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid name"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'select',
-          key: 'relation',
-          templateOptions: {
-            label: 'Relation',
-            options: [
-              { value: 'Father', label: 'Father' },
-              { value: 'Mother', label: 'Mother' }
-            ]
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'mobileNumber',
-          templateOptions: {
-            label: 'Mobile Number',
-            pattern: "[6-9]{1}[0-9]{9}",   
-          },
-          validation: { 
-            messages: {
-              pattern: "Enter a valid mobile number"
-            }
-
-        }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'email',
-          templateOptions: {
-            label: 'Email',
-            pattern: "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
-          },
-          validation: { 
-            messages: {
-              pattern: "Enter a valid email"
-            }
-        
-        }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'addressLine1',
-          templateOptions: {
-            label: 'Address Line 1',
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'addressLine2',
-          templateOptions: {
-            label: 'Address Line 2',
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'country',
-          templateOptions: {
-            label: 'Country',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid value"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'select',
-          key: 'state',
-          templateOptions: {
-            label: 'State',
-            options: [
-              { value: 'Andaman and Nicobar Islands', label: 'Andaman and Nicobar Islands' }, { value: 'Andhra Pradesh', label: 'Andhra Pradesh' },
-              { value: 'Arunachal Pradesh', label: 'Arunachal Pradesh' }, { value: 'Assam', label: 'Assam' }, { value: 'Bihar', label: 'Bihar' },
-              { value: 'Chandigarh', label: 'Chandigarh' }, { value: 'Chhattisgarh', label: 'Chhattisgarh' },
-              { value: 'Dadra and Nagar Haveli', label: 'Dadra and Nagar Haveli' },
-              { value: 'Daman and Diu', label: 'Daman and Diu' }, { value: 'Delhi', label: 'Delhi' },
-              { value: 'Goa', label: 'Father' }, { value: 'Gujarat', label: 'Gujarat' },
-              { value: 'Haryana', label: 'Haryana' }, { value: 'Himachal Pradesh', label: 'Himachal Pradesh' },
-              { value: 'Jammu and Kashmir', label: 'Jammu and Kashmir' }, { value: 'Jharkhand', label: 'Jharkhand' },
-              { value: 'Karnataka', label: 'Karnataka' }, { value: 'Kerala', label: 'Kerala' }, { value: 'Ladakh', label: 'Ladakh' }, { value: 'Lakshadweep', label: 'Lakshadweep' },
-              { value: 'Madhya Pradesh', label: 'Madhya Pradesh' },
-              { value: 'Maharashtra', label: 'Maharashtra' },
-              { value: 'Manipur', label: 'Manipur' },
-              { value: 'Meghalaya', label: 'Meghalaya' }, { value: 'Mizoram', label: 'Mizoram' }, { value: 'Nagaland', label: 'Nagaland' },
-              { value: 'Odisha', label: 'Odisha' }, { value: 'Puducherry', label: 'Puducherry' },
-              { value: 'Punjab', label: 'Punjab' }, { value: 'Rajasthan', label: 'Rajasthan' },
-              { value: 'Sikkim', label: 'Sikkim' }, { value: 'Tamil Nadu', label: 'Tamil Nadu' }, { value: 'Telangana', label: 'Telangana' },
-              { value: 'Tripura', label: 'Tripura' }, { value: 'Uttar Pradesh', label: 'Uttar Pradesh' },
-              { value: 'Uttarakhand', label: 'Uttarakhand' }, { value: 'West Bengal', label: 'West Bengal' }
-            ]
-          }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'district',
-          templateOptions: {
-            label: 'District',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: {
-            messages: {
-             pattern: "Enter a valid value"
-           }
-       }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'pincode',
-          templateOptions: {
-            label: 'Pincode',
-            pattern:"^[0-9]+$",
-            maxLength:6
-          },
-          validation: { 
-            messages: {
-              pattern: "Alphabet"
-            }
-        
-        }
-        }
-      ]
-    },
-    {
-      className: 'section-label',
-      template: '<hr><div><strong>Members to be Notified</strong></div><br>',
-    },
-    {
-      fieldGroupClassName: 'row',
-      key: "witnessDetails",
-      fieldGroup: [
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'name',
-          templateOptions: {
-            label: 'Name',
-            pattern:"^[A-Z][a-zA-Z\\s-']+$"
-          },
-          validation: { 
-            messages: {
-              pattern: "Name cannot have a number"
-            }
-        
-        }
-        },
-        {
-          className: 'col-4',
-          type: 'input',
-          key: 'mobileNumber',
-          templateOptions: {
-            label: 'Mobile Number',
-            pattern: "[6-9]{1}[0-9]{9}",           
-          },
-          validation: { 
-            messages: {
-              pattern: "Enter a valid mobile number"
-            }
-        
-        }
-      },
-        {
-          className: 'col-4',
-          type: 'select',
-          key: 'relation',
-          templateOptions: {
-            label: 'Relation',
-            options: [
-              { value: 'Father', label: 'Father' },
-              { value: 'Mother', label: 'Mother' }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      className: 'section-label',
-      template: '<hr><div><strong></strong></div><br>',
-    },
-    {
-      fieldGroup: [
-        {
-          type: 'checkbox',
-          key: 'consent',
-          templateOptions: {
-            label: 'In the presence of persons mentioned above, I hereby unequivocally authorize the removal of the above mentioned organ(s) and/or tissue(s), from my body after being declared brain stem dead by the board of medical experts and consent to donate the same for therapeutic purposes.',
-          }
-        }
-      ]
-    }
-  ];
+  isSaveAsDraft: any;
 
   ngAfterContentChecked(): void {
     console.log(this.model);
@@ -1421,13 +958,14 @@ export class FormsComponent implements OnInit {
     //   this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
     // }
 
-     if (this.form == 'livedonor') {
+    if (this.form == 'livedonor') {
       this.model["donorDetails"]["identificationProof"] = "Aadhaar";
       this.model["donorDetails"]["residentialProof"] = "Aadhaar";
       this.model["donorDetails"]["residentialValue"] = "PK90";
       // this.model["crossMatchDetails"]["crossMatchDate"] = "2022-03-05";
       this.model["recipientDetails"] = {}
       this.model["recipientDetails"]["recipientId"] = '876';
+      this.model["status"] = this.isSaveAsDraft;
     }
 
     if (this.fileFields.length > 0) {
@@ -1738,15 +1276,21 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     if (Array.isArray(this.model)) {
       this.model = this.model[0];
     }
-    this.model['sorder']  = this.exLength;
+    this.model['sorder'] = this.exLength;
     await this.generalService.postData(this.apiUrl, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
 
-        if(this.form != 'livedonor'){
+       
+
+        if(this.isSaveAsDraft == "Pending")
+        {
+          this.toastMsg.success('Success', "Successfully Saved !!");
+        }else{
           this.modalSuccess();
+          this.router.navigate([this.redirectTo]);
         }
 
-        this.router.navigate([this.redirectTo])
+        
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
         this.toastMsg.error('error', res.params.errmsg);
@@ -1774,16 +1318,18 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
 
     });
   }
-  modalSuccess(){
-  var modal = document.getElementById("myModal");
-  var btn = document.getElementById("submitBtn");
-  modal.style.display = "block";
-  window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-    window.location = this.router.navigate(["/login"]);
-  }
-} 
+  modalSuccess() {
+    var modal = document.getElementById("confirmationModal");
+    var btn = document.getElementById("submitBtn");
+
+    modal.style.display = "block";
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+        window.location = this.router.navigate(["/login"]);
+      }
+    }
+  
   }
 
   ObjectbyString = function (o, s) {
@@ -1895,6 +1441,10 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     });
   }
 
+
+  saveAsDraft(action) {
+    this.isSaveAsDraft = action;
+  }
 }
 
 

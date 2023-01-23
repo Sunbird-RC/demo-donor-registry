@@ -18,9 +18,9 @@
         
           <form [formGroup]="form2" (ngSubmit)="submit()" *ngIf="fields">
             <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form2"></formly-form>
-            <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor'" type="submit" class="btn btn-primary w-100 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#exampleModal">{{'SUBMIT' | translate}}</button>
-            <button id="submitBtn" *ngIf="form == 'livedonor'" type="submit" class="btn btn-bg text-capitalize btn-style ml-2 mt-2 nav-link-color btn-sec-bg" [disabled]="!form2.valid" data-toggle="modal" data-target="#exampleModal">Save as Draft</button>
-            <button id="submitBtn" *ngIf="form == 'livedonor'" type="submit" class="btn btn-primary text-capitalize btn-style float-end mt-2 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#exampleModal">{{'SUBMIT' | translate}}</button>
+            <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor'" type="submit" class="btn btn-primary w-100 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
+            <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor'" type="submit" class="btn btn-bg text-capitalize btn-style ml-2 mt-2 nav-link-color btn-sec-bg" [disabled]="!form2.valid">Save as Draft</button>
+            <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor'" type="submit" class="btn btn-primary text-capitalize btn-style float-end mt-2 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
 
           </form>
         </div>
@@ -44,18 +44,20 @@
 <!-- Button trigger modal -->
 
 <!--confirmation Modal -->
-<div id="myModal" class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="confirmationModal" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="p-4 modal-content">   
       <div class="modal-body">
         <div class="d-flex flex-column justify-content-center align-items-center">
          <div><img class="check-logo" src="assets/images/circle-check.png"></div>
-        <div class="p14 mb-2 mt-2 fw-bold"> Confirm Pledge Registration</div>
+        <div class="p14 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor'"> Confirm Pledge Registration</div>
         <div class="p14 mb-2 mt-2 fw-bold">Please confirm to submit details</div>
         <div class="container-fluid mt-3">
         <button data-dismiss="modal"  class="btn btn-bg nav-link-color btn-sec-bg mb-2">Cancel</button>
         <a class="mt-3">
-        <button id=""type="submit" class="btn btn-primary float-end submit-button mb-2" data-toggle="modal" data-target="#downloadCardModal" data-dismiss="modal">OK, Confirm</button>
+          <button id=""type="submit"*ngIf="form != 'livedonor'"  class="btn btn-primary float-end submit-button mb-2" data-toggle="modal" data-target="#downloadCardModal" data-dismiss="modal">OK, Confirm</button>
+
+       <a *ngIf="form == 'livedonor'" href="/transplantcoordinator/attestation/transplantCoordinator"> <button id=""type="submit"  class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
         </a>
       </div>
       </div>
@@ -67,7 +69,7 @@
 <!--confirmation Modal -->
 
 <!--Download card Modal -->
-<div id="myModal" class="modal fade" id="downloadCardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div  class="modal fade" id="downloadCardModal" tabindex="-1" role="dialog" aria-labelledby="downloadCardModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="p-4 modal-content">
     

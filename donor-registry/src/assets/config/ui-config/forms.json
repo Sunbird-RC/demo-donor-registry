@@ -667,7 +667,7 @@
         {
             "livedonor": {
                 "api": "/LiveDonor",
-                "type": "property:liveDonoe",
+                "type": "entity",
                 "langKey": "institute",
                 "header": "transplantcoordinator",
                 "fieldsets": [
