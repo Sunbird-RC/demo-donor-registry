@@ -85,7 +85,7 @@
       }
     },
     "inviteRoles":["anonymous"],
-    "roles": ["anonymous"],
+    "roles": [],
     "ownershipAttributes": [
       {
         "email": "/personalDetails/emailId",
