@@ -187,6 +187,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "All",
               "Liver",
               "Kidney",
               "Heart",
@@ -202,6 +203,7 @@
           "items": {
             "type": "string",
             "enum": [
+              "All",
               "Bone",
               "Heart Valve",
               "Skin",

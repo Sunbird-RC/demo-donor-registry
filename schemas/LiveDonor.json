@@ -35,6 +35,34 @@
           "bloodGroupDetails": {
             "$ref": "#/definitions/BloodGroupDetails"
           },
+          "hematology": {
+            "$ref": "#/definitions/Hematology"
+          },
+          "urineExam": {
+            "$ref": "#/definitions/UrineExam"
+          },
+          "biochemistry": {
+            "$ref": "#/definitions/Biochemistry"
+          },
+          "ekg": {
+            "$ref": "#/definitions/EKG"
+          },
+          "thyroidFunction": {
+            "$ref": "#/definitions/ThyroidFunction"
+          },
+          "virology": {
+            "$ref": "#/definitions/Virology"
+          },
+          "radiology": {
+            "$ref": "#/definitions/Radiology"
+          },
+          "clearances": {
+            "$ref": "#/definitions/Clearances"
+          },
+          "form4": {
+            "$ref": "#/definitions/Form4"
+          },
+
           "donorHLA": {
             "$ref": "#/definitions/HLATypingDetails"
           },
@@ -199,6 +227,25 @@
             "type": "string",
             "format": "file",
             "title": "Upload Form # for ## Relative"
+          },
+          "documentaryEvidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "documentaryType": {
+                  "type": "string"
+                },
+                "documentaryUri": {
+                  "type": "string",
+                  "format": "file"
+                },
+                "issuedDate": {
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
           }
         }
       },
@@ -427,6 +474,116 @@
           "other": {
             "type": "string",
             "title":"Other"
+          }
+        }
+      },
+      "Hematology": {
+        "type": "object",
+        "title": "Hematology",
+        "properties": {
+          "hb": {
+            "type": "string",
+            "title": "Hb(gm/dl)"
+          },
+          "tlc": {
+            "type": "string",
+            "title": "TLC (cells/mm^3)"
+          },
+          "dcl": {
+            "type": "string",
+            "title": "DCL"
+          },
+          "platelets": {
+            "type": "string",
+            "title": "Platelets (x1000 cells/mm^3)"
+          },
+          "pbSmear": {
+            "type": "string",
+            "title": "PB Smear"
+          },
+          "esr": {
+            "type": "string",
+            "title": "ESR (mm)"
+          }
+        }
+      },
+      "UrineExam":  {
+        "type": "object",
+        "title": "Urine Exam",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "file"
+          }
+        }
+      },
+      "Biochemistry": {
+        "type": "object",
+        "title": "Biochemistry",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "file"
+          }
+        }
+      },
+      "EKG":  {
+        "title": "EKG",
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "file"
+          }
+        }
+      },
+      "ThyroidFunction": {
+        "title": "Thyroid Function",
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "file"
+          }
+        }
+      },
+      "Virology":  {
+        "title": "Virology",
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "file"
+          }
+        }
+      },
+      "Radiology": {
+        "title": "Radiology",
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "file"
+          }
+        }
+      },
+      "Clearances":  {
+        "title": "Clearances",
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "file"
+          }
+        }
+      },
+      "Form4": {
+        "title": "Form 4",
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "file"
           }
         }
       }
