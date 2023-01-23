@@ -64,10 +64,10 @@
           },
 
           "donorHLA": {
-            "$ref": "#/definitions/HLATypingDetails"
+            "$ref": "#/definitions/DonorHLATypingDetails"
           },
           "recipientHLA": {
-            "$ref": "#/definitions/HLATypingDetails"
+            "$ref": "#/definitions/RecipientHLATypingDetails"
           },
           "crossMatchDetails": {
             "$ref": "#/definitions/CrossMatchDetails"
@@ -444,9 +444,42 @@
           }
         }
       },
-      "HLATypingDetails": {
+      "DonorHLATypingDetails": {
         "type": "object",
-        "title": "HLA Typing Details",
+        "title": "HLA Typing - Donor (Only for near relatives)",
+        "required": [
+          "a",
+          "b",
+          "dr",
+          "dq",
+          "other"
+        ],
+        "properties": {
+          "a": {
+            "type": "string",
+            "title":"A"
+          },
+          "b": {
+            "type": "string",
+            "title":"B"
+          },
+          "dr": {
+            "type": "string",
+            "title":"DR"
+          },
+          "dq": {
+            "type": "string",
+            "title":"DQ"
+          },
+          "other": {
+            "type": "string",
+            "title":"Other"
+          }
+        }
+      },
+      "RecipientHLATypingDetails": {
+        "type": "object",
+        "title": "HLA Typing - Recipient (Only for near relatives)",
         "required": [
           "a",
           "b",
