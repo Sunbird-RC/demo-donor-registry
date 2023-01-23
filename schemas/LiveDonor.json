@@ -1,424 +1,452 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "type": "object",
-  "properties": {
-    "LiveDonor": {
-      "$ref": "#/definitions/LiveDonor"
-    }
-  },
-  "required": [
-    "LiveDonor"
-  ],
-  "title": "LiveDonor",
-  "definitions": {
-    "LiveDonor": {
-      "$id": "#/properties/LiveDonor",
-      "type": "object",
-      "title": "The LiveDonor Schema",
-      "required": [],
-      "properties": {
-        "donorDetails": {
-          "$ref": "#/definitions/DonorDetails"
-        },
-        "recipientDetails": {
-          "$ref": "#/definitions/RecipientDetails"
-        },
-        "proofOfRelation": {
-          "$ref": "#/definitions/ProofOfRelation"
-        },
-        "medicalDetails": {
-          "$ref": "#/definitions/MedicalDetails"
-        },
-        "medicalHistory": {
-          "$ref": "#/definitions/MedicalHistory"
-        },
-        "bloodGroupDetails": {
-          "$ref": "#/definitions/BloodGroupDetails"
-        },
-        "donorHLA": {
-          "$ref": "#/definitions/HLATypingDetails"
-        },
-        "recipientHLA": {
-          "$ref": "#/definitions/HLATypingDetails"
-        },
-        "crossMatchDetails": {
-          "$ref": "#/definitions/CrossMatchDetails"
-        },
-        "dnaProfiling": {
-          "$ref": "#/definitions/DnaProfiling"
-        },
-        "form5": {
-          "type": "string",
-          "format": "file",
-          "title": "Upload Form 5"
-        },
-        "swapDetails": {
-          "$ref": "#/definitions/SwapDetails"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "Pending",
-            "Processing"
-          ]
-        }
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+      "LiveDonor": {
+        "$ref": "#/definitions/LiveDonor"
       }
     },
-    "DonorDetails": {
-      "title": "Details of the Donor",
-      "type": "object",
-      "required": [
-        "firstName",
-        "lastName",
-        "dob",
-        "gender",
-        "mobileNumber",
-        "identificationProof",
-        "identificationValue",
-        "residentialProof",
-        "residentialValue"
-      ],
-      "properties": {
-        "firstName": {
-          "type": "string",
-          "title": "Donor First Name"
-        },
-        "middleName": {
-          "type": "string",
-          "title": "Donor Middle Name"
-        },
-        "lastName": {
-          "type": "string",
-          "title": "Donor Last Name"
-        },
-        "dob": {
-          "type": "string",
-          "format": "date",
-          "title": "Date of Birth"
-        },
-        "gender": {
-          "type": "string",
-          "enum": [
-            "Male",
-            "Female",
-            "Transgender"
-          ],
-          "title": "Gender"
-        },
-        "emailId": {
-          "type": "string",
-          "format": "email",
-          "title": "Email Id"
-        },
-        "mobileNumber": {
-          "type": "string",
-          "pattern": "^[6-9]\\d{9}$",
-          "title": "Mobile Number"
-        },
-        "identificationProof": {
-          "type": "string",
-          "enum": [
-            "Voter Id",
-            "Aadhaar",
-            "Driving License",
-            "Passport no",
-            "PAN",
-            "Ration no"
-          ],
-          "title": "Identification Proof"
-        },
-        "identificationValue": {
-          "type": "string",
-          "title": "Identification Value"
-        },
-        "residentialProof": {
-          "type": "string",
-          "enum": [
-            "Voter Id",
-            "Aadhaar",
-            "Driving License",
-            "Passport no",
-            "Ration no"
-          ],
-          "title": "Residential Proof"
-        },
-        "residentialValue": {
-          "type": "string",
-          "title": "Residential Number"
-        }
-      }
-    },
-    "RecipientDetails": {
-      "title": "Details of the Recipient",
-      "type": "object",
-      "required": [
-        "recipientId"
-      ],
-      "properties": {
-        "recipientId": {
-          "type": "string"
-        }
-      }
-    },
-    "ProofOfRelation": {
-      "type": "object",
-      "title": "Relation of Donor and Recipient",
-      "required": [
-        "relation",
-        "relationType"
-      ],
-      "properties": {
-        "relationType": {
-          "type": "string",
-          "enum": [
-            "related",
-            "unrelated"
-          ]
-        },
-        "relation": {
-          "type": "string",
-          "enum": [
-            "father",
-            "mother",
-            "spouse"
-          ]
-        },
-        "form": {
-          "type": "string",
-          "format": "file",
-          "title": "Upload Form # for ## Relative"
-        }
-      }
-    },
-    "MedicalDetails": {
-      "type": "object",
-      "title": "Medical Details",
-      "required": [
-        "height",
-        "weight",
-        "bmi"
-      ],
-      "properties": {
-        "height": {
-          "type": "string",
-          "title": "Height (in CMS)"
-        },
-        "weight": {
-          "type": "string",
-          "title": "Weight (in KG)"
-        },
-        "bmi": {
-          "type": "string",
-          "title": "BMI"
-        }
-      }
-    },
-    "MedicalHistory": {
-      "type": "object",
-      "title": "Medical History",
-      "required": [
-        "hypertension",
-        "systolic",
-        "diastolic",
-        "diabetes",
-        "gfr",
-        "historyIllness"
-      ],
-      "properties": {
-        "hypertension": {
-          "type": "string",
-          "enum": [
-            "yes",
-            "no"
-          ],
-          "title": "Hypertension"
-        },
-        "systolic": {
-          "type": "number",
-          "title": "Systolic mm HG"
-        },
-        "diastolic": {
-          "type": "number",
-          "title": "Diastolic mm HG"
-        },
-        "diabetes": {
-          "type": "string",
-          "enum": [
-            "yes",
-            "no"
-          ],
-          "title": "Diabetes"
-        },
-        "gfr": {
-          "type": "object",
-          "properties": {
-            "method": {
-              "type": "string",
-              "enum": [
-                "DTPR/e",
-                "GFR",
-                "RCL"
-              ],
-              "title": "GFR (Method)"
-            },
-            "result": {
-              "type": "string",
-              "title": "GFR (Result)"
-            }
-          }
-        },
-        "historyIllness": {
-          "type": "string",
-          "title": "History of any other illness"
-        }
-      }
-    },
-    "BloodGroupDetails": {
-      "type": "object",
-      "title": "Blood Group Details",
-      "required": [
-        "group",
-        "transfusion"
-      ],
-      "properties": {
-        "group": {
-          "type": "string",
-          "enum": [
-            "A+",
-            "A-",
-            "B+",
-            "B-",
-            "AB+",
-            "AB-",
-            "O+",
-            "O-"
-          ],
-          "title": "Blood Group"
-        },
-        "transfusion": {
-          "type": "object",
-          "properties": {
-            "number": {
-              "type": "string",
-              "enum": [
-                "yes",
-                "no"
-              ]
-            },
-            "lastTransfusionDate": {
-              "type": "string",
-              "format": "date"
-            }
+    "required": [
+      "LiveDonor"
+    ],
+    "title": "LiveDonor",
+    "definitions": {
+      "LiveDonor": {
+        "$id": "#/properties/LiveDonor",
+        "type": "object",
+        "title": "The LiveDonor Schema",
+        "required": [],
+        "properties": {
+          "donorDetails": {
+            "$ref": "#/definitions/DonorDetails"
+          },
+          "recipientDetails": {
+            "$ref": "#/definitions/RecipientDetails"
+          },
+          "proofOfRelation": {
+            "$ref": "#/definitions/ProofOfRelation"
+          },
+          "medicalDetails": {
+            "$ref": "#/definitions/MedicalDetails"
+          },
+          "medicalHistory": {
+            "$ref": "#/definitions/MedicalHistory"
+          },
+          "bloodGroupDetails": {
+            "$ref": "#/definitions/BloodGroupDetails"
+          },
+          "donorHLA": {
+            "$ref": "#/definitions/HLATypingDetails"
+          },
+          "recipientHLA": {
+            "$ref": "#/definitions/HLATypingDetails"
+          },
+          "crossMatchDetails": {
+            "$ref": "#/definitions/CrossMatchDetails"
+          },
+          "dnaProfiling": {
+            "$ref": "#/definitions/DnaProfiling"
+          },
+          "form5": {
+            "type": "string",
+            "format": "file",
+            "title": "Upload Form 5"
+          },
+          "swapDetails": {
+            "$ref": "#/definitions/SwapDetails"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Pending",
+              "Processing"
+            ]
           }
         }
-      }
-    },
-    "CrossMatchDetails": {
-      "type": "object",
-      "title": "",
-      "properties": {
-        "crossMatchStatus": {
-          "type": "string",
-          "enum": [
-            "positive",
-            "negative"
-          ]
-        },
-        "crossMatchDate": {
-          "type": "string",
-          "format": "date"
-        },
-        "crossMatchFile": {
-          "type": "string",
-          "format": "file"
+      },
+      "DonorDetails": {
+        "title": "Details of the Donor",
+        "type": "object",
+        "required": [
+          "firstName",
+          "lastName",
+          "dob",
+          "gender",
+          "mobileNumber",
+          "identificationProof",
+          "identificationValue",
+          "residentialProof",
+          "residentialValue"
+        ],
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "First Name"
+          },
+          "middleName": {
+            "type": "string",
+            "title": "Middle Name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "Last Name"
+          },
+          "fatherName": {
+            "type": "string",
+            "title": "Father’s Name"
+          },
+          "motherName": {
+            "type": "string",
+            "title": "Mother’s Name"
+          },
+          "dob": {
+            "type": "string",
+            "format": "date",
+            "title": "Date of Birth"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "Male",
+              "Female",
+              "Transgender"
+            ],
+            "title": "Gender"
+          },
+          "emailId": {
+            "type": "string",
+            "format": "email",
+            "title": "Email Id"
+          },
+          "mobileNumber": {
+            "type": "string",
+            "pattern": "^[6-9]\\d{9}$",
+            "title": "Mobile Number"
+          },
+          "identificationProof": {
+            "type": "string",
+            "enum": [
+              "Voter Id",
+              "Aadhaar",
+              "Driving License",
+              "Passport no",
+              "PAN",
+              "Ration no"
+            ],
+            "title": "Identification Proof"
+          },
+          "identificationValue": {
+            "type": "string",
+            "title": "ABHA Number"
+          },
+          "residentialProof": {
+            "type": "string",
+            "enum": [
+              "Voter Id",
+              "Aadhaar",
+              "Driving License",
+              "Passport no",
+              "Ration no"
+            ],
+            "title": "Residential Proof"
+          },
+          "residentialValue": {
+            "type": "string",
+            "title": "Residential Number"
+          }
+        }
+      },
+      "RecipientDetails": {
+        "title": "Details of the Recipient",
+        "type": "object",
+        "required": [
+          "recipientId"
+        ],
+        "properties": {
+          "recipientId": {
+            "type": "string",
+            "title":"Recipient id"
+          }
+        }
+      },
+      "ProofOfRelation": {
+        "type": "object",
+        "title": "Relation of Donor and Recipient",
+        "required": [
+          "relation",
+          "relationType",
+          "documentaryEvidence"
+        ],
+        "properties": {
+          "relationType": {
+            "type": "string",
+            "enum": [
+              "related",
+              "unrelated"
+            ],
+            "title":"Relation Type"
+          },
+          "relation": {
+            "type": "string",
+            "enum": [
+              "father",
+              "mother",
+              "spouse"
+            ],
+            "title":"Relation"
+          },
+          "form": {
+            "type": "string",
+            "format": "file",
+            "title": "Upload Form # for ## Relative"
+          }
+        }
+      },
+      "MedicalDetails": {
+        "type": "object",
+        "title": "Medical Details",
+        "required": [
+          "height",
+          "weight",
+          "bmi"
+        ],
+        "properties": {
+          "height": {
+            "type": "string",
+            "title": "Height (in CMS)"
+          },
+          "weight": {
+            "type": "string",
+            "title": "Weight (in KG)"
+          },
+          "bmi": {
+            "type": "string",
+            "title": "BMI"
+          }
+        }
+      },
+      "MedicalHistory": {
+        "type": "object",
+        "title": "Medical History",
+        "required": [
+          "hypertension",
+          "systolic",
+          "diastolic",
+          "diabetes",
+          "gfr",
+          "historyIllness"
+        ],
+        "properties": {
+          "hypertension": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no"
+            ],
+            "title": "Hypertension"
+          },
+          "systolic": {
+            "type": "number",
+            "title": "Systolic mm HG"
+          },
+          "diastolic": {
+            "type": "number",
+            "title": "Diastolic mm HG"
+          },
+          "diabetes": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no"
+            ],
+            "title": "Diabetes"
+          },
+          "gfr": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "DTPR/e",
+                  "GFR",
+                  "RCL"
+                ],
+                "title": "GFR (Method)"
+              },
+              "result": {
+                "type": "string",
+                "title": "GFR (Result)"
+              }
+            }
+          },
+          "historyIllness": {
+            "type": "string",
+            "title": "History of any other illness"
+          }
+        }
+      },
+      "BloodGroupDetails": {
+        "type": "object",
+        "title": "Blood Group Details",
+        "required": [
+          "group",
+          "transfusion"
+        ],
+        "properties": {
+          "group": {
+            "type": "string",
+            "enum": [
+              "A+",
+              "A-",
+              "B+",
+              "B-",
+              "AB+",
+              "AB-",
+              "O+",
+              "O-"
+            ],
+            "title": "Blood Group"
+          },
+          "transfusion": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "string",
+                "enum": [
+                  "yes",
+                  "no"
+                ],
+               "title": "Transfusion"
+              },
+              "lastTransfusionDate": {
+                "type": "string",
+                "format": "date",
+                "title":"Date"
+              }
+            }
+          }
+        }
+      },
+      "CrossMatchDetails": {
+        "type": "object",
+        "title": "Cross Matching",
+        "properties": {
+          "crossMatchStatus": {
+            "type": "string",
+            "enum": [
+              "positive",
+              "negative"
+            ],
+            "title":"Cross Match Status"
+          },
+          "crossMatchDate": {
+            "type": "string",
+            "format": "date",
+            "title":"Date"
+          },
+          "crossMatchFile": {
+            "type": "string",
+            "format": "file",
+            "title":"Upload"
+          }
+        }
+      },
+      "DnaProfiling": {
+        "type": "object",
+        "title" : "DNA Profiling (Only for near relatives)",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no"
+            ],
+            "title": "Status"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title":"Date"
+          },
+          "dnaFile": {
+            "type": "string",
+            "format": "file",
+            "title":"Upload"
+          }
+        }
+      },
+      "SwapDetails": {
+        "type": "object",
+        "title": "Are you looking for a swap?",
+        "properties": {
+          "swapStatus": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "no"
+            ],
+            "title":"Status"
+          },
+          "donorConsent": {
+            "type": "string",
+            "title":"Donor ABHA Number *"
+          },
+          "recipientConsent": {
+            "type": "string",
+            "title":"Recipient ABHA Number *"
+          }
+        }
+      },
+      "HLATypingDetails": {
+        "type": "object",
+        "title": "HLA Typing Details",
+        "required": [
+          "a",
+          "b",
+          "dr",
+          "dq",
+          "other"
+        ],
+        "properties": {
+          "a": {
+            "type": "string",
+            "title":"A"
+          },
+          "b": {
+            "type": "string",
+            "title":"B"
+          },
+          "dr": {
+            "type": "string",
+            "title":"DR"
+          },
+          "dq": {
+            "type": "string",
+            "title":"DQ"
+          },
+          "other": {
+            "type": "string",
+            "title":"Other"
+          }
         }
       }
     },
-    "DnaProfiling": {
-      "type": "object",
-      "title": "",
-      "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "yes",
-            "no"
-          ]
-        },
-        "date": {
-          "type": "string",
-          "format": "date"
-        },
-        "dnaFile": {
-          "type": "string",
-          "format": "file"
-        }
-      }
-    },
-    "SwapDetails": {
-      "type": "object",
-      "title": "",
-      "properties": {
-        "swapStatus": {
-          "type": "string",
-          "enum": [
-            "yes",
-            "no"
-          ]
-        },
-        "donorConsent": {
-          "type": "string"
-        },
-        "recipientConsent": {
-          "type": "string"
-        }
-      }
-    },
-    "HLATypingDetails": {
-      "type": "object",
-      "title": "HLA Typing Details",
-      "required": [
-        "a",
-        "b",
-        "dr",
-        "dq",
-        "other"
+    "_osConfig": {
+      "privateFields": [],
+      "indexFields": [],
+      "uniqueIndexFields": [],
+      "systemFields": [
+        "osCreatedAt",
+        "osUpdatedAt",
+        "osCreatedBy",
+        "osUpdatedBy"
       ],
-      "properties": {
-        "a": {
-          "type": "string"
-        },
-        "b": {
-          "type": "string"
-        },
-        "dr": {
-          "type": "string"
-        },
-        "dq": {
-          "type": "string"
-        },
-        "other": {
-          "type": "string"
-        }
-      }
+      "inviteRoles": [
+        "anonymous"
+      ],
+      "roles": [
+        "anonymous"
+      ],
+      "ownershipAttributes": []
     }
-  },
-  "_osConfig": {
-    "privateFields": [],
-    "indexFields": [],
-    "uniqueIndexFields": [],
-    "systemFields": [
-      "osCreatedAt",
-      "osUpdatedAt",
-      "osCreatedBy",
-      "osUpdatedBy"
-    ],
-    "inviteRoles": [
-      "anonymous"
-    ],
-    "roles": [
-      "anonymous"
-    ],
-    "ownershipAttributes": []
   }
-}
