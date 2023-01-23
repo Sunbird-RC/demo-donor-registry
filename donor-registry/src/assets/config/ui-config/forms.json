@@ -32,19 +32,15 @@
                                                     "name": {
                                                         "type": "string",
                                                         "title": "Name",
-                                                        "class":"col-4"
-                                                        
-                                                        
+                                                        "class": "col-4"
                                                     },
                                                     "relation": {
                                                         "type": "string",
                                                         "title": "Relation"
-                                                       
                                                     },
                                                     "mobileNumber": {
                                                         "type": "number",
                                                         "title": "Mobile Number"
-                                                       
                                                     }
                                                 }
                                             }
@@ -65,18 +61,17 @@
                                                     "name": {
                                                         "type": "string",
                                                         "title": "Name",
-                                                        "class":"col-4"
-                                                        
+                                                        "class": "col-4"
                                                     },
                                                     "relation": {
                                                         "type": "string",
                                                         "title": "Relation",
-                                                        "class":"col-4"
+                                                        "class": "col-4"
                                                     },
                                                     "mobileNumber": {
                                                         "type": "number",
                                                         "title": "Mobile Number",
-                                                        "class":"col-4"
+                                                        "class": "col-4"
                                                     }
                                                 }
                                             }
@@ -86,7 +81,6 @@
                             }
                         },
                         "fields": [
-
                             {
                                 "name": "identificationDetails",
                                 "children": {
@@ -96,16 +90,13 @@
                                     "fields": [
                                         {
                                             "name": "proof",
-                                            "class":"col-4"
-                                        
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "number",
-                                            "type":"verify-code",
-                                            "class":"col-4"
-                                        
+                                            "type": "verify-code",
+                                            "class": "col-4"
                                         }
-                                      
                                     ]
                                 }
                             },
@@ -118,72 +109,65 @@
                                     "fields": [
                                         {
                                             "name": "firstName",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
-                                            
-                                          
-
                                         },
                                         {
                                             "name": "middleName",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
-                                          
                                         },
                                         {
                                             "name": "lastName",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
-                                           
                                         },
                                         {
                                             "name": "fatherName",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
                                         {
                                             "name": "motherName",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                             "future":false
+                                                "future": false
                                             }
                                         },
                                         {
                                             "name": "gender",
-                                            "class":"col-4"
-                                            
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "bloodGroup",
-                                            "class":"col-4"
-                                     
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                                "pattern":"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+                                                "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
                                                 "message": "Enter a valid email"
                                             }
                                         },
@@ -193,12 +177,11 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class":"col-4"
+                                            "class": "col-4"
                                         }
                                     ]
                                 }
                             },
-    
                             {
                                 "name": "addressDetails",
                                 "children": {
@@ -208,55 +191,43 @@
                                     "fields": [
                                         {
                                             "name": "addressLine1",
-                                            "class":"col-4"
-                                        
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "addressLine2",
-                                            "class":"col-4"
-                                        
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "country",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
                                                 "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid country"
                                             }
-                                        
                                         },
-                                        
                                         {
                                             "name": "state",
-                                            "class":"col-4"
-                                        
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "district",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
                                                 "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid district"
                                             }
-                                        
                                         },
                                         {
                                             "name": "pincode",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
                                                 "pattern": "^[0-9]+$",
                                                 "message": "Enter a valid pincode"
                                             }
-                                            
-                                        
                                         }
-
                                     ]
                                 }
-                                
                             },
-                           
-                            
                             {
                                 "name": "pledgeDetails",
                                 "title": "Pledge Details",
@@ -267,20 +238,17 @@
                                     "fields": [
                                         {
                                             "name": "organs",
-                                            "type":"multiselect",
-                                            "class":"col-4"
-                                            
-                                        
+                                            "type": "multiselect",
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "tissues",
-                                            "type":"multiselect",
-                                            "class":"col-4"
-                                           
+                                            "type": "multiselect",
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "other",
-                                            "class":"col-4"
+                                            "class": "col-4"
                                         }
                                     ]
                                 }
@@ -294,32 +262,26 @@
                                     "fields": [
                                         {
                                             "name": "name",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
-                                        
                                         },
                                         {
                                             "name": "relation",
-                                            "class":"col-4"
-                                        
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "mobileNumber",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             }
-                                        
                                         }
-                                      
-                                      
                                     ]
                                 }
-                               
                             },
                             {
                                 "name": " ",
@@ -327,8 +289,7 @@
                                 "element": {
                                     "title": "Members to be notified (optional)",
                                     "properties": {
-                                        "name": {                                           
-                                        }
+                                        "name": {}
                                     }
                                 }
                             },
@@ -346,7 +307,7 @@
                                             "type": "select",
                                             "fieldGroupClassName": "controls",
                                             "className": "select",
-                                            "class":"col-4"
+                                            "class": "col-4"
                                         }
                                     }
                                 }
@@ -357,30 +318,26 @@
                                     "definition": "WitnessDetails",
                                     "formclass": "row",
                                     "title": "Members to be Notified",
-                                        
                                     "fields": [
                                         {
                                             "name": "name",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
-                                                "pattern":"^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
-                                        
                                         },
                                         {
                                             "name": "mobileNumber",
-                                            "class":"col-4",
+                                            "class": "col-4",
                                             "validation": {
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             }
-                                        
                                         }
                                     ]
                                 }
-                                
-                            },             
+                            },
                             {
                                 "name": "consent",
                                 "custom": true,
@@ -426,7 +383,7 @@
         {
             "pledge-setup": {
                 "api": "/Pledge",
-                 "type": "property:pledge",
+                "type": "property:pledge",
                 "langKey": "institute",
                 "wrapper": "stepper",
                 "fieldsets": [
@@ -444,7 +401,6 @@
                                         },
                                         {
                                             "name": "middleName"
-
                                         },
                                         {
                                             "name": "lastName"
@@ -478,7 +434,7 @@
                             {
                                 "name": "identificationDetails"
                             },
-                             {
+                            {
                                 "name": "addressDetails"
                             },
                             {
@@ -668,7 +624,6 @@
                                             "name": "pincode",
                                             "class": "col-6"
                                         }
-                                        
                                     ]
                                 }
                             },
@@ -718,7 +673,7 @@
         {
             "Recipient": {
                 "api": "Recipient",
-                 "type": "property:pledge",
+                "type": "property:pledge",
                 "langKey": "institute",
                 "fieldsets": [
                     {
@@ -744,6 +699,131 @@
                 "fieldsets": [
                     {
                         "definition": "LiveDonor",
+                        "dependencies": {
+                            "relationOfDonorRecipient": {
+                                "oneOf": [
+                                    {
+                                        "properties": {
+                                            "relationOfDonorRecipient": {
+                                                "enum": [
+                                                    "Near Relative"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": "Upload Form 1 for Near Relative",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "file",
+                                                        "title": "Upload"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "properties": {
+                                            "relationOfDonorRecipient": {
+                                                "enum": [
+                                                    "Spousal"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": "Upload Form 2 for Spousal",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "file",
+                                                        "title": "Upload"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "properties": {
+                                            "relationOfDonorRecipient": {
+                                                "enum": [
+                                                    "Unrelated"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": "Upload Form 3 for Unrelated",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "file",
+                                                        "title": "Upload"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "crossMatching": {
+                                "oneOf": [
+                                    {
+                                        "properties": {
+                                            "crossMatching": {
+                                                "enum": [
+                                                    "Positive"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": "Are you looking for a swap?",
+                                                "dependencies": {
+                                                    "swapConsent": {
+                                                        "oneOf": [
+                                                            {
+                                                                "properties": {
+                                                                    "swapConsent": {
+                                                                        "enum": [
+                                                                            "Yes"
+                                                                        ]
+                                                                    },
+                                                                    "details": {
+                                                                        "type": "object",
+                                                                        "title": "Consent for Swap",
+                                                                        "properties": {
+                                                                            "donorABHA": {
+                                                                                "type": "number",
+                                                                                "title": "Donor ABHA Number *"
+                                                                            },
+                                                                            "recipientABHA": {
+                                                                                "type": "number",
+                                                                                "title": "Recipient ABHA Number *"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "properties": {
+                                                    "swapConsent": {
+                                                        "type": "radio",
+                                                        "enum": [
+                                                            "Yes",
+                                                            "No"
+                                                        ],
+                                                        "widget": {
+                                                            "formlyConfig": {
+                                                                "type": "radio",
+                                                                "fieldGroupClassName": "controls",
+                                                                "className": "radio"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
                         "fields": [
                             {
                                 "name": "donorDetails",
@@ -764,8 +844,7 @@
                                         {
                                             "name": "middleName",
                                             "class": "col-6",
-                                              "expressionProperties": "!model.identificationValue"
-                                            
+                                            "expressionProperties": "!model.identificationValue"
                                         },
                                         {
                                             "name": "lastName",
@@ -845,27 +924,24 @@
                                 }
                             },
                             {
-                                "name": "proofOfRelation",
-                                "children": {
-                                    "definition": "ProofOfRelation",
+                                "name": "relationOfDonorRecipient",
+                                "custom": true,
+                                "element": {
                                     "title": "Relation of Donor and Recipient",
-                                    "formclass": "row row-bg",
-                                    "fields": [
-                                        {
-                                            "name": "relationType",
-                                            "class": "col-6",
-                                            "type": "radio"
-                                        },
-                                        {
-                                            "name": "relation",
-                                            "class": "col-6"
-                                        },
-                                        {
-                                            "name": "form",
-                                            "class": "col-6",
-                                            "format": "file"
+                                    "class": "col-6",
+                                    "enum": [
+                                        "Near Relative",
+                                        "Spousal",
+                                        "Unrelated"
+                                    ],
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "radio",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "radio",
+                                            "class": "col-4"
                                         }
-                                    ]
+                                    }
                                 }
                             },
                             {
@@ -985,29 +1061,6 @@
                                 }
                             },
                             {
-                                "name": "crossMatchDetails",
-                                "children": {
-                                    "definition": "CrossMatchDetails",
-                                    "formclass": "row row-bg",
-                                    "fields": [
-                                        {
-                                            "name": "crossMatchDate",
-                                            "class": "col-6",
-                                            "format": "date"
-                                        },
-                                        {
-                                            "name": "crossMatchFile",
-                                            "format": "file",
-                                            "class": "col-6"
-                                        },
-                                        {
-                                            "name": "crossMatchStatus",
-                                            "class": "col-6"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
                                 "name": "dnaProfiling",
                                 "children": {
                                     "definition": "DnaProfiling",
@@ -1032,29 +1085,239 @@
                                 "formclass": "row row-bg"
                             },
                             {
-                                "name": "swapDetails",
-                                "children": {
-                                    "definition": "SwapDetails",
-                                    "formclass": "row row-bg",
-                                    "fields": [
-                                        {
-                                            "name": "swapStatus",
-                                            "class": "col-6"
-                                        },
-                                        {
-                                            "name": "donorConsent",
-                                            "class": "col-6"
-                                        },
-                                        {
-                                            "name": "recipientConsent",
-                                            "class": "col-6"
+                                "name": "crossMatchdetails",
+                                "custom": true,
+                                "element": {
+                                    "title": "Cross Matching",
+                                    "properties": { 
+                                        "date": {
+                                            "type": "string",
+                                            "format":"date",
+                                            "title": "Date"
+                                        },                                      
+                                        "upload": {
+                                            "type": "file",
+                                            "title": "Upload"
                                         }
-                                    ]
+                                    }
+                                }
+                            },
+                            {
+                                "name": "crossMatching",
+                                "custom": true,
+                                "element": {
+                                    "title": " ",
+                                    "enum": [
+                                        "Positive",
+                                        "Negative"
+                                    ],
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "radio",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "radio",
+                                            "class": "col-4"
+                                        }
+                                    }
                                 }
                             },
                             {
                                 "name": "status",
                                 "formclass": "row row-bg"
+                            }
+                        ]
+                    }
+                ],
+                "redirectTo": "/transplantcoordinator/attestation/transplantCoordinator"
+            }
+        },
+        {
+            "test": {
+                "api": "/LiveDonor",
+                "type": "property:liveDonoe",
+                "langKey": "institute",
+                "header": "transplantcoordinator",
+                "fieldsets": [
+                    {
+                        "definition": "LiveDonor",
+                        "dependencies": {
+                            "proofOfRelation": {
+                                "oneOf": [
+                                    {
+                                        "properties": {
+                                            "proofOfRelation": {
+                                                "enum": [
+                                                    "Near Relative"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": "Upload Form 1 for Near Relative",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "file",
+                                                        "title": "Upload"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "properties": {
+                                            "proofOfRelation": {
+                                                "enum": [
+                                                    "Spousal"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": "Upload Form 2 for Spousal",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "file",
+                                                        "title": "Upload"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "properties": {
+                                            "proofOfRelation": {
+                                                "enum": [
+                                                    "Unrelated"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": "Upload Form 3 for Unrelated",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "file",
+                                                        "title": "Upload"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "crossMatching": {
+                                "oneOf": [
+                                    {
+                                        "properties": {
+                                            "crossMatching": {
+                                                "enum": [
+                                                    "Yes"
+                                                ]
+                                            },
+                                            "details": {
+                                                "type": "object",
+                                                "title": "Are you looking for a swap?",
+                                                "dependencies": {
+                                                    "swapConsent": {
+                                                        "oneOf": [
+                                                            {
+                                                                "properties": {
+                                                                    "swapConsent": {
+                                                                        "enum": [
+                                                                            "Yes"
+                                                                        ]
+                                                                    },
+                                                                    "details": {
+                                                                        "type": "object",
+                                                                        "title": "Consent for Swap",
+                                                                        "properties": {
+                                                                            "donorABHA": {
+                                                                                "type": "number",
+                                                                                "title": "Donor ABHA Number"
+                                                                            },
+                                                                            "recipientABHA": {
+                                                                                "type": "number",
+                                                                                "title": "Recipient ABHA Number *"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "properties": {
+                                                    "swapConsent": {
+                                                        "type": "radio",
+                                                        "enum": [
+                                                            "Yes",
+                                                            "No"
+                                                        ],
+                                                        "widget": {
+                                                            "formlyConfig": {
+                                                                "type": "radio",
+                                                                "fieldGroupClassName": "controls",
+                                                                "className": "radio"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "fields": [
+
+                            {
+                                "name": "proofOfRelation",
+                                "custom": true,
+                                "element": {
+                                    "title": "Relation of Donor and Recipient",
+                                    "enum": [
+                                        "Near Relative",
+                                        "Spousal",
+                                        "Unrelated"
+                                    ],
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "radio",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "radio"
+                                        }
+                                    }
+                                }
+                            },
+
+                            {
+                                "name": "emergencydetails",
+                                "custom": true,
+                                "element": {
+                                    "title": "Cross Matching",
+                                    "properties": {
+                                       
+                                        "Upload": {
+                                            "type": "file",
+                                            "title": "Upload"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "crossMatching",
+                                "custom": true,
+                                "element": {
+                                    "title": " ",
+                                    "enum": [
+                                        "Yes",
+                                        "No"
+                                    ],
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "radio",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "radio"
+                                        }
+                                    }
+                                }
                             }
                         ]
                     }
