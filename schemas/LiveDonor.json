@@ -36,7 +36,7 @@
           "$ref": "#/definitions/BloodGroupDetails"
         },
         "donorHLA": {
-          "$ref": "#/definitions/HLATypingDetails",
+          "$ref": "#/definitions/HLATypingDetails"
         },
         "recipientHLA": {
           "$ref": "#/definitions/HLATypingDetails"
