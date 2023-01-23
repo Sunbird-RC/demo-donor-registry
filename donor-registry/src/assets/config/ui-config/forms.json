@@ -736,84 +736,53 @@
             }
         },
         {
-            "livedonor-setup": {
+            "livedonor": {
                 "api": "/LiveDonor",
-                 "type": "property:liveDonoe",
+                "type": "property:liveDonoe",
                 "langKey": "institute",
-                "wrapper": "stepper",
+                "header": "transplantcoordinator",
                 "fieldsets": [
                     {
                         "definition": "LiveDonor",
                         "fields": [
                             {
-                                "name": "basicDetails",
+                                "name": "donorDetails",
+                                "title": "Donor Details",
                                 "children": {
-                                    "definition": "BasicDetails",
-                                    "title": "Donor Details",
-                                    "formclass": "row",
+                                    "definition": "DonorDetails",
+                                    "formclass": "row row-bg",
                                     "fields": [
                                         {
                                             "name": "identificationValue",
-                                            "class" : "col-6"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "name": "basicDetails",
-                                "children": {
-                                    "definition": "BasicDetails",
-                                    "title": "Recipient Details",
-                                    "formclass": "row",
-                                    "fields": [
-                                        {
-                                            "name": "residentialValue",
-                                            "class" : "col-6"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "name": "personalDetails",
-                                "children": {
-                                    "definition": "PersonalDetails",
-                                    "title": "Personal Details",
-                                    "formclass": "row",
-                                    "fields": [
+                                            "class": "card ",
+                                            "type": "verify-code"
+                                        },
                                         {
                                             "name": "firstName",
-                                            "class" : "col-6"
+                                            "class": "col-6"
                                         },
                                         {
                                             "name": "middleName",
-                                            "class" : "col-6"
-
+                                            "class": "col-6",
+                                              "expressionProperties": "!model.identificationValue"
+                                            
                                         },
                                         {
                                             "name": "lastName",
-                                            "class" : "col-6"
-                                        },
-                                        {
-                                            "name": "fatherName",
-                                            "class" : "col-6"
+                                            "class": "col-6"
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "format" : "date",
-                                            "class" : "col-6"
+                                            "class": "col-6"
                                         },
                                         {
                                             "name": "gender",
-                                            "class" : "col-6"
-                                        },
-                                        {
-                                            "name": "bloodGroup",
-                                            "class" : "col-6"
+                                            "class": "col-6"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class" : "col-6"
+                                            "class": "col-6"
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -821,15 +790,276 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class" : "col-6"
+                                            "class": "col-6"
                                         }
                                     ]
                                 }
+                            },
+                            {
+                                "name": "recipientDetails",
+                                "children": {
+                                    "definition": "DonorDetails",
+                                    "title": "Recipient Details",
+                                    "class": "card card-body m-3",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "identificationValue",
+                                            "class": "card card-body",
+                                            "type": "verify-code"
+                                        },
+                                        {
+                                            "name": "firstName",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "middleName",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "lastName",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "dob",
+                                            "type": "date",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "gender",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "emailId",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            },
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "proofOfRelation",
+                                "children": {
+                                    "definition": "ProofOfRelation",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "relationType",
+                                            "class": "col-6",
+                                            "type": "radio"
+                                        },
+                                        {
+                                            "name": "relation",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "form",
+                                            "class": "col-6",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "medicalDetails",
+                                "children": {
+                                    "definition": "MedicalDetails",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "height",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "weight",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "bmi",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "medicalHistory",
+                                "children": {
+                                    "definition": "MedicalHistory",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "hypertension",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "systolic",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "diastolic",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "diabetes",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "gfr",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "historyIllness",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "donorHLA",
+                                "children": {
+                                    "definition": "HLATypingDetails",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "a",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "b",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "dr",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "dq",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "other",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "recipientHLA",
+                                "children": {
+                                    "definition": "HLATypingDetails",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "a",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "b",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "dr",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "dq",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "other",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "crossMatchDetails",
+                                "children": {
+                                    "definition": "CrossMatchDetails",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "crossMatchDate",
+                                            "class": "col-6",
+                                            "format": "date"
+                                        },
+                                        {
+                                            "name": "crossMatchFile",
+                                            "format": "file",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "crossMatchStatus",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "dnaProfiling",
+                                "children": {
+                                    "definition": "DnaProfiling",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "date",
+                                            "format": "date",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "dnaFile",
+                                            "class": "col-6",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "form5",
+                                "format": "file",
+                                "formclass": "row row-bg"
+                            },
+                            {
+                                "name": "swapDetails",
+                                "children": {
+                                    "definition": "SwapDetails",
+                                    "formclass": "row row-bg",
+                                    "fields": [
+                                        {
+                                            "name": "swapStatus",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "donorConsent",
+                                            "class": "col-6"
+                                        },
+                                        {
+                                            "name": "recipientConsent",
+                                            "class": "col-6"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "status",
+                                "formclass": "row row-bg"
                             }
                         ]
                     }
                 ],
-                "redirectTo": "/profile/Pledge"
+                "redirectTo": "/transplantcoordinator/attestation/transplantCoordinator"
             }
         }
     ]
