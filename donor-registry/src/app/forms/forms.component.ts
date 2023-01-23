@@ -1426,8 +1426,6 @@ export class FormsComponent implements OnInit {
       this.model["donorDetails"]["residentialProof"] = "Aadhaar";
       this.model["donorDetails"]["residentialValue"] = "PK90";
       // this.model["crossMatchDetails"]["crossMatchDate"] = "2022-03-05";
-
-
       this.model["recipientDetails"] = {}
       this.model["recipientDetails"]["recipientId"] = '876';
     }
