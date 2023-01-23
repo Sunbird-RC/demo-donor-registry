@@ -111,7 +111,7 @@
                                             "name": "firstName",
                                             "class": "col-4",
                                             "validation": {
-                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
@@ -119,7 +119,7 @@
                                             "name": "middleName",
                                             "class": "col-4",
                                             "validation": {
-                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
@@ -127,7 +127,7 @@
                                             "name": "lastName",
                                             "class": "col-4",
                                             "validation": {
-                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
@@ -135,7 +135,7 @@
                                             "name": "fatherName",
                                             "class": "col-4",
                                             "validation": {
-                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
@@ -143,7 +143,7 @@
                                             "name": "motherName",
                                             "class": "col-4",
                                             "validation": {
-                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
@@ -213,7 +213,7 @@
                                             "name": "district",
                                             "class": "col-4",
                                             "validation": {
-                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid district"
                                             }
                                         },
@@ -264,7 +264,7 @@
                                             "name": "name",
                                             "class": "col-4",
                                             "validation": {
-                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
@@ -310,32 +310,6 @@
                                             "class": "col-4"
                                         }
                                     }
-                                }
-                            },
-                            {
-                                "name": "witnessDetails",
-                                "children": {
-                                    "definition": "WitnessDetails",
-                                    "formclass": "row",
-                                    "title": "Members to be Notified",
-                                    "fields": [
-                                        {
-                                            "name": "name",
-                                            "class": "col-4",
-                                            "validation": {
-                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
-                                                "message": "Enter a valid name"
-                                            }
-                                        },
-                                        {
-                                            "name": "mobileNumber",
-                                            "class": "col-4",
-                                            "validation": {
-                                                "pattern": "[6-9]{1}[0-9]{9}",
-                                                "message": "MOBILE_NO_MUST_10_DIGIT"
-                                            }
-                                        }
-                                    ]
                                 }
                             },
                             {
