@@ -4,6 +4,12 @@
  
   <div *ngIf="isSignupForm || header" class="  mt-150"></div>
   <div class="col-md-10 offset-md-1">
+   
+    <button *ngIf="form == 'livedonor'" class="gobackBtn d-flex fw-bold" onClick="history.go(-1); return false;">
+      <i class="fa fa-angle-left primary-text mt-1"></i>  &nbsp; &nbsp;
+      <p class="p16"> Add Donor</p>
+
+  </button>
     <h3 class="font-weight-bold">  {{headingTitle}}</h3>
     <div class="card mb-5">
       <div *ngIf="schemaloaded; else loader" class="card-body">
@@ -12,7 +18,10 @@
         
           <form [formGroup]="form2" (ngSubmit)="submit()" *ngIf="fields">
             <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form2"></formly-form>
-            <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper'" type="submit" class="btn btn-primary w-100 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#exampleModal">{{'SUBMIT' | translate}}</button>
+            <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor'" type="submit" class="btn btn-primary w-100 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#exampleModal">{{'SUBMIT' | translate}}</button>
+            <button id="submitBtn" *ngIf="form == 'livedonor'" type="submit" class="btn btn-bg text-capitalize btn-style ml-2 mt-2 nav-link-color btn-sec-bg" [disabled]="!form2.valid" data-toggle="modal" data-target="#exampleModal">Save as Draft</button>
+            <button id="submitBtn" *ngIf="form == 'livedonor'" type="submit" class="btn btn-primary text-capitalize btn-style float-end mt-2 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#exampleModal">{{'SUBMIT' | translate}}</button>
+
           </form>
         </div>
         <!-- <div *ngIf="isSignupForm"> 

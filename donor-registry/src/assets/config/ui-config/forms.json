@@ -1068,7 +1068,7 @@
                                     "fields": [
                                         {
                                             "name": "date",
-                                            "format": "date",
+                                            "type": "date",
                                             "class": "col-6"
                                         },
                                         {
@@ -1092,7 +1092,7 @@
                                     "properties": { 
                                         "date": {
                                             "type": "string",
-                                            "format":"date",
+                                            "type":"date",
                                             "title": "Date"
                                         },                                      
                                         "upload": {

@@ -1416,10 +1416,20 @@ export class FormsComponent implements OnInit {
 
   submit() {
     this.isSubmitForm = true;
-    if(this.model.hasOwnProperty('pledgeDetails'))
-    {
-    this.model["pledgeDetails"]["organs"] = Object.keys(this.model["pledgeDetails"]["organs"]);
-    this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
+    // if (this.model.hasOwnProperty('pledgeDetails')) {
+    //   this.model["pledgeDetails"]["organs"] = Object.keys(this.model["pledgeDetails"]["organs"]);
+    //   this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
+    // }
+
+     if (this.form == 'livedonor') {
+      this.model["donorDetails"]["identificationProof"] = "Aadhaar";
+      this.model["donorDetails"]["residentialProof"] = "Aadhaar";
+      this.model["donorDetails"]["residentialValue"] = "PK90";
+      // this.model["crossMatchDetails"]["crossMatchDate"] = "2022-03-05";
+
+
+      this.model["recipientDetails"] = {}
+      this.model["recipientDetails"]["recipientId"] = '876';
     }
 
     if (this.fileFields.length > 0) {
@@ -1715,7 +1725,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           this.identifier = res.osid;
         }else{
           this.model = {};
-          this.identifier = '';
+          this.identifier = null;
 
         }
           this.loadSchema()
@@ -1733,9 +1743,12 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     this.model['sorder']  = this.exLength;
     await this.generalService.postData(this.apiUrl, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-                this.modalSuccess();
-    
-       this.router.navigate([this.redirectTo])
+
+        if(this.form != 'livedonor'){
+          this.modalSuccess();
+        }
+
+        this.router.navigate([this.redirectTo])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
         this.toastMsg.error('error', res.params.errmsg);
