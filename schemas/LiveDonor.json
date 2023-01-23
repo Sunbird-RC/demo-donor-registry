@@ -165,8 +165,7 @@
       "title": "Relation of Donor and Recipient",
       "required": [
         "relation",
-        "relationType",
-        "documentaryEvidence"
+        "relationType"
       ],
       "properties": {
         "relationType": {
