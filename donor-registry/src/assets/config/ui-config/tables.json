@@ -1,7 +1,7 @@
 {
     "type": "opensaberLayoutSchema",
     "version": "0.1",
-    "limit" : "15",
+    "limit": "15",
     "tables": [
         {
             "nha-admin-attestation": {
@@ -17,7 +17,7 @@
                         "name": "propertyData.personalDetails.firstName",
                         "title": "NAME"
                     },
-                    {   
+                    {
                         "custom": true,
                         "title": "ACTION",
                         "type": "button",
@@ -29,7 +29,7 @@
         },
         {
             "transplantcoordinator": {
-                "api": "/LiveDonor",
+                "api": "LiveDonor",
                 "title": "CBSE_BOARD_ATTESTATIONS",
                 "fields": [
                     {
@@ -38,36 +38,29 @@
                         "formate": ""
                     },
                     {
-                        "name": "",
+                        "name": "medicalDetails.bloodGroupDetails.group",
                         "title": "Blood Group",
                         "formate": ""
                     },
                     {
-                        "name": "",
+                        "name": "donorDetails.firstName",
                         "title": "Recipient",
                         "formate": ""
                     },
                     {
-                        "name": "",
+                        "name": "medicalDetails.bloodGroupDetails.group",
                         "title": "Blood Group",
                         "formate": ""
                     },
                     {
-                        "name": "",
+                        "name": "hlaDetails.crossMatchDetails.crossMatchStatus",
                         "title": "HLA Cross Match",
                         "formate": ""
                     },
                     {
-                        "name": "",
-                        "title": "Type",
+                        "name": "status",
+                        "title": "Status",
                         "formate": ""
-                    },
-                    {
-                        "custom": true,
-                        "title": "Status of Match",
-                        "type": "button",
-                        "buttonText": "ATTEST",
-                        "redirectTo": "form/livedonor-setup"
                     }
                 ]
             }

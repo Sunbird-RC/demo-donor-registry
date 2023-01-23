@@ -68,9 +68,6 @@ import { config } from 'process';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 
-
-
-
 //form validations
 export function minItemsValidationMessage(err, field: FormlyFieldConfig) {
   return `should NOT have fewer than ${field.templateOptions.minItems} items`;

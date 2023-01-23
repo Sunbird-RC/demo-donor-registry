@@ -1050,8 +1050,7 @@ export class FormsComponent implements OnInit {
             },
             "validation": {},
             "expressionProperties": {},
-            "modelOptions": {},
-            
+            "modelOptions": {}
           }
 
         }
@@ -1059,7 +1058,6 @@ export class FormsComponent implements OnInit {
         if (field.placeholder) {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.generalService.translateString(this.langKey + '.' + field.placeholder);
         }
-
 
         if (field.description) {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['description'] = this.generalService.translateString(this.langKey + '.' + field.description);
@@ -1289,6 +1287,10 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
         }
 
+        if (field.type === 'radio') {
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
+        }
+
         if (field.type === 'multiselect') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['multiple'] = true;
@@ -1303,6 +1305,7 @@ export class FormsComponent implements OnInit {
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'].push({ label: enumval, value: enumval })
           });
         }
+
         else if (field.type === 'date') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = 'date';
           if (field.validation && field.validation.future == false) {
@@ -1702,6 +1705,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           get_url = this.apiUrl
         }
         this.generalService.getData(get_url).subscribe((res) => {
+          if(res.length == 1){
           res = (res[0]) ? res[0] : res;
           if (this.propertyName && this.entityId) {
             this.getNotes();
@@ -1709,6 +1713,11 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
 
           this.model = res;
           this.identifier = res.osid;
+        }else{
+          this.model = {};
+          this.identifier = '';
+
+        }
           this.loadSchema()
         });
       }

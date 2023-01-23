@@ -65,7 +65,7 @@ export class TablesComponent implements OnInit {
     let temp_object
     this.model.forEach(element => {
     
-      if (!element.hasOwnProperty('status') || (element.hasOwnProperty('status') && element.status === "OPEN")) {
+   //   if (!element.hasOwnProperty('status') || (element.hasOwnProperty('status') && element.status === "OPEN")) {
         if(element.hasOwnProperty('propertyData')){
           element['propertyData'] = JSON.parse(element['propertyData']);
         }
@@ -99,7 +99,7 @@ export class TablesComponent implements OnInit {
           temp_array.push(this.pushData(temp_object));
         });
         this.property.push(temp_array)
-      }
+     // }
     });
 
     this.tableSchema.items = this.property;

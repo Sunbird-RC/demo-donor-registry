@@ -7,7 +7,7 @@ import { FieldType } from '@ngx-formly/core';
   styleUrls: ["../forms.component.scss"],
   template: `
       <div>
-        <span>Identification Number</span> <br>
+        <span class="fw-bold p12">{{ to.label }}</span> <br>
          <div class="d-flex">
               <input id="number"
               [formControl]="formControl"
