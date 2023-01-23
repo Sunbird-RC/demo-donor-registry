@@ -788,12 +788,15 @@
                                                                         "title": "Consent for Swap",
                                                                         "properties": {
                                                                             "donorABHA": {
-                                                                                "type": "number",
-                                                                                "title": "Donor ABHA Number *"
+                                                                                "type": "verify-code",
+                                                                                "title": "Donor ABHA Number",
+                                                                                "className":"col-6"
+                                                                              
                                                                             },
                                                                             "recipientABHA": {
-                                                                                "type": "number",
-                                                                                "title": "Recipient ABHA Number *"
+                                                                                "type": "verify-code",
+                                                                                "title": "Recipient ABHA Number "
+                                                                               
                                                                             }
                                                                         }
                                                                     }
@@ -928,7 +931,6 @@
                                 "custom": true,
                                 "element": {
                                     "title": "Relation of Donor and Recipient",
-                                    "class": "col-6",
                                     "enum": [
                                         "Near Relative",
                                         "Spousal",
@@ -938,12 +940,12 @@
                                         "formlyConfig": {
                                             "type": "radio",
                                             "fieldGroupClassName": "controls",
-                                            "className": "radio",
-                                            "class": "col-4"
+                                            "className": "radio"
                                         }
                                     }
                                 }
                             },
+                          
                             {
                                 "name": "medicalDetails",
                                 "children": {
@@ -1060,6 +1062,7 @@
                                     ]
                                 }
                             },
+                            
                             {
                                 "name": "dnaProfiling",
                                 "children": {
@@ -1084,18 +1087,15 @@
                                 "format": "file",
                                 "formclass": "row row-bg"
                             },
+                           
                             {
-                                "name": "crossMatchdetails",
+                                "name": "details",
                                 "custom": true,
                                 "element": {
                                     "title": "Cross Matching",
-                                    "properties": { 
-                                        "date": {
-                                            "type": "string",
-                                            "type":"date",
-                                            "title": "Date"
-                                        },                                      
-                                        "upload": {
+                                    "properties": {
+                                        
+                                        "Upload": {
                                             "type": "file",
                                             "title": "Upload"
                                         }
@@ -1115,215 +1115,18 @@
                                         "formlyConfig": {
                                             "type": "radio",
                                             "fieldGroupClassName": "controls",
-                                            "className": "radio",
-                                            "class": "col-4"
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                "name": "status",
-                                "formclass": "row row-bg"
-                            }
-                        ]
-                    }
-                ],
-                "redirectTo": "/transplantcoordinator/attestation/transplantCoordinator"
-            }
-        },
-        {
-            "test": {
-                "api": "/LiveDonor",
-                "type": "property:liveDonoe",
-                "langKey": "institute",
-                "header": "transplantcoordinator",
-                "fieldsets": [
-                    {
-                        "definition": "LiveDonor",
-                        "dependencies": {
-                            "proofOfRelation": {
-                                "oneOf": [
-                                    {
-                                        "properties": {
-                                            "proofOfRelation": {
-                                                "enum": [
-                                                    "Near Relative"
-                                                ]
-                                            },
-                                            "details": {
-                                                "type": "object",
-                                                "title": "Upload Form 1 for Near Relative",
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "file",
-                                                        "title": "Upload"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "properties": {
-                                            "proofOfRelation": {
-                                                "enum": [
-                                                    "Spousal"
-                                                ]
-                                            },
-                                            "details": {
-                                                "type": "object",
-                                                "title": "Upload Form 2 for Spousal",
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "file",
-                                                        "title": "Upload"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "properties": {
-                                            "proofOfRelation": {
-                                                "enum": [
-                                                    "Unrelated"
-                                                ]
-                                            },
-                                            "details": {
-                                                "type": "object",
-                                                "title": "Upload Form 3 for Unrelated",
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "file",
-                                                        "title": "Upload"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                ]
-                            },
-                            "crossMatching": {
-                                "oneOf": [
-                                    {
-                                        "properties": {
-                                            "crossMatching": {
-                                                "enum": [
-                                                    "Yes"
-                                                ]
-                                            },
-                                            "details": {
-                                                "type": "object",
-                                                "title": "Are you looking for a swap?",
-                                                "dependencies": {
-                                                    "swapConsent": {
-                                                        "oneOf": [
-                                                            {
-                                                                "properties": {
-                                                                    "swapConsent": {
-                                                                        "enum": [
-                                                                            "Yes"
-                                                                        ]
-                                                                    },
-                                                                    "details": {
-                                                                        "type": "object",
-                                                                        "title": "Consent for Swap",
-                                                                        "properties": {
-                                                                            "donorABHA": {
-                                                                                "type": "number",
-                                                                                "title": "Donor ABHA Number"
-                                                                            },
-                                                                            "recipientABHA": {
-                                                                                "type": "number",
-                                                                                "title": "Recipient ABHA Number *"
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        ]
-                                                    }
-                                                },
-                                                "properties": {
-                                                    "swapConsent": {
-                                                        "type": "radio",
-                                                        "enum": [
-                                                            "Yes",
-                                                            "No"
-                                                        ],
-                                                        "widget": {
-                                                            "formlyConfig": {
-                                                                "type": "radio",
-                                                                "fieldGroupClassName": "controls",
-                                                                "className": "radio"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        "fields": [
-
-                            {
-                                "name": "proofOfRelation",
-                                "custom": true,
-                                "element": {
-                                    "title": "Relation of Donor and Recipient",
-                                    "enum": [
-                                        "Near Relative",
-                                        "Spousal",
-                                        "Unrelated"
-                                    ],
-                                    "widget": {
-                                        "formlyConfig": {
-                                            "type": "radio",
-                                            "fieldGroupClassName": "controls",
-                                            "className": "radio"
-                                        }
-                                    }
-                                }
-                            },
-
-                            {
-                                "name": "emergencydetails",
-                                "custom": true,
-                                "element": {
-                                    "title": "Cross Matching",
-                                    "properties": {
-                                       
-                                        "Upload": {
-                                            "type": "file",
-                                            "title": "Upload"
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                "name": "crossMatching",
-                                "custom": true,
-                                "element": {
-                                    "title": " ",
-                                    "enum": [
-                                        "Yes",
-                                        "No"
-                                    ],
-                                    "widget": {
-                                        "formlyConfig": {
-                                            "type": "radio",
-                                            "fieldGroupClassName": "controls",
                                             "className": "radio"
                                         }
                                     }
                                 }
                             }
+                           
                         ]
                     }
                 ],
                 "redirectTo": "/transplantcoordinator/attestation/transplantCoordinator"
             }
         }
+       
     ]
 }
