@@ -17,15 +17,15 @@
       "properties": {
         "firstName": {
           "type": "string",
-          "title": "Donor First Name"
+          "title": "First Name"
         },
         "middleName": {
           "type": "string",
-          "title": "Donor Middle Name"
+          "title": "Middle Name"
         },
         "lastName": {
           "type": "string",
-          "title": "Donor Last Name"
+          "title": "Last Name"
         },
         "fatherName": {
           "type": "string",
@@ -163,7 +163,6 @@
           "type": "string",
           "enum": [
             "Aadhaar",
-            "Pan Card",
             "Abha ID"
           ],
           "title": "Identification Proof"
