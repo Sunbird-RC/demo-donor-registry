@@ -38,8 +38,8 @@
                         "formate": ""
                     },
                     {
-                        "name": "donorDetails.firstName",
-                        "title": "Recipient",
+                        "name": "donorDetails.emailId",
+                        "title": "Email Id",
                         "formate": ""
                     },
                     {

@@ -109,7 +109,7 @@ export class FormsComponent implements OnInit {
         "details": (this.model["details"]) ? this.model["details"] : {}
 
       }
-   }, 10000);
+   }, 8000);
     }
 
 
@@ -144,7 +144,7 @@ export class FormsComponent implements OnInit {
         "details": (this.model["details"]) ? this.model["details"] : {}
 
       }
-    }, 10000);
+    }, 8000);
     }
  
   }
