@@ -43,7 +43,7 @@
                         "formate": ""
                     },
                     {
-                        "name": "crossMatchDetails.crossMatchStatus",
+                        "name": "crossMatching",
                         "title": "HLA Cross Match",
                         "formate": ""
                     },
