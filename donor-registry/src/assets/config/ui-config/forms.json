@@ -673,11 +673,14 @@
                 "fieldsets": [
                     {
                         "definition": "LiveDonor",
+                       
                         "dependencies": {
                             "proofOfRelation": {
+                                "className" : "form-div",
                                 "oneOf": [
                                     {
                                         "properties": {
+                                            "className" : "form-div",
                                             "proofOfRelation": {
                                                 "enum": [
                                                     "Near Relative"
@@ -686,6 +689,7 @@
                                             "details": {
                                                 "type": "object",
                                                 "title": "Upload Form 1 for Near Relative",
+                                                "className" : "form-div",
                                                 "properties": {
                                                     "form": {
                                                         "type": "file",
@@ -819,11 +823,12 @@
                                 "title": "Donor Details",
                                 "children": {
                                     "definition": "DonorDetails",
-                                    "formclass": "row row-bg",
+                                    "title": "Donor Details",
+                                    "formclass": "row form-div",
                                     "fields": [
                                         {
                                             "name": "identificationValue",
-                                            "class": "card ",
+                                            "class": "",
                                             "type": "verify-code"
                                         },
                                         {
@@ -869,11 +874,11 @@
                                     "definition": "DonorDetails",
                                     "title": "Recipient Details",
                                     "class": "card card-body m-3",
-                                    "formclass": "row row-bg",
+                                    "formclass": "row form-div ",
                                     "fields": [
                                         {
                                             "name": "identificationValue",
-                                            "class": "card card-body",
+                                            "class": "",
                                             "type": "verify-code"
                                         },
                                         {
@@ -912,32 +917,13 @@
                                     ]
                                 }
                             },
-                            {
-                                "name": "proofOfRelation",
-                                "custom": true,
-                                "element": {
-                                    "title": "Relation of Donor and Recipient",
-                                    "enum": [
-                                        "Near Relative",
-                                        "Spousal",
-                                        "Unrelated"
-                                    ],
-                                    "widget": {
-                                        "formlyConfig": {
-                                            "type": "radio",
-                                            "fieldGroupClassName": "controls",
-                                            "className": "radio"
-                                        }
-                                    }
-                                }
-                            },
     
                             {
                                 "name": "medicalDetails",
                                 "children": {
                                     "definition": "MedicalDetails",
                                     "title": "Relation of Donor and Recipient",
-                                    "formclass": "row row-bg",
+                                    "formclass": "row form-div",
                                     "fields": [
                                         {
                                             "name": "height",
@@ -959,7 +945,7 @@
                                 "children": {
                                     "definition": "MedicalHistory",
                                     "title": "Relation of Donor and Recipient",
-                                    "formclass": "row row-bg",
+                                    "formclass": "row form-div",
                                     "fields": [
                                         {
                                             "name": "hypertension",
@@ -991,11 +977,30 @@
                                 }
                             },
                             {
+                                "name": "proofOfRelation",
+                                "custom": true,
+                                "element": {
+                                    "title": "Relation of Donor and Recipient",
+                                    "enum": [
+                                        "Near Relative",
+                                        "Spousal",
+                                        "Unrelated"
+                                    ],
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "radio",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "radio"
+                                        }
+                                    }
+                                }
+                            },
+                            {
                                 "name": "donorHLA",
                                 "children": {
                                     "definition": "DonorHLATypingDetails",
                                     "title": "Relation of Donor and Recipient",
-                                    "formclass": "row row-bg",
+                                    "formclass": "row form-div ",
                                     "fields": [
                                         {
                                             "name": "a",
@@ -1025,7 +1030,7 @@
                                 "children": {
                                     "definition": "RecipientHLATypingDetails",
                                     "title": "Relation of Donor and Recipient",
-                                    "formclass": "row row-bg",
+                                    "formclass": "row form-div",
                                     "fields": [
                                         {
                                             "name": "a",
@@ -1056,7 +1061,8 @@
                                 "name": "dnaProfiling",
                                 "children": {
                                     "definition": "DnaProfiling",
-                                    "formclass": "row row-bg",
+                                    "formclass": "row form-div ",
+                                    "title": "DNA Profiling",
                                     "fields": [
                                         {
                                             "name": "date",
@@ -1074,7 +1080,7 @@
                             {
                                 "name": "form5",
                                 "format": "file",
-                                "formclass": "row row-bg"
+                                "formclass": "row form-div "
                             },
                            
                             {
@@ -1095,7 +1101,7 @@
                                 "name": "crossMatching",
                                 "custom": true,
                                 "element": {
-                                    "title": " ",
+                                    "title": "Cross Matching Status",
                                     "enum": [
                                         "Positive",
                                         "Negative"

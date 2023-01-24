@@ -38,18 +38,8 @@
                         "formate": ""
                     },
                     {
-                        "name": "medicalDetails.bloodGroupDetails.group",
-                        "title": "Blood Group",
-                        "formate": ""
-                    },
-                    {
                         "name": "donorDetails.firstName",
                         "title": "Recipient",
-                        "formate": ""
-                    },
-                    {
-                        "name": "medicalDetails.bloodGroupDetails.group",
-                        "title": "Blood Group",
                         "formate": ""
                     },
                     {
