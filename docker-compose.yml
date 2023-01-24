@@ -32,7 +32,7 @@ services:
       timeout: 5s
       retries: 5
   registry:
-    image: dockerhub/sunbird-rc-core:${RELEASE_VERSION}
+    image: tejashjl/sunbird-rc-core:v0.0.13-4
     volumes:
       - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/home/sunbirdrc/config/public/_schemas
     environment:
@@ -74,6 +74,8 @@ services:
       - redis_port=6379
       - manager_type=${MANAGER_TYPE-DefinitionsManager}
       - external_entities=nha-admin
+      - invite_required_validation_enabled=false
+      - invite_signature_enabled=false
     ports:
       - "8081:8081"
     depends_on:
