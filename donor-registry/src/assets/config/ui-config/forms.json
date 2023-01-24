@@ -931,7 +931,7 @@
                                     }
                                 }
                             },
-                          
+    
                             {
                                 "name": "medicalDetails",
                                 "children": {
@@ -993,7 +993,7 @@
                             {
                                 "name": "donorHLA",
                                 "children": {
-                                    "definition": "HLATypingDetails",
+                                    "definition": "DonorHLATypingDetails",
                                     "title": "Relation of Donor and Recipient",
                                     "formclass": "row row-bg",
                                     "fields": [
@@ -1023,7 +1023,7 @@
                             {
                                 "name": "recipientHLA",
                                 "children": {
-                                    "definition": "HLATypingDetails",
+                                    "definition": "RecipientHLATypingDetails",
                                     "title": "Relation of Donor and Recipient",
                                     "formclass": "row row-bg",
                                     "fields": [
@@ -1050,6 +1050,7 @@
                                     ]
                                 }
                             },
+                            
                             
                             {
                                 "name": "dnaProfiling",
