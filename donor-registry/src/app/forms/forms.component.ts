@@ -75,7 +75,7 @@ export class FormsComponent implements OnInit {
   isSaveAsDraft: any;
 
   ngAfterContentChecked(): void {
-    console.log(this.model);
+   // console.log(this.model);
     if (this.model["memberToBeNotified"] == 'Yes') {
       this.model["details"] = { ...this.model["emergencyDetails"] };
     }

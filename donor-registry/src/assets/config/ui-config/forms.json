@@ -675,13 +675,13 @@
                         "definition": "LiveDonor",
                        
                         "dependencies": {
-                            "proofOfRelation": {
+                            "proofOfRelationtype": {
                                 "className" : "form-div",
                                 "oneOf": [
                                     {
                                         "properties": {
                                             "className" : "form-div",
-                                            "proofOfRelation": {
+                                            "proofOfRelationtype": {
                                                 "enum": [
                                                     "Near Relative"
                                                 ]
@@ -691,13 +691,52 @@
                                                 "title": "Proof of Relationship between Donor and Recipient (Near Relative - Form – 1) ",
                                                 "className" : "form-div",
                                                 "properties": {
+                                                    "relation": {
+                                                        "type": "select",
+                                                        "title": "Relation",
+                                                        "enum": [
+                                                            "Mother",
+                                                            "Father",
+                                                            "Brother",
+                                                            "Sister",
+                                                            "GrandMother",
+                                                            "GrandFather",
+                                                            "any other relation"
+                                                        ]
+                                                    },
+                                                    "documentaryEvidence1": {
+                                                        "type": "select",
+                                                        "title": "Documentary Evidence 1",
+                                                        "enum": [
+                                                            "Voter Id",
+                                                            "Aadhar Card",
+                                                            "Driving License",
+                                                            "Passport",
+                                                            "PAN Card",
+                                                            "Ration Card",
+                                                            "any other document"
+                                                        ]
+                                                    },
                                                     "form": {
                                                         "type": "file",
-                                                        "title": "Documentary Evidence 1"
+                                                        "title": "Upload Document"
+                                                    },
+                                                    "documentaryEvidence2": {
+                                                        "type": "select",
+                                                        "title": "Documentary Evidence 2",
+                                                        "enum": [
+                                                            "Voter Id",
+                                                            "Aadhar Card",
+                                                            "Driving License",
+                                                            "Passport",
+                                                            "PAN Card",
+                                                            "Ration Card",
+                                                            "any other document"
+                                                        ]
                                                     },
                                                     "form2": {
                                                         "type": "file",
-                                                        "title": "Documentary Evidence 2"
+                                                        "title": "Upload Document"
                                                     }
                                                 }
                                             }
@@ -705,7 +744,7 @@
                                     },
                                     {
                                         "properties": {
-                                            "proofOfRelation": {
+                                            "proofOfRelationtype": {
                                                 "enum": [
                                                     "Spousal"
                                                 ]
@@ -714,13 +753,35 @@
                                                 "type": "object",
                                                 "title": "Proof of Relationship between Donor and Recipient (Spousal - Form – 2) ",
                                                 "properties": {
-                                                    "form2": {
-                                                        "type": "file",
-                                                        "title": "Proof of Marriage"
+                                                    "proofOfMarriage": {
+                                                        "type": "select",
+                                                        "title": "Proof of Marriage",
+                                                        "enum": [
+                                                            "Marriage certificate",
+                                                            "Affidavit",
+                                                            "Marriage photo",
+                                                            "Letter from Head of Gram Panchayat/Tehsildar/Block Development Officer with seal certifying factum and status of marriage."
+                                                        ]
                                                     },
                                                     "form": {
                                                         "type": "file",
-                                                        "title": "Documentary Evidence 1"
+                                                        "title": "Upload Document"
+                                                    },
+                                                    "documentaryEvidence1": {
+                                                        "type": "select",
+                                                        "title": "Documentary Evidence 1",
+                                                        "enum": [
+                                                            "Voter Id",
+                                                            "Aadhar Card",
+                                                            "Driving License",
+                                                            "Passport",
+                                                            "Ration Card",
+                                                            "any other document"
+                                                        ]
+                                                    },
+                                                    "form2": {
+                                                        "type": "file",
+                                                        "title": "Upload Document"
                                                     }
                                                 }
                                             }
@@ -728,7 +789,7 @@
                                     },
                                     {
                                         "properties": {
-                                            "proofOfRelation": {
+                                            "proofOfRelationtype": {
                                                 "enum": [
                                                     "Unrelated"
                                                 ]
@@ -737,15 +798,50 @@
                                                 "type": "object",
                                                 "title": "Proof of Relationship between Donor and Recipient (Non-near relatives/unrelated - Form – 3)",
                                                 "properties": {
+                                                    "proofOfIncomeAndVocation": {
+                                                        "type": "select",
+                                                        "title": "Proof of Income and Vocation",
+                                                        "enum": [
+                                                            "Income Certificate of the Donor for last three years-ITR",
+                                                            "Bank Statement"
+                                                        ]
+                                                    },
+                                                    "form1": {
+                                                        "type": "file",
+                                                        "title": "Upload Document"
+                                                    },
+                                                    "documentaryEvidence1": {
+                                                        "type": "select",
+                                                        "title": "Documentary Evidence 1",
+                                                        "enum": [
+                                                            "Voter Id",
+                                                            "Aadhar Card",
+                                                            "Driving License",
+                                                            "Passport",
+                                                            "Ration Card",
+                                                            "any other document"
+                                                        ]
+                                                    },
                                                     "form2": {
                                                         "type": "file",
-                                                        "title": "Proof of Income and Vocation"
+                                                        "title": "Upload Document"
                                                     },
-                                                    "form": {
+                                                    "documentaryEvidence2": {
+                                                        "type": "select",
+                                                        "title": "Documentary Evidence 2",
+                                                        "enum": [
+                                                            "Voter Id",
+                                                            "Aadhar Card",
+                                                            "Driving License",
+                                                            "Passport",
+                                                            "Ration Card",
+                                                            "any other document"
+                                                        ]
+                                                    },
+                                                    "form3": {
                                                         "type": "file",
-                                                        "title": "Documentary Evidence 1"
+                                                        "title": "Upload Document"
                                                     }
-                                                   
                                                 }
                                             }
                                         }
@@ -978,7 +1074,7 @@
                                 }
                             },
                             {
-                                "name": "proofOfRelation",
+                                "name": "proofOfRelationtype",
                                 "custom": true,
                                 "element": {
                                     "title": "Relation of Donor and Recipient",
