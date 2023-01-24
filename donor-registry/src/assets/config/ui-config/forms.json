@@ -4,7 +4,7 @@
     "forms": [
         {
             "signup": {
-                "api": "/Pledge",
+                "api": "/Pledge/invite",
                 "type": "entity",
                 "formclass": "row",
                 "header": "default",
@@ -20,11 +20,9 @@
                                     {
                                         "properties": {
                                             "memberToBeNotified": {
-                                                "enum": [
-                                                    "Yes"
-                                                ]
+                                              "const":true
                                             },
-                                            "details": {
+                                            "emergencyDetails": {
                                                 "type": "object",
                                                 "title": " ",
                                                 "formclass": "row",
@@ -49,11 +47,9 @@
                                     {
                                         "properties": {
                                             "memberToBeNotified": {
-                                                "enum": [
-                                                    "No"
-                                                ]
+                                                "const":false
                                             },
-                                            "details": {
+                                            "notificationDetails": {
                                                 "type": "object",
                                                 "title": " ",
                                                 "formclass": "row",
@@ -69,7 +65,7 @@
                                                         "class": "col-4"
                                                     },
                                                     "mobileNumber": {
-                                                        "type": "number",
+                                                        "type": "string",
                                                         "title": "Mobile Number",
                                                         "class": "col-4"
                                                     }
@@ -96,6 +92,7 @@
                                             "name": "number",
                                             "type": "verify-code",
                                             "class": "col-4"
+                                           
                                         }
                                     ]
                                 }
@@ -256,6 +253,7 @@
                             {
                                 "name": "emergencyDetails",
                                 "children": {
+                                    
                                     "definition": "EmergencyDetails",
                                     "formclass": "row",
                                     "title": "Emergency Details",
@@ -282,29 +280,21 @@
                                         }
                                     ]
                                 }
+                                
+                               
+            
                             },
-                            {
-                                "name": " ",
-                                "custom": true,
-                                "element": {
-                                    "title": "Members to be notified (optional)",
-                                    "properties": {
-                                        "name": {}
-                                    }
-                                }
-                            },
+                           
                             {
                                 "name": "memberToBeNotified",
+                                "title": "Members to be notified (optional)",   
                                 "custom": true,
                                 "element": {
-                                    "title": "Same as emergency Contact ",
-                                    "enum": [
-                                        "Yes",
-                                        "No"
-                                    ],
+                                    "title": "Members to be notified (Same as emergency Contact )",
+                                    "type":"checkbox",
                                     "widget": {
                                         "formlyConfig": {
-                                            "type": "select",
+                                            "type": "boolean",
                                             "fieldGroupClassName": "controls",
                                             "className": "select",
                                             "class": "col-4"
@@ -312,6 +302,9 @@
                                     }
                                 }
                             },
+                           
+                        
+                         
                             {
                                 "name": "consent",
                                 "custom": true,

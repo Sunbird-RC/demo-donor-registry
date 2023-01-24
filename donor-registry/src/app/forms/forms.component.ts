@@ -76,9 +76,9 @@ export class FormsComponent implements OnInit {
 
   ngAfterContentChecked(): void {
    // console.log(this.model);
-    if (this.model["memberToBeNotified"] == 'Yes') {
-      this.model["details"] = { ...this.model["emergencyDetails"] };
-    }
+    // if (this.model["memberToBeNotified"] == 'Yes') {
+    //   this.model["details"] = { ...this.model["emergencyDetails"] };
+    // }
 
 
     if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue') ) {
