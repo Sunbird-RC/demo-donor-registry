@@ -674,11 +674,11 @@
                     {
                         "definition": "LiveDonor",
                         "dependencies": {
-                            "relationOfDonorRecipient": {
+                            "proofOfRelation": {
                                 "oneOf": [
                                     {
                                         "properties": {
-                                            "relationOfDonorRecipient": {
+                                            "proofOfRelation": {
                                                 "enum": [
                                                     "Near Relative"
                                                 ]
@@ -687,7 +687,11 @@
                                                 "type": "object",
                                                 "title": "Upload Form 1 for Near Relative",
                                                 "properties": {
-                                                    "name": {
+                                                    "form": {
+                                                        "type": "file",
+                                                        "title": "Upload"
+                                                    },
+                                                    "form2": {
                                                         "type": "file",
                                                         "title": "Upload"
                                                     }
@@ -697,7 +701,7 @@
                                     },
                                     {
                                         "properties": {
-                                            "relationOfDonorRecipient": {
+                                            "proofOfRelation": {
                                                 "enum": [
                                                     "Spousal"
                                                 ]
@@ -706,9 +710,13 @@
                                                 "type": "object",
                                                 "title": "Upload Form 2 for Spousal",
                                                 "properties": {
-                                                    "name": {
+                                                    "form": {
                                                         "type": "file",
                                                         "title": "Upload"
+                                                    },
+                                                    "form2": {
+                                                        "type": "file",
+                                                        "title": "Proof of Marriage"
                                                     }
                                                 }
                                             }
@@ -716,7 +724,7 @@
                                     },
                                     {
                                         "properties": {
-                                            "relationOfDonorRecipient": {
+                                            "proofOfRelation": {
                                                 "enum": [
                                                     "Unrelated"
                                                 ]
@@ -725,9 +733,13 @@
                                                 "type": "object",
                                                 "title": "Upload Form 3 for Unrelated",
                                                 "properties": {
-                                                    "name": {
+                                                    "form": {
                                                         "type": "file",
                                                         "title": "Upload"
+                                                    },
+                                                    "form2": {
+                                                        "type": "file",
+                                                        "title": "Proof of Income and Vocation"
                                                     }
                                                 }
                                             }
@@ -744,7 +756,7 @@
                                                     "Positive"
                                                 ]
                                             },
-                                            "details": {
+                                            "crossMatchDetails": {
                                                 "type": "object",
                                                 "title": "Are you looking for a swap?",
                                                 "dependencies": {
@@ -757,17 +769,17 @@
                                                                             "Yes"
                                                                         ]
                                                                     },
-                                                                    "details": {
+                                                                    "swapDetails": {
                                                                         "type": "object",
                                                                         "title": "Consent for Swap",
                                                                         "properties": {
-                                                                            "donorABHA": {
+                                                                            "donorConsent": {
                                                                                 "type": "verify-code",
                                                                                 "title": "Donor ABHA Number",
                                                                                 "className":"col-6"
                                                                               
                                                                             },
-                                                                            "recipientABHA": {
+                                                                            "recipientConsent": {
                                                                                 "type": "verify-code",
                                                                                 "title": "Recipient ABHA Number "
                                                                                
@@ -901,7 +913,7 @@
                                 }
                             },
                             {
-                                "name": "relationOfDonorRecipient",
+                                "name": "proofOfRelation",
                                 "custom": true,
                                 "element": {
                                     "title": "Relation of Donor and Recipient",
@@ -951,7 +963,13 @@
                                     "fields": [
                                         {
                                             "name": "hypertension",
-                                            "class": "col-6"
+                                            "class": "col-6",
+                                            "type": "radio"
+                                        },
+                                        {
+                                            "name": "diabetes",
+                                            "class": "col-6",
+                                            "type": "radio"
                                         },
                                         {
                                             "name": "systolic",
@@ -959,10 +977,6 @@
                                         },
                                         {
                                             "name": "diastolic",
-                                            "class": "col-6"
-                                        },
-                                        {
-                                            "name": "diabetes",
                                             "class": "col-6"
                                         },
                                         {

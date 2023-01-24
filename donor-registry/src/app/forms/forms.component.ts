@@ -79,6 +79,71 @@ export class FormsComponent implements OnInit {
     if (this.model["memberToBeNotified"] == 'Yes') {
       this.model["details"] = { ...this.model["emergencyDetails"] };
     }
+
+
+  
+
+    if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue') ) {
+      setTimeout(() => {
+      this.model = {
+        "donorDetails": {
+          "identificationValue": this.model["donorDetails"]['identificationValue'],
+          "dob": "2013-05-07",
+          "emailId": "ritesh.kaul@gmail.com",
+          "firstName": "Ritesh",
+          "gender": "Male",
+          "lastName": "Kaul",
+          "middleName": "Manoj",
+          "mobileNumber": "9899079990"
+        },
+        "recipientDetails": (this.model["recipientDetails"]) ? this.model["recipientDetails"] : {},
+        "crossMatchDetails": (this.model["crossMatchDetails"]) ? this.model["crossMatchDetails"] : {},
+        "dnaProfiling": (this.model["dnaProfiling"]) ? this.model["dnaProfiling"] : {},
+        "donorHLA": (this.model["donorHLA"]) ? this.model["donorHLA"] : {},
+        "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
+        "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
+        "proofOfRelation": (this.model["proofOfRelation"]) ? this.model["proofOfRelation"] : {},
+        "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : {},
+        "swapDetails": (this.model["swapDetails"]) ? this.model["swapDetails"] : {},
+        "relationOfDonorRecipient" : (this.model["relationOfDonorRecipient"]) ? this.model["relationOfDonorRecipient"]: "",
+        "crossMatching" : (this.model["crossMatching"]) ? this.model["crossMatching"]: ""
+       
+      }
+    }, 10000);
+    }
+
+
+ 
+    
+  
+    if (this.model["recipientDetails"] && this.model["recipientDetails"].hasOwnProperty('identificationValue') ) {
+      setTimeout(() => {
+      this.model = {
+          "donorDetails": (this.model["donorDetails"]) ? this.model["donorDetails"] : {},
+        "recipientDetails": {
+          "identificationValue": this.model["recipientDetails"]['identificationValue'],
+          "dob": "2010-03-07",
+          "emailId": "bhavesh.kaul@gmail.com",
+          "firstName": "Bhavesh",
+          "gender": "Male",
+          "lastName": "Kaul",
+          "middleName": "Vinod",
+          "mobileNumber": "9799079990"
+        },
+        "crossMatchDetails": (this.model["crossMatchDetails"]) ? this.model["crossMatchDetails"] : {},
+        "dnaProfiling": (this.model["dnaProfiling"]) ? this.model["dnaProfiling"] : {},
+        "donorHLA": (this.model["donorHLA"]) ? this.model["donorHLA"] : {},
+        "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
+        "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
+        "proofOfRelation": (this.model["proofOfRelation"]) ? this.model["proofOfRelation"] : {},
+        "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : {},
+        "swapDetails": (this.model["swapDetails"]) ? this.model["swapDetails"] : {},
+        "relationOfDonorRecipient" : (this.model["relationOfDonorRecipient"]) ? this.model["relationOfDonorRecipient"]: "",
+        "crossMatching" : (this.model["crossMatching"]) ? this.model["crossMatching"]: ""
+      }
+    }, 10000);
+    }
+ 
   }
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
@@ -965,6 +1030,9 @@ export class FormsComponent implements OnInit {
       // this.model["crossMatchDetails"]["crossMatchDate"] = "2022-03-05";
       this.model["recipientDetails"] = {}
       this.model["recipientDetails"]["recipientId"] = '876';
+      this.model["proofOfRelation"]["relationType"] = 'related';
+      this.model["proofOfRelation"]["relation"] = 'mother';
+
       this.model["status"] = this.isSaveAsDraft;
     }
 
