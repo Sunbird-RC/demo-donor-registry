@@ -89,7 +89,7 @@ services:
       timeout: 10s
       retries: 10
   keycloak:
-    image: dockerhub/sunbird-rc-keycloak:latest
+    image: tejashjl/sunbird-rc-keycloak:v0.0.13-1
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
     environment:
@@ -105,8 +105,8 @@ services:
       - KEYCLOAK_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD-admin}
       - KEYCLOAK_IMPORT=/opt/jboss/keycloak/imports/realm-export.json
       - PROXY_ADDRESS_FORWARDING=true
-      - KEYCLOAK_PORTAL_TITLE=Organ Pledge Registry
-      - KEYCLOAK_PORTAL_SUB_TITLE=Organ Pledge Registry
+      - KEYCLOAK_PORTAL_TITLE=
+      - KEYCLOAK_PORTAL_SUB_TITLE=
       - SIGN_UP_LINK=/form/signup
     healthcheck:
       test:
