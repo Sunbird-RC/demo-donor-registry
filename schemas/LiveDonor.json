@@ -59,9 +59,6 @@
           "clearances": {
             "$ref": "#/definitions/Clearances"
           },
-          "form4": {
-            "$ref": "#/definitions/Form4"
-          },
 
           "donorHLA": {
             "$ref": "#/definitions/DonorHLATypingDetails"
@@ -75,10 +72,15 @@
           "dnaProfiling": {
             "$ref": "#/definitions/DnaProfiling"
           },
+          "form4": {
+            "type": "string",
+            "format": "file",
+            "title": "Form 4 (For certification of medical fitness of living donor)"
+          },
           "form5": {
             "type": "string",
             "format": "file",
-            "title": "Upload Form 5"
+            "title": "Form 5\t(For certification of genetic relationship of living donor with recipient)"
           },
           "swapDetails": {
             "$ref": "#/definitions/SwapDetails"
