@@ -104,10 +104,12 @@ export class FormsComponent implements OnInit {
         "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : {},
         "swapDetails": (this.model["swapDetails"]) ? this.model["swapDetails"] : {},
         "relationOfDonorRecipient" : (this.model["relationOfDonorRecipient"]) ? this.model["relationOfDonorRecipient"]: "",
-        "crossMatching" : (this.model["crossMatching"]) ? this.model["crossMatching"]: ""
-       
+        "crossMatching" : (this.model["crossMatching"]) ? this.model["crossMatching"]: "",
+        "proofOfRelationtype" : (this.model["proofOfRelationtype"]) ? this.model["proofOfRelationtype"]: "",
+        "details": (this.model["details"]) ? this.model["details"] : {}
+
       }
-    }, 10000);
+   }, 10000);
     }
 
 
@@ -137,7 +139,10 @@ export class FormsComponent implements OnInit {
         "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : {},
         "swapDetails": (this.model["swapDetails"]) ? this.model["swapDetails"] : {},
         "relationOfDonorRecipient" : (this.model["relationOfDonorRecipient"]) ? this.model["relationOfDonorRecipient"]: "",
-        "crossMatching" : (this.model["crossMatching"]) ? this.model["crossMatching"]: ""
+        "crossMatching" : (this.model["crossMatching"]) ? this.model["crossMatching"]: "",
+        "proofOfRelationtype" : (this.model["proofOfRelationtype"]) ? this.model["proofOfRelationtype"]: "",
+        "details": (this.model["details"]) ? this.model["details"] : {}
+
       }
     }, 10000);
     }
