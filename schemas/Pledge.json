@@ -36,6 +36,9 @@
         },
         "emergencyDetails": {
           "$ref": "Common.json/#/definitions/EmergencyDetails"
+        },
+        "notificationDetails": {
+          "$ref": "Common.json/#/definitions/NotificationDetails"
         }
       }
     }
