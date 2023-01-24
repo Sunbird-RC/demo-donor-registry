@@ -30,7 +30,7 @@
         {
             "transplantcoordinator": {
                 "api": "LiveDonor",
-                "title": "CBSE_BOARD_ATTESTATIONS",
+                "title": "",
                 "fields": [
                     {
                         "name": "donorDetails.firstName",

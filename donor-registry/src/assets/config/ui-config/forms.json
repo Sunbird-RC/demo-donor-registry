@@ -688,16 +688,16 @@
                                             },
                                             "details": {
                                                 "type": "object",
-                                                "title": "Upload Form 1 for Near Relative",
+                                                "title": "Proof of Relationship between Donor and Recipient (Near Relative - Form – 1) ",
                                                 "className" : "form-div",
                                                 "properties": {
                                                     "form": {
                                                         "type": "file",
-                                                        "title": "Upload"
+                                                        "title": "Documentary Evidence 1"
                                                     },
                                                     "form2": {
                                                         "type": "file",
-                                                        "title": "Upload"
+                                                        "title": "Documentary Evidence 2"
                                                     }
                                                 }
                                             }
@@ -712,15 +712,15 @@
                                             },
                                             "details": {
                                                 "type": "object",
-                                                "title": "Upload Form 2 for Spousal",
+                                                "title": "Proof of Relationship between Donor and Recipient (Spousal - Form – 2) ",
                                                 "properties": {
-                                                    "form": {
-                                                        "type": "file",
-                                                        "title": "Upload"
-                                                    },
                                                     "form2": {
                                                         "type": "file",
                                                         "title": "Proof of Marriage"
+                                                    },
+                                                    "form": {
+                                                        "type": "file",
+                                                        "title": "Documentary Evidence 1"
                                                     }
                                                 }
                                             }
@@ -735,16 +735,17 @@
                                             },
                                             "details": {
                                                 "type": "object",
-                                                "title": "Upload Form 3 for Unrelated",
+                                                "title": "Proof of Relationship between Donor and Recipient (Non-near relatives/unrelated - Form – 3)",
                                                 "properties": {
-                                                    "form": {
-                                                        "type": "file",
-                                                        "title": "Upload"
-                                                    },
                                                     "form2": {
                                                         "type": "file",
                                                         "title": "Proof of Income and Vocation"
+                                                    },
+                                                    "form": {
+                                                        "type": "file",
+                                                        "title": "Documentary Evidence 1"
                                                     }
+                                                   
                                                 }
                                             }
                                         }
@@ -1080,12 +1081,17 @@
                             {
                                 "name": "form5",
                                 "format": "file",
-                                "formclass": "row form-div "
+                                "class": "row form-div "
                             },
-                           
+                            {
+                                "name": "form4",
+                                "format": "file",
+                                "class": "row form-div "
+                            },
                             {
                                 "name": "details",
                                 "custom": true,
+                                "class": "row form-div ",
                                 "element": {
                                     "title": "Cross Matching",
                                     "properties": {

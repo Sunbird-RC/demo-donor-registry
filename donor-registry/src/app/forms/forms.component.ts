@@ -81,8 +81,6 @@ export class FormsComponent implements OnInit {
     }
 
 
-  
-
     if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue') ) {
       setTimeout(() => {
       this.model = {
