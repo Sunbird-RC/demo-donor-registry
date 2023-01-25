@@ -661,11 +661,11 @@
                         "definition": "LiveDonor",
                         "dependencies": {
                             "proofOfRelationtype": {
-                                "className": "form-div",
+                                "className" : "form-div",
                                 "oneOf": [
                                     {
                                         "properties": {
-                                            "className": "form-div",
+                                            "className" : "form-div",
                                             "proofOfRelationtype": {
                                                 "enum": [
                                                     "Near Relative"
@@ -674,7 +674,7 @@
                                             "details": {
                                                 "type": "object",
                                                 "title": "Proof of Relationship between Donor and Recipient (Near Relative - Form – 1) ",
-                                                "className": "form-div",
+                                                "className" : "form-div",
                                                 "properties": {
                                                     "relation": {
                                                         "type": "select",
@@ -907,34 +907,33 @@
                                     "fields": [
                                         {
                                             "name": "identificationValue",
-                                            "class": "",
+                                            "class": "col-4",
                                             "type": "verify-code"
                                         },
                                         {
                                             "name": "firstName",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-6",
-                                            "expressionProperties": "!model.identificationValue"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -942,7 +941,7 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         }
                                     ]
                                 }
@@ -962,28 +961,28 @@
                                         },
                                         {
                                             "name": "firstName",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -991,7 +990,7 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-6"
+                                            "class": "col-4"
                                         }
                                     ]
                                 }
@@ -1005,15 +1004,15 @@
                                     "fields": [
                                         {
                                             "name": "height",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "weight",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "bmi",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         }
                                     ]
                                 }
@@ -1027,29 +1026,29 @@
                                     "fields": [
                                         {
                                             "name": "hypertension",
-                                            "class": "col-6",
+                                            "class": "col-3",
                                             "type": "radio"
                                         },
                                         {
                                             "name": "diabetes",
-                                            "class": "col-6",
+                                            "class": "col-3",
                                             "type": "radio"
                                         },
                                         {
                                             "name": "systolic",
-                                            "class": "col-6"
+                                            "class": "col-3"
                                         },
                                         {
                                             "name": "diastolic",
-                                            "class": "col-6"
+                                            "class": "col-3"
                                         },
                                         {
                                             "name": "gfr",
-                                            "class": "col-6"
+                                            "class": "col-3"
                                         },
                                         {
                                             "name": "historyIllness",
-                                            "class": "col-6"
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
@@ -1082,23 +1081,23 @@
                                     "fields": [
                                         {
                                             "name": "a",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "b",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "dr",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "dq",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "other",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         }
                                     ]
                                 }
@@ -1112,23 +1111,23 @@
                                     "fields": [
                                         {
                                             "name": "a",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "b",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "dr",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "dq",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         },
                                         {
                                             "name": "other",
-                                            "class": "col-6"
+                                            "class": "col-2"
                                         }
                                     ]
                                 }
@@ -1142,7 +1141,7 @@
                                     "fields": [
                                         {
                                             "name": "dnaFile",
-                                            "class": "col-6",
+                                            "class": "col-3",
                                             "format": "file"
                                         }
                                     ]
@@ -1151,12 +1150,12 @@
                             {
                                 "name": "form5",
                                 "format": "file",
-                                "class": "row form-div "
+                                "class": " form-div "
                             },
                             {
                                 "name": "form4",
                                 "format": "file",
-                                "class": "row form-div "
+                                "class": "form-div "
                             },
                             {
                                 "name": "details",
