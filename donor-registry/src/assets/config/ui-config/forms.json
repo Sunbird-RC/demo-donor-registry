@@ -20,7 +20,7 @@
                                     {
                                         "properties": {
                                             "memberToBeNotified": {
-                                              "const":true
+                                                "const": true
                                             },
                                             "emergencyDetails": {
                                                 "type": "object",
@@ -47,7 +47,7 @@
                                     {
                                         "properties": {
                                             "memberToBeNotified": {
-                                                "const":false
+                                                "const": false
                                             },
                                             "notificationDetails": {
                                                 "type": "object",
@@ -86,13 +86,14 @@
                                     "fields": [
                                         {
                                             "name": "proof",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "required": true
                                         },
                                         {
                                             "name": "number",
                                             "type": "verify-code",
-                                            "class": "col-4"
-                                           
+                                            "class": "col-4",
+                                            "required": true
                                         }
                                     ]
                                 }
@@ -253,7 +254,6 @@
                             {
                                 "name": "emergencyDetails",
                                 "children": {
-                                    
                                     "definition": "EmergencyDetails",
                                     "formclass": "row",
                                     "title": "Emergency Details",
@@ -280,18 +280,14 @@
                                         }
                                     ]
                                 }
-                                
-                               
-            
                             },
-                           
                             {
                                 "name": "memberToBeNotified",
-                                "title": "Members to be notified (optional)",   
+                                "title": "Members to be notified (optional)",
                                 "custom": true,
                                 "element": {
                                     "title": "Members to be notified (Same as emergency Contact )",
-                                    "type":"checkbox",
+                                    "type": "checkbox",
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "boolean",
@@ -302,9 +298,6 @@
                                     }
                                 }
                             },
-                           
-                        
-                         
                             {
                                 "name": "consent",
                                 "custom": true,
@@ -666,14 +659,13 @@
                 "fieldsets": [
                     {
                         "definition": "LiveDonor",
-                       
                         "dependencies": {
                             "proofOfRelationtype": {
-                                "className" : "form-div",
+                                "className": "form-div",
                                 "oneOf": [
                                     {
                                         "properties": {
-                                            "className" : "form-div",
+                                            "className": "form-div",
                                             "proofOfRelationtype": {
                                                 "enum": [
                                                     "Near Relative"
@@ -682,7 +674,7 @@
                                             "details": {
                                                 "type": "object",
                                                 "title": "Proof of Relationship between Donor and Recipient (Near Relative - Form – 1) ",
-                                                "className" : "form-div",
+                                                "className": "form-div",
                                                 "properties": {
                                                     "relation": {
                                                         "type": "select",
@@ -870,13 +862,11 @@
                                                                             "donorConsent": {
                                                                                 "type": "verify-code",
                                                                                 "title": "Donor ABHA Number",
-                                                                                "className":"col-6"
-                                                                              
+                                                                                "class": "col-6"
                                                                             },
                                                                             "recipientConsent": {
                                                                                 "type": "verify-code",
                                                                                 "title": "Recipient ABHA Number "
-                                                                               
                                                                             }
                                                                         }
                                                                     }
@@ -895,8 +885,7 @@
                                                         "widget": {
                                                             "formlyConfig": {
                                                                 "type": "radio",
-                                                                "fieldGroupClassName": "controls",
-                                                                "className": "radio"
+                                                                "fieldGroupClassName": "controls"
                                                             }
                                                         }
                                                     }
@@ -1007,7 +996,6 @@
                                     ]
                                 }
                             },
-    
                             {
                                 "name": "medicalDetails",
                                 "children": {
@@ -1145,8 +1133,6 @@
                                     ]
                                 }
                             },
-                            
-                            
                             {
                                 "name": "dnaProfiling",
                                 "children": {
@@ -1154,11 +1140,6 @@
                                     "formclass": "row form-div ",
                                     "title": "DNA Profiling",
                                     "fields": [
-                                        {
-                                            "name": "date",
-                                            "type": "date",
-                                            "class": "col-6"
-                                        },
                                         {
                                             "name": "dnaFile",
                                             "class": "col-6",
@@ -1184,7 +1165,6 @@
                                 "element": {
                                     "title": "Cross Matching",
                                     "properties": {
-                                        
                                         "Upload": {
                                             "type": "file",
                                             "title": "Upload"
@@ -1210,13 +1190,11 @@
                                     }
                                 }
                             }
-                           
                         ]
                     }
                 ],
                 "redirectTo": "/transplantcoordinator/attestation/transplantCoordinator"
             }
         }
-       
     ]
 }
