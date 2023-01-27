@@ -3,6 +3,7 @@ const yaml = require('yamljs');
 const swagger = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const axios = require('axios').default;
+const https = require('https');
 
 const redis = require('./services/redis.service');
 const config = require('./configs/config');
@@ -113,5 +114,63 @@ app.post('/register', (req, res) => {
     });
     console.log('Entity Invited');
 });
+
+app.post('/esign/init', async (req, res) => {
+    const data = JSON.stringify({
+        "document": {
+            "integratorName": "HFRBank",
+            "templateId": "TEMPLATE_1",
+            "submitterName": "xxx",
+            "signerName": "xx  xx",
+            "hpId": "123-2441-xx-3409",
+            "mobileNumber": "",
+            "emailId": "",
+            "signingPlace": "NA",
+            "facilitybank": [{
+                "facilityid": "xxx",
+                "facilityName": "xx Joshi",
+                "accountHolderName": "xx",
+                "bankName": "xx Of xx",
+                "accountNumber": "xx",
+                "branchName": "xx",
+                "ifscCode": "xx",
+                "facilityManager": "xx Sharma",
+                "pancardnumber": "xx",
+                "address": "Agra",
+                "state": "Uttar Pradesh",
+                "district": "Karoli",
+                "subdistrict": "Agra",
+                "uploadmandateform": "Yes",
+                "uploadcancalledcheque": "Yes",
+                "uploadpancard": "Yes",
+                "uploadAnnexureForm": "No"
+            }]
+        }
+    });
+
+    const apiResponse = await axios({
+        method: 'post',
+        url: config.ESIGN_ESP_URL,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: data,
+        httpsAgent: new https.Agent({
+            rejectUnauthorized: false
+        })
+    });
+    res.send(`
+        <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
+            <input type="hidden" id="eSignRequest" name="eSignRequest" value='${apiResponse.data.espRequest}'/>
+            <input type="hidden" id="aspTxnID" name="aspTxnID" value='${apiResponse.data.aspTxnId}'/>
+            <input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
+        </form>
+        <script>
+        
+            document.getElementById("formid").submit();
+        </script>
+`);
+
+})
 
 app.listen('3000');
