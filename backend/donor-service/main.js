@@ -115,7 +115,7 @@ app.post('/register', (req, res) => {
     console.log('Entity Invited');
 });
 
-app.post('/esign/init', async (req, res) => {
+app.get('/esign/init', async (req, res) => {
     const data = JSON.stringify({
         "document": {
             "integratorName": "HFRBank",
@@ -159,9 +159,11 @@ app.post('/esign/init', async (req, res) => {
             rejectUnauthorized: false
         })
     });
+    let xmlContent = apiResponse.data.espRequest;
+    // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
     res.send(`
         <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
-            <input type="hidden" id="eSignRequest" name="eSignRequest" value='${apiResponse.data.espRequest}'/>
+            <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
             <input type="hidden" id="aspTxnID" name="aspTxnID" value='${apiResponse.data.aspTxnId}'/>
             <input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
         </form>
