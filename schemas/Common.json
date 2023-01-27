@@ -154,22 +154,17 @@
     "IdentificationDetails": {
       "type": "object",
       "required": [
-        "proof",
-        "number"
+        "abha"
       ],
       "title": "Identification Details",
       "properties": {
-        "proof": {
+        "abha": {
           "type": "string",
-          "enum": [
-            "Aadhaar",
-            "Abha ID"
-          ],
-          "title": "Identification Proof"
+          "title": "ABHA ID"
         },
-        "number": {
+        "aadhaar": {
           "type": "string",
-          "title": "Identification Number"
+          "title": "Aadhaar Number"
         }
       }
     },
