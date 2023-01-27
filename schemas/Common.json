@@ -160,11 +160,7 @@
       "properties": {
         "abha": {
           "type": "string",
-          "title": "ABHA ID"
-        },
-        "aadhaar": {
-          "type": "string",
-          "title": "Aadhaar Number"
+          "title": "ABHA Number"
         }
       }
     },
