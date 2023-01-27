@@ -160,7 +160,8 @@
       "properties": {
         "abha": {
           "type": "string",
-          "title": "ABHA Number"
+          "title": "ABHA Number",
+          "pattern": "^91\\d{12}$"
         }
       }
     },
