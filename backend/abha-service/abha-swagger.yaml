@@ -1,0 +1,125 @@
+openapi: '3.0.0'
+info:
+  version: 1.0.0
+  title: VC certification
+  description: verifiable credentials certification service
+consumes:
+  - application/json
+produces:
+  - application/json
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+paths:
+  '/auth/sendOTP':
+    post:
+      operationId: sendOTP
+      requestBody:
+        description: to send OTP
+        required: true
+        content: 
+          application/json:
+            schema:
+              abhaNumber:
+                type: string
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            transactionId: 
+              type: string
+  '/auth/verifyOTP':
+    post:
+      operationId: verifyOTP
+      requestBody:
+        type: application/json
+        description: verify OTP and send back KYC
+        required: true
+        content:
+          application/json:
+            schema:
+              transactionId:
+                type: string
+              otp:
+                type: string
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Profile'
+definitions:
+  Profile:
+    type: object
+    properties:
+      healthIdNumber: 
+        type: string
+      healthId: 
+        type: string
+      mobile: 
+        type: string
+      firstName: 
+        type: string
+      middleName: 
+        type: string
+      lastName: 
+        type: string
+      name: 
+        type: string
+      yearOfBirth: 
+        type: string
+      dayOfBirth: 
+        type: string
+      monthOfBirth: 
+        type: string
+      gender: 
+        type: string
+      email: 
+        type: string
+      profilePhoto: 
+        type: string
+      districtCode: 
+        type: string
+      subDistrictCode: 
+        type: string
+      villageCode: 
+        type: string
+      townCode: 
+        type: string
+      wardCode: 
+        type: string
+      authMethods:
+        type: array
+        items:
+          type: string
+      kycVerified: 
+        type: string
+      verificationStatus: 
+        type: string
+      verificationType: 
+        type: string
+      clientId: 
+        type: string
+      phrAddress: 
+        type: string
+      new: 
+        type: boolean
+      emailVerified: 
+        type: boolean
+host: demo-donor-registry.xiv.in
+schemes:
+  - https
+servers:
+  - url: ''

@@ -1,2 +1,5 @@
 .idea
 db-data
+backend/abha-service/.env
+backend/abha-service/node_modules
+.DS_Store
