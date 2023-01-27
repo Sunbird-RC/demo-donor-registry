@@ -3,9 +3,9 @@ const yaml = require('yamljs');
 const swagger = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const axios = require('axios').default;
-
 const redis = require('./services/redis.service');
 const config = require('./configs/config');
+const constants = require('./configs/constants');
 
 const app = express();
 (async() => {
@@ -28,89 +28,87 @@ const getClientSecretResponse = async() => {
 
 app.post('/auth/sendOTP', async(req, res) => {
     console.log('sending OTP');
-    let secretKey = redis.getKey('clientSecret');
+    let secretKey = await redis.getKey('clientSecret');
     if(secretKey === null) {
-        let clientSecretResponse = await getClientSecretResponse();
+        let clientSecretResponse = (await getClientSecretResponse()).data;
         redis.storeKeyWithExpiry('clientSecret', clientSecretResponse.accessToken, parseInt(clientSecretResponse.expiresIn));
+        secretKey = clientSecretResponse.accessToken;
     }
     const abhaId = req.body.healthId;
-    const method = 'AADHAR_OTP';
-    const otpSendResponse = await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId}, {headers: {Authorization: 'Bearer '+secretKey}});
-    res.send(otpSendResponse);
-    console.log('OTP sent');
+    const method = 'AADHAAR_OTP';
+    try {
+        const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId}, {headers: {Authorization: 'Bearer '+secretKey}})).data;
+        res.send(otpSendResponse);
+        console.log('OTP sent');
+    } catch(err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
 });
 
-app.post('/auth/verifyOTP', (req, res) => {
+app.post('/auth/verifyOTP', async(req, res) => {
     console.log('Verifying OTP and sending Profile KYC');
-    res.send(
-        {
-            "healthIdNumber": "91-1111-1111-1111",
-            "healthId": null,
-            "mobile": "6178888888",
-            "firstName": "dummy",
-            "middleName": "dummy",
-            "lastName": "dummy",
-            "name": "dummy dummy dummy",
-            "yearOfBirth": "2001",
-            "dayOfBirth": "12",
-            "monthOfBirth": "12",
-            "gender": "M",
-            "email": null,
-            "profilePhoto": "",
-            "stateCode": "Maharashtra",
-            "districtCode": "Nagpur",
-            "subDistrictCode": null,
-            "villageCode": null,
-            "townCode": null,
-            "wardCode": null,
-            "pincode": "4440001",
-            "address": "Address line 1, Nagpur",
-            "kycPhoto": null,
-            "stateName": "MAHARASHTRA",
-            "districtName": "Nagpur",
-            "subdistrictName": null,
-            "villageName": null,
-            "townName": "Nagpur",
-            "wardName": null,
-            "authMethods": [
-                "DEMOGRAPHICS",
-                "MOBILE_OTP",
-                "AADHAAR_BIO",
-                "AADHAAR_OTP"
-            ],
-            "tags": {},
-            "kycVerified": true,
-            "verificationStatus": null,
-            "verificationType": null,
-            "clientId": "healthid-api",
-            "phrAddress": null,
-            "new": false,
-            "emailVerified": false
-        }
-    );
-    console.log('Sent Profile KYC');
+    const transactionId = req.body.transactionId;
+    const otp = req.body.otp;
+    let secretKey = await redis.getKey('clientSecret');
+    if(secretKey === null) {
+        let clientSecretResponse = (await getClientSecretResponse()).data;
+        redis.storeKeyWithExpiry('clientSecret', clientSecretResponse.accessToken, parseInt(clientSecretResponse.expiresIn));
+        secretKey = clientSecretResponse.accessToken;
+    }
+    try {
+        const verifyOtp = (await axios.post(`${config.BASE_URL}/v1/auth/confirmWithAadhaarOtp`, {
+            "otp": otp,
+            "txnId": transactionId
+        }, {headers: {Authorization: 'Bearer ' + secretKey}})).data;
+        console.log('OTP verified', verifyOtp);
+        const userToken = verifyOtp.token;
+        const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`, {headers: {Authorization: 'Bearer ' + secretKey, "X-Token": 'Bearer ' + userToken}})).data;
+        redis.storeKeyWithExpiry(profile.healthIdNumber, JSON.stringify(profile), config.EXPIRE_PROFILE)
+        res.send(profile);
+        console.log('Sent Profile KYC');
+    } catch(err) {
+        console.error(err);
+        res.send(err.status);
+    }
 });
 
-app.post('/register', (req, res) => {
+const toTitleCase = (str) => {
+    return str.replace(
+      /\w\S*/g,
+      function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
+
+const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
+    const profile = {...profileFromReq};
+    profile.personalDetails.firstName = profileFromRedis.firstName;
+    profile.personalDetails.lastName = profileFromRedis.lastName;
+    profile.personalDetails.middleName = profileFromRedis.middleName;
+    profile.personalDetails.dob = (`${profileFromRedis.yearOfBirth}-${String(profileFromRedis.monthOfBirth).padStart(2, '0')}-${String(profileFromRedis.dayOfBirth).padStart(2, '0')}`);
+    profile.personalDetails.gender = constants.GENDER_MAP[profileFromRedis.gender];
+    profile.addressDetails.state = toTitleCase(profileFromRedis.stateName);
+    profile.addressDetails.district = profileFromRedis.districtName;
+    profile.addressDetails.pincode = profileFromRedis.pincode;
+    profile.identificationDetails.abha = String(profileFromRedis.healthIdNumber).replace(/-/g, '');
+    return profile;
+}
+
+app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
-    res.send({
-        "id": "sunbird-rc.registry.invite",
-        "ver": "1.0",
-        "ets": 1674813458669,
-        "params": {
-            "resmsgid": "",
-            "msgid": "2b9cdf2a-fe4e-481e-a51e-050ab6558b75",
-            "err": "",
-            "status": "SUCCESSFUL",
-            "errmsg": ""
-        },
-        "responseCode": "OK",
-        "result": {
-            "Pledge": {
-                "osid": "1-567e6a24-3162-48eb-a252-1ae877f8e64e"
-            }
-        }
-    });
+    const profileFromRedis = JSON.parse(await redis.getKey(req.body.abhaId));
+    const profileFromReq = req.body.details;
+    const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
+    const entityName = req.params.entityName;
+    try {
+        const response = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
+        res.send(response);
+    } catch(err) {
+        console.log(err);
+        res.send(err.status);
+    }
     console.log('Entity Invited');
 });
 

@@ -267,7 +267,7 @@ services:
     ports:
       - "6379:6379"
   donor-service:
-    image: varadeth/donor-service
+    image: tejashjl/donor-service
     ports:
       - "3000:3000"
     depends_on:
@@ -275,3 +275,4 @@ services:
         condition: service_started
     environment:
       REDIS_URL: redis://redis:6379
+      REGISTRY_URL: http://registry:8081
