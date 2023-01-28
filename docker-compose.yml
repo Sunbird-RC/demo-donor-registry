@@ -257,6 +257,8 @@ services:
         condition: service_started
       file-storage:
         condition: service_started
+      donor-service:
+        condition: service_started
     healthcheck:
       test: [ "CMD", "curl", "-f", "localhost:80" ]
       interval: 30s
@@ -267,9 +269,14 @@ services:
     ports:
       - "6379:6379"
   donor-service:
-    image: tejashjl/donor-service
+    build: backend/donor-service
     ports:
       - "3000:3000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "localhost:3000/api-docs" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
     depends_on:
       redis:
         condition: service_started

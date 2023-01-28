@@ -6,3 +6,4 @@ donor-registry/node_modules
 donor-registry/src/app/.DS_Store
 donor-registry/src/assets/.DS_Store
 .DS_Store
+*.lock
