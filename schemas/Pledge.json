@@ -56,7 +56,7 @@
     "credentialTemplate": {
       "@context": [
         "https://www.w3.org/2018/credentials/v1",
-        "https://gist.githubusercontent.com/varadeth/1a860d3545bbecbfe26791e545a0d5e3/raw/ac5a15eddfae2c9b5e1a0b6e4ebcfcda00c90299/pledgeAttestation.json"
+        "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/schemas/vc-context.json"
       ],
       "type": [
         "VerifiableCredential",
@@ -69,12 +69,12 @@
         "name": "{{personalDetails.firstName}} {{personalDetails.middleName}} {{personalDetails.lastName}}",
         "dob": "{{personalDetails.dob}}",
         "gender": "{{personalDetails.gender}}",
-        "identificationProof": "{{identificationDetails.proof}}",
-        "identificationNumber": "{{identificationDetails.number}}",
+        "abha": "{{identificationDetails.abha}}",
         "mobileNumber": "{{personalDetails.mobileNumber}}",
         "emailId": "{{personalDetails.emailId}}",
+        "fatherName": "{{personalDetails.fatherName}}",
         "emergencyMobileNumber": "{{emergencyDetails.mobileNumber}}",
-        "registrationNumber": "1234"
+        "photo": "{{personalDetails.photo}}"
       },
       "evidence": {
         "type": "Pledge",
