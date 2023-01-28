@@ -5,6 +5,8 @@ build:
 
 release: build
 	docker tag tejashjl/sunbird-rc-donor-portal tejashjl/sunbird-rc-donor-portal:$(PORTAL_RELEASE_VERSION)
+	docker tag tejashjl/donor-service tejashjl/donor-service:$(PORTAL_RELEASE_VERSION)
 	docker push tejashjl/sunbird-rc-donor-portal:latest
 	docker push tejashjl/sunbird-rc-donor-portal:$(PORTAL_RELEASE_VERSION)
-	docker push tejashjl/donor-service
+	docker push tejashjl/donor-service:latest
+	docker push tejashjl/donor-service:$(PORTAL_RELEASE_VERSION)
