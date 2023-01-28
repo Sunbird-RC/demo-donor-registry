@@ -269,7 +269,7 @@ services:
     ports:
       - "6379:6379"
   donor-service:
-    build: tejashjl/donor-service:${PORTAL_RELEASE_VERSION}
+    build: varadeth/donor-service
     ports:
       - "3000:3000"
     healthcheck:
