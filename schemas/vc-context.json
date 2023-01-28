@@ -23,6 +23,7 @@
         "emailId": "schema:Text",
         "emergencyMobileNumber": "schema:Text",
         "fatherName": "schema:Text",
+        "photo": "schema:Text",
         "registrationNumber": "schema:Text"
       }
     },
