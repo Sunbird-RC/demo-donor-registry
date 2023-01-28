@@ -282,3 +282,4 @@ services:
         condition: service_started
     environment:
       REDIS_URL: redis://redis:6379
+      REGISTRY_URL: http://registry:8081
