@@ -26,6 +26,30 @@ const getClientSecretResponse = async() => {
     return await axios.post('https://dev.abdm.gov.in/gateway/v0.5/sessions', data);
 }
 
+
+const toTitleCase = (str) => {
+    return str.replace(
+      /\w\S*/g,
+      function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
+
+const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
+    const profile = {...profileFromReq};
+    profile.personalDetails.firstName = profileFromRedis.firstName;
+    profile.personalDetails.lastName = profileFromRedis.lastName;
+    profile.personalDetails.middleName = profileFromRedis.middleName;
+    profile.personalDetails.dob = (`${profileFromRedis.yearOfBirth}-${String(profileFromRedis.monthOfBirth).padStart(2, '0')}-${String(profileFromRedis.dayOfBirth).padStart(2, '0')}`);
+    profile.personalDetails.gender = constants.GENDER_MAP[profileFromRedis.gender];
+    profile.addressDetails.state = toTitleCase(profileFromRedis.stateName);
+    profile.addressDetails.district = profileFromRedis.districtName;
+    profile.addressDetails.pincode = profileFromRedis.pincode;
+    profile.identificationDetails.abha = String(profileFromRedis.healthIdNumber).replace(/-/g, '');
+    return profile;
+}
+
 app.post('/auth/sendOTP', async(req, res) => {
     console.log('sending OTP');
     let secretKey = await redis.getKey('clientSecret');
@@ -41,8 +65,7 @@ app.post('/auth/sendOTP', async(req, res) => {
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
-        console.error(err);
-        res.sendStatus(500);
+        res.status(err.response.status).send(err.response.data);
     }
 });
 
@@ -68,48 +91,27 @@ app.post('/auth/verifyOTP', async(req, res) => {
         res.send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {
-        console.error(err);
-        res.send(err.status);
+        res.status(err.response.status).send(err.response.data);
     }
 });
-
-const toTitleCase = (str) => {
-    return str.replace(
-      /\w\S*/g,
-      function(txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      }
-    );
-  }
-
-const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
-    const profile = {...profileFromReq};
-    profile.personalDetails.firstName = profileFromRedis.firstName;
-    profile.personalDetails.lastName = profileFromRedis.lastName;
-    profile.personalDetails.middleName = profileFromRedis.middleName;
-    profile.personalDetails.dob = (`${profileFromRedis.yearOfBirth}-${String(profileFromRedis.monthOfBirth).padStart(2, '0')}-${String(profileFromRedis.dayOfBirth).padStart(2, '0')}`);
-    profile.personalDetails.gender = constants.GENDER_MAP[profileFromRedis.gender];
-    profile.addressDetails.state = toTitleCase(profileFromRedis.stateName);
-    profile.addressDetails.district = profileFromRedis.districtName;
-    profile.addressDetails.pincode = profileFromRedis.pincode;
-    profile.identificationDetails.abha = String(profileFromRedis.healthIdNumber).replace(/-/g, '');
-    return profile;
-}
 
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
     const profileFromRedis = JSON.parse(await redis.getKey(req.body.abhaId));
+    if(profileFromRedis === null) {
+        res.status(401).send({message: 'Abha number verification expired. Please refresh the page and restart registration'});
+        return;
+    }
     const profileFromReq = req.body.details;
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
         const response = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
         res.send(response);
+        console.log('Entity Invited');
     } catch(err) {
-        console.log(err);
-        res.send(err.status);
+        res.status(err.response.status).send(err.response.data);
     }
-    console.log('Entity Invited');
 });
 
 app.listen('3000');
