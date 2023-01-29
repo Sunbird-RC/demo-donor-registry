@@ -117,35 +117,65 @@ app.post('/register/:entityName', async(req, res) => {
 });
 
 app.get('/esign/init', async (req, res) => {
+    if (! 'data' in req.query) {
+        res.status(400).send(new Error('Pledge data not available'));
+    }
+    const pledge = JSON.parse(req.query.data)
     const data = JSON.stringify({
         "document": {
-            "integratorName": "HFRBank",
+            "integratorName": "NOTTO_DONOR_REGISTRY",
             "templateId": "TEMPLATE_1",
-            "submitterName": "xxx",
-            "signerName": "xx  xx",
-            "hpId": "123-2441-xx-3409",
-            "mobileNumber": "",
-            "emailId": "",
-            "signingPlace": "NA",
-            "facilitybank": [{
-                "facilityid": "xxx",
-                "facilityName": "xx Joshi",
-                "accountHolderName": "xx",
-                "bankName": "xx Of xx",
-                "accountNumber": "xx",
-                "branchName": "xx",
-                "ifscCode": "xx",
-                "facilityManager": "xx Sharma",
-                "pancardnumber": "xx",
-                "address": "Agra",
-                "state": "Uttar Pradesh",
-                "district": "Karoli",
-                "subdistrict": "Agra",
-                "uploadmandateform": "Yes",
-                "uploadcancalledcheque": "Yes",
-                "uploadpancard": "Yes",
-                "uploadAnnexureForm": "No"
-            }]
+            "submitterName": "TarunL",
+            "signingPlace": "Delhi",
+
+            "identification": {
+                "abha": "44555-4444-4444-44433"
+            },
+            "personaldetails": {
+                "firstName": "Bhavya L",
+                "middleName": "JA",
+                "lastName": "KO",
+                "fatherName": "RAM",
+                "motherName": "Sita",
+                "dob": "1995-10-28",
+                "gender": "Male",
+                "bloodGroup": "B+",
+                "emailId": "ram@mail.com",
+                "mobileNumber": "9876543211"
+            },
+            "addressdetails": {
+                "addressLine1": "House Place Area",
+                "addressLine2": "Area Taluk Kataveeranahalli",
+                "country": "India",
+                "state": "KARNATAKA",
+                "district": "TUMAKURU",
+                "pincode": "sdsds"
+            },
+            "pledgedetails": {
+                "organs": [
+                    "Liver",
+                    "Liver2"
+                ],
+                "tissues": [
+                    "Bone",
+                    "Bone3"
+                ],
+                "other": [
+                    "Liver",
+                    "Liver2"
+                ]
+            },
+            "emergencydetails": {
+                "name": "Ram",
+                "relation": "Father",
+                "mobileNumber": "6549873211"
+            },
+            "notificationdetails": {
+                "name": "Ram",
+                "relation": "Father",
+                "mobileNumber": "6549873211"
+            },
+            ...pledge
         }
     });
 
@@ -162,6 +192,7 @@ app.get('/esign/init', async (req, res) => {
     });
     let xmlContent = apiResponse.data.espRequest;
     // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
+    redis.storeKeyWithExpiry(`${pledge.identificationDetails.abha}-esign`, apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
     res.send(`
         <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
             <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
@@ -175,5 +206,31 @@ app.get('/esign/init', async (req, res) => {
 `);
 
 })
+
+app.get('/esign/:abha/status', async (req, res) => {
+    console.log("Get status api called")
+    try {
+        let eSingTransactionId = await redis.getKey(`${req.params.abha}-esign`);
+        console.log("Get status api called" + eSingTransactionId)
+        await axios({
+            method: 'get',
+            url: config.ESIGN_ESP_PDF_URL.replace(':transactionId', eSingTransactionId),
+            headers: {},
+            httpsAgent: new https.Agent({
+                rejectUnauthorized: false
+            })
+        })
+            .then(function (response) {
+                res.send({status: "SUCCESS"})
+            })
+            .catch(function (error) {
+                // console.error(error)
+                res.status(404).send({status: "NOT GENERATED"})
+            });
+    } catch (e) {
+        // console.error(e)
+        res.status(404).send({status: "NOT GENERATED"})
+    }
+});
 
 app.listen('3000');

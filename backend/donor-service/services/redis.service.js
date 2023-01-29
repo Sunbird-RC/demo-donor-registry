@@ -9,14 +9,15 @@ async function initRedis(config) {
     console.error(error);
   });
   getAsync = promisify(client.get).bind(client);
+  await client.connect();
 }
 
-function storeKeyWithExpiry(key, value, expiry) {
-  client.set(key, value, 'EX', expiry);
+async function storeKeyWithExpiry(key, value, expiry) {
+  await client.set(key, value, 'EX', expiry);
 }
 
 async function getKey(key) {
-  return await getAsync(key);
+  return await client.get(key);
 }
 
 function deleteKey(key) {
