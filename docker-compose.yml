@@ -269,7 +269,7 @@ services:
     ports:
       - "6379:6379"
   donor-service:
-    build: varadeth/donor-service
+    build: backend/donor-service
     ports:
       - "3000:3000"
     healthcheck:
