@@ -94,7 +94,7 @@
       }
     ],
     "certificateTemplates": {
-      "svg": "https://gist.githubusercontent.com/varadeth/f9bcf38e5ae4b3bb818224e1722b8778/raw/2dce4fe0d17ad948b57df9d9d57141654e0c820a/certificate.svg"
+      "svg": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/eng_template.svg"
     }
   }
 }
