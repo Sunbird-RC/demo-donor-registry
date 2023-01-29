@@ -5,7 +5,7 @@ let getAsync;
 
 async function initRedis(config) {
   console.log(config.REDIS_URL)
-  client = redis.createClient(config.REDIS_URL);
+  client = redis.createClient({url: config.REDIS_URL});
   client.on("error", function (error) {
     console.error(error);
   });
