@@ -128,53 +128,6 @@ app.get('/esign/init', async (req, res) => {
             "submitterName": "TarunL",
             "signingPlace": "Delhi",
 
-            "identification": {
-                "abha": "44555-4444-4444-44433"
-            },
-            "personaldetails": {
-                "firstName": "Bhavya L",
-                "middleName": "JA",
-                "lastName": "KO",
-                "fatherName": "RAM",
-                "motherName": "Sita",
-                "dob": "1995-10-28",
-                "gender": "Male",
-                "bloodGroup": "B+",
-                "emailId": "ram@mail.com",
-                "mobileNumber": "9876543211"
-            },
-            "addressdetails": {
-                "addressLine1": "House Place Area",
-                "addressLine2": "Area Taluk Kataveeranahalli",
-                "country": "India",
-                "state": "KARNATAKA",
-                "district": "TUMAKURU",
-                "pincode": "sdsds"
-            },
-            "pledgedetails": {
-                "organs": [
-                    "Liver",
-                    "Liver2"
-                ],
-                "tissues": [
-                    "Bone",
-                    "Bone3"
-                ],
-                "other": [
-                    "Liver",
-                    "Liver2"
-                ]
-            },
-            "emergencydetails": {
-                "name": "Ram",
-                "relation": "Father",
-                "mobileNumber": "6549873211"
-            },
-            "notificationdetails": {
-                "name": "Ram",
-                "relation": "Father",
-                "mobileNumber": "6549873211"
-            },
             ...pledge
         }
     });
