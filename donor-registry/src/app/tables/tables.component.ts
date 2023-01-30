@@ -20,7 +20,8 @@ export class TablesComponent implements OnInit {
   property: any[] = [];
   field;
   bloodGroup = ["Select", "O+", "A+","B+", "AB+"];
-
+  isActiverecipient = '';
+  isActivelivedonor = 'active1';    
   page: number = 1;
   limit: number = 10;
 
@@ -46,9 +47,24 @@ export class TablesComponent implements OnInit {
     });
   }
 
-  changeList(table){
+  changeList1(table){
 
-    this.router.navigate(['/transplantcoordinator/attestation/transplantcoordinator-'+ table])
+    this.router.navigate(['/transplantcoordinator/attestation/transplantcoordinator-'+ table]);
+     if(table == 'recipient')
+     {
+      this.isActiverecipient = "active1";
+      this.isActivelivedonor = "";
+     }
+  }
+
+  changeList2(table){
+
+    this.router.navigate(['/transplantcoordinator/attestation/transplantcoordinator-'+ table]);
+     if(table == 'livedonor')
+     {
+      this.isActivelivedonor = "active1";
+      this.isActiverecipient = "";
+     }
   }
 
   getData() {

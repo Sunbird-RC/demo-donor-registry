@@ -1,15 +1,16 @@
 <app-header [headerFor]='entity' [tab]='tab'></app-header>
 <div class="container mt-150">
-    <div class=" d-flex flex-row flex-wrap justify-content-between" (click)="changeList('recipient')">
-        <div class="card card-block col-sm-3 card-des active1">
-            <h2 class="font-600 cd-ti align text-white">240</h2>
-            <h4 class="p12 mb-1 align cd-sub">Recipients</h4>
-        </div>
-        <div class="card card-block  col-sm-3 card-des" (click)="changeList('livedonor')">
+    <div class=" d-flex flex-row flex-wrap justify-content-between">
+       
+        <div class="card card-block  col-sm-3 card-des {{isActivelivedonor}}" (click)="changeList2('livedonor')">
             <h2 class="font-600 cd-ti align">450</h2>
             <h4 class="p12 mb-1 align cd-sub">Live Donors</h4>
         </div>
-        <div class="card card-block col-sm-3  card-des">
+        <div class="card card-block col-sm-3 card-des {{isActiverecipient}}" (click)="changeList1('recipient')">
+            <h2 class="font-600 cd-ti align">240</h2>
+            <h4 class="p12 mb-1 align cd-sub">Recipients</h4>
+        </div>
+        <div class="card card-block col-sm-3  card-des disabled" disabled>
             <h2 class="font-600 cd-ti align">700</h2>
             <h4 class="p12 mb-1 align cd-sub">Cadaver Donors</h4>
         </div>
@@ -67,7 +68,7 @@
                     <ng-template ngFor let-td [ngForOf]="item" class="row">
                         <td class="col-3" *ngIf="td.type && td.type === 'button'; else normalTd">
                             <a [routerLink]="[td.redirectToUrl]"
-                                class="btn-holder btn-sz text-end">{{td?.buttonText
+                                class="btn btn-bg btn-sec-bg btn-style text-primary-color text-end fw-bold text-capitalize">{{td?.buttonText
                                 | translate}}</a>
                         </td>
                         <ng-template #normalTd>
