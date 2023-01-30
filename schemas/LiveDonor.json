@@ -186,6 +186,98 @@
           }
         }
       },
+      "RecipientRegistryDetails": {
+        "title": "Details of the Recipient",
+        "type": "object",
+        "required": [
+          "firstName",
+          "lastName",
+          "dob",
+          "gender",
+          "mobileNumber",
+          "identificationProof",
+          "identificationValue",
+          "residentialProof",
+          "residentialValue"
+        ],
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "First Name"
+          },
+          "middleName": {
+            "type": "string",
+            "title": "Middle Name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "Last Name"
+          },
+          "fatherName": {
+            "type": "string",
+            "title": "Father’s Name"
+          },
+          "motherName": {
+            "type": "string",
+            "title": "Mother’s Name"
+          },
+          "dob": {
+            "type": "string",
+            "format": "date",
+            "title": "Date of Birth"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "Male",
+              "Female",
+              "Transgender"
+            ],
+            "title": "Gender"
+          },
+          "emailId": {
+            "type": "string",
+            "format": "email",
+            "title": "Email Id"
+          },
+          "mobileNumber": {
+            "type": "string",
+            "pattern": "^[6-9]\\d{9}$",
+            "title": "Mobile Number"
+          },
+          "identificationProof": {
+            "type": "string",
+            "enum": [
+              "Voter Id",
+              "Aadhaar",
+              "Driving License",
+              "Passport no",
+              "PAN",
+              "Ration no"
+            ],
+            "title": "Identification Proof"
+          },
+          "identificationValue": {
+            "type": "string",
+            "title": "ABHA Number"
+          },
+          "residentialProof": {
+            "type": "string",
+            "enum": [
+              "Voter Id",
+              "Aadhaar",
+              "Driving License",
+              "Passport no",
+              "Ration no"
+            ],
+            "title": "Residential Proof"
+          },
+          "residentialValue": {
+            "type": "string",
+            "title": "Residential Number"
+          }
+        }
+      },
       "RecipientDetails": {
         "title": "Details of the Recipient",
         "type": "object",

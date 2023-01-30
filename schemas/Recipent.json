@@ -18,7 +18,7 @@
       "required": [],
       "properties": {
         "recipientDetails": {
-          "$ref": "LiveDonor.json/#/definitions/DonorDetails"
+          "$ref": "LiveDonor.json/#/definitions/RecipientRegistryDetails"
         },
         "medicalDetails": {
           "$ref": "LiveDonor.json/#/definitions/MedicalDetails"
