@@ -73,8 +73,7 @@
         "mobileNumber": "{{personalDetails.mobileNumber}}",
         "emailId": "{{personalDetails.emailId}}",
         "fatherName": "{{personalDetails.fatherName}}",
-        "emergencyMobileNumber": "{{emergencyDetails.mobileNumber}}",
-        "photo": "{{personalDetails.photo}}"
+        "emergencyMobileNumber": "{{emergencyDetails.mobileNumber}}"
       },
       "evidence": {
         "type": "Pledge",
