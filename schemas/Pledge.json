@@ -93,7 +93,9 @@
       }
     ],
     "certificateTemplates": {
-      "svg": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/eng_template.svg"
+      "svg": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/eng_template.svg",
+      "english": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/eng_template.svg",
+      "hindi": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/hindi_template.svg"
     }
   }
 }
