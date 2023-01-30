@@ -4,10 +4,15 @@ const swagger = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const axios = require('axios').default;
 const https = require('https');
+const qs = require('qs');
+const FormData = require('form-data');
+const fs = require('fs');
+const {Blob} = require('buffer');
 
 const redis = require('./services/redis.service');
 const config = require('./configs/config');
 const constants = require('./configs/constants');
+const SERVICE_ACCOUNT_TOKEN = "SERVICE_ACCOUNT_TOKEN";
 
 const app = express();
 (async() => {
@@ -70,7 +75,7 @@ app.post('/auth/sendOTP', async(req, res) => {
     //TODO:get method from frontend
     const method = 'AADHAAR_OTP';
     try {
-        const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId}, 
+        const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId},
             {headers: {Authorization: 'Bearer '+clientSecretToken}})).data;
         res.send(otpSendResponse);
         console.log('OTP sent');
@@ -93,11 +98,12 @@ app.post('/auth/verifyOTP', async(req, res) => {
         }, {headers: {Authorization: 'Bearer ' + clientSecretToken}})).data;
         console.log('OTP verified', verifyOtp);
         const userToken = verifyOtp.token;
-        const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`, {headers: {Authorization: 'Bearer ' + secretKey, "X-Token": 'Bearer ' + userToken}})).data;
+        const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`, {headers: {Authorization: 'Bearer ' + clientSecretToken, "X-Token": 'Bearer ' + userToken}})).data;
         redis.storeKeyWithExpiry(profile.healthIdNumber, JSON.stringify(profile), config.EXPIRE_PROFILE)
         res.send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {
+        console.error(err)
         res.status(err.response.status).send(err.response.data);
     }
 });
@@ -169,7 +175,7 @@ app.get('/esign/init', async (req, res) => {
         });
         let xmlContent = apiResponse.data.espRequest;
         // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
-        redis.storeKeyWithExpiry(`${pledge.identificationDetails.abha}-esign`, apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
+        await redis.storeKeyWithExpiry(getEsginKey(pledge.identificationDetails.abha), apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
         res.send(`
         <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
             <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
@@ -188,19 +194,79 @@ app.get('/esign/init', async (req, res) => {
 
 })
 
+function getEsginKey(abha) {
+    return `${abha}-esign`;
+}
+
+
+
+async function uploadESignFile(pledgeOsid, fileBytes) {
+    const data = new FormData();
+    data.append('files', fileBytes);
+    const response = await axios({
+        method: 'post',
+        url: `${config.REGISTRY_URL}/api/v1/User/${pledgeOsid}/esign/documents`,
+        headers: {
+            'Authorization': `Bearer ${getServiceAccountToken()}`,
+            ...data.getHeaders()
+        },
+        data: data
+    })
+        .then(function (response) {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    console.log(response)
+}
+
+
+async function getServiceAccountToken() {
+    const token = await redis.getKey(SERVICE_ACCOUNT_TOKEN);
+    if (token === null) {
+
+        const response = await axios({
+            method: 'post',
+            url: `${config.REGISTRY_URL}/auth/realms/sunbird-rc/protocol/openid-connect/token`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: qs.stringify({
+                'grant_type': 'client_credentials',
+                'client_id': 'donor-service',
+                'client_secret': config.SERVICE_ACCOUNT_CLIENT_SECRET
+            })
+        })
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        await redis.storeKeyWithExpiry(SERVICE_ACCOUNT_TOKEN, response.access_token, response.expires_in)
+        return response.access_token;
+    }
+    return token;
+}
+
+async function getESingDoc(abha) {
+    let eSingTransactionId = await redis.getKey(getEsginKey(abha));
+    console.log("Get status api called" + eSingTransactionId)
+    return axios({
+        method: 'get',
+        url: config.ESIGN_ESP_PDF_URL.replace(':transactionId', eSingTransactionId),
+        headers: {},
+        httpsAgent: new https.Agent({
+            rejectUnauthorized: false
+        })
+    })
+}
+
 app.get('/esign/:abha/status', async (req, res) => {
     console.log("Get status api called")
     try {
-        let eSingTransactionId = await redis.getKey(`${req.params.abha}-esign`);
-        console.log("Get status api called" + eSingTransactionId)
-        await axios({
-            method: 'get',
-            url: config.ESIGN_ESP_PDF_URL.replace(':transactionId', eSingTransactionId),
-            headers: {},
-            httpsAgent: new https.Agent({
-                rejectUnauthorized: false
-            })
-        })
+        await getESingDoc(req.params.abha)
             .then(function (response) {
                 res.send({status: "SUCCESS"})
             })
