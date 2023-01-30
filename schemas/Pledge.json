@@ -95,7 +95,19 @@
     "certificateTemplates": {
       "svg": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/eng_template.svg",
       "english": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/eng_template.svg",
-      "hindi": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/hindi_template.svg"
+      "hindi": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/hindi_template.svg",
+      "assamese":  "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/assamese_template.svg",
+      "bangla": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/bangla_template.svg",
+      "dogri":  "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/dogri_template.svg",
+      "gujarati": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/gujarati_template.svg",
+      "kannada":  "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/kannada_template.svg",
+      "malayalam": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/malayalam_template.svg",
+      "marathi":  "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/marathi_template.svg",
+      "odia": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/odia_template.svg",
+      "punjabi":  "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/punjabi_template.svg",
+      "tamil": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/tamil_template.svg",
+      "telegu":  "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/telegu_template.svg",
+      "urdu": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/urdu_template.svg"
     }
   }
 }
