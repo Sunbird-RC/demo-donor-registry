@@ -2,19 +2,19 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
   "properties": {
-    "LiveDonor": {
-      "$ref": "LiveDonor.json/#/definitions/LiveDonor"
+    "Recipient": {
+      "$ref": "#/definitions/Recipient"
     }
   },
   "required": [
-    "LiveDonor"
+    "Recipient"
   ],
-  "title": "LiveDonor",
+  "title": "Recipient",
   "definitions": {
-    "LiveDonor": {
-      "$id": "#/properties/LiveDonor",
+    "Recipient": {
+      "$id": "#/properties/Recipient",
       "type": "object",
-      "title": "The LiveDonor Schema",
+      "title": "The Recipient Schema",
       "required": [],
       "properties": {
         "recipientDetails": {
