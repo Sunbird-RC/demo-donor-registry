@@ -28,7 +28,7 @@
             }
         },
         {
-            "transplantcoordinator": {
+            "transplantcoordinator-livedonor": {
                 "api": "LiveDonor",
                 "title": "",
                 "fields": [
@@ -58,6 +58,37 @@
                         "type": "button",
                         "buttonText": "Edit",
                         "redirectTo": "/form/livedonor/:osid"
+                    }
+                ]
+            }
+        },
+        {
+            "transplantcoordinator-recipient": {
+                "api": "Recipient",
+                "title": "",
+                "fields": [
+                    {
+                        "name": "recipientDetails.firstName",
+                        "title": "Donors"
+                    },
+                    {
+                        "name": "recipientDetails.mobileNumber",
+                        "title": "Mobile Number"
+                    },
+                    {
+                        "name": "recipientDetails.emailId",
+                        "title": "HLA Cross Match"
+                    },
+                    {
+                        "name": "status",
+                        "title": "Status"
+                    },
+                    {
+                        "custom": true,
+                        "title": "ACTION",
+                        "type": "button",
+                        "buttonText": "Edit",
+                        "redirectTo": "/form/recipient/:osid"
                     }
                 ]
             }

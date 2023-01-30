@@ -80,6 +80,8 @@ export class FormsComponent implements OnInit {
     //   this.model["details"] = { ...this.model["emergencyDetails"] };
     // }
 
+    if(this.form == 'livedonor')
+    {
 
     if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue') ) {
       setTimeout(() => {
@@ -146,11 +148,13 @@ export class FormsComponent implements OnInit {
       }
     }, 8000);
     }
+  }
  
   }
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location) { }
+
 
   ngOnInit(): void {
 
@@ -1042,7 +1046,12 @@ export class FormsComponent implements OnInit {
       this.model["status"] = this.isSaveAsDraft;
     }
 
-    if (this.fileFields.length > 0 && this.form != 'livedonor') {
+    if (this.form == 'recipient') {
+      this.model["recipientDetails"]["identificationProof"] = "Aadhaar";
+      this.model["status"] = this.isSaveAsDraft;
+    }
+
+    if (this.fileFields.length > 0 && this.form != 'livedonor' && this.form != 'recipient') {
       this.fileFields.forEach(fileField => {
         if (this.model[fileField]) {
           var formData = new FormData();
@@ -1316,8 +1325,8 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
   }
 
   getData() {
-    this.generalService.isUserLoggedIn().then((log) => {
-      if (log != undefined) {
+    // this.generalService.isUserLoggedIn().then((log) => {
+    //   if (log != undefined) {
         var get_url;
         if (this.identifier) {
           if(this.propertyName != undefined)
@@ -1354,9 +1363,9 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           }
           this.loadSchema()
         });
-      }
+      //}
 
-    })
+    //})
 
   }
 

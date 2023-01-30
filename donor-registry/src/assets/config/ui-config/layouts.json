@@ -112,7 +112,7 @@
         },
         {
             "transplantcoordinator": {
-                "table": "transplantCoordinator"
+               "table": "transplantcoordinator-livedonor"
             }
         },
         {
