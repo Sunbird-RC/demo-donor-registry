@@ -52,19 +52,26 @@ const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
     return profile;
 }
 
-app.post('/auth/sendOTP', async(req, res) => {
-    console.log('sending OTP');
-    let secretKey = await redis.getKey('clientSecret');
-    if(secretKey === null) {
+
+const getClientSecretToken = async() => {
+    let clientSecret = await redis.getKey('clientSecret');
+    if(clientSecret === null) {
         let clientSecretResponse = (await getClientSecretResponse()).data;
         redis.storeKeyWithExpiry('clientSecret', clientSecretResponse.accessToken, parseInt(clientSecretResponse.expiresIn));
-        secretKey = clientSecretResponse.accessToken;
+        clientSecret = clientSecretResponse.accessToken;
     }
+    return clientSecret;
+}
+
+app.post('/auth/sendOTP', async(req, res) => {
+    console.log('sending OTP');
+    const clientSecretToken = await getClientSecretToken();
     const abhaId = req.body.healthId;
     //TODO:get method from frontend
     const method = 'AADHAAR_OTP';
     try {
-        const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId}, {headers: {Authorization: 'Bearer '+secretKey}})).data;
+        const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId}, 
+            {headers: {Authorization: 'Bearer '+clientSecretToken}})).data;
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
@@ -73,21 +80,17 @@ app.post('/auth/sendOTP', async(req, res) => {
     }
 });
 
+
 app.post('/auth/verifyOTP', async(req, res) => {
     console.log('Verifying OTP and sending Profile KYC');
     const transactionId = req.body.transactionId;
     const otp = req.body.otp;
-    let secretKey = await redis.getKey('clientSecret');
-    if(secretKey === null) {
-        let clientSecretResponse = (await getClientSecretResponse()).data;
-        redis.storeKeyWithExpiry('clientSecret', clientSecretResponse.accessToken, parseInt(clientSecretResponse.expiresIn));
-        secretKey = clientSecretResponse.accessToken;
-    }
+    const clientSecretToken = await getClientSecretToken();
     try {
         const verifyOtp = (await axios.post(`${config.BASE_URL}/v1/auth/confirmWithAadhaarOtp`, {
             "otp": otp,
             "txnId": transactionId
-        }, {headers: {Authorization: 'Bearer ' + secretKey}})).data;
+        }, {headers: {Authorization: 'Bearer ' + clientSecretToken}})).data;
         console.log('OTP verified', verifyOtp);
         const userToken = verifyOtp.token;
         const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`, {headers: {Authorization: 'Bearer ' + secretKey, "X-Token": 'Bearer ' + userToken}})).data;
