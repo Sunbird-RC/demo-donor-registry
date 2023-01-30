@@ -6,8 +6,6 @@ const axios = require('axios').default;
 const https = require('https');
 const qs = require('qs');
 const FormData = require('form-data');
-const fs = require('fs');
-const {Blob} = require('buffer');
 
 const redis = require('./services/redis.service');
 const config = require('./configs/config');
@@ -50,6 +48,7 @@ const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
     profile.personalDetails.middleName = profileFromRedis.middleName;
     profile.personalDetails.dob = (`${profileFromRedis.yearOfBirth}-${String(profileFromRedis.monthOfBirth).padStart(2, '0')}-${String(profileFromRedis.dayOfBirth).padStart(2, '0')}`);
     profile.personalDetails.gender = constants.GENDER_MAP[profileFromRedis.gender];
+    profile.personalDetails.photo = profileFromRedis.profilePhoto;
     profile.addressDetails.state = toTitleCase(profileFromRedis.stateName);
     profile.addressDetails.district = profileFromRedis.districtName;
     profile.addressDetails.pincode = profileFromRedis.pincode;
@@ -119,10 +118,15 @@ app.post('/register/:entityName', async(req, res) => {
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
-        const response = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
-        res.send(response);
-        console.log('Entity Invited');
+        const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
+        const abha = profileFromReq.identificationDetails.abha;
+        const osid = inviteReponse.result[entityName].osid;
+        const esignFileData = (await getESingDoc(abha)).data;
+        const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
+        console.log(uploadESignFileRes);
+        res.send(inviteReponse);
     } catch(err) {
+        console.log(err);
         res.status(err.response.status).send(err.response.data);
     }
 });
@@ -198,16 +202,14 @@ function getEsginKey(abha) {
     return `${abha}-esign`;
 }
 
-
-
 async function uploadESignFile(pledgeOsid, fileBytes) {
     const data = new FormData();
-    data.append('files', fileBytes);
+    data.append('files', Buffer.from(fileBytes), {filename: '.pdf'});
     const response = await axios({
         method: 'post',
-        url: `${config.REGISTRY_URL}/api/v1/User/${pledgeOsid}/esign/documents`,
+        url: `${config.REGISTRY_URL}/api/v1/Pledge/${pledgeOsid}/esign/documents`,
         headers: {
-            'Authorization': `Bearer ${getServiceAccountToken()}`,
+            'Authorization': `Bearer ${await getServiceAccountToken()}`,
             ...data.getHeaders()
         },
         data: data
@@ -218,7 +220,8 @@ async function uploadESignFile(pledgeOsid, fileBytes) {
         .catch(function (error) {
             console.log(error);
         });
-    console.log(response)
+    console.log(response);
+    return response;
 }
 
 
@@ -228,7 +231,7 @@ async function getServiceAccountToken() {
 
         const response = await axios({
             method: 'post',
-            url: `${config.REGISTRY_URL}/auth/realms/sunbird-rc/protocol/openid-connect/token`,
+            url: `${config.KEYCLOAK_URL}/auth/realms/sunbird-rc/protocol/openid-connect/token`,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -256,6 +259,8 @@ async function getESingDoc(abha) {
     return axios({
         method: 'get',
         url: config.ESIGN_ESP_PDF_URL.replace(':transactionId', eSingTransactionId),
+        responseEncoding: 'binary',
+        responseType: 'arraybuffer',
         headers: {},
         httpsAgent: new https.Agent({
             rejectUnauthorized: false
