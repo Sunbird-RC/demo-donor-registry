@@ -46,6 +46,11 @@ export class TablesComponent implements OnInit {
     });
   }
 
+  changeList(table){
+
+    this.router.navigate(['/transplantcoordinator/attestation/transplantcoordinator-'+ table])
+  }
+
   getData() {
     var get_url;
     if (this.entity) {

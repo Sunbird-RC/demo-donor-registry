@@ -843,6 +843,7 @@ label {
     align-items: center;
     color: #fff;
     font-size: 20px;
+    border-radius: 5px;
 }
 .second-nav{
     background: #3B864C;
@@ -967,8 +968,41 @@ label {
     height: 347px;
     background-color: #15260F;
 }
-
-
+.card-des{
+    height: 145px !important;
+    width: 375px !important;
+    border-radius: 5px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cd-ti{
+    font-size: 44px;
+    font-weight: 700;
+    color: #4F8452;
+}
+.cd-sub{
+    font-weight: 600;
+    font-size: 26px !important;
+    color: #444444;
+}
+.active1{
+    background-color: #64825B !important;
+    color:red !important;
+  }
+.th-h{
+    font-size: 18px;
+}
+.tb-b{
+    font-size: 17px;
+}
+.table-bordered{
+    border: 3px solid #dee2e6 !important;
+}
+.btn-sz{
+    width: 154px !important;
+    height: 52px !important;
+}
 
 
 

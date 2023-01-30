@@ -85,15 +85,15 @@
                                     "formclass": "row",
                                     "fields": [
                                         {
-                                            "name": "proof",
-                                            "class": "col-4",
-                                            "required": true
-                                        },
-                                        {
-                                            "name": "number",
+                                            "name": "abha",
                                             "type": "verify-code",
                                             "class": "col-4",
-                                            "required": true
+                                            "required": true,
+                                            "placeholder": "xx-xxxx-xxxx-xxxx",
+                                            "validation": {
+                                                "pattern": "[9]{1}[1]{1}[0-9]{12}",
+                                                "message": "ABHA Number must be 14 digits"
+                                            }
                                         }
                                     ]
                                 }
@@ -108,8 +108,8 @@
                                         {
                                             "name": "firstName",
                                             "class": "col-4",
+                                            "pattern": "^[a-zA-Z\\s-']+$",
                                             "validation": {
-                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
@@ -631,23 +631,321 @@
             }
         },
         {
-            "Recipient": {
+            "recipient": {
                 "api": "Recipient",
-                "type": "property:pledge",
+                "type": "entity",
                 "langKey": "institute",
                 "fieldsets": [
                     {
-                        "definition": "Pledge",
+                        "definition": "Recipient",
                         "fields": [
                             {
-                                "name": "personalDetails"
+                                "name": "recipientDetails",
+                                "children": {
+                                    "definition": "DonorDetails",
+                                    "title": "Recipient Details",
+                                    "class": "card card-body m-3",
+                                    "formclass": "row form-div ",
+                                    "fields": [
+                                        {
+                                            "name": "identificationValue",
+                                            "class": "col-4",
+                                            "type": "verify-code"
+                                        },
+                                        {
+                                            "name": "firstName",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "middleName",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "lastName",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "dob",
+                                            "type": "date",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "gender",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "emailId",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            },
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "residentialProof",
+                                            "type": "date",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "residentialValue",
+                                            "class": "col-4"
+                                        }
+                                    ]
+                                }
                             },
                             {
-                                "name": "identificationDetails"
+                                "name": "medicalDetails",
+                                "children": {
+                                    "definition": "MedicalDetails",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "height",
+                                            "class": "col-2"
+                                        },
+                                        {
+                                            "name": "weight",
+                                            "class": "col-2"
+                                        },
+                                        {
+                                            "name": "bmi",
+                                            "class": "col-2"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "medicalHistory",
+                                "children": {
+                                    "definition": "MedicalHistory",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "hypertension",
+                                            "class": "col-3",
+                                            "type": "radio"
+                                        },
+                                        {
+                                            "name": "diabetes",
+                                            "class": "col-3",
+                                            "type": "radio"
+                                        },
+                                        {
+                                            "name": "systolic",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "diastolic",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "gfr",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "historyIllness",
+                                            "class": "col-3"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "bloodGroupDetails",
+                                "children": {
+                                    "definition": "BloodGroupDetails",
+                                    "title": "Blood Group Details",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "group",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "transfusion",
+                                            "class": "col-3"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "hematology",
+                                "children": {
+                                    "definition": "Hematology",
+                                    "title": "Hematology",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "hb",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "tlc",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "dcl",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "platelets",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "pbSmear",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "esr",
+                                            "class": "col-3"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "urineExam",
+                                "children": {
+                                    "definition": "UrineExam",
+                                    "title": "urineExam",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "file",
+                                            "class": "col-3",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "biochemistry",
+                                "children": {
+                                    "definition": "Biochemistry",
+                                    "title": "biochemistry",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "file",
+                                            "class": "col-3",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "ekg",
+                                "children": {
+                                    "definition": "EKG",
+                                    "title": "ekg",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "file",
+                                            "class": "col-3",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "thyroidFunction",
+                                "children": {
+                                    "definition": "ThyroidFunction",
+                                    "title": "thyroidFunction",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "file",
+                                            "class": "col-3",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "virology",
+                                "children": {
+                                    "definition": "Virology",
+                                    "title": "virology",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "file",
+                                            "class": "col-3",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "radiology",
+                                "children": {
+                                    "definition": "Radiology",
+                                    "title": "radiology",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "file",
+                                            "class": "col-3",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "clearances",
+                                "children": {
+                                    "definition": "Clearances",
+                                    "title": "clearances",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "file",
+                                            "class": "col-3",
+                                            "format": "file"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "recipientHLA",
+                                "children": {
+                                    "definition": "RecipientHLATypingDetails",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "a",
+                                            "class": "col-2"
+                                        },
+                                        {
+                                            "name": "b",
+                                            "class": "col-2"
+                                        },
+                                        {
+                                            "name": "dr",
+                                            "class": "col-2"
+                                        },
+                                        {
+                                            "name": "dq",
+                                            "class": "col-2"
+                                        },
+                                        {
+                                            "name": "other",
+                                            "class": "col-2"
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
-                ]
+                ],
+                "redirectTo": "/transplantcoordinator/attestation/transplantcoordinator-recipient"
             }
         },
         {
@@ -661,11 +959,11 @@
                         "definition": "LiveDonor",
                         "dependencies": {
                             "proofOfRelationtype": {
-                                "className" : "form-div",
+                                "className": "form-div",
                                 "oneOf": [
                                     {
                                         "properties": {
-                                            "className" : "form-div",
+                                            "className": "form-div",
                                             "proofOfRelationtype": {
                                                 "enum": [
                                                     "Near Relative"
@@ -674,7 +972,7 @@
                                             "details": {
                                                 "type": "object",
                                                 "title": "Proof of Relationship between Donor and Recipient (Near Relative - Form – 1) ",
-                                                "className" : "form-div",
+                                                "className": "form-div",
                                                 "properties": {
                                                     "relation": {
                                                         "type": "select",
@@ -1158,17 +1456,24 @@
                                 "class": "form-div "
                             },
                             {
-                                "name": "details",
-                                "custom": true,
-                                "class": "row form-div ",
-                                "element": {
+                                "name": "crossMatchDetails",
+                                "children": {
+                                    "definition": "CrossMatchDetails",
+                                    "formclass": "row form-div ",
                                     "title": "Cross Matching",
-                                    "properties": {
-                                        "Upload": {
-                                            "type": "file",
-                                            "title": "Upload"
+                                    "fields": [
+                                        {
+                                            "name": "crossMatchDate",
+                                            "class": "col-4",
+                                            "type": "date"
+                                        },
+                                        {
+                                            "name": "crossMatchFile",
+                                            "class": "col-3",
+                                            "type": "string",
+                                            "format":"file"
                                         }
-                                    }
+                                    ]
                                 }
                             },
                             {
@@ -1192,7 +1497,7 @@
                         ]
                     }
                 ],
-                "redirectTo": "/transplantcoordinator/attestation/transplantCoordinator"
+                "redirectTo": "/transplantcoordinator/attestation/transplantcoordinator-livedonor"
             }
         }
     ]

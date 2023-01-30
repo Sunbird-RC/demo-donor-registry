@@ -5,11 +5,12 @@
   <div *ngIf="isSignupForm || header" class="  mt-150"></div>
   <div class="col-md-10 offset-md-1">
    
-    <button *ngIf="form == 'livedonor'" class="gobackBtn d-flex fw-bold" onClick="history.go(-1); return false;">
+    <button *ngIf="form == 'livedonor' || form == 'recipient'" class="gobackBtn d-flex fw-bold" onClick="history.go(-1); return false;">
       <i class="fa fa-angle-left primary-text backIcon"></i>  &nbsp; &nbsp;
-      <p class="p16"> Add Donor</p>
-
+      <p class="p16" *ngIf="form == 'livedonor'"> Add Donor</p>
+      <p class="p16" *ngIf="form == 'recipient'"> Add Recipient</p>
   </button>
+
     <h3 class="font-weight-bold">  {{headingTitle}}</h3>
     <div class="card mb-5">
       <div *ngIf="schemaloaded; else loader" class="card-body">
@@ -46,10 +47,15 @@
               </div>
             </span>
 
-            <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor'" type="submit" class="btn btn-primary w-100 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
-            <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor'" type="submit" class="btn btn-bg text-capitalize btn-style ml-2 mt-2 nav-link-color btn-sec-bg" [disabled]="!form2.valid">Save as Draft</button>
+            <div class="d-flex justify-content-between">
+              
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="submit" class="btn-holder btn-size btn-centre" [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
+            
+              <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
+              <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class="btn-holder float-end btn-size"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
+            </div>
+
           
-            <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor'" type="submit" class="btn btn-primary text-capitalize btn-style float-end mt-2 submit-button" [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
 
           </form>
         </div>
@@ -79,14 +85,14 @@
       <div class="modal-body">
         <div class="d-flex flex-column justify-content-center align-items-center">
          <div><img class="check-logo" src="assets/images/circle-check.png"></div>
-        <div class="p14 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor'"> Confirm Pledge Registration</div>
+        <div class="p14 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> Confirm Pledge Registration</div>
         <div class="p14 mb-2 mt-2 fw-bold">Please confirm to submit details</div>
         <div class="container-fluid mt-3">
         <button data-dismiss="modal"  class="btn btn-bg nav-link-color btn-sec-bg mb-2">Cancel</button>
         <a class="mt-3">
-          <button id=""type="submit"*ngIf="form != 'livedonor'"  class="btn btn-primary float-end submit-button mb-2" data-toggle="modal" data-target="#downloadCardModal" data-dismiss="modal">OK, Confirm</button>
+          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary float-end submit-button mb-2" data-toggle="modal" data-target="#downloadCardModal" data-dismiss="modal">OK, Confirm</button>
 
-       <a *ngIf="form == 'livedonor'" href="/transplantcoordinator/attestation/transplantCoordinator"> <button id=""type="submit"  class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
+       <a *ngIf="form == 'livedonor' || form == 'recipient'" href='"/transplantcoordinator/attestation/transplantCoordinator-" + "form"'> <button id=""type="submit"  class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
         </a>
       </div>
       </div>

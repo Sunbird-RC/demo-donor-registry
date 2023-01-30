@@ -20,15 +20,18 @@
       ],
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "Name"
         },
         "email": {
           "type": "string",
-          "format": "email"
+          "format": "email",
+          "title": "Email"
         },
         "mobile": {
           "type": "string",
-          "pattern": "^[6-9]\\d{9}$"
+          "pattern": "^[6-9]\\d{9}$",
+          "title": "Mobile"
         },
         "facilityId": {
           "type": "string",
