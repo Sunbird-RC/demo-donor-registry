@@ -61,12 +61,14 @@ app.post('/auth/sendOTP', async(req, res) => {
         secretKey = clientSecretResponse.accessToken;
     }
     const abhaId = req.body.healthId;
+    //TODO:get method from frontend
     const method = 'AADHAAR_OTP';
     try {
         const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId}, {headers: {Authorization: 'Bearer '+secretKey}})).data;
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
+        console.log(err)
         res.status(err.response.status).send(err.response.data);
     }
 });
@@ -117,36 +119,55 @@ app.post('/register/:entityName', async(req, res) => {
 });
 
 app.get('/esign/init', async (req, res) => {
-    if (! 'data' in req.query) {
-        res.status(400).send(new Error('Pledge data not available'));
-    }
-    const pledge = JSON.parse(req.query.data)
-    const data = JSON.stringify({
-        "document": {
-            "integratorName": "NOTTO_DONOR_REGISTRY",
-            "templateId": "TEMPLATE_1",
-            "submitterName": "TarunL",
-            "signingPlace": "Delhi",
-
-            ...pledge
+    try {
+        if (!'data' in req.query) {
+            res.status(400).send(new Error('Pledge data not available'));
         }
-    });
+        const pledge = JSON.parse(req.query.data)
+        const data = JSON.stringify({
+            "document": {
+                "integratorName": "NOTTO_DONOR_REGISTRY",
+                "templateId": "TEMPLATE_1",
+                "submitterName": "TarunL",
+                "signingPlace": "Delhi",
+                identification: {
+                    ...pledge.identificationDetails
+                },
+                personaldetails: {
+                    "middleName": "",
+                    ...pledge.personalDetails
+                },
+                addressdetails: {
+                    ...pledge.addressDetails
+                },
+                pledgedetails: {
+                    ...pledge.pledgeDetails,
+                    other: 'other' in pledge.pledgeDetails ? [pledge.pledgeDetails?.other]: []
+                },
+                emergencydetails: {
+                    ...pledge.emergencyDetails
+                },
+                notificationdetails: {
+                    ...pledge.notificationDetails
+                }
+            }
+        });
 
-    const apiResponse = await axios({
-        method: 'post',
-        url: config.ESIGN_ESP_URL,
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        data: data,
-        httpsAgent: new https.Agent({
-            rejectUnauthorized: false
-        })
-    });
-    let xmlContent = apiResponse.data.espRequest;
-    // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
-    redis.storeKeyWithExpiry(`${pledge.identificationDetails.abha}-esign`, apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
-    res.send(`
+        const apiResponse = await axios({
+            method: 'post',
+            url: config.ESIGN_ESP_URL,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data,
+            httpsAgent: new https.Agent({
+                rejectUnauthorized: false
+            })
+        });
+        let xmlContent = apiResponse.data.espRequest;
+        // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
+        redis.storeKeyWithExpiry(`${pledge.identificationDetails.abha}-esign`, apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
+        res.send(`
         <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
             <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
             <input type="hidden" id="aspTxnID" name="aspTxnID" value='${apiResponse.data.aspTxnId}'/>
@@ -157,6 +178,10 @@ app.get('/esign/init', async (req, res) => {
             document.getElementById("formid").submit();
         </script>
 `);
+    } catch (e) {
+        console.error(e)
+        res.status(500).send(e);
+    }
 
 })
 
