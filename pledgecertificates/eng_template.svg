@@ -851,5 +851,5 @@
     <g id="Layer-1" data-name="P"/>
     <image xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="" transform="matrix(17.394655, 0, 0, 16.860964, 3.119185, 412.511963)" xlink:href="{{qrCode}}"/>
   </g>
-  <image xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="" transform="matrix(5.71097, 0, 0, 6.317389, 42.610855, 643.213867)" xlink:href="{{entity.personalDetails.photo}}"/>
+  <image xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="" transform="matrix(5.71097, 0, 0, 6.317389, 42.610855, 643.213867)" xlink:href="data:image/png;base64,{{entity.personalDetails.photo}}"/>
 </svg>
