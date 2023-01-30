@@ -13,7 +13,6 @@
 
 @import '~bootstrap/scss/bootstrap';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
 :root {
     // SB-RC
     // --primaryColor: #1987B6;
@@ -75,7 +74,7 @@
 /* PK changes for - theme support */
 
 .nav-link-color {
-    color: var(--navlinkColor) !important;
+    color: var(--navlinkColor) !important;  
 }
 
 
@@ -195,13 +194,12 @@ legend {
 }
 
 .btn-bg {
-    background-color: var(--btnBgColor) !important;
+    background-color: var( --btnBgColor) !important;
 }
 
-.btn-sec-bg {
-    background-color: var(--secondaryBtnBgColor) !important;
+.btn-sec-bg{
+    background-color: var( --secondaryBtnBgColor) !important;
 }
-
 .badge-secondary {
     border: 1px solid #CCCCCC !important;
     background-color: var(--bodyBackground) !important;
@@ -293,7 +291,6 @@ form-group {
 
 $primary-color: var(--primaryColor);
 $gray-color: #8d9091;
-
 .primary-color {
     background-color: var(--primaryColor) !important;
 }
@@ -303,9 +300,8 @@ $gray-color: #8d9091;
 }
 
 $primary-color-dark: #000;
-
 .primary-color-dark {
-    background-color: $gray-color !important;
+    background-color: $gray-color!important;
 }
 
 // .text-primary-color{
@@ -339,11 +335,9 @@ body {
 .fs-8 {
     font-size: 0.7rem;
 }
-
 .fs-16p {
     font-size: 16px;
 }
-
 .fs-18p {
     font-size: 18px;
 }
@@ -354,7 +348,7 @@ body {
 
 a {
     text-decoration: none !important;
-    // color: var(--linkColor) !important;
+   // color: var(--linkColor) !important;
 }
 
 // /* Importing Bootstrap SCSS file. */
@@ -362,7 +356,7 @@ a {
 button.calendar,
 button.calendar:active {
     width: 2.75rem;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=) !important;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAcCAYAAAAEN20fAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAEUSURBVEiJ7ZQxToVAEIY/YCHGxN6XGOIpnpaEsBSeQC9ArZbm9TZ6ADyBNzAhQGGl8Riv4BLAWAgmkpBYkH1b8FWT2WK/zJ8ZJ4qiI6XUI3ANnGKWBnht2/ZBDRK3hgVGNsCd7/ui+JkEIrKtqurLpEWaphd933+IyI3LEIdpCYCiKD6HcuOa/nwOa0ScJEnk0BJg0UTUWJRl6RxCYEzEmomsIlPU3IPW+grIAbquy+q6fluy/28RIBeRMwDXdXMgXLj/B2uimRXpui4D9sBeRLKl+1N+L+t6RwbWrZliTTTr1oxYtzVWiTQAcRxvTX+eJMnlUDaO1vpZRO5NS0x48sIwfPc87xg4B04MCzQi8hIEwe4bl1DnFMCN2zsAAAAASUVORK5CYII=)!important;
     background-repeat: no-repeat;
     background-size: 23px;
     background-position: 50%;
@@ -451,7 +445,7 @@ button.calendar:active {
     right: 0;
     bottom: 0;
     margin: auto !important;
-    width: 600px !important;
+     width: 600px !important;
     height: 100%;
     max-width: 800px !important;
     -webkit-transform: translate3d(0%, 0, 0) !important;
@@ -501,7 +495,6 @@ formly-field {
 }
 
 @import "~@ng-select/ng-select/themes/default.theme.css";
-
 [type="file"] {
     height: 0;
     overflow: hidden;
@@ -523,11 +516,9 @@ formly-field {
     position: relative;
     transition: all 0.3s;
     vertical-align: middle;
-
     &:hover {
         background-color: darken(white, 5%);
     }
-
     #custom-text {
         margin-left: 10px;
         font-family: sans-serif;
@@ -546,8 +537,8 @@ formly-field {
 }
 
 .list-area {
-    background-color: var(--cardBackground) !important;
-    color: var(--primaryTextColor) !important;
+    background-color : var(--cardBackground) !important;
+ color: var(--primaryTextColor) !important;
 }
 
 .list-filter {
@@ -657,11 +648,9 @@ formly-autocomplete-type .ng-select {
 
 .tags-list {
     margin-top: 10px;
-
     ul {
         margin: 0;
         padding: 0;
-
         li {
             display: inline-block;
             list-style: none;
@@ -681,7 +670,6 @@ formly-autocomplete-type .ng-select {
 
 .nav-tabs {
     border: 0 !important;
-
     li {
         .nav-link {
             padding: 10px 0px;
@@ -690,7 +678,6 @@ formly-autocomplete-type .ng-select {
             border: 0px;
             color: var(--primaryTextColor) !important;
             font-weight: 400 !important;
-
             &.active,
             &:hover {
                 border-bottom: 1px solid var(--navlinkColor) !important;
@@ -706,7 +693,7 @@ formly-autocomplete-type .ng-select {
 
 .card {
     background-color: var(--cardBackground) !important;
-    border: 1px solid var(--cardBorder) !important;
+    border: 1px solid  var(--cardBorder) !important;
 }
 
 .floating-bottom {
@@ -745,13 +732,12 @@ formly-autocomplete-type .ng-select {
     border-bottom: 1px solid #cecece;
 }
 
-legend {
+legend{
     color: var(--primaryTextColor) !important;
-
+ 
 }
 
-h4,
-h3 {
+h4, h3 {
     color: var(--primaryTextColor)
 }
 
@@ -799,43 +785,38 @@ label {
     color: var(--primaryTextColor) !important;
 }
 
-.modal-header {
+.modal-header
+{
     background-color: var(--headerColor) !important;
 }
 
-.table td,
-.table th {
-    color: var(--primaryTextColor)
-}
+.table td, .table th {
+    color: var(--primaryTextColor)}
 
 
-a,
-li {
-    cursor: pointer;
-}
+   a, li { cursor: pointer; }
 
-.gobackBtn {
+   .gobackBtn {
     padding: 0;
     border: none;
     background: none;
-}
+  }
 
-.align {
+  .align{
     display: flex;
     justify-content: center;
 }
-
-.card-radius {
+.card-radius{
     border-radius: 1.25rem !important;
 }
 
 .btn {
     border-radius: 25px !important;
-    text-transform: capitalize !important;
-    box-shadow: none !important;
-}
+     text-transform: capitalize !important;
+     box-shadow: none !important;
+ }
 
-.mt-150 {
+ .mt-150{
     margin-top: 120px;
 }
 
@@ -844,18 +825,16 @@ li {
     padding-top: 10px;
 }
 
-.form-div {
+.form-div{
     background: aliceblue;
     padding: 3px;
 }
-
-.head-holder {
-    padding: 15px 0 !important;
+.head-holder{
+    padding: 15px 0!important;
     display: flex;
     justify-content: space-between;
 }
-
-.btn-holder {
+.btn-holder{
     width: 222px;
     height: 63px;
     background: #D66025;
@@ -864,35 +843,31 @@ li {
     align-items: center;
     color: #fff;
     font-size: 20px;
+    border-radius: 5px;
 }
-
-.second-nav {
+.second-nav{
     background: #3B864C;
     box-shadow: 0px 4px 6px #8A8A8A24;
 }
-
-.nvs {
+.nvs{
     background: #121212;
     padding: 17px 18px;
     color: #FFFFFF;
     font-size: 17px;
 }
-
-.sve-live {
+.sve-live{
     background-image: url("./assets/images/bg_wall.png");
     height: 541px;
     display: flex;
     align-items: center;
-
-    .sve-content {
+    .sve-content{
         font-size: 95px;
         text-align: left;
         font-weight: bold;
         color: #fff;
         line-height: 83px;
     }
-
-    .one-donor {
+    .one-donor{
         width: 569px;
         height: 63px;
         background-color: #BB5437;
@@ -902,41 +877,36 @@ li {
         font-size: 33px;
         color: #fff;
     }
-
-    .triangle-left {
-        margin-top: -63px;
-        border-top: 32px solid transparent;
-        border-bottom: 32px solid transparent;
-        left: 33.7rem;
-        position: absolute;
-    }
-
-    .triangle-right {
-
-        border-top: 32px solid transparent;
-        border-bottom: 32px solid transparent;
-        position: absolute;
-    }
-
-
-    .triangle-right {
-        border-left:
-            30px solid #224E24;
-    }
-
-    .triangle-left {
-        border-right:
-            30px solid #224E24;
-    }
+.triangle-left{
+    margin-top: -63px;
+    border-top: 32px solid transparent;
+    border-bottom: 32px solid transparent;
+    left: 33.7rem;
+    position: absolute;
+}
+.triangle-right{
+    
+    border-top: 32px solid transparent;
+    border-bottom: 32px solid transparent;
+    position: absolute;
 }
 
-.gve {
+
+.triangle-right{
+  border-left:
+    30px solid #224E24;
+}
+.triangle-left{
+  border-right:
+    30px solid #224E24;
+}
+}
+.gve{
     color: #fff;
     font-size: 30px;
     line-height: 36px;
 }
-
-.ple-anker {
+.ple-anker{
     font-size: 27px;
     background: #D66025;
     display: flex;
@@ -945,13 +915,11 @@ li {
     width: 132px;
     height: 59px;
     border-radius: 5px;
-
-    a {
+     a{
         color: #fff;
-    }
+     }
 }
-
-.knw-anker {
+.knw-anker{
     font-size: 29px;
     background: #FFFFFF;
     display: flex;
@@ -960,75 +928,94 @@ li {
     width: 190px;
     height: 59px;
     border-radius: 5px;
-
-    a {
+     a{
         color: #000000;
-    }
+     }
 }
-
-.organ-sec {
+.organ-sec{
     padding: 40px 0;
     background: #EDEDF6;
-
-    .organ-tit {
+    .organ-tit{
         text-align: center;
         font-size: 55px;
         color: #444444;
     }
-
-    .card-hol {
+    .card-hol{
         border: 3px solid #D6D6D6 !important;
         border-radius: 10px !important;
     }
-
-    .oragn-sub {
+    .oragn-sub{
         color: #444444;
         line-height: 37px;
         text-align: center;
         font-size: 30px;
     }
-
-    .img-org {
+    .img-org{
         margin-top: -94px;
     }
-
-    .card-ti {
+    .card-ti{
         font-size: 23px;
         color: #444444;
     }
 }
-
-.logs-holders {
+.logs-holders{
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 200px;
 }
-
-.footer-section {
+.footer-section{
     height: 347px;
     background-color: #15260F;
 }
-
-.footer {
-    display: none !important;
-}
-
-.btn-save-as-draft {
-    width: 155px;
-    height: 46px;
-    background: #E9ECF3;
+.card-des{
+    height: 145px !important;
+    width: 375px !important;
+    border-radius: 5px !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #262626;
+}
+.cd-ti{
+    font-size: 44px;
+    font-weight: 700;
+    color: #4F8452;
+}
+.cd-sub{
+    font-weight: 600;
+    font-size: 26px !important;
+    color: #444444;
+}
+.active1{
+    background-color: #64825B !important;
+    color:red !important;
+  }
+.th-h{
+    font-size: 18px;
+}
+.tb-b{
+    font-size: 17px;
+}
+.table-bordered{
+    border: 3px solid #dee2e6 !important;
+}
+.btn-sz{
+    width: 154px !important;
+    height: 52px !important;
 }
 
-.btn-size{
-    width: 155px;
-    height: 46px;
-}
 
-.btn-centre{
-    margin-left: 24rem;
+
+
+
+
+
+
+
+
+
+
+
+.footer {
+    display: none !important;
 }
