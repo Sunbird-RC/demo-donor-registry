@@ -1,7 +1,8 @@
 
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { GeneralService } from '../../services/general/general.service';
 @Component({
   selector: 'verify-identity-code',
   styleUrls: ["../forms.component.scss"],
@@ -49,24 +50,71 @@ export class VerifyIndentityCode extends FieldType {
   optVal: string;
   number: string;
   isIdentityNo: boolean = true;
-  constructor() {
+  transactionId:string
+  model1:any;
+  errorMessage:any;
+  data1:any;
+ // @Output() sendData1 = new EventEmitter<any>();
+  model2:any;
+  constructor( private http: HttpClient, public generalService: GeneralService) {
     super();
   }
   ngOnInit(): void {
   }
 
 
-  verifyOtp(){
+  async verifyOtp(){
     if (this.number) {
       this.isIdentityNo = true;
+      this.model1 = {
+        "healthId": this.number
+     
+    }
+      await  this.http.post<any>('https://demo-donor-registry.xiv.in/donor-service/auth/sendOTP', this.model1).subscribe({
+        next: data => {
+          console.log(data);
+            this.transactionId = data.txnId;
+        },
+        error: error => {
+            this.errorMessage = error.message;
+            alert(this.errorMessage);
+            this.isIdentityNo = true;
+            console.error('There was an error!', error);
+        }
+    })
+
     }else{
       this.isIdentityNo = false;
     }
-  }
+}
 
   submitOtp() {
     if (this.optVal) {
+      
+      this.model2={
+        "transactionId":this.transactionId,
+        "otp":this.optVal
+      }
+
       this.isVerify = true;
+
+      this.http.post<any>('https://demo-donor-registry.xiv.in/donor-service/auth/verifyOTP', this.model2).subscribe({
+        next: data => {
+          console.log(data);
+            this.data1 = data;
+          //this.sendData1.emit(this.data1);
+          localStorage.setItem(this.data1.healthIdNumber, JSON.stringify(this.data1));
+        //  localStorage.setItem('isVerified', this.isVerify);
+
+        },
+        error: error => {
+            this.errorMessage = error.message;
+            alert(this.errorMessage);
+            this.isIdentityNo = true;
+            console.error('There was an error!', error);
+        }
+    })
+        
     }
   }
 
