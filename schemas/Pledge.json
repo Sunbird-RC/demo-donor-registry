@@ -85,7 +85,7 @@
       }
     },
     "inviteRoles":["anonymous"],
-    "roles": [],
+    "roles": ["donor-service"],
     "ownershipAttributes": [
       {
         "email": "/personalDetails/emailId",
