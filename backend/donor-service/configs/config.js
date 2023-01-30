@@ -10,7 +10,8 @@ const ESIGN_ESP_PDF_URL = process.env.ESIGN_ESP_PDF_URL || 'https://digisignsbx.
 const ESIGN_FORM_SIGN_URL = process.env.ESIGN_FORM_SIGN_URL || "https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc";
 const ESIGN_FORM_REPLACE_URL = process.env.ESIGN_FORM_SIGN_URL || "https://digisignsbx.abdm.gov.in/digiSign/espResponse";
 const PORTAL_PLEDGE_REGISTER_URL = process.env.PORTAL_PLEDGE_REGISTER_URL || "https://demo-donor-registry.xiv.in/form/signup";
-const SERVICE_ACCOUNT_CLIENT_SECRET = process.env.SERVICE_ACCOUNT_CLIENT_SECRET ;
+const SERVICE_ACCOUNT_CLIENT_SECRET = process.env.SERVICE_ACCOUNT_CLIENT_SECRET || 'a2183329-152c-4b05-abcc-e388df62e233';
+const KEYCLOAK_URL = process.env.KEYCLOAK_URL || 'http://keycloak:8080';
 
 module.exports = {
     REDIS_URL,
@@ -24,5 +25,6 @@ module.exports = {
     ESIGN_FORM_REPLACE_URL,
     PORTAL_PLEDGE_REGISTER_URL,
     ESIGN_ESP_PDF_URL,
-    SERVICE_ACCOUNT_CLIENT_SECRET
+    SERVICE_ACCOUNT_CLIENT_SECRET,
+    KEYCLOAK_URL
 }
