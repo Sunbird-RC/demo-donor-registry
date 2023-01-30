@@ -87,7 +87,7 @@
     "roles": ["donor-service"],
     "ownershipAttributes": [
       {
-        "email": "/personalDetails/emailId",
+        "email": "/identificationDetails/abha",
         "mobile": "/personalDetails/mobileNumber",
         "userId": "/personalDetails/mobileNumber"
       }
