@@ -85,15 +85,15 @@
                                     "formclass": "row",
                                     "fields": [
                                         {
-                                            "name": "proof",
-                                            "class": "col-4",
-                                            "required": true
-                                        },
-                                        {
-                                            "name": "number",
+                                            "name": "abha",
                                             "type": "verify-code",
                                             "class": "col-4",
-                                            "required": true
+                                            "required": true,
+                                            "placeholder": "xx-xxxx-xxxx-xxxx",
+                                            "validation": {
+                                                "pattern": "[9]{1}[1]{1}[0-9]{12}",
+                                                "message": "ABHA Number must be 14 digits"
+                                            }
                                         }
                                     ]
                                 }
@@ -108,8 +108,8 @@
                                         {
                                             "name": "firstName",
                                             "class": "col-4",
+                                            "pattern": "^[a-zA-Z\\s-']+$",
                                             "validation": {
-                                                "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
                                             }
                                         },
@@ -661,11 +661,11 @@
                         "definition": "LiveDonor",
                         "dependencies": {
                             "proofOfRelationtype": {
-                                "className" : "form-div",
+                                "className": "form-div",
                                 "oneOf": [
                                     {
                                         "properties": {
-                                            "className" : "form-div",
+                                            "className": "form-div",
                                             "proofOfRelationtype": {
                                                 "enum": [
                                                     "Near Relative"
@@ -674,7 +674,7 @@
                                             "details": {
                                                 "type": "object",
                                                 "title": "Proof of Relationship between Donor and Recipient (Near Relative - Form – 1) ",
-                                                "className" : "form-div",
+                                                "className": "form-div",
                                                 "properties": {
                                                     "relation": {
                                                         "type": "select",
@@ -1158,17 +1158,24 @@
                                 "class": "form-div "
                             },
                             {
-                                "name": "details",
-                                "custom": true,
-                                "class": "row form-div ",
-                                "element": {
+                                "name": "crossMatchDetails",
+                                "children": {
+                                    "definition": "CrossMatchDetails",
+                                    "formclass": "row form-div ",
                                     "title": "Cross Matching",
-                                    "properties": {
-                                        "Upload": {
-                                            "type": "file",
-                                            "title": "Upload"
+                                    "fields": [
+                                        {
+                                            "name": "crossMatchDate",
+                                            "class": "col-4",
+                                            "type": "date"
+                                        },
+                                        {
+                                            "name": "crossMatchFile",
+                                            "class": "col-3",
+                                            "type": "string",
+                                            "format":"file"
                                         }
-                                    }
+                                    ]
                                 }
                             },
                             {
