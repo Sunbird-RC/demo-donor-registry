@@ -6,9 +6,9 @@
             "pledge": {
                 "api": "/Pledge",
                 "title": "INSTITUTE_PROFILE",
-                "langKey" : "institute",
-                "headerName" : "personalDetails.firstName",
-                "subHeadername" : "personalDetails.firstName,personalDetails.middleName,personalDetails.lastName",
+                "langKey": "institute",
+                "headerName": "personalDetails.firstName",
+                "subHeadername": "personalDetails.firstName,personalDetails.middleName,personalDetails.lastName",
                 "blocks": [
                     {
                         "definition": "Pledge",
@@ -16,13 +16,17 @@
                         "add": false,
                         "edit": true,
                         "claimEdit": true,
-                        "editform":"pledge-setup",
+                        "editform": "pledge-setup",
                         "multiple": false,
-                        "canRaiseClaim" : true,
+                        "canRaiseClaim": true,
                         "fields": {
-                            "includes": ["personalDetails"]
+                            "includes": [
+                                "personalDetails"
+                            ]
                         },
-                        "propertyShowFirst" : ["firstName"]
+                        "propertyShowFirst": [
+                            "firstName"
+                        ]
                     },
                     {
                         "definition": "Pledge",
@@ -30,13 +34,14 @@
                         "add": false,
                         "edit": true,
                         "claimEdit": true,
-                        "editform":"pledge-setup",
+                        "editform": "pledge-setup",
                         "multiple": false,
-                        "canRaiseClaim" : true,
+                        "canRaiseClaim": true,
                         "fields": {
-                            "includes": ["identificationDetails"]
+                            "includes": [
+                                "identificationDetails"
+                            ]
                         }
-                       
                     },
                     {
                         "definition": "Pledge",
@@ -44,26 +49,28 @@
                         "add": false,
                         "edit": true,
                         "claimEdit": true,
-                        "editform":"pledge-setup",
+                        "editform": "pledge-setup",
                         "multiple": false,
-                        "canRaiseClaim" : true,
+                        "canRaiseClaim": true,
                         "fields": {
-                            "includes": ["addressDetails"]
+                            "includes": [
+                                "addressDetails"
+                            ]
                         }
-                       
                     },
                     {
                         "definition": "Pledge",
                         "title": "Pledge Details",
                         "add": false,
                         "edit": true,
-                        "claimEdit": true,
-                        "editform":"pledge-setup",
-                        "canRaiseClaim" : false,
+                        "claimEdit": false,
+                        "editform": "pledge-setup",
+                        "canRaiseClaim": false,
                         "fields": {
-                            "includes": ["pledgeDetails"]
+                            "includes": [
+                                "pledgeDetails"
+                            ]
                         }
-                      
                     },
                     {
                         "definition": "Pledge",
@@ -71,12 +78,14 @@
                         "add": false,
                         "edit": true,
                         "claimEdit": false,
-                        "editform":"pledge-setup",
+                        "editform": "pledge-setup",
                         "multiple": false,
-                        "canRaiseClaim" : false,
+                        "canRaiseClaim": false,
                         "fields": {
-                            "includes": ["emergencyDetails"]
-                        }                      
+                            "includes": [
+                                "emergencyDetails"
+                            ]
+                        }
                     },
                     {
                         "definition": "Pledge",
@@ -84,15 +93,15 @@
                         "add": false,
                         "edit": true,
                         "claimEdit": true,
-                        "editform":"pledge-setup",
+                        "editform": "pledge-setup",
                         "multiple": false,
-                        "canRaiseClaim" : true,
+                        "canRaiseClaim": true,
                         "fields": {
-                            "includes": ["witnessDetails"]
-                        }                      
+                            "includes": [
+                                "witnessDetails"
+                            ]
+                        }
                     }
-
-
                 ]
             }
         },
@@ -104,6 +113,30 @@
         {
             "transplantcoordinator": {
                 "table": "transplantCoordinator"
+            }
+        },
+        {
+            "transplantcoordinator-profile": {
+                "api": "/TransplantCoordinator",
+                "title": "TransplantCoordinator",
+                "definition": "TransplantCoordinator",
+                "langKey": "institute",
+                "blocks": [
+                   
+                    {
+                        "definition": "TransplantCoordinator",
+                        "title": "Transplant Coordinator Profile Details",
+                        "add": false,
+                        "edit": false,
+                        "claimEdit": true,
+                        "multiple": false,
+                        "canRaiseClaim": true,
+                        "fields": {
+                            "includes": ["*"]
+                        },
+                        "propertyShowFirst" : [ "name", "email","mobile"]
+                    }
+                ]
             }
         }
     ]
