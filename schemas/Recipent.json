@@ -2,70 +2,66 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
   "properties": {
-    "Recipient": {
-      "$ref": "#/definitions/Recipient"
+    "LiveDonor": {
+      "$ref": "LiveDonor.json/#/definitions/LiveDonor"
     }
   },
   "required": [
-    "Recipient"
+    "LiveDonor"
   ],
-  "$comment": "The below definition is a draft version",
-  "title":"Recipient",
+  "title": "LiveDonor",
   "definitions": {
-    "Recipient": {
-      "$id": "#/properties/Recipient",
+    "LiveDonor": {
+      "$id": "#/properties/LiveDonor",
       "type": "object",
-      "title": "The Recipient Schema",
-      "required": [
-        "personalDetails",
-        "identificationDetails"
-      ],
+      "title": "The LiveDonor Schema",
+      "required": [],
       "properties": {
-        "personalDetails": {
-          "$ref": "Common.json/#/definitions/PersonalDetails"
+        "recipientDetails": {
+          "$ref": "LiveDonor.json/#/definitions/DonorDetails"
         },
-        "identificationDetails": {
-          "$ref": "Common.json/#/definitions/IdentificationDetails"
+        "medicalDetails": {
+          "$ref": "LiveDonor.json/#/definitions/MedicalDetails"
         },
-        "addressDetails": {
-          "$ref": "Common.json/#/definitions/AddressDetails"
+        "medicalHistory": {
+          "$ref": "LiveDonor.json/#/definitions/MedicalHistory"
         },
-        "organs": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": ["Liver","Kidney","Heart","Intestine","Pancreas","Lungs"]
-          },
-          "title": "Organs Needed"
+        "bloodGroupDetails": {
+          "$ref": "LiveDonor.json/#/definitions/BloodGroupDetails"
         },
-        "tissues": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": ["Bone","Heart Valve","Skin","Cornea","Cartilage","Blood Vessels"]
-          },
-          "title": "Tissues Needed"
+        "hematology": {
+          "$ref": "LiveDonor.json/#/definitions/Hematology"
         },
-        "donors": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "donorId": {
-                "type": "string"
-              },
-              "hlaMatching": {
-                "type": "string"
-              },
-              "status": {
-                "type": "string",
-                "enum": [
-                  "Draft",
-                  "Under Review"
-                ]
-              }
-            }
-          }
+        "urineExam": {
+          "$ref": "LiveDonor.json/#/definitions/UrineExam"
+        },
+        "biochemistry": {
+          "$ref": "LiveDonor.json/#/definitions/Biochemistry"
+        },
+        "ekg": {
+          "$ref": "LiveDonor.json/#/definitions/EKG"
+        },
+        "thyroidFunction": {
+          "$ref": "LiveDonor.json/#/definitions/ThyroidFunction"
+        },
+        "virology": {
+          "$ref": "LiveDonor.json/#/definitions/Virology"
+        },
+        "radiology": {
+          "$ref": "LiveDonor.json/#/definitions/Radiology"
+        },
+        "clearances": {
+          "$ref": "LiveDonor.json/#/definitions/Clearances"
+        },
+        "recipientHLA": {
+          "$ref": "LiveDonor.json/#/definitions/RecipientHLATypingDetails"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Pending",
+            "Processing"
+          ]
         }
       }
     }
