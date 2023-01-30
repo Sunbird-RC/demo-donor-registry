@@ -31,7 +31,15 @@
           "pattern": "^[6-9]\\d{9}$"
         },
         "facilityId": {
-          "type": "string"
+          "type": "string",
+          "title": "Hospital ID (FHR)"
+        },
+        "coordinatorId": {
+          "type": "string",
+          "title": "Coordinator ID (AHPR)"
+        },
+        "address": {
+          "$ref": "Common.json/#/definitions/AddressDetails"
         }
       }
     }
