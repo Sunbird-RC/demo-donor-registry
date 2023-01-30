@@ -66,6 +66,8 @@ export class VerifyIndentityCode extends FieldType {
   async verifyOtp(){
     if (this.number) {
       this.isIdentityNo = true;
+     
+   
       this.model1 = {
         "healthId": this.number
      
@@ -103,8 +105,11 @@ export class VerifyIndentityCode extends FieldType {
           console.log(data);
             this.data1 = data;
           //this.sendData1.emit(this.data1);
-          localStorage.setItem(this.data1.healthIdNumber, JSON.stringify(this.data1));
-        //  localStorage.setItem('isVerified', this.isVerify);
+          // this.data1.healthIdNumber = this.data1.healthIdNumber.replace('-','');
+          // console.log(this.data1.healthIdNumber);
+         localStorage.setItem(this.data1.healthIdNumber, JSON.stringify(this.data1));
+         
+         localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
 
         },
         error: error => {

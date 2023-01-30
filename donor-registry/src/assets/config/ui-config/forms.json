@@ -22,7 +22,7 @@
                                             "memberToBeNotified": {
                                                 "const": true
                                             },
-                                            "emergencyDetails": {
+                                            "notificationDetails": {
                                                 "type": "object",
                                                 "title": " ",
                                                 "formclass": "row",
@@ -30,15 +30,17 @@
                                                     "name": {
                                                         "type": "string",
                                                         "title": "Name",
-                                                        "class": "col-4"
+                                                        "className": "col-4"
                                                     },
                                                     "relation": {
                                                         "type": "string",
-                                                        "title": "Relation"
+                                                        "title": "Relation",
+                                                        "className": "col-4"
                                                     },
                                                     "mobileNumber": {
                                                         "type": "number",
-                                                        "title": "Mobile Number"
+                                                        "title": "Mobile Number",
+                                                        "className": "col-4"
                                                     }
                                                 }
                                             }
@@ -57,17 +59,17 @@
                                                     "name": {
                                                         "type": "string",
                                                         "title": "Name",
-                                                        "class": "col-4"
+                                                        "className": "col-4"
                                                     },
                                                     "relation": {
                                                         "type": "string",
                                                         "title": "Relation",
-                                                        "class": "col-4"
+                                                        "className": "col-4"
                                                     },
                                                     "mobileNumber": {
                                                         "type": "string",
                                                         "title": "Mobile Number",
-                                                        "class": "col-4"
+                                                        "className": "col-4"
                                                     }
                                                 }
                                             }

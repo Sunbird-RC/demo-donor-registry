@@ -73,13 +73,63 @@ export class FormsComponent implements OnInit {
   isSubmitForm: boolean = false;
   isSignupFormPOPup: boolean = false;
   isSaveAsDraft: any;
+  tempData:any;
+
+
+ngAfterViewChecked(){
+  if(this.form =='signup'){
+
+    if(localStorage.getItem('isVerified'))
+    {
+      if(this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha'))
+      {
+        this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"]));
+        console.log(this.tempData);
+        if(  this.tempData.monthOfBirth <10) 
+        {
+         this.tempData.monthOfBirth = "0"+ this.tempData.monthOfBirth;
+         console.log( this.tempData.monthOfBirth );
+      
+        }
+      
+          this.model = {
+            "personalDetails": {
+              "firstName": this.tempData.firstName,
+              "middleName": this.tempData.middleName,
+              "lastName": this.tempData.lastName,
+              "fatherName": this.tempData.middleName,
+              "gender": (this.tempData.gender) ? this.tempData.gender : {},
+              "emailId": this.tempData.email,
+              "mobileNumber": this.tempData.mobile,
+              "dob": this.tempData.yearOfBirth + "-"+ this.tempData.monthOfBirth + "-" + this.tempData.dayOfBirth
+
+            },
+            "addressDetails": {
+              "addressLine1": this.tempData.address,
+              "country": "India",
+              "state": this.tempData.stateName,
+              "district": this.tempData.townName,  
+              "pincode": this.tempData.email,
+             
+            },
+            "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+            "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {}
+        
+          
+          }
+      }
+    }
+  
+  }
+}
+
 
   ngAfterContentChecked(): void {
-   // console.log(this.model);
-    // if (this.model["memberToBeNotified"] == 'Yes') {
-    //   this.model["details"] = { ...this.model["emergencyDetails"] };
-    // }
-
+   console.log(this.model);
+    if (this.model["memberToBeNotified"] == true) {
+      this.model["notificationDetails"] = { ...this.model["emergencyDetails"] };
+    }
+ 
     if(this.form == 'livedonor')
     {
 
@@ -327,6 +377,8 @@ export class FormsComponent implements OnInit {
     }, (error) => {
       this.toastMsg.error('error', 'forms.json not found in src/assets/config/ - You can refer to examples folder to create the file')
     })
+
+
   }
 
   loadSchema() {
