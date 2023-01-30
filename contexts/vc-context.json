@@ -1,0 +1,40 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "PledgeCertificate": {
+      "@id": "https://github.com/sunbird-specs/vc-specs#PledgeCertificate",
+      "@context": {
+        "id": "@id",
+        "@version": 1.1,
+        "@protected": true
+      }
+    },
+    "Donor": {
+      "@id": "https://github.com/sunbird-specs/vc-specs#Donor",
+      "@context": {
+        "name": "schema:Text",
+        "dob": "schema:Text",
+        "gender": "schema:Text",
+        "identificationProof": "schema:Text",
+        "identificationNumber": "schema:Text",
+        "abha": "schema:Text",
+        "mobileNumber": "schema:Text",
+        "emailId": "schema:Text",
+        "emergencyMobileNumber": "schema:Text",
+        "fatherName": "schema:Text",
+        "photo": "schema:Text",
+        "registrationNumber": "schema:Text"
+      }
+    },
+    "Pledge": {
+      "@id": "https://github.com/sunbird-specs/vc-specs#Affiliation",
+      "@context": {
+        "organs": "schema:Text",
+        "tissues": "schema:Text",
+        "bloodGroup": "schema:Text",
+        "witness": "schema:Text"
+      }
+    }
+  }
+}

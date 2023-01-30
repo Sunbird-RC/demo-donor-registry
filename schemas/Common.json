@@ -72,6 +72,9 @@
           "type": "string",
           "pattern": "^[6-9]\\d{9}$",
           "title": "Mobile Number"
+        },
+        "photo": {
+          "type": "string"
         }
       }
     },

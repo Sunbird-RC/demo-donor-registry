@@ -890,7 +890,10 @@ export class FormsComponent implements OnInit {
 
         if (field.type === 'verify-code') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
-        }
+          if (field.required) {
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
+          }
+          }
 
         if (field.type === 'radio') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
@@ -1531,5 +1534,4 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     this.isSaveAsDraft = action;
   }
 }
-
 

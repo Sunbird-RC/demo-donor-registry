@@ -32,7 +32,7 @@ services:
       timeout: 5s
       retries: 5
   registry:
-    image: tejashjl/sunbird-rc-core:v0.0.13-4
+    image: tejashjl/sunbird-rc-core:v0.0.13-5
     volumes:
       - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/home/sunbirdrc/config/public/_schemas
     environment:
@@ -154,7 +154,7 @@ services:
       timeout: 10s
       retries: 10
   certificate-api:
-    image: dockerhub/sunbird-rc-certificate-api:${RELEASE_VERSION}
+    image: tejashjl/sunbird-rc-certificate-api:v0.0.13-1
     environment:
       - PORT=8078
     ports:
@@ -269,7 +269,7 @@ services:
     ports:
       - "6379:6379"
   donor-service:
-    build: varadeth/donor-service
+    build: backend/donor-service
     ports:
       - "3000:3000"
     healthcheck:
@@ -283,3 +283,6 @@ services:
     environment:
       REDIS_URL: redis://redis:6379
       REGISTRY_URL: http://registry:8081
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      BASE_URL: ${BASE_URL}

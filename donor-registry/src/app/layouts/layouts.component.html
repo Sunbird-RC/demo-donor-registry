@@ -17,8 +17,8 @@
                     </span>
                 </p> -->
             </div>
-          
-                <button class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end" data-mdb-toggle="tooltip" data-toggle="modal"
+      
+                <button *ngIf="layout == 'pledge'" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end" data-mdb-toggle="tooltip" data-toggle="modal"
                 data-target="#prewiewProfile" (click)="dowbloadCard()">
                      <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
                 </button> 
