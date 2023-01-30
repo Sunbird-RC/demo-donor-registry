@@ -257,12 +257,29 @@ services:
         condition: service_started
       file-storage:
         condition: service_started
+      donor-service:
+        condition: service_started
     healthcheck:
       test: [ "CMD", "curl", "-f", "localhost:80" ]
       interval: 30s
       timeout: 10s
       retries: 10
-#  redis:
-#    image: redis:latest
-#    ports:
-#      - "6379:6379"
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  donor-service:
+    build: varadeth/donor-service
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "localhost:3000/api-docs" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      redis:
+        condition: service_started
+    environment:
+      REDIS_URL: redis://redis:6379
+      REGISTRY_URL: http://registry:8081

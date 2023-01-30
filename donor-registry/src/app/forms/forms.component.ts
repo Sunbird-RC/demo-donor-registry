@@ -1039,7 +1039,7 @@ export class FormsComponent implements OnInit {
       this.model["status"] = this.isSaveAsDraft;
     }
 
-    if (this.fileFields.length > 0) {
+    if (this.fileFields.length > 0 && this.form != 'livedonor') {
       this.fileFields.forEach(fileField => {
         if (this.model[fileField]) {
           var formData = new FormData();
@@ -1317,24 +1317,38 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       if (log != undefined) {
         var get_url;
         if (this.identifier) {
-          get_url = this.propertyName + '/' + this.identifier;
+          if(this.propertyName != undefined)
+          {
+            get_url = this.propertyName + '/' + this.identifier;
+          }else{
+            get_url =   this.apiUrl + '/' + this.identifier;
+          }
+         
         } else {
           get_url = this.apiUrl
         }
         this.generalService.getData(get_url).subscribe((res) => {
-          if(res.length == 1){
-          res = (res[0]) ? res[0] : res;
-          if (this.propertyName && this.entityId) {
-            this.getNotes();
+          if (res.length == 1) {
+            res = (res[0]) ? res[0] : res;
+            if (this.propertyName && this.entityId) {
+              this.getNotes();
+            }
+
+            this.model = res;
+            this.identifier = res.osid;
+          } else if(!this.identifier){
+            this.model = {};
+            this.identifier = null;
+
+          }else{
+            res = (res[0]) ? res[0] : res;
+            if (this.propertyName && this.entityId) {
+              this.getNotes();
+            }
+
+            this.model = res;
+            this.identifier = res.osid;
           }
-
-          this.model = res;
-          this.identifier = res.osid;
-        }else{
-          this.model = {};
-          this.identifier = null;
-
-        }
           this.loadSchema()
         });
       }

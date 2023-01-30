@@ -51,6 +51,13 @@
                         "name": "status",
                         "title": "Status",
                         "formate": ""
+                    },
+                    {
+                        "custom": true,
+                        "title": "ACTION",
+                        "type": "button",
+                        "buttonText": "Edit",
+                        "redirectTo": "/form/livedonor/:osid"
                     }
                 ]
             }
