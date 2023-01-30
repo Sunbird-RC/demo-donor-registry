@@ -54,7 +54,6 @@
       "osCreatedBy",
       "osUpdatedBy"
     ],
-    "credentialTemplate": {},
     "inviteRoles":["admin"],
     "roles": [],
     "ownershipAttributes": [
