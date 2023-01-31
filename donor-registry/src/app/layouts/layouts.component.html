@@ -1,6 +1,7 @@
 <div *ngIf="!public" class="header-fixed-height"></div>
 
 <app-header *ngIf="!public" [headerFor]='layout' [tab]='tab'></app-header>
+<div class="mt-190">
  <div *ngIf="params?.layout && !public" class="mb-2">
     <nav class="navbar navbar-expand-lg navbar-light bg-header mt-85">
         <div class="container my-2 pt-2" >
@@ -17,11 +18,28 @@
                     </span>
                 </p> -->
             </div>
-      
-                <button *ngIf="layout == 'pledge'" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end" data-mdb-toggle="tooltip" data-toggle="modal"
-                data-target="#prewiewProfile" (click)="dowbloadCard()">
+            <div>
+                <a>
+                    <button *ngIf="layout == 'pledge'" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2" data-mdb-toggle="tooltip" data-toggle="modal"
+                    data-target="" (click)="deleteData()">
+                         <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'REVOKE' | translate}}
+                    </button> 
+                </a>
+             
+                <a href="/profile/Pledge/(claim:edit/pledge-setup)">
+                    <button *ngIf="layout == 'pledge'" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2" data-mdb-toggle="tooltip" data-toggle="modal"
+                    data-target="">
+                         <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'EDIT' | translate}}
+                    </button> 
+                </a>
+                <button *ngIf="layout == 'pledge'" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2" data-mdb-toggle="tooltip" data-toggle="modal"
+                data-target="#prewiewProfile" (click)="dowbloadCard()"  [disabled]="">
                      <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
                 </button> 
+              
+                
+              
+            </div>
           
         </div>
     </nav>
@@ -46,7 +64,7 @@
 <div [ngClass]="public ? 'container noToBottom' : 'container mt-0'" *ngIf="identifier != null && schemaloaded; else loader">
     <ng-template ngFor let-block [ngForOf]="Data" let-blockIndex="index">
         <div *ngIf="(block.items[0].length > 0 || block.items); else noData">
-            <div [ngClass]="public ? 'd-flex flex-justify-between' : 'd-flex flex-justify-between mt-1'">
+            <div [ngClass]="public ? 'd-flex flex-justify-between' : 'd-flex flex-justify-between'">
                 <div class="mt-1">
                     <p class="d-inline-block fs-6 font-weight-bold mb-2">{{block.title | translate}}</p>
                     <ng-template [ngIf]="block.edit">
@@ -236,6 +254,6 @@
         </ng-template>
     </ng-template>
 </div>
-
+</div>
 
 <router-outlet name="claim"></router-outlet>

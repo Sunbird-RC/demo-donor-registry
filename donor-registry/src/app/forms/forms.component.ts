@@ -203,6 +203,8 @@ ngAfterViewChecked(){
  if(this.form == 'livedonor')
     {
 
+      localStorage.setItem('formtype', "livedonor");
+
     if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue') ) {
       let tempData = JSON.parse(localStorage.getItem(this.model["donorDetails"]['identificationValue']));
     
@@ -299,6 +301,7 @@ ngAfterViewChecked(){
 
   if(this.form == 'recipient')
   {
+    localStorage.setItem('formtype', "recipient");
     if (this.model["recipientDetails"] && (this.model["recipientDetails"].hasOwnProperty('identificationValue'))) {
     
       let tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['identificationValue']));
@@ -324,7 +327,9 @@ ngAfterViewChecked(){
           "gender": (tempData['gender'] == 'F') ? "Female" : "Male",
           "lastName": tempData['lastName'],
           "middleName": tempData['middleName'],
-          "mobileNumber": tempData['mobile']
+          "mobileNumber": tempData['mobile'],
+          "residentialProof" : (this.model["recipientDetails"]['residentialProof']) ? this.model["recipientDetails"]['residentialProof'] : '',
+          "residentialValue" : (this.model["recipientDetails"]['residentialValue']) ? this.model["recipientDetails"]['residentialValue'] : ''
         },
         "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
         "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
@@ -351,6 +356,13 @@ ngAfterViewChecked(){
 
 
   ngOnInit(): void {
+
+    let temp = {"healthIdNumber":"91-5457-8518-6762","healthId":null,"mobile":"7709151274","firstName":"Chaitrali","middleName":"Nitin","lastName":"Rairikar","name":"Chaitrali Nitin Rairikar","yearOfBirth":"1998","dayOfBirth":"30","monthOfBirth":"3","gender":"F","email":"chaitralir30@gmail.com" }
+
+    localStorage.setItem('91-5457-8518-6762', JSON.stringify(temp));
+    let temp1 = {"healthIdNumber":"91-5457-8518-6763","healthId":null,"mobile":"7709151274","firstName":"Pratiksha","middleName":"Chintaman","lastName":"khandagale","name":"Chaitrali Nitin Rairikar","yearOfBirth":"1993","dayOfBirth":"30","monthOfBirth":"3","gender":"F","email":"chaitralir30@gmail.com" }
+
+    localStorage.setItem('91-5457-8518-6763', JSON.stringify(temp1));
 
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
@@ -1090,11 +1102,12 @@ ngAfterViewChecked(){
 
         if (field.type === 'verify-code') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
           if (field.required) {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
           }
           }
-
+          
         if (field.type === 'radio') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
         }

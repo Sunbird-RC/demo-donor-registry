@@ -345,46 +345,183 @@
         {
             "pledge-setup": {
                 "api": "/Pledge",
-                "type": "property:pledge",
+                "type": "entity",
                 "langKey": "institute",
-                "wrapper": "stepper",
                 "fieldsets": [
                     {
                         "definition": "Pledge",
                         "fields": [
                             {
+                                "name": "identificationDetails",
+                                "children": {
+                                    "definition": "IdentificationDetails",
+                                    "title": "Identification Details",
+                                    "formclass": "row",
+                                    "fields": [
+                                        {
+                                            "name": "abha",
+                                            "type": "verify-code",
+                                            "class": "col-4",
+                                            "required": true,
+                                            "placeholder": "xx-xxxx-xxxx-xxxx",
+                                            "validation": {
+                                                "pattern": "[9]{1}[1]{1}[0-9]{12}",
+                                                "message": "ABHA Number must be 14 digits"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
                                 "name": "personalDetails",
                                 "children": {
                                     "definition": "PersonalDetails",
                                     "title": "Personal Details",
+                                    "formclass": "row",
                                     "fields": [
                                         {
-                                            "name": "firstName"
+                                            "name": "firstName",
+                                            "class": "col-4",
+                                            "pattern": "^[a-zA-Z\\s-']+$",
+                                            "validation": {
+                                                "message": "Enter a valid name"
+                                            }
                                         },
                                         {
-                                            "name": "middleName"
+                                            "name": "middleName",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
                                         },
                                         {
-                                            "name": "lastName"
+                                            "name": "lastName",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
                                         },
                                         {
-                                            "name": "fatherName"
+                                            "name": "fatherName",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
+                                        },
+                                        {
+                                            "name": "motherName",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
                                         },
                                         {
                                             "name": "dob",
-                                            "type": "date"
+                                            "type": "date",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "future": false
+                                            }
                                         },
                                         {
-                                            "name": "gender"
+                                            "name": "gender",
+                                            "class": "col-4"
                                         },
                                         {
-                                            "name": "bloodGroup"
+                                            "name": "bloodGroup",
+                                            "class": "col-4"
                                         },
                                         {
-                                            "name": "emailId"
+                                            "name": "emailId",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+                                                "message": "Enter a valid email"
+                                            }
                                         },
                                         {
                                             "name": "mobileNumber",
+                                            "validation": {
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            },
+                                            "class": "col-4"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "addressDetails",
+                                "children": {
+                                    "definition": "AddressDetails",
+                                    "formclass": "row",
+                                    "title": "Address Details",
+                                    "fields": [
+                                        {
+                                            "name": "addressLine1",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "addressLine2",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "country",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[A-Z][a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid country"
+                                            }
+                                        },
+                                        {
+                                            "name": "state",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "district",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid district"
+                                            }
+                                        },
+                                        {
+                                            "name": "pincode",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[0-9]+$",
+                                                "message": "Enter a valid pincode"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "emergencyDetails",
+                                "children": {
+                                    "definition": "EmergencyDetails",
+                                    "formclass": "row",
+                                    "title": "Emergency Details",
+                                    "fields": [
+                                        {
+                                            "name": "name",
+                                            "class": "col-4",
+                                            "validation": {
+                                                "pattern": "^[a-zA-Z\\s-']+$",
+                                                "message": "Enter a valid name"
+                                            }
+                                        },
+                                        {
+                                            "name": "relation",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "class": "col-4",
                                             "validation": {
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
@@ -394,21 +531,21 @@
                                 }
                             },
                             {
-                                "name": "identificationDetails"
-                            },
-                            {
-                                "name": "addressDetails"
-                            },
-                            {
                                 "name": "pledgeDetails",
+                                "formclass": "row",
                                 "children": {
                                     "definition": "PledgeDetails",
+                                    "title":"Pledge Details",
                                     "fields": [
                                         {
-                                            "name": "organs"
+                                            "name": "organs",
+                                            "type": "multiselect",
+                                            "class": "col-4"
                                         },
                                         {
-                                            "name": "tissues"
+                                            "name": "tissues",
+                                            "type": "multiselect",
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "other"
@@ -420,7 +557,7 @@
                                 "name": "emergencyDetails"
                             },
                             {
-                                "name": "witnessDetails"
+                                "name": "notificationDetails"
                             }
                         ]
                     }

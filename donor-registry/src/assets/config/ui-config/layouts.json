@@ -14,7 +14,7 @@
                         "definition": "Pledge",
                         "title": "Personal Details",
                         "add": false,
-                        "edit": true,
+                        "edit": false,
                         "claimEdit": true,
                         "editform": "pledge-setup",
                         "multiple": false,
@@ -32,7 +32,7 @@
                         "definition": "Pledge",
                         "title": "Identification Details",
                         "add": false,
-                        "edit": true,
+                        "edit": false,
                         "claimEdit": true,
                         "editform": "pledge-setup",
                         "multiple": false,
@@ -47,7 +47,7 @@
                         "definition": "Pledge",
                         "title": "Address Details",
                         "add": false,
-                        "edit": true,
+                        "edit": false,
                         "claimEdit": true,
                         "editform": "pledge-setup",
                         "multiple": false,
@@ -62,7 +62,7 @@
                         "definition": "Pledge",
                         "title": "Pledge Details",
                         "add": false,
-                        "edit": true,
+                        "edit": false,
                         "claimEdit": false,
                         "editform": "pledge-setup",
                         "canRaiseClaim": false,
@@ -76,7 +76,7 @@
                         "definition": "Pledge",
                         "title": "Emergency Details",
                         "add": false,
-                        "edit": true,
+                        "edit": false,
                         "claimEdit": false,
                         "editform": "pledge-setup",
                         "multiple": false,
@@ -91,14 +91,14 @@
                         "definition": "Pledge",
                         "title": "Members to be Notified",
                         "add": false,
-                        "edit": true,
+                        "edit": false,
                         "claimEdit": true,
                         "editform": "pledge-setup",
                         "multiple": false,
                         "canRaiseClaim": true,
                         "fields": {
                             "includes": [
-                                "witnessDetails"
+                                "notificationDetails"
                             ]
                         }
                     }
