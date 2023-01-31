@@ -97,7 +97,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         console.log('OTP verified', verifyOtp);
         const userToken = verifyOtp.token;
         const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`, {headers: {Authorization: 'Bearer ' + clientSecretToken, "X-Token": 'Bearer ' + userToken}})).data;
-        redis.storeKeyWithExpiry(profile.healthIdNumber, JSON.stringify(profile), config.EXPIRE_PROFILE);
+        redis.storeKeyWithExpiry(profile.healthIdNumber.replaceAll("-",""), JSON.stringify(profile), config.EXPIRE_PROFILE);
         res.send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {
