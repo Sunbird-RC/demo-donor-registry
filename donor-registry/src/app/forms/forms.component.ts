@@ -1517,7 +1517,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         let count = 0;
         while (checkESignStatus) {
           try {
-            this.generalService.getData(`https://demo-donor-registry.xiv.in/donor-service/esign/${this?.model?.identificationDetails.abha}/status`, true)
+            this.generalService.getData(`https://demo-donor-registry.xiv.in/donor-service/esign/${this?.model['identificationDetails']['abha']}/status`, true)
               .subscribe((res) => {
                 checkESignStatus = false;
                 console.log(res)
