@@ -14,6 +14,64 @@ import { TranslateService } from '@ngx-translate/core';
 import { throwError } from 'rxjs';
 import { templateJitUrl } from '@angular/compiler';
 
+const GenderMap = {
+  M: 'Male',
+  F: 'Female'
+};
+
+const StateMap = [
+  'Andaman and Nicobar Islands',
+  'Andhra Pradesh',
+  'Arunachal Pradesh',
+  'Assam',
+  'Bihar',
+  'Chandigarh',
+  'Chhattisgarh',
+  'Dadra and Nagar Haveli',
+  'Daman and Diu',
+  'Delhi',
+  'Goa',
+  'Gujarat',
+  'Haryana',
+  'Himachal Pradesh',
+  'Jammu and Kashmir',
+  'Jharkhand',
+  'Karnataka',
+  'Kerala',
+  'Ladakh',
+  'Lakshadweep',
+  'Madhya Pradesh',
+  'Maharashtra',
+  'Manipur',
+  'Meghalaya',
+  'Mizoram',
+  'Nagaland',
+  'Odisha',
+  'Puducherry',
+  'Punjab',
+  'Rajasthan',
+  'Sikkim',
+  'Tamil Nadu',
+  'Telangana',
+  'Tripura',
+  'Uttar Pradesh',
+  'Uttarakhand',
+  'West Bengal',
+];
+
+let valuesSetFlag = false;
+
+function titleCase(str) {
+  const splitStr = str.toLowerCase().split(' ');
+  for (let i = 0; i < splitStr.length; i++) {
+    // You do not need to check if i is larger than splitStr length, as your for does that for you
+    // Assign it back to the array
+    splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+  }
+  // Directly return the joined string
+  return splitStr.join(' ');
+}
+
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
@@ -85,37 +143,49 @@ ngAfterViewChecked(){
       {
         this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"]));
         console.log(this.tempData);
-        if(  this.tempData.monthOfBirth <10) 
+        if(  this.tempData.monthOfBirth <10)
         {
          this.tempData.monthOfBirth = "0"+ this.tempData.monthOfBirth;
          console.log( this.tempData.monthOfBirth );
       
         }
+          if (!valuesSetFlag) {
+            this.model = {
+              ...this.model,
+              "personalDetails": {
+                ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
+                "firstName": this.tempData.firstName,
+                "middleName": this.tempData.middleName,
+                "lastName": this.tempData.lastName,
+                "fatherName": this.tempData.middleName,
+                "gender": (this.tempData.gender) ? `${GenderMap[this.tempData.gender]}` : {},
+                "emailId": this.tempData.email,
+                "mobileNumber": this.tempData.mobile,
+                "dob": this.tempData.yearOfBirth + "-" + this.tempData.monthOfBirth + "-" + this.tempData.dayOfBirth
       
-          this.model = {
-            "personalDetails": {
-              "firstName": this.tempData.firstName,
-              "middleName": this.tempData.middleName,
-              "lastName": this.tempData.lastName,
-              "fatherName": this.tempData.middleName,
-              "gender": (this.tempData.gender) ? this.tempData.gender : {},
-              "emailId": this.tempData.email,
-              "mobileNumber": this.tempData.mobile,
-              "dob": this.tempData.yearOfBirth + "-"+ this.tempData.monthOfBirth + "-" + this.tempData.dayOfBirth
-
-            },
-            "addressDetails": {
-              "addressLine1": this.tempData.address,
-              "country": "India",
-              "state": this.tempData.stateName,
-              "district": this.tempData.townName,  
-              "pincode": this.tempData.email,
-             
-            },
-            "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-            "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {}
-        
-          
+              },
+              "addressDetails": {
+                ...('addressDetails' in this.model ? this.model['addressDetails'] : {}),
+                "addressLine1": this.tempData.address,
+                "country": "India",
+                "state": `${titleCase(this.tempData.stateName)}`,
+                "district": this.tempData.townName,
+                "pincode": this.tempData.pincode,
+      
+              },
+              "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+              "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {}
+    
+    
+            };
+            ['formly_22_string_firstName_0', 'formly_22_string_middleName_1', 'formly_22_string_lastName_2', 'formly_22_string_fatherName_3',
+              'formly_22_string_dob_5', 'formly_22_enum_gender_6', 'formly_22_string_mobileNumber_9', 'formly_28_string_addressLine1_0',
+              'formly_28_string_country_2', 'formly_28_enum_state_3', 'formly_28_string_pincode_5'].forEach(i => {
+              if (document.getElementById(i)) {
+                (document.getElementById(i) as HTMLInputElement).disabled = true;
+              }
+            });
+            valuesSetFlag = true;
           }
       }
     }
@@ -1422,26 +1492,70 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
   }
 
   async postData() {
+    
     if (Array.isArray(this.model)) {
       this.model = this.model[0];
     }
     this.model['sorder'] = this.exLength;
+    if(this.form =='signup'){
+      await this.generalService.postData(`https://demo-donor-registry.xiv.in/donor-service/esign/init`, {data: this.model}).subscribe(async (res) => {
+        console.log(res)
+        // const eSignWindow = window.open(`https://demo-donor-registry.xiv.in/donor-service/esign/init?data=${this.model}`);
+        debugger
+        const eSignWindow = window.open('', 'pledge esign');
+        eSignWindow.document.write(`
+        <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
+\t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
+\t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
+\t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
+        </form>
+\t<script>
+\t\tdocument.getElementById("formid").submit();
+\t</script>`);
+        eSignWindow.focus();
+        let checkESignStatus = true;
+        let count = 0;
+        while (checkESignStatus) {
+          try {
+            this.generalService.getData(`https://demo-donor-registry.xiv.in/donor-service/esign/${this?.model?.identificationDetails.abha}/status`, true)
+              .subscribe((res) => {
+                checkESignStatus = false;
+                console.log(res)
+              }, (err) => {
+                console.log(err)
+              });
+          } catch (e) {
+            console.log(e)
+          }
+          await new Promise(r => setTimeout(r, 3000));
+          if (count++ === 400) {
+            checkESignStatus = false;
+            alert("Esign session expired. Please try again");
+          }
+        }
+        eSignWindow.close();
+        this.callPostAPI();
+      });
+    } else {
+      this.callPostAPI()
+    }
+
+  }
+  
+  async callPostAPI() {
     await this.generalService.postData(this.apiUrl, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-
-       
-
-        if(this.isSaveAsDraft == "Pending")
-        {
+      
+      
+        if (this.isSaveAsDraft == "Pending") {
           this.toastMsg.success('Success', "Successfully Saved !!");
-        }else{
+        } else {
           this.modalSuccess();
           this.router.navigate([this.redirectTo]);
         }
-
-        
-      }
-      else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+      
+      
+      } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
         this.toastMsg.error('error', res.params.errmsg);
         this.isSubmitForm = false;
       }
@@ -1449,7 +1563,6 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       this.toastMsg.error('error', err.error.params.errmsg);
       this.isSubmitForm = false;
     });
-
   }
 
   updateData() {

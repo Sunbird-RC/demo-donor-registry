@@ -22,10 +22,10 @@ import { GeneralService } from '../../services/general/general.service';
               </span>
        </div>
        
-                  
+            
             <div *ngIf="isIdentityNo" class="modal fade" id="verifyOtp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                  <div class="p-4 modal-content">   
+                  <div class="p-4 modal-content">
                       <div class="modal-body">
                         
                           <h3 class="fw-bold mb-3">Confirm OTP</h3>
@@ -105,11 +105,18 @@ export class VerifyIndentityCode extends FieldType {
           console.log(data);
             this.data1 = data;
           //this.sendData1.emit(this.data1);
-          // this.data1.healthIdNumber = this.data1.healthIdNumber.replace('-','');
+          const healthIdNumber = this.data1.healthIdNumber.replaceAll('-','');
           // console.log(this.data1.healthIdNumber);
-         localStorage.setItem(this.data1.healthIdNumber, JSON.stringify(this.data1));
+         localStorage.setItem(healthIdNumber, JSON.stringify(this.data1));
          
          localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
+         ['formly_22_string_firstName_0', 'formly_22_string_middleName_1', 'formly_22_string_lastName_2', 'formly_22_string_fatherName_3',
+           'formly_22_string_dob_5', 'formly_22_enum_gender_6', 'formly_22_string_mobileNumber_9', 'formly_28_string_addressLine1_0',
+           'formly_28_string_country_2', 'formly_28_enum_state_3', 'formly_28_string_pincode_5'].forEach(i => {
+             if (document.getElementById(i)) {
+               (document.getElementById(i) as HTMLInputElement).disabled = true;
+             }
+         });
 
         },
         error: error => {
@@ -119,7 +126,7 @@ export class VerifyIndentityCode extends FieldType {
             console.error('There was an error!', error);
         }
     })
-        
+    
     }
   }
 
