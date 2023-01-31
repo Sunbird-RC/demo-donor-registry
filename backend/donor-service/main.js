@@ -230,17 +230,21 @@ app.post('/esign/init', async (req, res) => {
         let xmlContent = apiResponse.data.espRequest;
         // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
         await redis.storeKeyWithExpiry(getEsginKey(pledge.identificationDetails.abha), apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
-        res.send(`
-        <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
-            <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
-            <input type="hidden" id="aspTxnID" name="aspTxnID" value='${apiResponse.data.aspTxnId}'/>
-            <input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
-        </form>
-        <script>
-        
-            document.getElementById("formid").submit();
-        </script>
-`);
+//         res.send(`
+//         <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
+//             <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
+//             <input type="hidden" id="aspTxnID" name="aspTxnID" value='${apiResponse.data.aspTxnId}'/>
+//             <input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
+//         </form>
+//         <script>
+//
+//             document.getElementById("formid").submit();
+//         </script>
+// `);
+        res.send({
+            xmlContent,
+            aspTxnId: apiResponse.data.aspTxnId,
+        })
     } catch (e) {
         console.error(e)
         res.status(500).send(e);
