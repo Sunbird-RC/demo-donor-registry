@@ -102,7 +102,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         console.log('Sent Profile KYC');
     } catch(err) {
         console.error(err)
-        res.status(err.response.status).send(err.response.data);
+        // res.status(err.response.status).send(err.response.data);
         console.log('Error : ', err);
         // res.status(err.response.status).send(err.response.data);
         const mockedProfile = {
