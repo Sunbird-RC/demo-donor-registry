@@ -551,17 +551,10 @@ formly-autocomplete-type .ng-select {
     margin-bottom: 5px;
 }
 
-.logo {
-    // width: 50px;
-    width: auto;
-    height: auto;
-    display: block;
-    text-indent: -9999px;
-    max-width: 150px;
-    min-width: 50px;
-    min-height: 40px;
-    max-height: 50px;
-}
+// .logo {
+//     width: 508px;
+//     height: 91px;
+// }
 
 .ng-select {
     margin-bottom: 15px;
@@ -816,8 +809,8 @@ label {
      box-shadow: none !important;
  }
 
- .mt-150{
-    margin-top: 120px;
+ .mt-191{
+    margin-top: 159px;
 }
 
 .row-bg {
@@ -975,20 +968,19 @@ label {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .cd-ti{
     font-size: 44px;
     font-weight: 700;
-    color: #000000;
 }
 .cd-sub{
     font-weight: 600;
     font-size: 26px !important;
-    color: #444444;
 }
 .active1{
     background-color: #64825B !important;
-    color:red !important;
+    color:#fff !important;
   }
 .th-h{
     font-size: 18px;
@@ -997,14 +989,41 @@ label {
     font-size: 17px;
 }
 .table-bordered{
-    border: 3px solid #dee2e6 !important;
+    border: 2px solid #d5cfcf !important;
+    background-color: #fff;
+}
+.table-bordered td, .table-bordered th {
+    border: 2px solid #d5cfcf!important;
 }
 .btn-sz{
     width: 154px !important;
     height: 52px !important;
 }
-
-
+.btn-ho{
+    padding: 20px 0;
+}
+.tble-con{
+    background: #FAFAFA 0% 0% no-repeat padding-box;
+    // border: 1px solid #d5cfcf;
+}
+.sear-hol{
+    background: #F5F5F5;
+}
+.inp{
+    background: white !important;
+    border: none !important;
+    padding: 5px !important;
+}
+.table-a{
+    color: #D66025;
+    text-decoration: underline !important;
+}
+.pgi li span{
+    color: #616161;
+}
+.current span{
+    color: #ffF !important;
+}
 
 
 

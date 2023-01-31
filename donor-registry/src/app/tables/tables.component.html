@@ -1,107 +1,103 @@
 <app-header [headerFor]='entity' [tab]='tab'></app-header>
-<div class="container mt-150">
-    <div class=" d-flex flex-row flex-wrap justify-content-between">
-       
-        <div class="card card-block  col-sm-3 card-des {{isActivelivedonor}}" (click)="changeList2('livedonor')">
-            <h2 class="font-600 cd-ti align">450</h2>
-            <h4 class="p12 mb-1 align cd-sub">Live Donors</h4>
-        </div>
-        <div class="card card-block col-sm-3 card-des {{isActiverecipient}}" (click)="changeList1('recipient')">
-            <h2 class="font-600 cd-ti align">240</h2>
-            <h4 class="p12 mb-1 align cd-sub">Recipients</h4>
-        </div>
-        <div class="card card-block col-sm-3  card-des disabled" disabled>
-            <h2 class="font-600 cd-ti align">700</h2>
-            <h4 class="p12 mb-1 align cd-sub">Cadaver Donors</h4>
-        </div>
-    </div>
-    <div class="d-flex  my-5">
-        <div class=" d-flex mr-5">
-            <div class="mr-3">
-                <span class="p12">ABHA ID </span>
-                <input type="text" class="form-control p12" placeholder="Enter ABHA Number" size="30" disabled>
+<div class="bg-white btn-ho mt-191"> 
+  <div class="container justify-content-end d-flex">
+    <a class="btn-holder btn-sz" *ngIf="table == 'transplantcoordinator-livedonor'" href="/form/livedonor"> Add Donor</a>
+    <a class="btn-holder btn-sz" *ngIf="table == 'transplantcoordinator-recipient'" href="/form/recipient">Add Recipient</a>
+  </div>
+</div>
+<div class="tble-con">
+    <div class="container pt-5 pb-5">
+        <div class=" d-flex flex-wrap justify-content-between pr-0">
+            <div class="card card-block  col-sm-3 card-des {{isActivelivedonor}}" (click)="changeList2('livedonor')">
+                <h2 class="font-600 cd-ti align">450</h2>
+                <h2 class="p12 mb-1 align cd-sub">Live Donors</h2>
             </div>
-
-            <div class="mr-3">
-                <span class="p12">Recipient Name </span>
-                <input type="text" class="form-control p12" placeholder="Content" size="30" disabled>
+            <div class="card card-block col-sm-3 card-des {{isActiverecipient}}" (click)="changeList1('recipient')">
+                <h2 class="font-600 cd-ti align">240</h2>
+                <h4 class="p12 mb-1 align cd-sub">Recipients</h4>
             </div>
-
-            <div class="mr-3">
-                <span class="p12">Blood Group</span>
-                <select class="form-control" disabled>
-                    <option *ngFor="let i of bloodGroup">{{i}}</option>
-                </select>
+            <div class="card card-block col-sm-3  card-des disabled" disabled>
+                <h2 class="font-600 cd-ti align">700</h2>
+                <h4 class="p12 mb-1 align cd-sub">Cadaver Donors</h4>
             </div>
         </div>
-        <div class="mr-5  float-end"> 
-            <a class="btn-holder btn-sz" *ngIf="table == 'transplantcoordinator-livedonor'" href="/form/livedonor"> Add
-                    Donor</a>
-
-                    <a class="btn-holder btn-sz" *ngIf="table == 'transplantcoordinator-recipient'" href="/form/recipient">Add
-                        Recipient</a>
+        <div class="d-flex justify-content-end mt-5 pt-4 pb-4 sear-hol">
+            <div class=" d-flex">
+                <div class="mr-3 d-flex">
+                    <span class="p14 mt-2 fw-bold">Search</span>
+                    <input type="text" class="form-control inp p12 ml-2" size="30" disabled>
+                </div>
+                <div class="mr-3 d-flex">
+                    <span class="p14 mt-2 fw-bold">Sort </span>
+                    <input type="text" class="form-control inp p12 ml-2" size="30" disabled>
+                </div>
+            </div>
         </div>
-    </div>
-
-
-    <h6 class="d-inline-block p16 font-weight-bold">{{tableSchema?.title | translate}}</h6>
-    <table class="table table-bordered">
-        <thead class="th-h">
-            <tr>
-                <th class="text-grey-color fw-bold p14" *ngFor="let th of tableSchema?.fields;" scope="col">{{th?.title
-                    | translate}}</th>
-
-                <!-- <th scope="col">Name</th>
-        <th scope="col"></th> -->
-            </tr>
-        </thead>
-        <tbody class="tb-b">
-            <ng-template ngFor let-item
-                [ngForOf]="tableSchema?.items | paginate: { itemsPerPage: limit, currentPage: page }" let-i="index">
-                <!-- {{i}}
-
-        {{item | json}}
-        <hr> -->
-
+    
+    
+        <!-- <h6 class="d-inline-block p16 font-weight-bold">{{tableSchema?.title | translate}}</h6> -->
+        <table class="table table-bordered mb-0">
+            <thead class="th-h">
                 <tr>
-                    <!-- {{td | json}} -->
-                    <ng-template ngFor let-td [ngForOf]="item" class="row">
-                        <td class="col-3" *ngIf="td.type && td.type === 'button'; else normalTd">
-                            <a [routerLink]="[td.redirectToUrl]"
-                                class="btn btn-bg btn-sec-bg btn-style text-primary-color text-end fw-bold text-capitalize">{{td?.buttonText
-                                | translate}}</a>
-                        </td>
-                        <ng-template #normalTd>
-                            <td class="col-3"
-                                *ngIf="td?.formate && td.formate == 'date' && td?.type !== 'name'; else notFormate">
-                                <b>{{td?.value | date : 'd MMM y'}}</b>
-                            </td>
-                            <ng-template class="col-3" #notFormate>
-                                <td><b>{{td?.value}} </b></td>
-                            </ng-template>
-                            <ng-template class="col-3" *ngIf="td?.type === 'name'">
-                                <td><b>{{td?.value}} </b></td>
-                            </ng-template>
-                        </ng-template>
-
-
-                    </ng-template>
-
+                    <th class="text-grey-color fw-bold p14" *ngFor="let th of tableSchema?.fields;" scope="col">{{th?.title
+                        | translate}}</th>
+    
+                    <!-- <th scope="col">Name</th>
+            <th scope="col"></th> -->
                 </tr>
-            </ng-template>
-        </tbody>
-    </table>
-    <table class="mx-5 my-5 w-50">
-        <tbody class="fs-5">
-
-            <tr *ngIf="!tableSchema?.items?.length">
-
-                <td class="float-end" [attr.colspan]="tableSchema?.items?.length">
-                    {{'NO_RECORDS_FOUND' | translate }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <pagination-controls class="my-1 float-end" (pageChange)="page = $event" previousLabel="{{'PREVIOUS' | translate}}"
-        nextLabel="{{'NEXT' | translate}}"></pagination-controls>
+            </thead>
+            <tbody class="tb-b">
+                <ng-template ngFor let-item
+                    [ngForOf]="tableSchema?.items | paginate: { itemsPerPage: limit, currentPage: page }" let-i="index">
+                    <!-- {{i}}
+    
+            {{item | json}}
+            <hr> -->
+    
+                    <tr>
+                        <!-- {{td | json}} -->
+                        <ng-template ngFor let-td [ngForOf]="item" class="row">
+                            <td class="col-3" *ngIf="td.type && td.type === 'button'; else normalTd">
+                                <a [routerLink]="[td.redirectToUrl]"
+                                    class="fw-bold table-a">{{td?.buttonText
+                                    | translate}}</a>
+                            </td>
+                            <ng-template #normalTd>
+                                <td class="col-3"
+                                    *ngIf="td?.formate && td.formate == 'date' && td?.type !== 'name'; else notFormate">
+                                    <b>{{td?.value | date : 'd MMM y'}}</b>
+                                </td>
+                                <ng-template class="col-3" #notFormate>
+                                    <td><b>{{td?.value}} </b></td>
+                                </ng-template>
+                                <ng-template class="col-3" *ngIf="td?.type === 'name'">
+                                    <td><b>{{td?.value}} </b></td>
+                                </ng-template>
+                            </ng-template>
+    
+    
+                        </ng-template>
+    
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
+        <!-- <table class="mx-5 my-5 w-50">
+            <tbody class="fs-5">
+    
+                <tr *ngIf="!tableSchema?.items?.length">
+    
+                    <td class="float-end" [attr.colspan]="tableSchema?.items?.length">
+                        {{'NO_RECORDS_FOUND' | translate }}
+                    </td>
+                </tr>
+            </tbody>
+        </table> -->
+        
+            <div class="d-flex justify-content-end sear-hol pt-3">
+                <pagination-controls class="my-1 pgi" (pageChange)="page = $event" previousLabel="{{'PREVIOUS' | translate}}"
+                nextLabel="{{'NEXT' | translate}}"></pagination-controls>
+            </div>
+     
+    </div>
 </div>
