@@ -141,7 +141,7 @@ ngAfterViewChecked(){
     {
       if(this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha'))
       {
-        this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"]));
+        this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"].replaceAll("-","")));
         console.log(this.tempData);
         if(  this.tempData.monthOfBirth <10)
         {
@@ -161,7 +161,7 @@ ngAfterViewChecked(){
                 "gender": (this.tempData.gender) ? `${GenderMap[this.tempData.gender]}` : {},
                 "emailId": this.tempData.email,
                 "mobileNumber": this.tempData.mobile,
-                "dob": this.tempData.yearOfBirth + "-" + this.tempData.monthOfBirth + "-" + this.tempData.dayOfBirth
+                "dob": this.tempData.yearOfBirth + "-" + ('0' + this.tempData.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData.dayOfBirth).slice(-2)
       
               },
               "addressDetails": {

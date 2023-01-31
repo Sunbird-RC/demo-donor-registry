@@ -412,6 +412,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
   async getData() {
+    debugger
     var get_url;
     if (this.identifier) {
       get_url = this.apiUrl + '/' + this.identifier
@@ -431,9 +432,12 @@ export class LayoutsComponent implements OnInit, OnChanges {
           this.model = res[0];
           this.identifier = res[0].osid;
         }
-      
       }
-
+      if (this.layout === 'pledge') {
+        if ('photo' in this.model['personalDetails']) {
+          delete this.model['personalDetails']['photo'];
+        }
+      }
       this.getHeadingTitle(this.model);
 
       this.Data = [];
