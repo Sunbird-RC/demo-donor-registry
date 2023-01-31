@@ -327,7 +327,9 @@ ngAfterViewChecked(){
           "gender": (tempData['gender'] == 'F') ? "Female" : "Male",
           "lastName": tempData['lastName'],
           "middleName": tempData['middleName'],
-          "mobileNumber": tempData['mobile']
+          "mobileNumber": tempData['mobile'],
+          "residentialProof" : (this.model["recipientDetails"]['residentialProof']) ? this.model["recipientDetails"]['residentialProof'] : '',
+          "residentialValue" : (this.model["recipientDetails"]['residentialValue']) ? this.model["recipientDetails"]['residentialValue'] : ''
         },
         "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
         "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
