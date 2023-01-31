@@ -352,6 +352,13 @@ ngAfterViewChecked(){
 
   ngOnInit(): void {
 
+    let temp = {"healthIdNumber":"91-5457-8518-6762","healthId":null,"mobile":"7709151274","firstName":"Chaitrali","middleName":"Nitin","lastName":"Rairikar","name":"Chaitrali Nitin Rairikar","yearOfBirth":"1998","dayOfBirth":"30","monthOfBirth":"3","gender":"F","email":"chaitralir30@gmail.com" }
+
+    localStorage.setItem('91-5457-8518-6762', JSON.stringify(temp));
+    let temp1 = {"healthIdNumber":"91-5457-8518-6763","healthId":null,"mobile":"7709151274","firstName":"Pratiksha","middleName":"Chintaman","lastName":"khandagale","name":"Chaitrali Nitin Rairikar","yearOfBirth":"1993","dayOfBirth":"30","monthOfBirth":"3","gender":"F","email":"chaitralir30@gmail.com" }
+
+    localStorage.setItem('91-5457-8518-6762', JSON.stringify(temp1));
+
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
 
