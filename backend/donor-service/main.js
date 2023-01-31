@@ -177,12 +177,14 @@ app.post('/register/:entityName', async(req, res) => {
     }
 });
 
-app.get('/esign/init', async (req, res) => {
+app.post('/esign/init', async (req, res) => {
     try {
-        if (!'data' in req.query) {
-            res.status(400).send(new Error('Pledge data not available'));
-        }
-        const pledge = JSON.parse(req.query.data)
+        // if (!'data' in req.query) {
+        //     res.status(400).send(new Error('Pledge data not available'));
+        // }
+        console.log(req.query)
+        // const pledge = JSON.parse(req.query.data)
+        const pledge = req.body.data
         const data = JSON.stringify({
             "document": {
                 "integratorName": "NOTTO_DONOR_REGISTRY",
@@ -194,9 +196,11 @@ app.get('/esign/init', async (req, res) => {
                 },
                 personaldetails: {
                     "middleName": "",
+                    "motherName": "a",
                     ...pledge.personalDetails
                 },
                 addressdetails: {
+                    "addressLine2": "",
                     ...pledge.addressDetails
                 },
                 pledgedetails: {
