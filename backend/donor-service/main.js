@@ -104,7 +104,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         console.error(err)
         // res.status(err.response.status).send(err.response.data);
         console.log('Error : ', err);
-        // res.status(err.response.status).send(err.response.data);
+        res.status(err.response.status).send(err.response.data);
         const mockedProfile = {
             "healthIdNumber": "91-5457-8518-6762",
             "healthId": null,
@@ -149,7 +149,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
             "new": false,
             "emailVerified": true
         }
-        res.send(mockedProfile);
+        // res.send(mockedProfile);
     }
 });
 
