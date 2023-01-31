@@ -155,12 +155,12 @@ app.post('/auth/verifyOTP', async(req, res) => {
 
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
-    const profileFromRedis = JSON.parse(await redis.getKey(req.body.abhaId));
+    const profileFromRedis = JSON.parse(await redis.getKey(req.body.identificationDetails.abha));
     if(profileFromRedis === null) {
         res.status(401).send({message: 'Abha number verification expired. Please refresh the page and restart registration'});
         return;
     }
-    const profileFromReq = req.body.details;
+    const profileFromReq = req.body;
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
