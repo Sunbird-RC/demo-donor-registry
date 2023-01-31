@@ -555,8 +555,8 @@ export class LayoutsComponent implements OnInit, OnChanges {
     let pdfName =  'vc-card';
    
     let headerOptions = new HttpHeaders({
-      'template-key':'svg',
-      'Accept': 'application/pdf'
+      'template-key': this.model.addressDetails.state,
+      'Accept': 'image/svg+xml'
     });
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
@@ -565,11 +565,11 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
       
         let blob = new Blob([data], {
-            type: 'application/pdf' // must match the Accept type
+            type: 'image/svg+xml' // must match the Accept type
         });
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = pdfName + '.pdf';
+        link.download = pdfName + '.svg';
         link.click();
         window.URL.revokeObjectURL(link.href);
 
@@ -581,8 +581,8 @@ export class LayoutsComponent implements OnInit, OnChanges {
   dowbloadCard(){
   
     let headerOptions = new HttpHeaders({
-      'template-key':'svg',
-      'Accept': 'application/pdf'
+      'template-key':this.model.addressDetails.state,
+      'Accept': 'image/svg+xml'
     });
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
@@ -591,7 +591,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
       
         let blob = new Blob([data], {
-            type: 'application/pdf' // must match the Accept type
+            type: 'image/svg+xml' // must match the Accept type
         });
 
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))

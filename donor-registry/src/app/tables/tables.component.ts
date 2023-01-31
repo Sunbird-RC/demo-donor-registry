@@ -21,7 +21,7 @@ export class TablesComponent implements OnInit {
   field;
   bloodGroup = ["Select", "O+", "A+","B+", "AB+"];
   isActiverecipient = '';
-  isActivelivedonor = 'active1';    
+  isActivelivedonor = '';    
   page: number = 1;
   limit: number = 10;
 
@@ -43,6 +43,13 @@ export class TablesComponent implements OnInit {
         this.limit = filtered[0].hasOwnProperty(this.limit) ? filtered[0].limit : this.limit;
         await this.getData();
       })
+
+      if(this.table == 'transplantcoordinator-livedonor')
+      {
+        this.changeList2('livedonor');
+      }else if(this.table == 'transplantcoordinator-recipient'){
+        this.changeList1('recipient');
+      }
       
     });
   }

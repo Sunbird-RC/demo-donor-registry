@@ -16,7 +16,7 @@ async function initRedis(config) {
 async function storeKeyWithExpiry(key, value, expiry) {
   await client.set(key, value, {
     'EX': expiry,
-    'NX': true
+    'NX': false
   });
 }
 

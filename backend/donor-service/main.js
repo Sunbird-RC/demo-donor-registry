@@ -155,12 +155,12 @@ app.post('/auth/verifyOTP', async(req, res) => {
 
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
-    const profileFromRedis = JSON.parse(await redis.getKey(req.body.abhaId));
+    const profileFromRedis = JSON.parse(await redis.getKey(req.body.identificationDetails.abha));
     if(profileFromRedis === null) {
         res.status(401).send({message: 'Abha number verification expired. Please refresh the page and restart registration'});
         return;
     }
-    const profileFromReq = req.body.details;
+    const profileFromReq = req.body;
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
@@ -177,12 +177,14 @@ app.post('/register/:entityName', async(req, res) => {
     }
 });
 
-app.get('/esign/init', async (req, res) => {
+app.post('/esign/init', async (req, res) => {
     try {
-        if (!'data' in req.query) {
-            res.status(400).send(new Error('Pledge data not available'));
-        }
-        const pledge = JSON.parse(req.query.data)
+        // if (!'data' in req.query) {
+        //     res.status(400).send(new Error('Pledge data not available'));
+        // }
+        console.log(req.query)
+        // const pledge = JSON.parse(req.query.data)
+        const pledge = req.body.data
         const data = JSON.stringify({
             "document": {
                 "integratorName": "NOTTO_DONOR_REGISTRY",
@@ -194,9 +196,11 @@ app.get('/esign/init', async (req, res) => {
                 },
                 personaldetails: {
                     "middleName": "",
+                    "motherName": "a",
                     ...pledge.personalDetails
                 },
                 addressdetails: {
+                    "addressLine2": "",
                     ...pledge.addressDetails
                 },
                 pledgedetails: {
@@ -226,17 +230,21 @@ app.get('/esign/init', async (req, res) => {
         let xmlContent = apiResponse.data.espRequest;
         // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
         await redis.storeKeyWithExpiry(getEsginKey(pledge.identificationDetails.abha), apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
-        res.send(`
-        <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
-            <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
-            <input type="hidden" id="aspTxnID" name="aspTxnID" value='${apiResponse.data.aspTxnId}'/>
-            <input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
-        </form>
-        <script>
-        
-            document.getElementById("formid").submit();
-        </script>
-`);
+//         res.send(`
+//         <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
+//             <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
+//             <input type="hidden" id="aspTxnID" name="aspTxnID" value='${apiResponse.data.aspTxnId}'/>
+//             <input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
+//         </form>
+//         <script>
+//
+//             document.getElementById("formid").submit();
+//         </script>
+// `);
+        res.send({
+            xmlContent,
+            aspTxnId: apiResponse.data.aspTxnId,
+        })
     } catch (e) {
         console.error(e)
         res.status(500).send(e);
