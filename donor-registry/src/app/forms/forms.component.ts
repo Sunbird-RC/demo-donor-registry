@@ -203,6 +203,8 @@ ngAfterViewChecked(){
  if(this.form == 'livedonor')
     {
 
+      localStorage.setItem('formtype', "livedonor");
+
     if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue') ) {
       let tempData = JSON.parse(localStorage.getItem(this.model["donorDetails"]['identificationValue']));
     
@@ -299,6 +301,7 @@ ngAfterViewChecked(){
 
   if(this.form == 'recipient')
   {
+    localStorage.setItem('formtype', "recipient");
     if (this.model["recipientDetails"] && (this.model["recipientDetails"].hasOwnProperty('identificationValue'))) {
     
       let tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['identificationValue']));
@@ -1251,7 +1254,12 @@ ngAfterViewChecked(){
       this.model["status"] = this.isSaveAsDraft;
     }
 
-    if (this.fileFields.length > 0 && this.form != 'livedonor') {
+    if (this.form == 'recipient') {
+      this.model["recipientDetails"]["identificationProof"] = "Aadhaar";
+      this.model["status"] = this.isSaveAsDraft;
+    }
+
+    if (this.fileFields.length > 0 && this.form != 'livedonor' && this.form != 'recipient') {
       this.fileFields.forEach(fileField => {
         if (this.model[fileField]) {
           var formData = new FormData();
@@ -1525,8 +1533,8 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
   }
 
   getData() {
-    this.generalService.isUserLoggedIn().then((log) => {
-      if (log != undefined) {
+    // this.generalService.isUserLoggedIn().then((log) => {
+    //   if (log != undefined) {
         var get_url;
         if (this.identifier) {
           if(this.propertyName != undefined)
@@ -1563,9 +1571,9 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           }
           this.loadSchema()
         });
-      }
+      //}
 
-    })
+    //})
 
   }
 

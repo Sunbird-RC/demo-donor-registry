@@ -79,7 +79,12 @@ export class VerifyIndentityCode extends FieldType {
         },
         error: error => {
             this.errorMessage = error.message;
-            alert(this.errorMessage);
+
+            if(localStorage.getItem('formtype') != 'recipient' &&  localStorage.getItem('formtype') != 'livedonor')
+            {
+              alert(this.errorMessage);
+            }
+           
             this.isIdentityNo = true;
             console.error('There was an error!', error);
         }
@@ -121,7 +126,11 @@ export class VerifyIndentityCode extends FieldType {
         },
         error: error => {
             this.errorMessage = error.message;
-            alert(this.errorMessage);
+            if(localStorage.getItem('formtype') != 'recipient' &&  localStorage.getItem('formtype') != 'livedonor')
+            {
+              alert(this.errorMessage);
+            }
+           
             this.isIdentityNo = true;
             console.error('There was an error!', error);
         }
