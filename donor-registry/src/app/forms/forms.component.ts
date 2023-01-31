@@ -206,12 +206,12 @@ ngAfterViewChecked(){
     if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue') ) {
       let tempData = JSON.parse(localStorage.getItem(this.model["donorDetails"]['identificationValue']));
     
-      if(tempData['monthOfBirth'] < 10) 
+      if(tempData['monthOfBirth'] < 10)
         {
           tempData['monthOfBirth'] = "0"+ tempData['monthOfBirth'];
         }
 
-        if(tempData['dayOfBirth'] <10) 
+        if(tempData['dayOfBirth'] <10)
         {
           tempData['dayOfBirth'] = "0"+ tempData['dayOfBirth'];
         }
@@ -256,12 +256,12 @@ ngAfterViewChecked(){
        tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['identificationValue']));
      }
 
-      if(tempData['monthOfBirth'] < 10) 
+      if(tempData['monthOfBirth'] < 10)
       {
         tempData['monthOfBirth'] = "0"+ tempData['monthOfBirth'];
       }
 
-      if(tempData['dayOfBirth'] <10) 
+      if(tempData['dayOfBirth'] <10)
       {
         tempData['dayOfBirth'] = "0"+ tempData['dayOfBirth'];
       }
@@ -304,12 +304,12 @@ ngAfterViewChecked(){
       let tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['identificationValue']));
      
 
-      if(tempData['monthOfBirth'] < 10) 
+      if(tempData['monthOfBirth'] < 10)
       {
         tempData['monthOfBirth'] = "0"+ tempData['monthOfBirth'];
       }
 
-      if(tempData['dayOfBirth'] <10) 
+      if(tempData['dayOfBirth'] <10)
       {
         tempData['dayOfBirth'] = "0"+ tempData['dayOfBirth'];
       }
@@ -1609,16 +1609,16 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           }
         }
         eSignWindow.close();
-        this.callPostAPI();
+        this.callPostAPI("https://demo-donor-registry.xiv.in/donor-service/register/Pledge");
       });
     } else {
-      this.callPostAPI()
+      this.callPostAPI();
     }
 
   }
   
-  async callPostAPI() {
-    await this.generalService.postData(this.apiUrl, this.model).subscribe((res) => {
+  async callPostAPI(url=this.apiUrl) {
+    await this.generalService.postData(url, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
       
       
