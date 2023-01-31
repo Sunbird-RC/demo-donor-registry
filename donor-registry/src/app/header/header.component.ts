@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AppConfig } from '../app.config';
 import { SchemaService } from '../services/data/schema.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from "../../app/services/theme/theme.service";
+import { LayoutsComponent } from '../layouts/layouts.component';
 
 declare var $: any;
 
@@ -14,7 +15,7 @@ declare var $: any;
   styleUrls: ['./header.component.scss']
 })
 
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit{
   @Input() headerFor: string = 'default';
   @Input() tab: string;
   logo;
@@ -24,14 +25,35 @@ export class HeaderComponent implements OnInit {
   lang;
   indexPre;
   ELOCKER_THEME: string;
+  loggedInUser: string;
+  loggedInUserName: string;
+  tcUserName: string;
+  plegelogin: boolean=false;
+  tclogin: boolean=false;
+
+ 
   constructor(
     public router: Router, private config: AppConfig, public schemaService: SchemaService,
     public translate: TranslateService, private themeService: ThemeService
-  ) { }
-
+  ) { 
+    
+  }
+  
+  
   async ngOnInit() {
+    this.loggedInUserName  = localStorage.getItem('loggedInUserName'); 
+    if(this.loggedInUserName){
+      this.plegelogin = true;
+    }
+    this.tcUserName  = localStorage.getItem('tcUserName');
+        if(this.tcUserName){
+      this.tclogin = true;
+    }
+   
     this.languages = JSON.parse(localStorage.getItem('languages'));
     this.langCode = localStorage.getItem('setLanguage');
+    
+    console.log(this.loggedInUser);
     this.ELOCKER_THEME = localStorage.getItem('ELOCKER_THEME');
 
     if (!this.ELOCKER_THEME) {

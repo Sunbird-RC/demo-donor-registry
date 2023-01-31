@@ -1097,11 +1097,12 @@ ngAfterViewChecked(){
 
         if (field.type === 'verify-code') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
           if (field.required) {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
           }
           }
-
+          
         if (field.type === 'radio') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
         }
@@ -1250,12 +1251,7 @@ ngAfterViewChecked(){
       this.model["status"] = this.isSaveAsDraft;
     }
 
-    if (this.form == 'recipient') {
-      this.model["recipientDetails"]["identificationProof"] = "Aadhaar";
-      this.model["status"] = this.isSaveAsDraft;
-    }
-
-    if (this.fileFields.length > 0 && this.form != 'livedonor' && this.form != 'recipient') {
+    if (this.fileFields.length > 0 && this.form != 'livedonor') {
       this.fileFields.forEach(fileField => {
         if (this.model[fileField]) {
           var formData = new FormData();
@@ -1529,8 +1525,8 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
   }
 
   getData() {
-    // this.generalService.isUserLoggedIn().then((log) => {
-    //   if (log != undefined) {
+    this.generalService.isUserLoggedIn().then((log) => {
+      if (log != undefined) {
         var get_url;
         if (this.identifier) {
           if(this.propertyName != undefined)
@@ -1567,9 +1563,9 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           }
           this.loadSchema()
         });
-      //}
+      }
 
-    //})
+    })
 
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
 import { GeneralService } from '../services/general/general.service';
@@ -41,8 +41,14 @@ export class LayoutsComponent implements OnInit, OnChanges {
   langKey;
   titleVal;
   url: any;
+  username: any;
+  state = [];
+  userName: any;
+  tcUser: any;
+
+ 
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
-    public router: Router, public translate: TranslateService,public sanitizer: DomSanitizer,
+    public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
     private http: HttpClient,
     private config: AppConfig) {
   }
@@ -134,6 +140,8 @@ export class LayoutsComponent implements OnInit, OnChanges {
       if (block.fields.includes && block.fields.includes.length > 0) {
         if (block.fields.includes == "*") {
           for (var element in this.model) {
+            this.tcUser =this.model["name"];
+            localStorage.setItem('tcUserName', this.tcUser);
             if (!Array.isArray(this.model[element])) {
               if (typeof this.model[element] == 'string') {
                 temp_object = this.responseData['definitions'][block.definition]['properties'][element]
@@ -220,17 +228,17 @@ export class LayoutsComponent implements OnInit, OnChanges {
             }
           }
 
-       /* let tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
-                  if (this.model.hasOwnProperty(tempName)) {
-                    let objects1;
-
-                    for (let j = 0; j < this.model[tempName].length; j++) {
-                      objects1 = this.model[tempName][j];
-                    }
-
-                      this.model[element].sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
-
-                  }*/
+          /* let tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
+                     if (this.model.hasOwnProperty(tempName)) {
+                       let objects1;
+   
+                       for (let j = 0; j < this.model[tempName].length; j++) {
+                         objects1 = this.model[tempName][j];
+                       }
+   
+                         this.model[element].sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
+   
+                     }*/
         }
         else {
           block.fields.includes.forEach(element => {
@@ -292,7 +300,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
                   // alert(i + ' ----1--- ' + objects.osid);
 
                   let tempName = localStorage.getItem('entity').toLowerCase() + element.charAt(0).toUpperCase() + element.slice(1);
-                  tempName = (localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
+                  tempName = (localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student') ? 'studentInstituteAttest' : tempName;
                   if (this.model.hasOwnProperty(tempName)) {
                     let objects1;
                     var tempObj = []
@@ -379,12 +387,14 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
       if (block.hasOwnProperty('propertyShowFirst') && this.property.length) {
         let fieldsArray = (this.property[0].length) ? this.property[0] : this.property;
+        this.userName =this.property[7]["value"];
+        localStorage.setItem('loggedInUserName', this.userName);
+       
         let fieldsArrayTemp = [];
 
         for (let i = 0; i < block.propertyShowFirst.length; i++) {
           fieldsArray = fieldsArray.filter(function (obj) {
-            if(obj.property === block.propertyShowFirst[i])
-            {
+            if (obj.property === block.propertyShowFirst[i]) {
               fieldsArrayTemp.push(obj);
             }
             return obj.property !== block.propertyShowFirst[i];
@@ -424,11 +434,10 @@ export class LayoutsComponent implements OnInit, OnChanges {
         this.model = res
       }
       else {
-        if( res.length > 1)
-        {
-          this.model = res[res.length -1 ];
+        if (res.length > 1) {
+          this.model = res[res.length - 1];
           this.identifier = res[res.length - 1].osid;
-        }else{
+        } else {
           this.model = res[0];
           this.identifier = res[0].osid;
         }
@@ -555,9 +564,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
     }
   }
 
-  dowbloadCard1(){
-    let pdfName =  'vc-card';
-   
+  dowbloadCard1() {
+    let pdfName = 'vc-card';
+
     let headerOptions = new HttpHeaders({
       'template-key': this.model.addressDetails.state,
       'Accept': 'image/svg+xml'
@@ -565,7 +574,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
-    this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  this.identifier, requestOptions).pipe(map((data: any) => {
+    this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + this.identifier, requestOptions).pipe(map((data: any) => {
 
       
         let blob = new Blob([data], {
@@ -582,8 +591,8 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
 
-  dowbloadCard(){
-  
+  dowbloadCard() {
+
     let headerOptions = new HttpHeaders({
       'template-key':this.model.addressDetails.state,
       'Accept': 'image/svg+xml'
@@ -591,14 +600,16 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
-    this.http.get(this.config.getEnv('baseUrl')  + '/Pledge/'  +  this.identifier, requestOptions).pipe(map((data: any) => {
+    this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + this.identifier, requestOptions).pipe(map((data: any) => {
 
       
         let blob = new Blob([data], {
             type: 'image/svg+xml' // must match the Accept type
         });
 
-        this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
+    
+
+      this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
 
     })).subscribe((result: any) => {
     });
