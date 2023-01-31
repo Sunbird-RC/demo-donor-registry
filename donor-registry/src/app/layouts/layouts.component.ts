@@ -269,7 +269,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
                   }
                   else {
                     temp_object = this.responseData['definitions'][block.definition]['properties'][element]['properties'][key];
-                    if (temp_object != undefined && typeof value != 'object') {
+                    if (temp_object !== undefined && (Array.isArray(value) || typeof value !== 'object')) {
                       if (element.osid) {
                         temp_object['osid'] = element.osid;
                       }
