@@ -7,8 +7,13 @@
    
     <button *ngIf="form == 'livedonor' || form == 'recipient'" class="gobackBtn d-flex fw-bold" onClick="history.go(-1); return false;">
       <i class="fa fa-angle-left primary-text backIcon"></i>  &nbsp; &nbsp;
-      <p class="p16" *ngIf="form == 'livedonor'"> Add Donor</p>
-      <p class="p16" *ngIf="form == 'recipient'"> Add Recipient</p>
+      <p class="p16" *ngIf="form == 'livedonor'">
+        <span class="p16" *ngIf="!identifier"> Add </span> 
+        <span class="p16" *ngIf="identifier"> Edit </span> Donor
+        </p>
+      <p class="p16" *ngIf="form == 'recipient'"> 
+        <span class="p16" *ngIf="!identifier"> Add </span> 
+        <span class="p16" *ngIf="identifier"> Edit </span> Recipient</p>
   </button>
 
     <h3 class="font-weight-bold">  {{headingTitle}}</h3>
