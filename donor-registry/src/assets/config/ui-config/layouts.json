@@ -98,7 +98,7 @@
                         "canRaiseClaim": true,
                         "fields": {
                             "includes": [
-                                "witnessDetails"
+                                "notificationDetails"
                             ]
                         }
                     }
