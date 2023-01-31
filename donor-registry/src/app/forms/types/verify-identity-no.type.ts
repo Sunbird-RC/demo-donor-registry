@@ -32,7 +32,7 @@ import { GeneralService } from '../../services/general/general.service';
                           <p class="p14">Enter the code sent to mobile number associated with your ID </p>
                           <span class="fw-bold p12"> Enter OTP</span> <br>
                           <input type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
-                          <button data-dismiss="modal" class="btn my-3 w-100 fw-bold text-dark p12 btn-bg nav-link-color btn-sec-bg mb-2">Please enter OTP as ‘1234’ as this is a demo portal</button> <br>
+                          <button data-dismiss="modal" class="btn my-3 w-100 fw-bold text-dark p12 btn-bg nav-link-color btn-sec-bg mb-2">Please enter OTP sent to registered number</button> <br>
                           <button id=""  data-toggle="modal" data-dismiss="modal"m type="submit" (click)="submitOtp()" class="btn btn-primary w-100 submit-button mb-2">Verify</button>
                       
                       </div>

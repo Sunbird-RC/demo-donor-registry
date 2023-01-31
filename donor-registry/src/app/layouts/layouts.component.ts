@@ -605,6 +605,32 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
 
+  deleteData() {
+   
+    
+    this.model = {
+     
+      "pledgeDetails": {
+        "organs": {},
+        "tissues": {},
+        "others": "" 
+      },
+      "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
+      "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
+      "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
+      "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+      "notificationDetails": (this.model["notificationDetails"]) ? this.model["notificationDetails"] : {},
+    }
+    this.generalService.putData('/Pledge', this.identifier, this.model).subscribe((res) => {
+      if (res.params.status == 'SUCCESSFUL') {
+        this.router.navigate(['/profile/Pledge'])
+      }
+      else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+       
+      }
+    }, (err) => {
+     
 
-
+    });
+  }
 }
