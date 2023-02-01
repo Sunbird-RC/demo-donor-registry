@@ -11,7 +11,6 @@
         "fatherName",
         "dob",
         "gender",
-        "emailId",
         "mobileNumber"
       ],
       "properties": {
@@ -225,9 +224,16 @@
           "type": "string",
           "enum": [
             "Father",
-            "Mother"
+            "Mother",
+            "Son",
+            "Daughter",
+            "Others"
           ],
           "title": "Relation"
+        },
+        "otherRelation": {
+          "type": "string",
+          "title": "Other Relation"
         },
         "mobileNumber": {
           "type": "string",
@@ -249,9 +255,16 @@
           "type": "string",
           "enum": [
             "Father",
-            "Mother"
+            "Mother",
+            "Son",
+            "Daughter",
+            "Others"
           ],
           "title": "Relation"
+        },
+        "otherRelation": {
+          "type": "string",
+          "title": "Other Relation"
         },
         "mobileNumber": {
           "type": "string",
