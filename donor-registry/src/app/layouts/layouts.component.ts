@@ -62,7 +62,6 @@ export class LayoutsComponent implements OnInit, OnChanges {
   ngOnInit(): void {
 
     this.subHeadername = [];
-    console.log(this.publicData);
     if (this.publicData) {
       this.model = this.publicData;
       this.identifier = this.publicData.osid;

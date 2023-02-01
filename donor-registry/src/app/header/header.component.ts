@@ -46,7 +46,6 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
     }
    
     this.tcUserName  = localStorage.getItem('tcUserName');
-    console.log(this.tcUserName);
         if(this.tcUserName){
       this.tclogin = true;
     } 
