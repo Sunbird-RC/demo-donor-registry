@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
 import { JSONSchema7 } from "json-schema";
-import { GeneralService } from '../services/general/general.service';
+import {GeneralService, getDonorServiceHost} from '../services/general/general.service';
 import { Location } from '@angular/common'
 import { of } from 'rxjs';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
@@ -1616,9 +1616,8 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     }
     this.model['sorder'] = this.exLength;
     if(this.form =='signup'){
-      await this.generalService.postData(`https://demo-donor-registry.xiv.in/donor-service/esign/init`, {data: this.model}).subscribe(async (res) => {
+      await this.generalService.postData(`${getDonorServiceHost()}/esign/init`, {data: this.model}).subscribe(async (res) => {
         console.log(res)
-        // const eSignWindow = window.open(`https://demo-donor-registry.xiv.in/donor-service/esign/init?data=${this.model}`);
        
         const eSignWindow = window.open('', 'pledge esign');
         eSignWindow.document.write(`
@@ -1635,7 +1634,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         let count = 0;
         while (checkESignStatus) {
           try {
-            this.generalService.getData(`https://demo-donor-registry.xiv.in/donor-service/esign/${this?.model['identificationDetails']['abha']}/status`, true)
+            this.generalService.getData(`${getDonorServiceHost()}/esign/${this?.model['identificationDetails']['abha']}/status`, true)
               .subscribe((res) => {
                 checkESignStatus = false;
                 console.log(res)
@@ -1652,7 +1651,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           }
         }
         eSignWindow.close();
-        this.callPostAPI("https://demo-donor-registry.xiv.in/donor-service/register/Pledge");
+        this.callPostAPI(`${getDonorServiceHost()}/register/Pledge`);
       });
     } else {
       this.callPostAPI();

@@ -143,7 +143,7 @@ export class GeneralService {
 
         let blob = new Blob([data], {
             type: 'application/pdf' // must match the Accept type
-            // type: 'application/octet-stream' // for excel 
+            // type: 'application/octet-stream' // for excel
         });
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
@@ -168,3 +168,10 @@ export class GeneralService {
   
 }
 
+export function getDonorServiceHost(): string {
+  if (window.location.host === 'locahost:4200') {
+    return 'https://demo-donor-registry.xiv.in/donor-service';
+  } else {
+    return '';
+  }
+}
