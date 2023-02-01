@@ -1,17 +1,16 @@
-require('dotenv').config();
-const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+const REDIS_URL = process.env.REDIS_URL;
 const BASE_URL = process.env.BASE_URL;
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REGISTRY_URL = process.env.REGISTRY_URL || 'http://localhost:8081';
-const EXPIRE_PROFILE = process.env.EXPIRE_PROFILE || 30 * 60;
-const ESIGN_ESP_URL = process.env.ESIGN_ESP_URL || 'https://digisignsbx.abdm.gov.in/digiSign/genEspRequest';
-const ESIGN_ESP_PDF_URL = process.env.ESIGN_ESP_PDF_URL || 'https://digisignsbx.abdm.gov.in/digiSign/pdf/:transactionId';
-const ESIGN_FORM_SIGN_URL = process.env.ESIGN_FORM_SIGN_URL || "https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc";
-const ESIGN_FORM_REPLACE_URL = process.env.ESIGN_FORM_SIGN_URL || "https://digisignsbx.abdm.gov.in/digiSign/espResponse";
-const PORTAL_PLEDGE_REGISTER_URL = process.env.PORTAL_PLEDGE_REGISTER_URL || "https://demo-donor-registry.xiv.in/form/signup";
-const SERVICE_ACCOUNT_CLIENT_SECRET = process.env.SERVICE_ACCOUNT_CLIENT_SECRET || 'a2183329-152c-4b05-abcc-e388df62e233';
-const KEYCLOAK_URL = process.env.KEYCLOAK_URL || 'http://keycloak:8080';
+const REGISTRY_URL = process.env.REGISTRY_URL;
+const EXPIRE_PROFILE = process.env.EXPIRE_PROFILE;
+const ESIGN_ESP_URL = process.env.ESIGN_ESP_URL;
+const ESIGN_ESP_PDF_URL = process.env.ESIGN_ESP_PDF_URL;
+const ESIGN_FORM_SIGN_URL = process.env.ESIGN_FORM_SIGN_URL;
+const ESIGN_FORM_REPLACE_URL = process.env.ESIGN_FORM_SIGN_URL;
+const PORTAL_PLEDGE_REGISTER_URL = process.env.PORTAL_PLEDGE_REGISTER_URL;
+const SERVICE_ACCOUNT_CLIENT_SECRET = process.env.SERVICE_ACCOUNT_CLIENT_SECRET;
+const KEYCLOAK_URL = process.env.KEYCLOAK_URL;
 
 module.exports = {
     REDIS_URL,
