@@ -174,7 +174,8 @@ ngAfterViewChecked(){
       
               },
               "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-              "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {}
+              "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+              "memberToBeNotified": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
     
     
             };
@@ -196,9 +197,38 @@ ngAfterViewChecked(){
 
   ngAfterContentChecked(): void {
    console.log(this.model);
-    if (this.model["memberToBeNotified"] == true) {
-      this.model["notificationDetails"] = { ...this.model["emergencyDetails"] };
-    }
+   if (this.model["memberToBeNotified"] == true)  {
+    console.log("yes");
+    
+       this.model = {
+         "notificationDetails": {
+           "name": this.model["emergencyDetails"]['name'],
+           "relation": this.model["emergencyDetails"]['relation'],
+           "mobileNumber": this.model["emergencyDetails"]['mobileNumber'],
+         },
+         "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
+         "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
+         "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
+         "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+         "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+         "memberToBeNotified": (this.model["memberToBeNotified"]) ? this.model["memberToBeNotified"] : {},
+         "yescontent": (this.model["yescontent"]) ? this.model["yescontent"] : {}
+   }
+ }
+ if (this.model["memberToBeNotified"] == false)  {
+  console.log("no");
+  
+     this.model = {
+      
+       "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
+       "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
+       "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
+       "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+       "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+    
+       "yescontent": (this.model["yescontent"]) ? this.model["yescontent"] : {}
+ }
+}
  
  if(this.form == 'livedonor')
     {
@@ -1589,7 +1619,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       await this.generalService.postData(`https://demo-donor-registry.xiv.in/donor-service/esign/init`, {data: this.model}).subscribe(async (res) => {
         console.log(res)
         // const eSignWindow = window.open(`https://demo-donor-registry.xiv.in/donor-service/esign/init?data=${this.model}`);
-        debugger
+       
         const eSignWindow = window.open('', 'pledge esign');
         eSignWindow.document.write(`
         <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
