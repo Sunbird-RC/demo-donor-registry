@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit{
   tcUserName: string;
   plegelogin: boolean=false;
   tclogin: boolean=false;
+  temp:boolean = true;
 
  
   constructor(
@@ -41,6 +42,11 @@ export class HeaderComponent implements OnInit{
   
   
   async ngOnInit() {
+   if(this.router.url == "/form/signup"){
+    this.temp = false;
+    console.log(this.temp);
+   }
+
     this.loggedInUserName  = localStorage.getItem('loggedInUserName'); 
     if(this.loggedInUserName){
       this.plegelogin = true;

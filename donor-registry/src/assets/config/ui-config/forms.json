@@ -8,7 +8,7 @@
                 "type": "entity",
                 "formclass": "row",
                 "header": "default",
-                "title": "Register to Pledge Organ",
+                "title": "Form 7",
                 "langKey": "institute",
                 "isSignupForm": "true",
                 "fieldsets": [
@@ -21,28 +21,6 @@
                                         "properties": {
                                             "memberToBeNotified": {
                                                 "const": true
-                                            },
-                                            "notificationDetails": {
-                                                "type": "object",
-                                                "title": " ",
-                                                "formclass": "row",
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "string",
-                                                        "title": "Name",
-                                                        "className": "col-4"
-                                                    },
-                                                    "relation": {
-                                                        "type": "string",
-                                                        "title": "Relation",
-                                                        "className": "col-4"
-                                                    },
-                                                    "mobileNumber": {
-                                                        "type": "number",
-                                                        "title": "Mobile Number",
-                                                        "className": "col-4"
-                                                    }
-                                                }
                                             }
                                         }
                                     },
@@ -50,29 +28,8 @@
                                         "properties": {
                                             "memberToBeNotified": {
                                                 "const": false
-                                            },
-                                            "notificationDetails": {
-                                                "type": "object",
-                                                "title": " ",
-                                                "formclass": "row",
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "string",
-                                                        "title": "Name",
-                                                        "className": "col-4"
-                                                    },
-                                                    "relation": {
-                                                        "type": "string",
-                                                        "title": "Relation",
-                                                        "className": "col-4"
-                                                    },
-                                                    "mobileNumber": {
-                                                        "type": "string",
-                                                        "title": "Mobile Number",
-                                                        "className": "col-4"
-                                                    }
-                                                }
                                             }
+                                        
                                         }
                                     }
                                 ]
@@ -95,11 +52,15 @@
                                             "validation": {
                                                 "pattern": "[9]{1}[1]{1}[0-9]{12}",
                                                 "message": "ABHA Number must be 14 digits"
+
+                                               
                                             }
                                         }
+                                      
                                     ]
                                 }
                             },
+                         
                             {
                                 "name": "personalDetails",
                                 "children": {
@@ -300,6 +261,31 @@
                                     }
                                 }
                             },
+                            {
+                                "name": "notificationDetails",
+                                "children": {
+                                    "definition": "NotificationDetails",
+                                    "formclass": "row",
+                                    "title": "Notification Details",
+                                    "fields": [
+                                        {
+                                            "name": "name",
+                                            "class": "col-4"
+                                         
+                                        },
+                                        {
+                                            "name": "relation",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "mobileNumber",
+                                            "class": "col-4"
+                                         
+                                        }
+                                    ]
+                                }
+                            },
+                           
                             {
                                 "name": "consent",
                                 "custom": true,
