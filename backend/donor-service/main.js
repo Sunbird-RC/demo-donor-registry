@@ -22,6 +22,18 @@ app.use((bodyParser.json()));
 
 app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
 
+if (config.LOG_LEVEL === "DEBUG") {
+    axios.interceptors.request.use(request => {
+        console.log('Starting Request', JSON.stringify(request, null, 2))
+        return request
+    })
+
+    axios.interceptors.response.use(response => {
+        console.log('Response:', JSON.stringify(response, null, 2))
+        return response
+    })
+}
+
 const getClientSecretResponse = async() => {
     let data = {
         'clientId': config.CLIENT_ID,
