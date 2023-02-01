@@ -93,7 +93,7 @@ services:
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
     environment:
-      - KEYCLOAK_LOGO=https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/schemas/notto_logo.svg
+      - KEYCLOAK_LOGO=https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/imports/header_logo.png
       - KEYCLOAK_BACKGROUND_IMAGE=https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/schemas/notto_bg.svg
       - DB_VENDOR=postgres
       - DB_ADDR=db
@@ -108,6 +108,8 @@ services:
       - KEYCLOAK_PORTAL_TITLE=
       - KEYCLOAK_PORTAL_SUB_TITLE=
       - SIGN_UP_LINK=/form/signup
+      - SHOW_FOOTER=false
+      - SHOW_BANNER=false
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:9990/ || exit 1"]
