@@ -45,8 +45,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
   state = [];
   userName: any;
   tcUser: any;
+  propertyName: any;
 
- 
+
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
     private http: HttpClient,
@@ -140,7 +141,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
       if (block.fields.includes && block.fields.includes.length > 0) {
         if (block.fields.includes == "*") {
           for (var element in this.model) {
-            this.tcUser =this.model["name"];
+            this.tcUser = this.model["name"];
             localStorage.setItem('tcUserName', this.tcUser);
             if (!Array.isArray(this.model[element])) {
               if (typeof this.model[element] == 'string') {
@@ -387,9 +388,14 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
       if (block.hasOwnProperty('propertyShowFirst') && this.property.length) {
         let fieldsArray = (this.property[0].length) ? this.property[0] : this.property;
-        this.userName =this.property[7]["value"];
+        for (let i = 0; i < this.property.length; i++) {
+          this.propertyName = this.property[i]
+          if (this.propertyName["property"] == 'firstName') {
+            this.userName = this.propertyName["value"];
+          }
+        }
         localStorage.setItem('loggedInUserName', this.userName);
-       
+
         let fieldsArrayTemp = [];
 
         for (let i = 0; i < block.propertyShowFirst.length; i++) {
@@ -576,15 +582,15 @@ export class LayoutsComponent implements OnInit, OnChanges {
     // post or get depending on your requirement
     this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + this.identifier, requestOptions).pipe(map((data: any) => {
 
-      
-        let blob = new Blob([data], {
-            type: 'image/svg+xml' // must match the Accept type
-        });
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = pdfName + '.svg';
-        link.click();
-        window.URL.revokeObjectURL(link.href);
+
+      let blob = new Blob([data], {
+        type: 'image/svg+xml' // must match the Accept type
+      });
+      var link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = pdfName + '.svg';
+      link.click();
+      window.URL.revokeObjectURL(link.href);
 
     })).subscribe((result: any) => {
     });
@@ -594,7 +600,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   dowbloadCard() {
 
     let headerOptions = new HttpHeaders({
-      'template-key':this.model.addressDetails.state,
+      'template-key': this.model.addressDetails.state,
       'Accept': 'image/svg+xml'
     });
 
@@ -602,12 +608,12 @@ export class LayoutsComponent implements OnInit, OnChanges {
     // post or get depending on your requirement
     this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + this.identifier, requestOptions).pipe(map((data: any) => {
 
-      
-        let blob = new Blob([data], {
-            type: 'image/svg+xml' // must match the Accept type
-        });
 
-    
+      let blob = new Blob([data], {
+        type: 'image/svg+xml' // must match the Accept type
+      });
+
+
 
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
 
@@ -617,14 +623,14 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
 
   deleteData() {
-   
-    
+
+
     this.model = {
-     
+
       "pledgeDetails": {
         "organs": {},
         "tissues": {},
-        "others": "" 
+        "others": ""
       },
       "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
       "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
@@ -637,10 +643,10 @@ export class LayoutsComponent implements OnInit, OnChanges {
         this.router.navigate(['/profile/Pledge'])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
-       
+
       }
     }, (err) => {
-     
+
 
     });
   }

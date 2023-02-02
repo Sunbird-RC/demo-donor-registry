@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { AppConfig } from '../app.config';
@@ -15,7 +15,7 @@ declare var $: any;
   styleUrls: ['./header.component.scss']
 })
 
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit, AfterContentChecked{
   @Input() headerFor: string = 'default';
   @Input() tab: string;
   logo;
@@ -39,27 +39,28 @@ export class HeaderComponent implements OnInit{
   ) { 
     
   }
+  ngAfterContentChecked(): void {
+    this.loggedInUserName  = localStorage.getItem('loggedInUserName'); 
+    if(this.loggedInUserName){
+      this.plegelogin = true;
+    }
+   
+    this.tcUserName  = localStorage.getItem('tcUserName');
+        if(this.tcUserName){
+      this.tclogin = true;
+    } 
+  }
   
   
   async ngOnInit() {
    if(this.router.url == "/form/signup"){
     this.temp = false;
-    console.log(this.temp);
    }
-
-    this.loggedInUserName  = localStorage.getItem('loggedInUserName'); 
-    if(this.loggedInUserName){
-      this.plegelogin = true;
-    }
-    this.tcUserName  = localStorage.getItem('tcUserName');
-        if(this.tcUserName){
-      this.tclogin = true;
-    }
+  
    
     this.languages = JSON.parse(localStorage.getItem('languages'));
     this.langCode = localStorage.getItem('setLanguage');
     
-    console.log(this.loggedInUser);
     this.ELOCKER_THEME = localStorage.getItem('ELOCKER_THEME');
 
     if (!this.ELOCKER_THEME) {

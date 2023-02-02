@@ -54,9 +54,8 @@
                             <div class="dropdown mr-5" *ngIf="temp">
                                 <span id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                    <!-- {{plegelogin == true ? loggedInUserName : tcUserName}} -->
-                                 <span *ngIf="plegelogin && !tclogin ">{{tcUserName}}  </span>
-                                  <span  *ngIf="plegelogin"> {{ loggedInUserName }}</span> &nbsp;
+                                 <span *ngIf="tclogin ">{{tcUserName}}  </span>
+                                  <span  *ngIf="plegelogin && !tclogin"> {{ loggedInUserName }}</span> &nbsp;
                                   <i class="fa fa-chevron-down fs-10 text-color"></i>
                                 </span>
                                 
