@@ -422,7 +422,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
   async getData() {
-    debugger
+  
     var get_url;
     if (this.identifier) {
       get_url = this.apiUrl + '/' + this.identifier

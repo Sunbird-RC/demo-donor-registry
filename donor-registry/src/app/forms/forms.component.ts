@@ -133,7 +133,9 @@ export class FormsComponent implements OnInit {
   isSignupFormPOPup: boolean = false;
   isSaveAsDraft: any;
   tempData:any;
-
+  formDescription: any;
+  subDescription: any;
+  temporaryData={};
 
 ngAfterViewChecked(){
   if(this.form =='signup'){
@@ -176,8 +178,10 @@ ngAfterViewChecked(){
               },
               "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
               "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-              "memberToBeNotified": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-    
+             // "notificationDetails": this.model["notificationDetails"]? this.model["notificationDetails"] : {},
+              "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
+            
+              
     
             };
             ['formly_22_string_firstName_0', 'formly_22_string_middleName_1', 'formly_22_string_lastName_2', 'formly_22_string_fatherName_3',
@@ -198,6 +202,8 @@ ngAfterViewChecked(){
 
   ngAfterContentChecked(): void {
    console.log(this.model);
+  // console.log(this.model["emergencyDetails"]['relation'])
+
    if (this.model["memberToBeNotified"] == true)  {
     console.log("yes");
     
@@ -213,22 +219,44 @@ ngAfterViewChecked(){
          "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
          "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
          "memberToBeNotified": (this.model["memberToBeNotified"]) ? this.model["memberToBeNotified"] : {},
-         "yescontent": (this.model["yescontent"]) ? this.model["yescontent"] : {}
+         "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
+         "consent": this.model["consent"]
+        
    }
  }
  if (this.model["memberToBeNotified"] == false)  {
   console.log("no");
+   if(JSON.stringify(this.model["notificationDetails"]) !=  "")
+   {
+    if( JSON.stringify(this.model["notificationDetails"]) === JSON.stringify(this.model["emergencyDetails"]) )
+    {
+      this.model["notificationDetails"] = {}
+    }
+   }
   
-     this.model = {
+
+//      this.model = {
       
-       "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
-       "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
-       "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
-       "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-       "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+//        "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
+//        "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
+//        "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
+//        "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+//        "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+//        "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
+//        "consent": this.model["consent"],
+      
     
-       "yescontent": (this.model["yescontent"]) ? this.model["yescontent"] : {}
- }
+      
+//  }
+}
+
+if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnProperty('relation'))  {
+  console.log(this.model["emergencyDetails"]['relation'] === "Others");
+  {
+    console.log("Hello");
+  }
+    
+ 
 }
  
  if(this.form == 'livedonor')
@@ -437,6 +465,12 @@ ngAfterViewChecked(){
         this.headingTitle = this.translate.instant(this.formSchema.title);
       }
 
+      if (this.formSchema.description) {
+        this.formDescription = this.translate.instant(this.formSchema.description);
+      }
+      if (this.formSchema.subDescription) {
+        this.subDescription = this.translate.instant(this.formSchema.subDescription);
+      }
       if (this.formSchema.redirectTo) {
         this.redirectTo = this.formSchema.redirectTo;
       }
@@ -564,6 +598,7 @@ ngAfterViewChecked(){
     }, (error) => {
       this.toastMsg.error('error', 'forms.json not found in src/assets/config/ - You can refer to examples folder to create the file')
     })
+  
 
 
   }
@@ -799,6 +834,10 @@ ngAfterViewChecked(){
             this.responseData.definitions[fieldset.definition].properties[field.name]['title'] = this.translate.instant(field.element.title);
           }
           this.customFields.push(field.name);
+          if (field.element.hasOwnProperty('key')) {
+            this.responseData.definitions[fieldset.definition].properties[field.name]['key'] = this.translate.instant(field.element.key);
+          }
+          this.customFields.push(field.key);
         } else {
           this.addWidget(fieldset, field, '')
         }

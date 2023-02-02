@@ -248,6 +248,11 @@ form-group {
     padding-top: 5px !important;
 }
 
+
+.custom-control-input{
+display: none !important;
+}
+
 // .text-primary-color{
 //     color: #1987B6 !important;
 // }
@@ -1034,12 +1039,14 @@ label {
     }
 }
 
+.ml-50{
+    margin-left: 120px;
+}
 
 
-
-
-
-
+.mt-190{
+    margin-top: 150px !important;
+}
 
 
 

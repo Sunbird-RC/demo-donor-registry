@@ -8,7 +8,9 @@
                 "type": "entity",
                 "formclass": "row",
                 "header": "default",
-                "title": "Form 7",
+                "title": "Register to Pledge",
+                "description":"FORM 7 FOR ORGAN OR TISSUE PLEDGING (To be filled by individual of age 18 year or above)",
+                "subDescription":"[REFER rule 5(4)a] ORGAN(S) AND TISSSUE(S) DONOR FORM",
                 "langKey": "institute",
                 "isSignupForm": "true",
                 "fieldsets": [
@@ -233,6 +235,8 @@
                                             "name": "relation",
                                             "class": "col-4"
                                         },
+                                   
+                                        
                                         {
                                             "name": "mobileNumber",
                                             "class": "col-4",
@@ -248,16 +252,19 @@
                                 "name": "memberToBeNotified",
                                 "title": "Members to be notified (optional)",
                                 "custom": true,
+                                "key":"a",
                                 "element": {
                                     "title": "Members to be notified (Same as emergency Contact )",
                                     "type": "checkbox",
                                     "widget": {
                                         "formlyConfig": {
-                                            "type": "boolean",
-                                            "fieldGroupClassName": "controls",
+                                            "type": "checkbox",
+                                          
                                             "className": "select",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "defaultValue": false
                                         }
+                                      
                                     }
                                 }
                             },
@@ -277,6 +284,7 @@
                                             "name": "relation",
                                             "class": "col-4"
                                         },
+
                                         {
                                             "name": "mobileNumber",
                                             "class": "col-4"
@@ -285,13 +293,21 @@
                                     ]
                                 }
                             },
+                            {
+                                "name": "instituteReference",
+                                "class":"m-0 p-0 col-4"
+                           
+                            },
                            
                             {
                                 "name": "consent",
                                 "custom": true,
                                 "required": true,
+                                "key":"consent",
+                               
                                 "element": {
                                     "title": "CONSENT",
+                                    
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "checkbox",
@@ -299,7 +315,10 @@
                                             "className": "checkbox",
                                             "templateOptions": {
                                                 "required": true
-                                            }
+                                               
+                                               
+                                            },
+                                            "defaultValue": false
                                         }
                                     }
                                 }
@@ -308,6 +327,7 @@
                                 "name": "Note",
                                 "custom": true,
                                 "required": false,
+                                "key":"note",
                                 "element": {
                                     "title": "TO_NOTE",
                                     "widget": {
