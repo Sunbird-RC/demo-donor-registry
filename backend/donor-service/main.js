@@ -29,7 +29,7 @@ if (config.LOG_LEVEL === "DEBUG") {
     })
 
     axios.interceptors.response.use(response => {
-        console.log('Response:', JSON.stringify(response, null, 2))
+        console.log('Response:', response)
         return response
     })
 }
