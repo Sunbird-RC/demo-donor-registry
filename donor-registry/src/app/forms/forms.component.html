@@ -16,7 +16,10 @@
         <span class="p16" *ngIf="identifier"> Edit </span> Recipient</p>
   </button>
 
-    <h3 class="font-weight-bold">  {{headingTitle}}</h3>
+    <h3 class="font-weight-bold mb-2">  {{headingTitle}}</h3>
+    <h5 *ngIf="formDescription" class="font-weight-bold mb-2">  {{formDescription}}</h5>
+    <h5 *ngIf="subDescription" class="font-weight-bold mb-2">  {{subDescription}}</h5>
+
     <div class="card mb-5">
       <div *ngIf="schemaloaded; else loader" class="card-body">
         <div> 
