@@ -218,37 +218,38 @@ ngAfterViewChecked(){
          "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
          "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
          "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-         "memberToBeNotified": (this.model["memberToBeNotified"]) ? this.model["memberToBeNotified"] : {},
+         "memberToBeNotified": this.model["memberToBeNotified"],
          "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
          "consent": this.model["consent"]
         
    }
  }
- if (this.model["memberToBeNotified"] == false)  {
-  console.log("no");
-   if(JSON.stringify(this.model["notificationDetails"]) !=  "")
+  if (this.model["memberToBeNotified"] == false) 
    {
-    if( JSON.stringify(this.model["notificationDetails"]) === JSON.stringify(this.model["emergencyDetails"]) )
-    {
-      this.model["notificationDetails"] = {}
+     if(JSON.stringify(this.model["notificationDetails"]) !=  '{}')
+      {
+        if(JSON.stringify(this.model["notificationDetails"]) === JSON.stringify(this.model["emergencyDetails"]) )
+          { 
+              this.model = {
+             "notificationDetails": {
+             "name": "",
+             "relation": "",
+             "mobileNumber": "",
+          },
+            "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
+            "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
+            "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
+            "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+            "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+            "memberToBeNotified": this.model["memberToBeNotified"],
+            "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
+            "consent": this.model["consent"]
+     
+        }   
+      }
     }
-   }
-  
 
-//      this.model = {
-      
-//        "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
-//        "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
-//        "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
-//        "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-//        "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-//        "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
-//        "consent": this.model["consent"],
-      
-    
-      
-//  }
-}
+  }
 
 if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnProperty('relation'))  {
   console.log(this.model["emergencyDetails"]['relation'] === "Others");
