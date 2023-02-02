@@ -39,6 +39,10 @@
         },
         "notificationDetails": {
           "$ref": "Common.json/#/definitions/NotificationDetails"
+        },
+        "instituteReference": {
+          "type": "string",
+          "title": "Mention the Institution/NGO through which you are taking the pledge"
         }
       }
     }
