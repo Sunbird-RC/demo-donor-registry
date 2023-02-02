@@ -254,6 +254,7 @@ app.post('/esign/init', async (req, res) => {
 //         </script>
 // `);
         res.send({
+            signUrl: config.ESIGN_FORM_SIGN_URL,
             xmlContent,
             aspTxnId: apiResponse.data.aspTxnId,
         })

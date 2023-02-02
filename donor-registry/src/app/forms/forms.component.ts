@@ -13,6 +13,7 @@ import { of as observableOf } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError } from 'rxjs';
 import { templateJitUrl } from '@angular/compiler';
+import {HttpClient} from "@angular/common/http";
 
 const GenderMap = {
   M: 'Male',
@@ -382,7 +383,7 @@ ngAfterViewChecked(){
   }
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
-    public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location) { }
+    public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient) { }
 
 
   ngOnInit(): void {
@@ -1616,7 +1617,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     }
     this.model['sorder'] = this.exLength;
     if(this.form =='signup'){
-      await this.generalService.postData(`${getDonorServiceHost()}/esign/init`, {data: this.model}).subscribe(async (res) => {
+      await  this.http.post<any>(`${getDonorServiceHost()}/esign/init`, {data: this.model}).subscribe(async (res) => {
         console.log(res)
        
         const eSignWindow = window.open('', 'pledge esign');
@@ -1634,7 +1635,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         let count = 0;
         while (checkESignStatus) {
           try {
-            this.generalService.getData(`${getDonorServiceHost()}/esign/${this?.model['identificationDetails']['abha']}/status`, true)
+            this.http.get<any>(`${getDonorServiceHost()}/esign/${this?.model['identificationDetails']['abha']}/status`)
               .subscribe((res) => {
                 checkESignStatus = false;
                 console.log(res)
