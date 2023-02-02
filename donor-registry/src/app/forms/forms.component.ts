@@ -184,9 +184,9 @@ ngAfterViewChecked(){
               
     
             };
-            ['formly_22_string_firstName_0', 'formly_22_string_middleName_1', 'formly_22_string_lastName_2', 'formly_22_string_fatherName_3',
-              'formly_22_string_dob_5', 'formly_22_enum_gender_6', 'formly_22_string_mobileNumber_9', 'formly_28_string_addressLine1_0',
-              'formly_28_string_country_2', 'formly_28_enum_state_3', 'formly_28_string_district_4', 'formly_28_string_pincode_5'].forEach(i => {
+            ['formly_23_string_firstName_0', 'formly_23_string_middleName_1', 'formly_23_string_lastName_2', 'formly_23_string_fatherName_3',
+              'formly_23_string_dob_5', 'formly_23_enum_gender_6', 'formly_23_string_mobileNumber_9', 'formly_29_string_addressLine1_0',
+              'formly_29_string_country_2', 'formly_29_enum_state_3', 'formly_29_string_district_4', 'formly_29_string_pincode_5'].forEach(i => {
               if (document.getElementById(i)) {
                 (document.getElementById(i) as HTMLInputElement).disabled = true;
               }
@@ -1692,7 +1692,9 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           }
         }
         eSignWindow.close();
-        this.callPostAPI(`${getDonorServiceHost()}/register/Pledge`);
+        await this.callPostAPI(`${getDonorServiceHost()}/register/Pledge`);
+        localStorage.removeItem(this.model['identificationDetails']['abha']);
+        localStorage.removeItem('isVerified');
       });
     } else {
       this.callPostAPI();
