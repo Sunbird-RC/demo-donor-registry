@@ -10,6 +10,7 @@ const redis = require('./services/redis.service');
 const config = require('./configs/config');
 const constants = require('./configs/constants');
 const SERVICE_ACCOUNT_TOKEN = "SERVICE_ACCOUNT_TOKEN";
+const R = require('ramda');
 
 const app = express();
 (async() => {
@@ -196,37 +197,56 @@ app.post('/esign/init', async (req, res) => {
         // }
         console.log(req.query)
         // const pledge = JSON.parse(req.query.data)
-        const pledge = req.body.data
+        const pledge = req.body.data;
         const data = JSON.stringify({
             "document": {
                 "integratorName": "NOTTO_DONOR_REGISTRY",
                 "templateId": "TEMPLATE_1",
                 "submitterName": "TarunL",
                 "signingPlace": "Delhi",
-                identification: {
-                    ...pledge.identificationDetails
+                "identification": {
+                    "abha": R.pathOr("", ["identificationDetails", "abha"], pledge)
                 },
-                personaldetails: {
-                    "middleName": "",
-                    "motherName": "a",
-                    ...pledge.personalDetails
+                "personaldetails": {
+                    "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
+                    "middleName": R.pathOr("", ["personalDetails", "middleName"], pledge),
+                    "lastName": R.pathOr("", ["personalDetails", "lastName"], pledge),
+                    "fatherName": R.pathOr("", ["personalDetails", "fatherName"], pledge),
+                    "motherName": R.pathOr("", ["personalDetails", "motherName"], pledge),
+                    "dob": R.pathOr("", ["personalDetails", "dob"], pledge),
+                    "gender": R.pathOr("", ["personalDetails", "gender"], pledge),
+                    "bloodGroup": R.pathOr("", ["personalDetails", "bloodGroup"], pledge),
+                    "emailId": R.pathOr("", ["personalDetails", "emailId"], pledge),
+                    "mobileNumber": R.pathOr("", ["personalDetails", "mobileNumber"], pledge),
                 },
-                addressdetails: {
-                    "addressLine2": "",
-                    ...pledge.addressDetails
+                "addressdetails": {
+                    "addressLine1": R.pathOr("", ["addressDetails", "addressLine1"], pledge),
+                    "addressLine2": R.pathOr("", ["addressDetails", "addressLine2"], pledge),
+                    "country": R.pathOr("", ["addressDetails", "country"], pledge),
+                    "state": R.pathOr("", ["addressDetails", "state"], pledge),
+                    "district": R.pathOr("", ["addressDetails", "district"], pledge),
+                    "pincode": R.pathOr("", ["addressDetails", "pincode"], pledge),
                 },
-                pledgedetails: {
-                    ...pledge.pledgeDetails,
-                    other: 'other' in pledge.pledgeDetails ? [pledge.pledgeDetails?.other]: []
+                "pledgedetails": {
+                    "organs": R.pathOr([], ["pledgeDetails", "organs"], pledge),
+                    "tissues": R.pathOr([], ["pledgeDetails", "tissues"], pledge),
+                    "other": R.pathOr("", ["pledgeDetails", "other"], pledge)
                 },
-                emergencydetails: {
-                    ...pledge.emergencyDetails
+                "emergencydetails": {
+                    "name": R.pathOr("", ["emergencyDetails", "name"], pledge),
+                    "relation": R.pathOr("", ["emergencyDetails", "relation"], pledge),
+                    "mobileNumber": R.pathOr("", ["emergencyDetails", "mobileNumber"], pledge)
                 },
-                notificationdetails: {
-                    ...pledge.notificationDetails
-                }
+                "notificationdetails": {
+                    "name": R.pathOr("", ["notificationDetails", "name"], pledge),
+                    "relation": R.pathOr("", ["notificationDetails", "relation"], pledge),
+                    "mobileNumber": R.pathOr("", ["notificationDetails", "mobileNumber"], pledge)
+                },
+                "instituteReference": R.pathOr("", ["instituteReference"], pledge),
+                "consent": true,
+                "sorder": 0
             }
-        });
+        })
 
         const apiResponse = await axios({
             method: 'post',
