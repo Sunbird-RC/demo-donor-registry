@@ -21,15 +21,18 @@
         },
         "middleName": {
           "type": "string",
-          "title": "Middle Name"
+          "title": "Middle Name",
+          "readOnly": true
         },
         "lastName": {
           "type": "string",
-          "title": "Last Name"
+          "title": "Last Name",
+          "readOnly": true
         },
         "fatherName": {
           "type": "string",
-          "title": "Father’s/Husband’s Name"
+          "title": "Father’s/Husband’s Name",
+          "readOnly": true
         },
         "motherName": {
           "type": "string",
@@ -38,7 +41,8 @@
         "dob": {
           "type": "string",
           "format": "date",
-          "title": "Date of Birth"
+          "title": "Date of Birth",
+          "readOnly": true
         },
         "gender": {
           "type": "string",
@@ -47,7 +51,8 @@
             "Female",
             "Transgender"
           ],
-          "title": "Gender"
+          "title": "Gender",
+          "readOnly": true
         },
         "bloodGroup": {
           "type": "string",
@@ -71,7 +76,8 @@
         "mobileNumber": {
           "type": "string",
           "pattern": "^[6-9]\\d{9}$",
-          "title": "Mobile Number"
+          "title": "Mobile Number",
+          "readOnly": true
         },
         "photo": {
           "type": "string"
@@ -91,7 +97,8 @@
       "properties": {
         "addressLine1": {
           "type": "string",
-          "title": "Address Line 1"
+          "title": "Address Line 1",
+          "readOnly": true
         },
         "addressLine2": {
           "type": "string",
@@ -99,7 +106,8 @@
         },
         "country": {
           "type": "string",
-          "title": "Country"
+          "title": "Country",
+          "readOnly": true
         },
         "state": {
           "type": "string",
@@ -142,15 +150,18 @@
             "Uttarakhand",
             "West Bengal"
           ],
-          "title": "State"
+          "title": "State",
+          "readOnly": true
         },
         "district": {
           "type": "string",
-          "title": "District"
+          "title": "District",
+          "readOnly": true
         },
         "pincode": {
           "type": "string",
-          "title": "Pincode"
+          "title": "Pincode",
+          "readOnly": true
         }
       }
     },
