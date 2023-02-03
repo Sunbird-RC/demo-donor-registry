@@ -12,7 +12,7 @@ import {GeneralService, getDonorServiceHost} from '../../services/general/genera
          <div class="d-flex">
               <input id="number"
               [formControl]="formControl"
-              [formlyAttributes]="field"[(ngModel)]="number" type="input" [ngClass]="(isIdentityNo) ? 'form-control' : 'form-control is-invalid'" />
+              [formlyAttributes]="field"[(ngModel)]="number" type="number"  pattern ="[9]{1}[1]{1}[0-9]{12}" [ngClass]="(isIdentityNo) ? 'form-control' : 'form-control is-invalid'" required/>
               <span class="text-primary fw-bold p-1 p14 pointer" *ngIf="!isVerify"  (click)="verifyOtp()" data-toggle="modal" data-target="#verifyOtp">Verify</span>
               <span class="text-success fw-bold p-1" *ngIf="isVerify">
                   <div>

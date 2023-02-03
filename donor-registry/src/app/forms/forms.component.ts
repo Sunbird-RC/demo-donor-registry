@@ -162,7 +162,7 @@ ngAfterViewChecked(){
                 "lastName": this.tempData.lastName,
                 "fatherName": this.tempData.middleName,
                 "gender": (this.tempData.gender) ? `${GenderMap[this.tempData.gender]}` : {},
-                "emailId": this.tempData.email,
+                "emailId": (this.tempData.email)  ? this.tempData.email : "",
                 "mobileNumber": this.tempData.mobile,
                 "dob": this.tempData.yearOfBirth + "-" + ('0' + this.tempData.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData.dayOfBirth).slice(-2)
       
