@@ -211,7 +211,7 @@
                                         },
                                         {
                                             "name": "other",
-                                            "class": "col-4"
+                                            "class": "mt-10 col-4"
                                         }
                                     ]
                                 }
