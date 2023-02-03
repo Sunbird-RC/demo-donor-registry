@@ -89,7 +89,7 @@ services:
       timeout: 10s
       retries: 10
   keycloak:
-    image: tejashjl/sunbird-rc-keycloak:v0.0.13-1
+    image: tejashjl/sunbird-rc-keycloak:v0.0.13-2
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
     environment:
