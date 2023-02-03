@@ -173,7 +173,8 @@ app.post('/register/:entityName', async(req, res) => {
         res.status(401).send({message: 'Abha number verification expired. Please refresh the page and restart registration'});
         return;
     }
-    const profileFromReq = req.body;
+    let profileFromReq = req.body;
+    profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
