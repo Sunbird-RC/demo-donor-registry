@@ -8,7 +8,7 @@ import {GeneralService, getDonorServiceHost} from '../../services/general/genera
   styleUrls: ["../forms.component.scss"],
   template: `
       <div>
-        <span class="fw-bold p12">{{ to.label }}</span> <br>
+        <span class="fw-bold p12">{{ to.label }}*</span> <br>
          <div class="d-flex">
               <input id="number"
               [formControl]="formControl"
