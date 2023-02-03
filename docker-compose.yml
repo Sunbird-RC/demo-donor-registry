@@ -110,6 +110,7 @@ services:
       - SIGN_UP_LINK=/form/signup
       - SHOW_FOOTER=false
       - SHOW_BANNER=false
+      - LOGIN_USER_ID_TITLE=ABHA Number / Mobile Number
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:9990/ || exit 1"]
