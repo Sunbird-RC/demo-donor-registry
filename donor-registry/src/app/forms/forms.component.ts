@@ -1685,7 +1685,26 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           }
         }
         eSignWindow.close();
-        await this.callPostAPI(`${getDonorServiceHost()}/register/Pledge`);
+        await  this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
+          if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+    
+    
+            if (this.isSaveAsDraft == "Pending") {
+              this.toastMsg.success('Success', "Successfully Saved !!");
+            } else {
+              this.modalSuccess();
+              this.router.navigate([this.redirectTo]);
+            }
+    
+    
+          } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+            this.toastMsg.error('error', res.params.errmsg);
+            this.isSubmitForm = false;
+          }
+        }, (err) => {
+          this.toastMsg.error('error', err.error.params.errmsg);
+          this.isSubmitForm = false;
+        });
         localStorage.removeItem(this.model['identificationDetails']['abha']);
         localStorage.removeItem('isVerified');
       });
