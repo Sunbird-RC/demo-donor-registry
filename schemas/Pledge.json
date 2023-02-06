@@ -48,7 +48,15 @@
     }
   },
   "_osConfig": {
-    "privateFields": [],
+    "internalFields": [
+      "$.personalDetails",
+      "$.identificationDetails",
+      "$.addressDetails",
+      "$.pledgeDetails",
+      "$.emergencyDetails",
+      "$.notificationDetails",
+      "$.instituteReference"
+    ],
     "indexFields": [],
     "uniqueIndexFields": [],
     "systemFields": [
