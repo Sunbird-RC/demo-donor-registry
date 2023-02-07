@@ -9,8 +9,6 @@
                 "formclass": "row",
                 "header": "default",
                 "title": "Register to Pledge",
-                "description":"FORM 7 FOR ORGAN OR TISSUE PLEDGING (To be filled by individual of age 18 year or above)",
-                "subDescription":"[REFER rule 5(4)a] ORGAN(S) AND TISSSUE(S) DONOR FORM",
                 "langKey": "institute",
                 "isSignupForm": "true",
                 "fieldsets": [
