@@ -174,7 +174,7 @@
       "properties": {
         "abha": {
           "type": "string",
-          "title": "ABHA Number",
+          "title": "Identity Proof",
           "pattern": "^91\\d{12}$"
         }
       }
