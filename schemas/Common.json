@@ -237,9 +237,15 @@
           "enum": [
             "Father",
             "Mother",
+            "Spouse",
             "Son",
             "Daughter",
-            "Others"
+            "Brother",
+            "Sister",
+            "Grandfather",
+            "Grandmother",
+            "Grandson",
+            "Granddaughter"
           ],
           "title": "Relation"
         },
@@ -268,9 +274,15 @@
           "enum": [
             "Father",
             "Mother",
+            "Spouse",
             "Son",
             "Daughter",
-            "Others"
+            "Brother",
+            "Sister",
+            "Grandfather",
+            "Grandmother",
+            "Grandson",
+            "Granddaughter"
           ],
           "title": "Relation"
         },
