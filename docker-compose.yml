@@ -272,7 +272,7 @@ services:
     ports:
       - "6379:6379"
   donor-service:
-    build: backend/donor-service
+    build: backend/donor-service:demo-donor
     ports:
       - "3000:3000"
     healthcheck:
