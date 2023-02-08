@@ -10,7 +10,7 @@
                 "header": "default",
                 "title": "Register to Pledge",
                 "description":"FORM 7 FOR ORGAN OR TISSUE PLEDGING (To be filled by individual of age 18 year or above)",
-                "subDescription":"[REFER rule 5(4)a] ORGAN(S) AND TISSSUE(S) DONOR FORM",
+                "subDescription":"[See rule 5(4)(a), THOTA 1994 with The transplantation of Human Organs and Tissues Rules,2014]",
                 "langKey": "institute",
                 "isSignupForm": "true",
                 "fieldsets": [
@@ -31,7 +31,7 @@
                                             "memberToBeNotified": {
                                                 "const": false
                                             }
-                                        
+
                                         }
                                     }
                                 ]
@@ -55,14 +55,14 @@
                                                 "pattern": "[9]{1}[1]{1}[0-9]{12}",
                                                 "message": "ABHA Number must be 14 digits"
 
-                                               
+
                                             }
                                         }
-                                      
+
                                     ]
                                 }
                             },
-                         
+
                             {
                                 "name": "personalDetails",
                                 "children": {
@@ -235,8 +235,8 @@
                                             "name": "relation",
                                             "class": "col-4"
                                         },
-                                   
-                                        
+
+
                                         {
                                             "name": "mobileNumber",
                                             "class": "col-4",
@@ -259,12 +259,12 @@
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "checkbox",
-                                          
+
                                             "className": "select",
                                             "class": "col-4",
                                             "defaultValue": false
                                         }
-                                      
+
                                     }
                                 }
                             },
@@ -278,7 +278,7 @@
                                         {
                                             "name": "name",
                                             "class": "col-4"
-                                         
+
                                         },
                                         {
                                             "name": "relation",
@@ -288,7 +288,7 @@
                                         {
                                             "name": "mobileNumber",
                                             "class": "col-4"
-                                         
+
                                         }
                                     ]
                                 }
@@ -296,18 +296,18 @@
                             {
                                 "name": "instituteReference",
                                 "class":"m-0 p-0 col-4"
-                           
+
                             },
-                           
+
                             {
                                 "name": "consent",
                                 "custom": true,
                                 "required": true,
                                 "key":"consent",
-                               
+
                                 "element": {
                                     "title": "CONSENT",
-                                    
+
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "checkbox",
@@ -315,8 +315,8 @@
                                             "className": "checkbox",
                                             "templateOptions": {
                                                 "required": true
-                                               
-                                               
+
+
                                             },
                                             "defaultValue": false
                                         }
