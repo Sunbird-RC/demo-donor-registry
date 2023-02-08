@@ -93,7 +93,7 @@ services:
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
     environment:
-      - KEYCLOAK_LOGO=https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/imports/header_logo.png
+      - KEYCLOAK_LOGO=https://demo-donor-registry.xiv.in/assets/images/organ.svg
       - KEYCLOAK_BACKGROUND_IMAGE=https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/schemas/notto_bg.svg
       - DB_VENDOR=postgres
       - DB_ADDR=db
