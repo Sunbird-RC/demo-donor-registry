@@ -242,10 +242,10 @@
             "Daughter",
             "Brother",
             "Sister",
-            "Grandfather",
-            "Grandmother",
-            "Grandson",
-            "Granddaughter"
+            "Grand Father",
+            "Grand Mother",
+            "Grand Son",
+            "Grand Daughter"
           ],
           "title": "Relation"
         },
@@ -279,10 +279,10 @@
             "Daughter",
             "Brother",
             "Sister",
-            "Grandfather",
-            "Grandmother",
-            "Grandson",
-            "Granddaughter"
+            "Grand Father",
+            "Grand Mother",
+            "Grand Son",
+            "Grand Daughter"
           ],
           "title": "Relation"
         },
