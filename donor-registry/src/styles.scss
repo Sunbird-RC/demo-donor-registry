@@ -835,7 +835,7 @@ label {
 .btn-holder{
     width: 222px;
     height: 63px;
-    background: #D66025;
+    background: var(--primaryColor);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -986,7 +986,7 @@ label {
     font-size: 26px !important;
 }
 .active1{
-    background-color: #64825B !important;
+    background-color:var(--navLabelColor) !important;
     color:#fff !important;
   }
 .th-h{
@@ -1022,7 +1022,7 @@ label {
     padding: 5px !important;
 }
 .table-a{
-    color: #D66025;
+    color: var(--navlinkColor);
     text-decoration: underline !important;
 }
 .pgi li span{

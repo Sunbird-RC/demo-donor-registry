@@ -144,7 +144,7 @@ ngAfterViewChecked(){
     {
       if(this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha'))
       {
-        this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"].replaceAll("-","")));
+        this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"]));
         console.log(this.tempData);
         if(  this.tempData.monthOfBirth <10)
         {
