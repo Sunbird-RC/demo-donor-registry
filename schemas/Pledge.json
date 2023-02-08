@@ -49,7 +49,16 @@
   },
   "_osConfig": {
     "internalFields": [
-      "$.personalDetails",
+      "$.personalDetails.firstName",
+      "$.personalDetails.middleName",
+      "$.personalDetails.lastName",
+      "$.personalDetails.fatherName",
+      "$.personalDetails.motherName",
+      "$.personalDetails.dob",
+      "$.personalDetails.gender",
+      "$.personalDetails.bloodGroup",
+      "$.personalDetails.emailId",
+      "$.personalDetails.mobileNumber",
       "$.identificationDetails",
       "$.addressDetails",
       "$.pledgeDetails",
