@@ -343,7 +343,8 @@ export class FormsComponent implements OnInit {
       }
     }
 
-    if (this.form == 'recipient') {
+    if (this.form == 'recipient'  && localStorage.getItem('isVerified') && !this.identifier) 
+     {
       localStorage.setItem('formtype', "recipient");
       if (this.model["recipientDetails"] && (this.model["recipientDetails"].hasOwnProperty('identificationValue'))) {
 
@@ -1862,6 +1863,10 @@ export class FormsComponent implements OnInit {
 
   saveAsDraft(action) {
     this.isSaveAsDraft = action;
+  }
+
+  confirmInfo(){
+    this.submit();
   }
 }
 
