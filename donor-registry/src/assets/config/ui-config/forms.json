@@ -289,7 +289,7 @@
                                 "children": {
                                     "definition": "NotificationDetails",
                                     "formclass": "row",
-                                   
+                                    "title": "",
                                     "fields": [
                                         {
                                             "name": "name",
