@@ -820,7 +820,7 @@ label {
 
 .row-bg {
     background: #00000012;
-    padding-top: 10px;
+    padding-top: 10px; 
 }
 
 .form-div{
@@ -842,6 +842,9 @@ label {
     color: #fff;
     font-size: 20px;
     border-radius: 5px;
+}
+.akr:hover{
+    color: #fff !important;
 }
 .second-nav{
     background: #3B864C;
