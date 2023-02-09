@@ -247,6 +247,24 @@
                                 }
                             },
                             {
+                                "name": "membersToNotify",
+                                "custom": true,
+                                "required": false,
+                                "key":"note",
+                                "element": {
+                                    "title": "Members to be Notified",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "template",
+                                            "className":"fw-bold p16 mb-2"
+                                         
+                                            
+                                        }
+                                    }
+                                }
+                            },
+                           
+                            {
                                 "name": "memberToBeNotified",
                                 "title": "Members to be notified (optional)",
                                 "custom": true,
@@ -271,7 +289,7 @@
                                 "children": {
                                     "definition": "NotificationDetails",
                                     "formclass": "row",
-                                    "title": "Notification Details",
+                                   
                                     "fields": [
                                         {
                                             "name": "name",
@@ -332,7 +350,7 @@
                                         "formlyConfig": {
                                             "type": "template",
                                             "fieldGroupClassName": "controls",
-                                            "className": "checkbox",
+                                            "className": "checkbox p12 mb-5",
                                             "templateOptions": {
                                                 "required": false
                                             }
