@@ -61,7 +61,7 @@ export class VerifyIndentityCode extends FieldType {
 
   async verifyOtp(value){
 
-    this.number = (<HTMLInputElement>document.getElementById(value)).value;;
+    this.number = (<HTMLInputElement>document.getElementById(value)).value;
     if (this.number) {
       this.isIdentityNo = true;
      
