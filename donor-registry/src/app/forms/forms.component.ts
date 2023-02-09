@@ -253,155 +253,166 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
  
 }
  
- if(this.form == 'livedonor')
+    if (this.form == 'livedonor' && localStorage.getItem('isVerified') && !this.identifier) {
     {
 
       localStorage.setItem('formtype', "livedonor");
 
-    if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue') ) {
-      let tempData = JSON.parse(localStorage.getItem(this.model["donorDetails"]['identificationValue']));
-    
-      if(tempData['monthOfBirth'] < 10)
-        {
-          tempData['monthOfBirth'] = "0"+ tempData['monthOfBirth'];
+      if (this.model["donorDetails"] && this.model["donorDetails"].hasOwnProperty('identificationValue')) {
+        let tempData;
+        if (this.identifier) {
+          tempData = this.model;
+
+        } else {
+          tempData = JSON.parse(localStorage.getItem(this.model["donorDetails"]['identificationValue']));
         }
 
-        if(tempData['dayOfBirth'] <10)
-        {
-          tempData['dayOfBirth'] = "0"+ tempData['dayOfBirth'];
+
+        if (tempData.hasOwnProperty('monthOfBirth') && tempData['monthOfBirth'] < 10) {
+          tempData['monthOfBirth'] = "0" + tempData['monthOfBirth'];
         }
 
-      setTimeout(() => {
-      this.model = {
-        "donorDetails": {
-          "identificationValue": this.model["donorDetails"]['identificationValue'],
-          "dob": tempData['yearOfBirth'] + "-"+ tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'],
-          "emailId": (tempData['email']),
-          "firstName": tempData['firstName'],
-          "gender": (tempData['gender'] == 'F') ? "Female" : "Male",
-          "lastName": tempData['lastName'],
-          "middleName": tempData['middleName'],
-          "mobileNumber": tempData['mobile']
-        },
-        "recipientDetails": (this.model["recipientDetails"]) ? this.model["recipientDetails"] : {},
-        "crossMatchDetails": (this.model["crossMatchDetails"]) ? this.model["crossMatchDetails"] : {},
-        "dnaProfiling": (this.model["dnaProfiling"]) ? this.model["dnaProfiling"] : {},
-        "donorHLA": (this.model["donorHLA"]) ? this.model["donorHLA"] : {},
-        "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
-        "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
-        "proofOfRelation": (this.model["proofOfRelation"]) ? this.model["proofOfRelation"] : {},
-        "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : {},
-        "swapDetails": (this.model["swapDetails"]) ? this.model["swapDetails"] : {},
-        "relationOfDonorRecipient" : (this.model["relationOfDonorRecipient"]) ? this.model["relationOfDonorRecipient"]: "",
-        "crossMatching" : (this.model["crossMatching"]) ? this.model["crossMatching"]: "",
-        "proofOfRelationtype" : (this.model["proofOfRelationtype"]) ? this.model["proofOfRelationtype"]: "",
-        "details": (this.model["details"]) ? this.model["details"] : {}
+        if (tempData.hasOwnProperty('dayOfBirth') && (tempData['dayOfBirth'] < 10)) {
+          tempData['dayOfBirth'] = "0" + tempData['dayOfBirth'];
+        }
 
-      }
-   }, 8000);
-    }
-
-    if (this.model["recipientDetails"] && (this.model["recipientDetails"].hasOwnProperty('identificationValue') || this.model["recipientDetails"]['recipientId']) ) {
-      let tempData;
-     if(this.identifier)
-     {
-       tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['recipientId']));
-
-     }else{
-       tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['identificationValue']));
-     }
-
-      if(tempData['monthOfBirth'] < 10)
-      {
-        tempData['monthOfBirth'] = "0"+ tempData['monthOfBirth'];
-      }
-
-      if(tempData['dayOfBirth'] <10)
-      {
-        tempData['dayOfBirth'] = "0"+ tempData['dayOfBirth'];
-      }
-
-      setTimeout(() => {
-      this.model = {
-          "donorDetails": (this.model["donorDetails"]) ? this.model["donorDetails"] : {},
-        "recipientDetails": {
-          "identificationValue": (this.model["recipientDetails"]['identificationValue']) ? this.model["recipientDetails"]['identificationValue'] : this.model["recipientDetails"]['recipientId'],
-          "dob": tempData['yearOfBirth'] + "-"+ tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'],
-          "emailId": (tempData['email']),
-          "firstName": tempData['firstName'],
-          "gender": (tempData['gender'] == 'F') ? "Female" : "Male",
-          "lastName": tempData['lastName'],
-          "middleName": tempData['middleName'],
-          "mobileNumber": tempData['mobile']
-        },
-        "crossMatchDetails": (this.model["crossMatchDetails"]) ? this.model["crossMatchDetails"] : {},
-        "dnaProfiling": (this.model["dnaProfiling"]) ? this.model["dnaProfiling"] : {},
-        "donorHLA": (this.model["donorHLA"]) ? this.model["donorHLA"] : {},
-        "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
-        "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
-        "proofOfRelation": (this.model["proofOfRelation"]) ? this.model["proofOfRelation"] : {},
-        "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : {},
-        "swapDetails": (this.model["swapDetails"]) ? this.model["swapDetails"] : {},
-        "relationOfDonorRecipient" : (this.model["relationOfDonorRecipient"]) ? this.model["relationOfDonorRecipient"]: "",
-        "crossMatching" : (this.model["crossMatching"]) ? this.model["crossMatching"]: "",
-        "proofOfRelationtype" : (this.model["proofOfRelationtype"]) ? this.model["proofOfRelationtype"]: "",
-        "details": (this.model["details"]) ? this.model["details"] : {}
-
-      }
-    }, 8000);
-    }
-  }
-
-  if(this.form == 'recipient')
-  {
-    localStorage.setItem('formtype', "recipient");
-    if (this.model["recipientDetails"] && (this.model["recipientDetails"].hasOwnProperty('identificationValue'))) {
+       
+        /*  this.model['donorDetails']['dob'] = tempData['yearOfBirth'] + "-" + tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'];
+          this.model['donorDetails']['emailId'] = tempData['email'];
+          this.model['donorDetails']['firstName'] = tempData['firstName'];
+          this.model['donorDetails']['gender'] = (tempData['gender'] == 'F') ? "Female" : "Male",
+          this.model['donorDetails']['lastName'] = tempData['lastName'];
+          this.model['donorDetails']['middleName'] = tempData['middleName'];
+          this.model['donorDetails']['mobileNumber'] = (this.identifier) ? tempData['mobileNumber'] :  tempData['mobile'] ;
+     */
     
-      let tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['identificationValue']));
-     
+       // setTimeout(() => {
+          this.model = {
+            "donorDetails": {
+              "identificationValue": this.model["donorDetails"]['identificationValue'],
+              "dob": tempData['yearOfBirth'] + "-" + tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'],
+              "emailId": (tempData['email']),
+              "firstName": tempData['firstName'],
+              "gender": (tempData['gender'] == 'F') ? "Female" : "Male",
+              "lastName": tempData['lastName'],
+              "middleName": tempData['middleName'],
+              "mobileNumber": tempData['mobile']
+            },
+            "recipientDetails": (this.model["recipientDetails"]) ? this.model["recipientDetails"] : {},
+            "crossMatchDetails": (this.model["crossMatchDetails"]) ? this.model["crossMatchDetails"] : {},
+            "dnaProfiling": (this.model["dnaProfiling"]) ? this.model["dnaProfiling"] : {},
+            "donorHLA": (this.model["donorHLA"]) ? this.model["donorHLA"] : {},
+            "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
+            "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
+            "proofOfRelation": (this.model["proofOfRelation"]) ? this.model["proofOfRelation"] : {},
+            "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : {},
+            "swapDetails": (this.model["swapDetails"]) ? this.model["swapDetails"] : {},
+            "relationOfDonorRecipient": (this.model["relationOfDonorRecipient"]) ? this.model["relationOfDonorRecipient"] : "",
+            "crossMatching": (this.model["crossMatching"]) ? this.model["crossMatching"] : "",
+            "proofOfRelationtype": (this.model["proofOfRelationtype"]) ? this.model["proofOfRelationtype"] : "",
+            "details": (this.model["details"]) ? this.model["details"] : {}
 
-      if(tempData['monthOfBirth'] < 10)
-      {
-        tempData['monthOfBirth'] = "0"+ tempData['monthOfBirth'];
+          }
+       // }, 8000);
       }
+    
 
-      if(tempData['dayOfBirth'] <10)
-      {
-        tempData['dayOfBirth'] = "0"+ tempData['dayOfBirth'];
+      if (this.model["recipientDetails"] && (this.model["recipientDetails"].hasOwnProperty('identificationValue') || this.model["recipientDetails"]['recipientId'])) {
+        let tempData;
+        if (this.identifier) {
+          tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['recipientId']));
+
+        } else {
+          tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['identificationValue']));
+        }
+
+        if (tempData.hasOwnProperty('monthOfBirth') && tempData['monthOfBirth'] < 10) {
+          tempData['monthOfBirth'] = "0" + tempData['monthOfBirth'];
+        }
+
+        if (tempData.hasOwnProperty('dayOfBirth') && tempData['dayOfBirth'] < 10) {
+          tempData['dayOfBirth'] = "0" + tempData['dayOfBirth'];
+        }
+
+       // setTimeout(() => {
+          this.model = {
+            "donorDetails": (this.model["donorDetails"]) ? this.model["donorDetails"] : {},
+            "recipientDetails": {
+              "identificationValue": (this.model["recipientDetails"]['identificationValue']) ? this.model["recipientDetails"]['identificationValue'] : this.model["recipientDetails"]['recipientId'],
+              "dob": tempData['yearOfBirth'] + "-" + tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'],
+              "emailId": (tempData['email']),
+              "firstName": tempData['firstName'],
+              "gender": (tempData['gender'] == 'F') ? "Female" : "Male",
+              "lastName": tempData['lastName'],
+              "middleName": tempData['middleName'],
+              "mobileNumber": tempData['mobile']
+            },
+            "crossMatchDetails": (this.model["crossMatchDetails"]) ? this.model["crossMatchDetails"] : {},
+            "dnaProfiling": (this.model["dnaProfiling"]) ? this.model["dnaProfiling"] : {},
+            "donorHLA": (this.model["donorHLA"]) ? this.model["donorHLA"] : {},
+            "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
+            "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
+            "proofOfRelation": (this.model["proofOfRelation"]) ? this.model["proofOfRelation"] : {},
+            "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : {},
+            "swapDetails": (this.model["swapDetails"]) ? this.model["swapDetails"] : {},
+            "relationOfDonorRecipient": (this.model["relationOfDonorRecipient"]) ? this.model["relationOfDonorRecipient"] : "",
+            "crossMatching": (this.model["crossMatching"]) ? this.model["crossMatching"] : "",
+            "proofOfRelationtype": (this.model["proofOfRelationtype"]) ? this.model["proofOfRelationtype"] : "",
+            "details": (this.model["details"]) ? this.model["details"] : {}
+
+          }
+       // }, 8000);
       }
-
-      setTimeout(() => {
-      this.model = {
-        "recipientDetails": {
-          "identificationValue": (this.model["recipientDetails"]['identificationValue']) ? this.model["recipientDetails"]['identificationValue'] : '',
-          "dob": tempData['yearOfBirth'] + "-"+ tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'],
-          "emailId": (tempData['email']),
-          "firstName": tempData['firstName'],
-          "gender": (tempData['gender'] == 'F') ? "Female" : "Male",
-          "lastName": tempData['lastName'],
-          "middleName": tempData['middleName'],
-          "mobileNumber": tempData['mobile'],
-          "residentialProof" : (this.model["recipientDetails"]['residentialProof']) ? this.model["recipientDetails"]['residentialProof'] : '',
-          "residentialValue" : (this.model["recipientDetails"]['residentialValue']) ? this.model["recipientDetails"]['residentialValue'] : ''
-        },
-        "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
-        "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
-        "bloodGroupDetails": (this.model["bloodGroupDetails"]) ? this.model["bloodGroupDetails"] : {},
-        "hematology": (this.model["hematology"]) ? this.model["hematology"] : {},
-        "urineExam": (this.model["urineExam"]) ? this.model["urineExam"] : {},
-        "biochemistry": (this.model["biochemistry"]) ? this.model["biochemistry"] : {},
-        "ekg": (this.model["ekg"]) ? this.model["ekg"] : {},
-        "thyroidFunction": (this.model["thyroidFunction"]) ? this.model["thyroidFunction"] : {},
-        "virology": (this.model["virology"]) ? this.model["virology"] : {},
-        "radiology" : (this.model["radiology"]) ? this.model["radiology"]: "",
-        "clearances" : (this.model["clearances"]) ? this.model["clearances"]: "",
-        "recipientHLA" : (this.model["recipientHLA"]) ? this.model["recipientHLA"]: ""
-
-      }
-    }, 8000);
     }
-  }
+
+    if (this.form == 'recipient') {
+      localStorage.setItem('formtype', "recipient");
+      if (this.model["recipientDetails"] && (this.model["recipientDetails"].hasOwnProperty('identificationValue'))) {
+
+        let tempData = JSON.parse(localStorage.getItem(this.model["recipientDetails"]['identificationValue']));
+
  
+   
+        if (tempData.hasOwnProperty('monthOfBirth') && tempData['monthOfBirth'] < 10) {
+          tempData['monthOfBirth'] = "0" + tempData['monthOfBirth'];
+        }
+
+        if (tempData.hasOwnProperty('dayOfBirth') && tempData['dayOfBirth'] < 10) {
+          tempData['dayOfBirth'] = "0" + tempData['dayOfBirth'];
+        }
+
+       // setTimeout(() => {
+          this.model = {
+            "recipientDetails": {
+              "identificationValue": (this.model["recipientDetails"]['identificationValue']) ? this.model["recipientDetails"]['identificationValue'] : '',
+              "dob": tempData['yearOfBirth'] + "-" + tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'],
+              "emailId": (tempData['email']),
+              "firstName": tempData['firstName'],
+              "gender": (tempData['gender'] == 'F') ? "Female" : "Male",
+              "lastName": tempData['lastName'],
+              "middleName": tempData['middleName'],
+              "mobileNumber": tempData['mobile'],
+              "residentialProof": (this.model["recipientDetails"]['residentialProof']) ? this.model["recipientDetails"]['residentialProof'] : '',
+              "residentialValue": (this.model["recipientDetails"]['residentialValue']) ? this.model["recipientDetails"]['residentialValue'] : ''
+            },
+            "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
+            "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
+            "bloodGroupDetails": (this.model["bloodGroupDetails"]) ? this.model["bloodGroupDetails"] : {},
+            "hematology": (this.model["hematology"]) ? this.model["hematology"] : {},
+            "urineExam": (this.model["urineExam"]) ? this.model["urineExam"] : {},
+            "biochemistry": (this.model["biochemistry"]) ? this.model["biochemistry"] : {},
+            "ekg": (this.model["ekg"]) ? this.model["ekg"] : {},
+            "thyroidFunction": (this.model["thyroidFunction"]) ? this.model["thyroidFunction"] : {},
+            "virology": (this.model["virology"]) ? this.model["virology"] : {},
+            "radiology": (this.model["radiology"]) ? this.model["radiology"] : "",
+            "clearances": (this.model["clearances"]) ? this.model["clearances"] : "",
+            "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : ""
+
+          }
+       // }, 8000);
+      }
+    }
+
   }
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
