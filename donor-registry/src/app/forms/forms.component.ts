@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
 import { JSONSchema7 } from "json-schema";
-import {GeneralService, getDonorServiceHost} from '../services/general/general.service';
+import { GeneralService, getDonorServiceHost } from '../services/general/general.service';
 import { Location } from '@angular/common'
 import { of } from 'rxjs';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
@@ -13,7 +13,7 @@ import { of as observableOf } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError } from 'rxjs';
 import { templateJitUrl } from '@angular/compiler';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 const GenderMap = {
   M: 'Male',
@@ -132,26 +132,20 @@ export class FormsComponent implements OnInit {
   isSubmitForm: boolean = false;
   isSignupFormPOPup: boolean = false;
   isSaveAsDraft: any;
-  tempData:any;
+  tempData: any;
   formDescription: any;
   subDescription: any;
-  temporaryData={};
+  temporaryData = {};
 
-ngAfterViewChecked(){
-  if(this.form =='signup'){
+  ngAfterViewChecked() {
+    if (this.form == 'signup') {
 
-    if(localStorage.getItem('isVerified'))
-    {
-      if(this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha'))
-      {
-        this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"]));
-        console.log(this.tempData);
-        if(  this.tempData.monthOfBirth <10)
-        {
-         this.tempData.monthOfBirth = "0"+ this.tempData.monthOfBirth;
-         console.log( this.tempData.monthOfBirth );
-      
-        }
+      if (localStorage.getItem('isVerified')) {
+        if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
+          this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"].replaceAll("-", "")));
+          if (this.tempData.monthOfBirth < 10) {
+            this.tempData.monthOfBirth = "0" + this.tempData.monthOfBirth;
+          }
           if (!valuesSetFlag) {
             this.model = {
               ...this.model,
@@ -162,10 +156,10 @@ ngAfterViewChecked(){
                 "lastName": this.tempData.lastName,
                 "fatherName": this.tempData.middleName,
                 "gender": (this.tempData.gender) ? `${GenderMap[this.tempData.gender]}` : {},
-                "emailId": (this.tempData.email)  ? this.tempData.email : "",
+                "emailId": (this.tempData.email) ? this.tempData.email : "",
                 "mobileNumber": this.tempData.mobile,
                 "dob": this.tempData.yearOfBirth + "-" + ('0' + this.tempData.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData.dayOfBirth).slice(-2)
-      
+
               },
               "addressDetails": {
                 ...('addressDetails' in this.model ? this.model['addressDetails'] : {}),
@@ -174,61 +168,55 @@ ngAfterViewChecked(){
                 "state": `${titleCase(this.tempData.stateName)}`,
                 "district": this.tempData.townName,
                 "pincode": this.tempData.pincode,
-      
+
               },
               "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
               "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-             // "notificationDetails": this.model["notificationDetails"]? this.model["notificationDetails"] : {},
+              // "notificationDetails": this.model["notificationDetails"]? this.model["notificationDetails"] : {},
               "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
-            
-              
-    
+
+
+
             };
             valuesSetFlag = true;
           }
+        }
       }
+
     }
-  
   }
-}
 
 
   ngAfterContentChecked(): void {
-   console.log(this.model);
-  // console.log(this.model["emergencyDetails"]['relation'])
+  
+    if (this.model["memberToBeNotified"] == true) {
+  
+      this.model = {
+        "notificationDetails": {
+          "name": this.model["emergencyDetails"]['name'],
+          "relation": this.model["emergencyDetails"]['relation'],
+          "mobileNumber": this.model["emergencyDetails"]['mobileNumber'],
+        },
+        "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
+        "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
+        "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
+        "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+        "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+        "memberToBeNotified": this.model["memberToBeNotified"],
+        "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
+        "consent": this.model["consent"]
 
-   if (this.model["memberToBeNotified"] == true)  {
-    console.log("yes");
-    
-       this.model = {
-         "notificationDetails": {
-           "name": this.model["emergencyDetails"]['name'],
-           "relation": this.model["emergencyDetails"]['relation'],
-           "mobileNumber": this.model["emergencyDetails"]['mobileNumber'],
-         },
-         "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
-         "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
-         "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
-         "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-         "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-         "memberToBeNotified": this.model["memberToBeNotified"],
-         "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
-         "consent": this.model["consent"]
-        
-   }
- }
-  if (this.model["memberToBeNotified"] == false)
-   {
-     if(JSON.stringify(this.model["notificationDetails"]) !=  '{}')
-      {
-        if(JSON.stringify(this.model["notificationDetails"]) === JSON.stringify(this.model["emergencyDetails"]) )
-          {
-              this.model = {
-             "notificationDetails": {
-             "name": "",
-             "relation": "",
-             "mobileNumber": "",
-          },
+      }
+    }
+    if (this.model["memberToBeNotified"] == false) {
+      if (JSON.stringify(this.model["notificationDetails"]) != '{}') {
+        if (JSON.stringify(this.model["notificationDetails"]) === JSON.stringify(this.model["emergencyDetails"])) {
+          this.model = {
+            "notificationDetails": {
+              "name": "",
+              "relation": "",
+              "mobileNumber": "",
+            },
             "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
             "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
             "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
@@ -237,23 +225,15 @@ ngAfterViewChecked(){
             "memberToBeNotified": this.model["memberToBeNotified"],
             "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
             "consent": this.model["consent"]
-     
+
+          }
         }
       }
+
     }
 
-  }
 
-if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnProperty('relation'))  {
-  console.log(this.model["emergencyDetails"]['relation'] === "Others");
-  {
-    console.log("Hello");
-  }
-  
- 
-}
- 
-    if (this.form == 'livedonor' && localStorage.getItem('isVerified') && !this.identifier) {
+    if (this.form == 'livedonor' && localStorage.getItem('isVerified') && !this.identifier) 
     {
 
       localStorage.setItem('formtype', "livedonor");
@@ -285,9 +265,7 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
           this.model['donorDetails']['middleName'] = tempData['middleName'];
           this.model['donorDetails']['mobileNumber'] = (this.identifier) ? tempData['mobileNumber'] :  tempData['mobile'] ;
      */
-    
-       // setTimeout(() => {
-          this.model = {
+              this.model = {
             "donorDetails": {
               "identificationValue": this.model["donorDetails"]['identificationValue'],
               "dob": tempData['yearOfBirth'] + "-" + tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'],
@@ -313,7 +291,7 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
             "details": (this.model["details"]) ? this.model["details"] : {}
 
           }
-       // }, 8000);
+      
       }
     
 
@@ -334,7 +312,7 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
           tempData['dayOfBirth'] = "0" + tempData['dayOfBirth'];
         }
 
-       // setTimeout(() => {
+      
           this.model = {
             "donorDetails": (this.model["donorDetails"]) ? this.model["donorDetails"] : {},
             "recipientDetails": {
@@ -361,7 +339,7 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
             "details": (this.model["details"]) ? this.model["details"] : {}
 
           }
-       // }, 8000);
+       
       }
     }
 
@@ -381,7 +359,6 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
           tempData['dayOfBirth'] = "0" + tempData['dayOfBirth'];
         }
 
-       // setTimeout(() => {
           this.model = {
             "recipientDetails": {
               "identificationValue": (this.model["recipientDetails"]['identificationValue']) ? this.model["recipientDetails"]['identificationValue'] : '',
@@ -409,7 +386,7 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
             "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : ""
 
           }
-       // }, 8000);
+      
       }
     }
 
@@ -421,10 +398,10 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
 
   ngOnInit(): void {
 
-    let temp = {"healthIdNumber":"91-5457-8518-6762","healthId":null,"mobile":"7709151274","firstName":"Chaitrali","middleName":"Nitin","lastName":"Rairikar","name":"Chaitrali Nitin Rairikar","yearOfBirth":"1998","dayOfBirth":"30","monthOfBirth":"3","gender":"F","email":"chaitralir30@gmail.com" }
+    let temp = { "healthIdNumber": "91-5457-8518-6762", "healthId": null, "mobile": "7709151274", "firstName": "Chaitrali", "middleName": "Nitin", "lastName": "Rairikar", "name": "Chaitrali Nitin Rairikar", "yearOfBirth": "1998", "dayOfBirth": "30", "monthOfBirth": "3", "gender": "F", "email": "chaitralir30@gmail.com" }
 
     localStorage.setItem('91-5457-8518-6762', JSON.stringify(temp));
-    let temp1 = {"healthIdNumber":"91-5457-8518-6763","healthId":null,"mobile":"7709151274","firstName":"Pratiksha","middleName":"Chintaman","lastName":"khandagale","name":"Chaitrali Nitin Rairikar","yearOfBirth":"1993","dayOfBirth":"30","monthOfBirth":"3","gender":"F","email":"chaitralir30@gmail.com" }
+    let temp1 = { "healthIdNumber": "91-5457-8518-6763", "healthId": null, "mobile": "7709151274", "firstName": "Pratiksha", "middleName": "Chintaman", "lastName": "khandagale", "name": "Chaitrali Nitin Rairikar", "yearOfBirth": "1993", "dayOfBirth": "30", "monthOfBirth": "3", "gender": "F", "email": "chaitralir30@gmail.com" }
 
     localStorage.setItem('91-5457-8518-6763', JSON.stringify(temp1));
 
@@ -559,17 +536,17 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
           this.property = this.definations[fieldset.definition].properties;
 
           if (fieldset.formclass) {
-            if(!this.schema.hasOwnProperty('widget')){
+            if (!this.schema.hasOwnProperty('widget')) {
               this.schema['widget'] = {};
             }
             this.schema['widget']['formlyConfig'] = { fieldGroupClassName: fieldset.formclass }
           }
 
           if (this.formSchema.hasOwnProperty('wrapper') && this.formSchema.wrapper == 'stepper') {
-            if(!this.schema.hasOwnProperty('widget')){
+            if (!this.schema.hasOwnProperty('widget')) {
               this.schema['widget'] = {};
             }
-           
+
             this.schema['widget']['formlyConfig'] = { type: this.formSchema.wrapper }
           }
 
@@ -603,7 +580,7 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
     }, (error) => {
       this.toastMsg.error('error', 'forms.json not found in src/assets/config/ - You can refer to examples folder to create the file')
     })
-  
+
 
 
   }
@@ -686,18 +663,18 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
     var ref_required = []
     if (field.children.fields && field.children.fields.length > 0) {
 
-      if (field.children.formclass ) {
+      if (field.children.formclass) {
         this.responseData.definitions[fieldset.definition].properties[field.name]['widget'] = {
           "formlyConfig": {
             "templateOptions": {
             }
           }
-  
-         }
-        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = { fieldGroupClassName: field.children.formclass}
+
+        }
+        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = { fieldGroupClassName: field.children.formclass }
       }
 
-      
+
       field.children.fields.forEach(reffield => {
 
         this.addWidget(field.children, reffield, field.name);
@@ -778,8 +755,8 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
           "templateOptions": {
           }
         }
-       }
       }
+    }
 
     if (fieldset.fields.length) {
 
@@ -1179,10 +1156,10 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
           if (field.required) {
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
           }
-          }
-          
+        }
+
         if (field.type === 'radio') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
         }
@@ -1474,57 +1451,56 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
 
   async raiseClaim(property) {
     setTimeout(() => {
-     this.generalService.getData(this.entityUrl).subscribe((res) => {
+      this.generalService.getData(this.entityUrl).subscribe((res) => {
 
-      res = (res[0]) ? res[0] : res;
-      this.entityId = res.osid;
-      if (res.hasOwnProperty(property)) {
+        res = (res[0]) ? res[0] : res;
+        this.entityId = res.osid;
+        if (res.hasOwnProperty(property)) {
 
-        if (!this.propertyId && !this.sorder) {
+          if (!this.propertyId && !this.sorder) {
 
-        /*  var tempObj = []
-          for (let j = 0; j < res[property].length; j++) {
-            res[property][j].osUpdatedAt = new Date(res[property][j].osUpdatedAt);
-            tempObj.push(res[property][j])
+            /*  var tempObj = []
+              for (let j = 0; j < res[property].length; j++) {
+                res[property][j].osUpdatedAt = new Date(res[property][j].osUpdatedAt);
+                tempObj.push(res[property][j])
+              }
+    
+             // tempObj.sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
+              this.propertyId = tempObj[0]["osid"];*/
+
+            res[property].sort((a, b) => (b.sorder) - (a.sorder));
+            this.propertyId = res[property][0]["osid"];
+
           }
 
-         // tempObj.sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
-          this.propertyId = tempObj[0]["osid"];*/
+          if (this.sorder) {
+            var result = res[property].filter(obj => {
+              return obj.sorder === this.sorder
+            })
 
-          res[property].sort((a, b) => (b.sorder) - (a.sorder));
-           this.propertyId = res[property][0]["osid"];
-
-        }
-
-        if(this.sorder)
-        {
-          var result = res[property].filter(obj => {
-            return obj.sorder === this.sorder
-          })
-
-          this.propertyId = result[0]["osid"];
-        }
-
-        var temp = {};
-        temp[property] = [this.propertyId];
-        let propertyUniqueName = this.entityName.toLowerCase() + property.charAt(0).toUpperCase() + property.slice(1);
-
-        propertyUniqueName = (this.entityName == 'student' || this.entityName == 'Student') ? 'studentInstituteAttest' : propertyUniqueName;
-
-        let data = {
-          "entityName": this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1),
-          "entityId": this.entityId,
-          "name": propertyUniqueName,
-          "propertiesOSID": temp,
-           "additionalInput":{
-            "notes": this.model['notes']
+            this.propertyId = result[0]["osid"];
           }
+
+          var temp = {};
+          temp[property] = [this.propertyId];
+          let propertyUniqueName = this.entityName.toLowerCase() + property.charAt(0).toUpperCase() + property.slice(1);
+
+          propertyUniqueName = (this.entityName == 'student' || this.entityName == 'Student') ? 'studentInstituteAttest' : propertyUniqueName;
+
+          let data = {
+            "entityName": this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1),
+            "entityId": this.entityId,
+            "name": propertyUniqueName,
+            "propertiesOSID": temp,
+            "additionalInput": {
+              "notes": this.model['notes']
+            }
+          }
+          this.sentToAttestation(data);
         }
-        this.sentToAttestation(data);
-      }
-      
-    });
-  }, 1000);
+
+      });
+    }, 1000);
 
   }
 
@@ -1571,7 +1547,7 @@ if (this.model["emergencyDetails"] && this.model["emergencyDetails"].hasOwnPrope
   }
 
   getNotes() {
-let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
+    let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     this.generalService.getData(entity).subscribe((res) => {
       res = (res[0]) ? res[0] : res;
 
@@ -1612,58 +1588,57 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
   getData() {
     // this.generalService.isUserLoggedIn().then((log) => {
     //   if (log != undefined) {
-        var get_url;
-        if (this.identifier) {
-          if(this.propertyName != undefined)
-          {
-            get_url = this.propertyName + '/' + this.identifier;
-          }else{
-            get_url =   this.apiUrl + '/' + this.identifier;
-          }
-         
-        } else {
-          get_url = this.apiUrl
+    var get_url;
+    if (this.identifier) {
+      if (this.propertyName != undefined) {
+        get_url = this.propertyName + '/' + this.identifier;
+      } else {
+        get_url = this.apiUrl + '/' + this.identifier;
+      }
+
+    } else {
+      get_url = this.apiUrl
+    }
+    this.generalService.getData(get_url).subscribe((res) => {
+      if (res.length == 1 && this.identifier != undefined) {
+        res = (res[0]) ? res[0] : res;
+        if (this.propertyName && this.entityId) {
+          this.getNotes();
         }
-        this.generalService.getData(get_url).subscribe((res) => {
-          if (res.length == 1 && this.identifier != undefined) {
-            res = (res[0]) ? res[0] : res;
-            if (this.propertyName && this.entityId) {
-              this.getNotes();
-            }
 
-            this.model = res;
-            this.identifier = res.osid;
-          } else if(!this.identifier){
-            this.model = {};
-            this.identifier = null;
+        this.model = res;
+        this.identifier = res.osid;
+      } else if (!this.identifier) {
+        this.model = {};
+        this.identifier = null;
 
-          }else{
-            res = (res[0]) ? res[0] : res;
-            if (this.propertyName && this.entityId) {
-              this.getNotes();
-            }
+      } else {
+        res = (res[0]) ? res[0] : res;
+        if (this.propertyName && this.entityId) {
+          this.getNotes();
+        }
 
-            this.model = res;
-            this.identifier = res.osid;
-          }
-          this.loadSchema()
-        });
-      //}
+        this.model = res;
+        this.identifier = res.osid;
+      }
+      this.loadSchema()
+    });
+    //}
 
     //})
 
   }
 
   async postData() {
-    
+
     if (Array.isArray(this.model)) {
       this.model = this.model[0];
     }
     this.model['sorder'] = this.exLength;
-    if(this.form =='signup'){
-      await  this.http.post<any>(`${getDonorServiceHost()}/esign/init`, {data: this.model}).subscribe(async (res) => {
+    if (this.form == 'signup') {
+      await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
         console.log(res)
-       
+
         const eSignWindow = window.open('', 'pledge esign');
         eSignWindow.document.write(`
         <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
@@ -1696,18 +1671,18 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
           }
         }
         eSignWindow.close();
-        await  this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
+        await this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
           if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-    
-    
+
+
             if (this.isSaveAsDraft == "Pending") {
               this.toastMsg.success('Success', "Successfully Saved !!");
             } else {
               this.modalSuccess();
               this.router.navigate([this.redirectTo]);
             }
-    
-    
+
+
           } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
             this.toastMsg.error('error', res.params.errmsg);
             this.isSubmitForm = false;
@@ -1724,20 +1699,18 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     }
 
   }
-  
-  async callPostAPI(url=this.apiUrl) {
+
+  async callPostAPI(url = this.apiUrl) {
     await this.generalService.postData(url, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-      
-      
         if (this.isSaveAsDraft == "Pending") {
           this.toastMsg.success('Success', "Successfully Saved !!");
         } else {
           this.modalSuccess();
           this.router.navigate([this.redirectTo]);
         }
-      
-      
+
+
       } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
         this.toastMsg.error('error', res.params.errmsg);
         this.isSubmitForm = false;
@@ -1774,7 +1747,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         window.location = this.router.navigate(["/login"]);
       }
     }
-  
+
   }
 
   ObjectbyString = function (o, s) {
@@ -1856,14 +1829,14 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     if (this.identifier !== undefined) {
       this.generalService.getData(apiUrl).subscribe((res) => {
         this.entityId = res[0].osid;
-        if(res[0].hasOwnProperty(this.propertyName)){
-        this.exLength = res[0][this.propertyName].length;
+        if (res[0].hasOwnProperty(this.propertyName)) {
+          this.exLength = res[0][this.propertyName].length;
         }
 
       });
     } else {
       this.generalService.getData(apiUrl).subscribe((res) => {
-        if(res[0].hasOwnProperty(this.propertyName)){
+        if (res[0].hasOwnProperty(this.propertyName)) {
           this.exLength = res[0][this.propertyName].length;
         }
       });
