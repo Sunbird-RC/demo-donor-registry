@@ -192,7 +192,6 @@
           "items": {
             "type": "string",
             "enum": [
-              "Select All",
               "Liver",
               "Kidney",
               "Heart",
@@ -208,7 +207,6 @@
           "items": {
             "type": "string",
             "enum": [
-              "Select All",
               "Bone",
               "Heart Valve",
               "Skin",
@@ -237,17 +235,18 @@
         "relation": {
           "type": "string",
           "enum": [
-            "Father",
-            "Mother",
             "Spouse",
             "Son",
             "Daughter",
+            "Father",
+            "Mother",
             "Brother",
             "Sister",
             "Grand Father",
             "Grand Mother",
             "Grand Son",
-            "Grand Daughter"
+            "Grand Daughter",
+            "Other"
           ],
           "title": "Relation"
         },
