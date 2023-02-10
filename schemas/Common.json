@@ -235,17 +235,18 @@
         "relation": {
           "type": "string",
           "enum": [
-            "Father",
-            "Mother",
             "Spouse",
             "Son",
             "Daughter",
+            "Father",
+            "Mother",
             "Brother",
             "Sister",
             "Grand Father",
             "Grand Mother",
             "Grand Son",
-            "Grand Daughter"
+            "Grand Daughter",
+            "Other"
           ],
           "title": "Relation"
         },
@@ -272,17 +273,18 @@
         "relation": {
           "type": "string",
           "enum": [
-            "Father",
-            "Mother",
             "Spouse",
             "Son",
             "Daughter",
+            "Father",
+            "Mother",
             "Brother",
             "Sister",
             "Grand Father",
             "Grand Mother",
             "Grand Son",
-            "Grand Daughter"
+            "Grand Daughter",
+            "Other"
           ],
           "title": "Relation"
         },
