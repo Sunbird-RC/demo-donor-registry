@@ -703,6 +703,39 @@
           }
         }
       },
+      "OrgansOrTissues": {
+        "title": "Organs or Tissues Needed",
+        "type": "object",
+        "required": ["organsNeeded", "tissuesNeeded"],
+        "properties": {
+          "organsNeeded": {
+            "title": "Organs Needed",
+            "type": "string",
+            "enum": [
+              "Liver",
+              "Kidney",
+              "Heart",
+              "Intestine",
+              "Pancreas",
+              "Lungs"
+            ],
+            "$id": "#/properties/organsNeeded"
+          },
+          "tissuesNeeded": {
+            "title": "Tissues Needed",
+            "type": "string",
+            "enum": [
+              "Bone",
+              "Heart Valve",
+              "Skin",
+              "Cornea",
+              "Cartilage",
+              "Blood Vessels"
+            ],
+            "$id": "#/properties/tissuesNeeded"
+          }
+        }
+      },
       "Form4": {
         "title": "Form 4",
         "type": "object",

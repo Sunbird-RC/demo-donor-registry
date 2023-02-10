@@ -20,6 +20,9 @@
         "recipientDetails": {
           "$ref": "LiveDonor.json/#/definitions/RecipientRegistryDetails"
         },
+        "organsOrTissues": {
+          "$ref": "LiveDonor.json/#/definitions/OrgansOrTissues"
+        },
         "medicalDetails": {
           "$ref": "LiveDonor.json/#/definitions/MedicalDetails"
         },
