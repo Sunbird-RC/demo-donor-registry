@@ -368,7 +368,12 @@ export class FormsComponent implements OnInit {
             "middleName": tempData['middleName'],
             "mobileNumber": tempData['mobile'],
             "residentialProof": (this.model["recipientDetails"]['residentialProof']) ? this.model["recipientDetails"]['residentialProof'] : '',
-            "residentialValue": (this.model["recipientDetails"]['residentialValue']) ? this.model["recipientDetails"]['residentialValue'] : ''
+            "residentialValue": (this.model["recipientDetails"]['residentialValue']) ? this.model["recipientDetails"]['residentialValue'] : '',
+            "passportNumber": (this.model["recipientDetails"]['passportNumber']) ? this.model["recipientDetails"]['passportNumber'] : '',
+            "country": (this.model["recipientDetails"]['country']) ? this.model["recipientDetails"]['country'] : '',
+            "mobileNumberWithCode": (this.model["recipientDetails"]['mobileNumberWithCode']) ? this.model["recipientDetails"]['mobileNumberWithCode'] : '',
+            "form21": (this.model["recipientDetails"]['form21']) ? this.model["recipientDetails"]['form21'] : '',
+            "nationality": (this.model["recipientDetails"]['nationality']) ? this.model["recipientDetails"]['nationality'] : 'Indian',
           },
           "medicalDetails": (this.model["medicalDetails"]) ? this.model["medicalDetails"] : {},
           "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
@@ -382,7 +387,8 @@ export class FormsComponent implements OnInit {
           "radiology": (this.model["radiology"]) ? this.model["radiology"] : "",
           "clearances": (this.model["clearances"]) ? this.model["clearances"] : "",
           "recipientHLA": (this.model["recipientHLA"]) ? this.model["recipientHLA"] : "",
-          "organsOrTissues": (this.model["organsOrTissues"]) ? this.model["organsOrTissues"] : { 'organsNeeded': ['Kideny'] }
+          "organsOrTissues": (this.model["organsOrTissues"]) ? this.model["organsOrTissues"] : { 'organsNeeded': ['Kideny'] },
+          "report": (this.model["report"]) ? this.model["report"] : {}
         }
 
       }
@@ -509,7 +515,7 @@ export class FormsComponent implements OnInit {
 
                           if (pro.hasOwnProperty('properties')) {
                             Object.keys(pro['properties']).forEach(function (key3) {
-                              console.log(pro.properties[key3]);
+                             // console.log(pro.properties[key3]);
                               if (pro.properties[key3].hasOwnProperty('title')) {
                                 fieldset.dependencies[key][key1][i].properties[key2].properties[key3]['title'] = _self.translate.instant(pro.properties[key3].title);
                               }
@@ -775,10 +781,7 @@ export class FormsComponent implements OnInit {
 
 
                   });
-
-
                 }
-                console.log(key);
               });
             }
 
@@ -944,7 +947,6 @@ export class FormsComponent implements OnInit {
           if (this.responseData.definitions[fieldset.definition].properties[field.name].items.hasOwnProperty('properties')) {
             let _self = this;
             Object.keys(_self.responseData.definitions[fieldset.definition].properties[field.name].items.properties).forEach(function (key) {
-              console.log(key);
               _self.responseData.definitions[fieldset.definition].properties[field.name].items.properties[key].title = _self.checkString(key, _self.responseData.definitions[fieldset.definition].properties[field.name].items.properties[key].title);
 
 
@@ -1162,7 +1164,6 @@ export class FormsComponent implements OnInit {
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
             'hideExpression': (model, formState, field1) => {
-              console.log(this.model['organsOrTissues']['organsNeeded']);
               return (
                 !this.model['organsOrTissues']['organsNeeded'].includes(field.condition.isInclude));
             }
@@ -1170,6 +1171,9 @@ export class FormsComponent implements OnInit {
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'] = temp;
         } else if (field.condition.type == 'nationality') {
+          if (this.form == 'recipient') {
+            this.model['recipientDetails'] = { 'nationality': "Indian" }
+          }
           let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
@@ -1706,7 +1710,7 @@ export class FormsComponent implements OnInit {
     this.model['sorder'] = this.exLength;
     if (this.form == 'signup') {
       await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
-        console.log(res)
+        
 
         const eSignWindow = window.open('', 'pledge esign');
         eSignWindow.document.write(`

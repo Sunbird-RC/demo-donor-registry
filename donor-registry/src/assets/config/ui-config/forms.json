@@ -1382,7 +1382,28 @@
                                         }
                                     ]
                                 }
-                            }
+                            },
+                            {
+                                "name": "report",
+                                "children": {
+                                    "definition": "Report",
+                                    "title": "Report",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "date",
+                                            "class": "field-in-row col-3",
+                                            "type": "date"
+
+                                        },
+                                        {
+                                            "name": "file",
+                                            "class": "field-in-row col-3",
+                                            "type": "file"
+                                        }
+                                    ]
+                                }
+                            } 
                         ]
                     }
                 ],
