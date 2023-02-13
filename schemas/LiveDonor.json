@@ -708,10 +708,11 @@
       "EKG":  {
         "title": "EKG",
         "type": "object",
+        "required": [],
         "properties": {
-          "file": {
+          "ekg": {
             "type": "string",
-            "format": "file"
+            "title": "EKG"
           }
         }
       },
@@ -719,19 +720,88 @@
         "title": "Thyroid Function",
         "type": "object",
         "properties": {
-          "file": {
+          "t3": {
             "type": "string",
-            "format": "file"
+            "title": "T3 (mg/dl)"
+          },
+          "t4": {
+            "type": "string",
+            "title": "T4 (ug/dl)"
+          },
+          "tsh": {
+            "type": "string",
+            "title": "TSH (µU/dl)"
           }
         }
       },
       "Virology":  {
         "title": "Virology",
         "type": "object",
+        "required": ["hbsag", "cmvigg", "ebvigg", "antiHIV", "antiHCV", "antiHPV", "cmvigm", "ebvigm" ],
         "properties": {
-          "file": {
+          "hbsag": {
+            "title": "HBsAg",
             "type": "string",
-            "format": "file"
+            "enum": [
+              "Positive",
+              "Negetive"
+            ]
+          },
+          "cmvigg": {
+            "title": "CMV-igG",
+            "type": "string",
+            "enum": [
+              "Positive",
+              "Negetive"
+            ]
+          },
+          "ebvigg": {
+            "title": "EBV-IgG",
+            "type": "string",
+            "enum": [
+              "Positive",
+              "Negetive"
+            ]
+          },
+          "antiHIV": {
+            "title": "Anti-HIV",
+            "type": "string",
+            "enum": [
+              "Positive",
+              "Negetive"
+            ]
+          },
+          "antiHCV": {
+            "title": "Anti-HCV",
+            "type": "string",
+            "enum": [
+              "Positive",
+              "Negetive"
+            ]
+          },
+          "antiHPV": {
+            "title": "antiHPV",
+            "type": "string",
+            "enum": [
+              "Positive",
+              "Negetive"
+            ]
+          },
+          "cmvigm": {
+            "title": "CMV-igM",
+            "type": "string",
+            "enum": [
+              "Positive",
+              "Negetive"
+            ]
+          },
+          "ebvigm": {
+            "title": "EBV-Igm",
+            "type": "string",
+            "enum": [
+              "Positive",
+              "Negetive"
+            ]
           }
         }
       },
@@ -739,9 +809,95 @@
         "title": "Radiology",
         "type": "object",
         "properties": {
-          "file": {
+          "date": {
             "type": "string",
-            "format": "file"
+            "title": "Date",
+            "format": "date"
+          },
+          "xrayChest": {
+            "type": "object",
+            "title": "X-ray Chest",
+            "properties": {
+              "date": {
+                "type": "string",
+                "title": "Date",
+                "format": "date"
+              },
+              "value": {
+                "type": "string",
+                "title": "Value"
+              }
+            }
+          },
+          "usabdomen": {
+            "type": "object",
+            "title": "U/S abdomen",
+            "properties": {
+              "date": {
+                "type": "string",
+                "title": "Date",
+                "format": "date"
+              },
+              "value": {
+                "type": "string",
+                "title": "Value"
+              }
+            }
+          },
+          "kub": {
+            "type": "object",
+            "title": "KUB",
+            "properties": {
+              "date": {
+                "type": "string",
+                "title": "Date",
+                "format": "date"
+              },
+              "value": {
+                "type": "string",
+                "title": "Value"
+              }
+            }
+          },
+          "echo": {
+            "type": "object",
+            "title": "ECHO",
+            "properties": {
+              "date": {
+                "type": "string",
+                "title": "Date",
+                "format": "date"
+              },
+              "value": {
+                "type": "string",
+                "title": "Value"
+              }
+            }
+          },
+          "others": {
+            "type": "object",
+            "title": "Others",
+            "properties": {
+              "date": {
+                "type": "string",
+                "title": "Date",
+                "format": "date"
+              },
+              "value": {
+                "type": "string",
+                "title": "Value"
+              }
+            }
+          },
+          "hrct": {
+            "type": "string",
+            "title": "HRCT",
+            "format": "date"
+          },
+          "carotid": {
+            "type": "string",
+            "title": "Carotid Doppler",
+            "format": "date"
           }
         }
       },
@@ -749,9 +905,90 @@
         "title": "Clearances",
         "type": "object",
         "properties": {
-          "file": {
+          "cardiac": {
+            "title": "Cardiac",
             "type": "string",
-            "format": "file"
+            "enum": [
+              "Yes",
+              "No",
+              "Not Needed"
+            ]
+          },
+          "respiratory": {
+            "title": "Respiratory",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No",
+              "Not Needed"
+            ]
+          },
+          "psychiatry": {
+            "title": "Psychiatry",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No",
+              "Not Needed"
+            ]
+          },
+          "gynae": {
+            "title": "Gynae",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No",
+              "Not Needed"
+            ]
+          },
+          "others": {
+            "title": "Others",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No",
+              "Not Needed"
+            ]
+          },
+          "gastroenterology": {
+            "title": "Gastroenterology",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No"
+            ]
+          },
+          "renal": {
+            "title": "Renal",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No"
+            ]
+          },
+          "dental": {
+            "title": "Dental",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No"
+            ]
+          },
+          "pulmonology": {
+            "title": "Pulmonology",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No"
+            ]
+          },
+          "gynecology": {
+            "title": "Gynecology",
+            "type": "string",
+            "enum": [
+              "Yes",
+              "No"
+            ]
           }
         }
       },
