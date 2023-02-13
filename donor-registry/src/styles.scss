@@ -821,7 +821,7 @@ label {
 
 .row-bg {
     background: #00000012;
-    padding-top: 10px; 
+    padding-top: 10px;
 }
 
 .form-div{
@@ -1089,4 +1089,10 @@ margin: 0;
     width: 135px;
     height: 39px;
     font-size: 17px;
+}
+
+.field-in-row .custom-control{
+    display: initial !important;
+    min-height: 1.5rem;
+    padding-left: 3.5rem !important;
 }

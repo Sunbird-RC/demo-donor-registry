@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
   plegelogin: boolean=false;
   tclogin: boolean=false;
   temp:boolean = true;
+  entity: string;
 
  
   constructor(
@@ -45,6 +46,8 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
       this.plegelogin = true;
     }
    
+    this.entity  = localStorage.getItem('entity');
+
     this.tcUserName  = localStorage.getItem('tcUserName');
         if(this.tcUserName){
       this.tclogin = true;

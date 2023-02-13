@@ -865,6 +865,54 @@
                                 }
                             },
                             {
+                                "name": "organsOrTissues",
+                                "children": {
+                                    "definition": "OrgansOrTissues",
+                                    "title": "Organs or Tissues Needed",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "organsNeeded",
+                                            "class": "field-in-row",
+                                            "type" : "multicheckbox"
+                                        }
+                                    ]
+                                }
+                            } ,
+                            {
+                                "name": "LiverExamination",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
+                                "children": {
+                                    "definition": "LiverExamination",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "typeOfFailure"
+                                        },
+                                        {
+                                            "name": "primaryDiagnosis"
+                                        },
+                                        {
+                                            "name": "onsetOfDisease"
+                                        },
+                                        {
+                                            "name": "titre"
+                                        },
+                                        {
+                                            "name": "treatmentTaken"
+                                        },
+                                        {
+                                            "name": "onLifeSupport"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
                                 "name": "medicalDetails",
                                 "children": {
                                     "definition": "MedicalDetails",
@@ -976,15 +1024,35 @@
                             },
                             {
                                 "name": "urineExam",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "UrineExam",
                                     "title": "urineExam",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "sugar",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "sediment",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "proCrRatio",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "protein",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "eGfr",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
@@ -997,69 +1065,165 @@
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "calcium",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "uricAcid",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "ldl",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "triglycerides",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "bSugarPP",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "phosphate",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "tCholestrol",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "hdl",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "bSugarF",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "hba1c",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "ekg",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "EKG",
                                     "title": "ekg",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "ekg",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "thyroidFunction",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "ThyroidFunction",
                                     "title": "thyroidFunction",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "t3",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "t4",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "tsh",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "virology",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "Virology",
                                     "title": "virology",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "hbsag",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "cmvigg",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "ebvigg",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "antiHIV",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "antiHCV",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "antiHPV",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "cmvigm",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "ebvigm",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "radiology",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "Radiology",
                                     "title": "radiology",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
+                                            "name": "date",
                                             "class": "col-3",
-                                            "format": "file"
+                                            "type": "date"
+                                        },
+                                        {
+                                            "name": "hrct",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "carotid",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
@@ -1072,15 +1236,31 @@
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "cardiac",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "respiratory",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "psychiatry",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name" :"gynae",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "recipientHLA",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "RecipientHLATypingDetails",
                                     "title": "Relation of Donor and Recipient",
