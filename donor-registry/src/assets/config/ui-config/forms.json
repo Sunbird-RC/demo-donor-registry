@@ -809,40 +809,82 @@
                             {
                                 "name": "recipientDetails",
                                 "children": {
-                                    "definition": "DonorDetails",
+                                    "definition": "RecipientRegistryDetails",
                                     "title": "Recipient Details",
                                     "class": "card card-body m-3",
                                     "formclass": "row form-div ",
                                     "fields": [
                                         {
+                                            "name": "nationality",
+                                            "type":"radio",
+                                            "class": "field-in-row p4"
+                                        },
+                                        {
                                             "name": "identificationValue",
                                             "class": "col-4",
-                                            "type": "verify-code"
+                                            "type": "verify-code",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                           
                                         },
                                         {
                                             "name": "firstName",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                            
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -850,16 +892,68 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "residentialProof",
                                             "type": "date",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "residentialValue",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        },
+                                        {
+                                            "name": "passportNumber",
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Foreign",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        },
+                                        {
+                                            "name": "country",
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Foreign",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        },
+                                        {
+                                            "name": "mobileNumberWithCode",
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Foreign",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        },
+                                        {
+                                            "name": "form21",
+                                            "class": "col-4",
+                                            "type":"file",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Foreign",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         }
                                     ]
                                 }

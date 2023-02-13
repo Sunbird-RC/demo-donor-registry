@@ -1157,18 +1157,39 @@ export class FormsComponent implements OnInit {
 
       if (field.hasOwnProperty('condition') && field.condition) {
         if (field.condition.type == 'hideShow') {
-          
+
           let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'];
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
             'hideExpression': (model, formState, field1) => {
-                console.log( this.model['organsOrTissues']['organsNeeded']);
-                return (
-                  !this.model['organsOrTissues']['organsNeeded'].includes(field.condition.isInclude));
+              console.log(this.model['organsOrTissues']['organsNeeded']);
+              return (
+                !this.model['organsOrTissues']['organsNeeded'].includes(field.condition.isInclude));
             }
           }
 
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'] =  temp;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'] = temp;
+        } else if (field.condition.type == 'nationality') {
+          let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+            'hideExpression': (model, formState, field1) => {
+               
+               let val = (this.model['recipientDetails']['nationality'] == field.condition.isIt) ? false : true;
+
+               return val;
+                
+               //(this.model['recipientDetails']['nationality'] == "India") ? false : true);
+            }
+          }
+
+          if(temp != undefined)
+          {
+            temp['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = temp;
+        }
+
+
         }
       }
 
@@ -1189,19 +1210,17 @@ export class FormsComponent implements OnInit {
 
         if (field.type === 'multicheckbox') {
 
-          
-          if( this.responseData.definitions[fieldset.definition].properties[field.name].hasOwnProperty('items'))
-          {
-            if(field.name == 'organsNeeded')
-          {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['enum'] = ['Liver'];
-          }else{
 
-            this.responseData.definitions[fieldset.definition].properties[field.name]['enum'] = this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'];
-          }
+          if (this.responseData.definitions[fieldset.definition].properties[field.name].hasOwnProperty('items')) {
+            if (field.name == 'organsNeeded') {
+              this.responseData.definitions[fieldset.definition].properties[field.name]['enum'] = ['Liver'];
+            } else {
+
+              this.responseData.definitions[fieldset.definition].properties[field.name]['enum'] = this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'];
+            }
             delete this.responseData.definitions[fieldset.definition].properties[field.name]['items'];
           }
-        
+
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = 'array';
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
