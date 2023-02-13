@@ -637,9 +637,25 @@
         "type": "object",
         "title": "Urine Exam",
         "properties": {
-          "file": {
+          "sugar": {
             "type": "string",
-            "format": "file"
+            "title": "String"
+          },
+          "sediment": {
+            "type": "string",
+            "title": "Sediment"
+          },
+          "proCrRatio": {
+            "type": "string",
+            "title": "Pro./Cr. Ratio"
+          },
+          "protein": {
+            "type": "string",
+            "title": "24 Hr. Protein"
+          },
+          "eGfr": {
+            "title": "eGFR",
+            "type": "string"
           }
         }
       },
@@ -647,9 +663,45 @@
         "type": "object",
         "title": "Biochemistry",
         "properties": {
-          "file": {
+          "calcium": {
             "type": "string",
-            "format": "file"
+            "title": "Calcium(mg/dl)"
+          },
+          "uricAcid": {
+            "title": "Uric Acid (mg/dl)",
+            "type": "string"
+          },
+          "ldl": {
+            "title": "LDL(mg/dl)",
+            "type": "string"
+          },
+          "triglycerides": {
+            "title": "Triglycerides",
+            "type": "string"
+          },
+          "bSugarPP": {
+            "title": "B. Sugar(pp)(mg/dl)",
+            "type": "string"
+          },
+          "phosphate": {
+            "type": "string",
+            "title": "Phosphate(mg/dl)"
+          },
+          "tCholestrol": {
+            "type": "string",
+            "title": "T. Cholesterol(mg/dl)"
+          },
+          "hdl": {
+            "type": "string",
+            "title": "HDL(mg/dl)"
+          },
+          "bSugarF": {
+            "title": "B. Sugar (F) (mg/dl)",
+            "type": "string"
+          },
+          "hba1c": {
+            "title": "HbA1C (%)",
+            "type": "string"
           }
         }
       },
@@ -710,28 +762,33 @@
         "properties": {
           "organsNeeded": {
             "title": "Organs Needed",
-            "type": "string",
-            "enum": [
-              "Liver",
-              "Kidney",
-              "Heart",
-              "Intestine",
-              "Pancreas",
-              "Lungs"
-            ],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Liver",
+                "Kidney",
+                "Heart",
+                "Intestine",
+                "Pancreas",
+                "Lungs"
+              ]
+            },
             "$id": "#/properties/organsNeeded"
           },
           "tissuesNeeded": {
             "title": "Tissues Needed",
-            "type": "string",
-            "enum": [
-              "Bone",
-              "Heart Valve",
-              "Skin",
-              "Cornea",
-              "Cartilage",
-              "Blood Vessels"
-            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "Bone",
+                "Heart Valve",
+                "Skin",
+                "Cornea",
+                "Cartilage",
+                "Blood Vessels"
+              ]
+            },
             "$id": "#/properties/tissuesNeeded"
           }
         }

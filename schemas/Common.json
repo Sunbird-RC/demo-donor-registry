@@ -189,14 +189,17 @@
       "properties": {
         "organs": {
           "type": "array",
-          "enum": [
-            "Liver",
-            "Kidney",
-            "Heart",
-            "Intestine",
-            "Pancreas",
-            "Lungs"
-          ],
+          "items": {
+            "type": "string",
+            "enum": [
+              "Liver",
+              "Kidney",
+              "Heart",
+              "Intestine",
+              "Pancreas",
+              "Lungs"
+            ]
+          },
           "title": "Organs to Pledge"
         },
         "tissues": {
