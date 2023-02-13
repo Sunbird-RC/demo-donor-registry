@@ -23,6 +23,9 @@
         "organsOrTissues": {
           "$ref": "LiveDonor.json/#/definitions/OrgansOrTissues"
         },
+        "report": {
+          "$ref": "LiveDonor.json/#/definitions/Report"
+        },
         "medicalDetails": {
           "$ref": "LiveDonor.json/#/definitions/MedicalDetails"
         },

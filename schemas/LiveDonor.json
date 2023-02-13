@@ -201,6 +201,14 @@
           "residentialValue"
         ],
         "properties": {
+          "nationality": {
+            "type": "string",
+            "enum": [
+              "Indian",
+              "Foreign"
+            ],
+            "title": "Nationality"
+          },
           "firstName": {
             "type": "string",
             "title": "First Name"
@@ -275,8 +283,42 @@
           "residentialValue": {
             "type": "string",
             "title": "Residential Number"
+          },
+          "passportNumber": {
+            "type": "string",
+            "title": "Passport Number"
+          },
+          "address": {
+            "$ref": "Common.json/#/definitions/AddressDetails"
+          },
+          "form21": {
+            "type": "string",
+            "format": "file",
+            "title": "Form 21"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country",
+            "enum": [
+              "SriLanka",
+              "Brazil",
+              "UAE",
+              "Russia"
+            ]
+          },
+          "mobileNumberWithCode": {
+            "type": "string",
+            "title": "Mobile Number With Country Code"
           }
-        }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "nationality": {"const": "Foreign"}
+            },
+            "required": ["passportNumber", "form21", "address"]
+          }
+        ]
       },
       "RecipientDetails": {
         "title": "Details of the Recipient",
@@ -639,7 +681,7 @@
         "properties": {
           "sugar": {
             "type": "string",
-            "title": "String"
+            "title": "Sugar"
           },
           "sediment": {
             "type": "string",
@@ -1359,6 +1401,23 @@
           "mugaScan": {
             "type": "string",
             "title": "Muga Scan"
+          }
+        }
+      },
+      "Report": {
+        "type": "object",
+        "title": "Report",
+        "required": [],
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date",
+            "format": "date"
+          },
+          "file": {
+            "type": "string",
+            "format": "file",
+            "title": "Report"
           }
         }
       }
