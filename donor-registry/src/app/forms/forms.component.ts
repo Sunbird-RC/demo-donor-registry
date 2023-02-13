@@ -188,13 +188,14 @@ export class FormsComponent implements OnInit {
 
 
   ngAfterContentChecked(): void {
-
+    console.log(this.model);
     if (this.model["memberToBeNotified"] == true) {
 
       this.model = {
         "notificationDetails": {
           "name": this.model["emergencyDetails"]['name'],
           "relation": this.model["emergencyDetails"]['relation'],
+          "otherRelation": this.model["emergencyDetails"]['otherRelation'],
           "mobileNumber": this.model["emergencyDetails"]['mobileNumber'],
         },
         "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
@@ -215,6 +216,7 @@ export class FormsComponent implements OnInit {
             "notificationDetails": {
               "name": "",
               "relation": "",
+              "otherRelation": "",
               "mobileNumber": "",
             },
             "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
@@ -231,6 +233,7 @@ export class FormsComponent implements OnInit {
       }
 
     }
+
 
 
     if (this.form == 'livedonor' && localStorage.getItem('isVerified') && !this.identifier) {
@@ -1787,8 +1790,8 @@ export class FormsComponent implements OnInit {
     });
   }
   modalSuccess() {
-    var modal = document.getElementById("confirmationModal");
-    var btn = document.getElementById("submitBtn");
+    var modal = document.getElementById("downloadCardModalPledge");
+  //  var btn = document.getElementById("submitBtn");
 
     modal.style.display = "block";
     window.onclick = function (event) {

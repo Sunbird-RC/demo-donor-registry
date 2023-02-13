@@ -192,21 +192,55 @@
                                 }
                             },
                             {
+                                "name": "pledgeDeets",
+                                "custom": true,
+                                "required": false,
+                                "key":"pDet",
+                                "element": {
+                                    "title": "Pledge Details",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "template",
+                                            "className":"fw-bold p16 mb-2"
+                                         
+                                            
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "pledgeDeetsMessage",
+                                "custom": true,
+                                "required": false,
+                                "key":"pDetMsg",
+                                "element": {
+                                    "title": "Organs and Tissues to Pledge*",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "template",
+                                            "className":"p14 mb-2"
+                                         
+                                            
+                                        }
+                                    }
+                                }
+                            },
+                            {
                                 "name": "pledgeDetails",
-                                "title": "Pledge Details",
+                                
                                 "children": {
                                     "definition": "PledgeDetails",
                                     "formclass": "row",
-                                    "title": "Pledge Details",
+                                    
                                     "fields": [
                                         {
                                             "name": "organs",
-                                            "type": "multiselect",
+                                            "type": "multicheckbox",
                                             "class": "col-4"
                                         },
                                         {
                                             "name": "tissues",
-                                            "type": "multiselect",
+                                            "type": "multicheckbox",
                                             "class": "col-4"
                                         },
                                         {
@@ -233,6 +267,10 @@
                                         },
                                         {
                                             "name": "relation",
+                                            "class": "col-4"
+                                        },
+                                        {
+                                            "name": "otherRelation",
                                             "class": "col-4"
                                         },
 
@@ -303,6 +341,11 @@
                                             "name": "relation",
                                             "class": "col-4"
                                         },
+                                        {
+                                            "name": "otherRelation",
+                                            "class": "col-4"
+                                        },
+
 
                                         {
                                             "name": "mobileNumber",
