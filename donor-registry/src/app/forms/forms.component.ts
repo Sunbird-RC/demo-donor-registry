@@ -379,6 +379,7 @@ export class FormsComponent implements OnInit {
           "medicalHistory": (this.model["medicalHistory"]) ? this.model["medicalHistory"] : {},
           "bloodGroupDetails": (this.model["bloodGroupDetails"]) ? this.model["bloodGroupDetails"] : {},
           "hematology": (this.model["hematology"]) ? this.model["hematology"] : {},
+          "LiverExamination": (this.model["LiverExamination"]) ? this.model["LiverExamination"] : {},
           "urineExam": (this.model["urineExam"]) ? this.model["urineExam"] : {},
           "biochemistry": (this.model["biochemistry"]) ? this.model["biochemistry"] : {},
           "ekg": (this.model["ekg"]) ? this.model["ekg"] : {},
