@@ -59,6 +59,27 @@
         "recipientHLA": {
           "$ref": "LiveDonor.json/#/definitions/RecipientHLATypingDetails"
         },
+        "LiverExamination": {
+          "$ref": "LiveDonor.json/#/definitions/LiverExamination"
+        },
+        "PRA": {
+          "$ref": "LiveDonor.json/#/definitions/PRA"
+        },
+        "Comorbidity": {
+          "$ref": "LiveDonor.json/#/definitions/Comorbidity"
+        },
+        "LiverFunctionTest": {
+          "$ref": "LiveDonor.json/#/definitions/LiverFunctionTest"
+        },
+        "CoagulationProfile": {
+          "$ref": "LiveDonor.json/#/definitions/CoagulationProfile"
+        },
+        "KidneyFunctionTests": {
+          "$ref": "LiveDonor.json/#/definitions/KidneyFunctionTests"
+        },
+        "ECHO": {
+          "$ref": "LiveDonor.json/#/definitions/ECHO"
+        },
         "status": {
           "type": "string",
           "enum": [

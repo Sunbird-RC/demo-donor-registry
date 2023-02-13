@@ -745,6 +745,328 @@
             "format": "file"
           }
         }
+      },
+      "LiverExamination": {
+        "title": "Liver Examination Details",
+        "type": "object",
+        "required": ["typeOfFailure", "primaryDiagnosis", "titre", "treatmentTaken", "onLifeSupport"],
+        "properties": {
+          "typeOfFailure": {
+            "type": "string",
+            "title": "Type of Liver Failure"
+          },
+          "primaryDiagnosis": {
+            "required": ["date", "report"],
+            "type": "object",
+            "title": "Primary Diagnosis",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date",
+                "title": "Date"
+              },
+              "report": {
+                "type": "string",
+                "format": "file",
+                "title": "Report"
+              }
+            }
+          },
+          "onsetOfDisease": {
+            "required": ["date", "report"],
+            "type": "object",
+            "title": "Month and Year of onset of disease",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date",
+                "title": "Date"
+              },
+              "report": {
+                "type": "string",
+                "format": "file",
+                "title": "Report"
+              }
+            }
+          },
+          "titre": {
+            "required": ["date", "report"],
+            "type": "object",
+            "title": "Titre",
+            "properties": {
+              "date": {
+                "type": "string",
+                "format": "date",
+                "title": "Titre"
+              },
+              "report": {
+                "type": "string",
+                "format": "file",
+                "title": "Titre"
+              }
+            }
+          },
+          "treatmentTaken": {
+            "type": "string",
+            "title": "Treatment Taken"
+          },
+          "onLifeSupport": {
+            "type": "string",
+            "title": "On life Support",
+            "enum": [
+              "Yes",
+              "No"
+            ]
+          }
+        }
+      },
+      "PRA": {
+        "type": "object",
+        "title": "PRA",
+        "required": [],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "method": {
+            "type": "string",
+            "title": "Method",
+            "enum": [
+              "ELISA",
+              "Luminex"
+            ]
+          },
+          "result": {
+            "title": "Result",
+            "type": "string",
+            "enum": ["Positive", "Negetive"]
+          }
+        }
+      },
+      "Comorbidity": {
+        "type": "object",
+        "required": [],
+        "title": "Comorbidity",
+        "properties": {
+          "systemicDisease": {
+            "title": "Systemic disease - date, duration, details",
+            "type": "object",
+            "required": [],
+            "properties": {
+              "hypothyroidism": {
+                "title": "Hypothyroidism",
+                "type": "string",
+                "format": "date"
+              },
+              "pulmonary": {
+                "title": "Pulmonary",
+                "type": "string",
+                "format": "date"
+              },
+              "others": {
+                "title": "Others",
+                "type": "string",
+                "format": "date"
+              },
+              "liverDisease": {
+                "title": "Liver Disease",
+                "type": "string",
+                "format": "date"
+              },
+              "ckd": {
+                "title": "CKD",
+                "type": "string"
+              }
+            }
+          },
+          "bacterialInfection": {
+            "title": "Bacterial Infection -date, duration, details",
+            "type": "object",
+            "required": [],
+            "properties": {
+              "tb": {
+                "title": "TB",
+                "type": "string",
+                "format": "date"
+              },
+              "other": {
+                "title": "Other",
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "hepaticViral": {
+            "title": "Hepatic Viral Infection – date, duration, details",
+            "type": "object",
+            "required": [],
+            "properties": {
+              "hbv": {
+                "title": "HBV",
+                "type": "string",
+                "format": "date"
+              },
+              "hcv": {
+                "title": "HCV",
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "other": {
+            "title": "Other Infection",
+            "type": "object",
+            "required": [],
+            "properties": {
+              "hiv1": {
+                "title": "HIV-I",
+                "type": "string"
+              },
+              "hiv2": {
+                "title": "HIV-II",
+                "type": "string"
+              },
+              "hsp": {
+                "title": "HSP",
+                "type": "string"
+              },
+              "igg": {
+                "title": "IgG",
+                "type": "string"
+              },
+              "igm": {
+                "title": "IGM",
+                "type": "string"
+              },
+              "toxoplasma": {
+                "title": "Toxoplasma",
+                "type": "string"
+              },
+              "addiction": {
+                "title": "Addiction",
+                "type": "string",
+                "enum": ["Yes", "No"]
+              },
+              "previousCardiac": {
+                "title": "Previous Cardiac Surgery",
+                "type": "string",
+                "enum": ["Yes", "No"]
+              },
+              "aicd": {
+                "title": "AICD",
+                "type": "string",
+                "enum": ["Yes", "No"]
+              }
+            }
+          }
+        }
+      },
+      "LiverFunctionTest": {
+        "type": "object",
+        "title": "Liver Function Tests",
+        "required": [],
+        "properties": {
+          "tbilirubin": {
+            "type": "string",
+            "title": "T. Bilirubin (mg/dl)"
+          },
+          "directBilirubin": {
+            "type": "string",
+            "title": "Direct Bilirubin (mg/dl)"
+          },
+          "ast": {
+            "type": "string",
+            "title": "AST (IU/dl)"
+          },
+          "alt": {
+            "type": "string",
+            "title": "ALT (IU/dl)"
+          },
+          "alk": {
+            "type": "string",
+            "title": "T. Protein (g/dl)"
+          },
+          "alb": {
+            "type": "string",
+            "title": "Alb (g/dl)"
+          }
+        }
+      },
+      "CoagulationProfile": {
+        "type": "object",
+        "title": "Coagulation Profile",
+        "required": [],
+        "properties": {
+          "prothrombin": {
+            "type": "string",
+            "title": "Prothrombin Time(Sec)"
+          },
+          "inr": {
+            "type": "string",
+            "title": "INR"
+          },
+          "aptt": {
+            "type": "string",
+            "title": "aPTT(Sec)"
+          }
+        }
+      },
+      "KidneyFunctionTests": {
+        "type": "object",
+        "title": "Kidney Function Tests",
+        "required": [],
+        "properties": {
+          "bloodUrea": {
+            "type": "string",
+            "title": "Blood Urea(mg/dl)"
+          },
+          "sCreatinine": {
+            "type": "string",
+            "title": "S. Creatinine(mg/dl)"
+          },
+          "sodium": {
+            "type": "string",
+            "title": "Sodium(meg/L)"
+          },
+          "potassium": {
+            "type": "string",
+            "title": "Potassium(meg/dl)"
+          }
+        }
+      },
+      "ECHO": {
+        "type": "object",
+        "title": "ECHO",
+        "required": [],
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date",
+            "format": "date"
+          },
+          "ef": {
+            "type": "string",
+            "title": "EF(%)"
+          },
+          "rightHeartFilling": {
+            "type": "string",
+            "title": "Right Heart Filling"
+          },
+          "mr": {
+            "type": "string",
+            "title": "MR",
+            "enum": [
+              "Yes",
+              "No"
+            ]
+          },
+          "mugaScan": {
+            "type": "string",
+            "title": "Muga Scan"
+          }
+        }
       }
     },
     "_osConfig": {
