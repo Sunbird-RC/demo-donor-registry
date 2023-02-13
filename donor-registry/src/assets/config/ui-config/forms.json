@@ -249,22 +249,41 @@
                                 }
                             },
                             {
+                                "name": "membersToNotify",
+                                "custom": true,
+                                "required": false,
+                                "key":"note",
+                                "element": {
+                                    "title": "Members to be Notified",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "template",
+                                            "className":"fw-bold p16 mb-2"
+                                         
+                                            
+                                        }
+                                    }
+                                }
+                            },
+                         
+                           
+                            {
                                 "name": "memberToBeNotified",
                                 "title": "Members to be notified (optional)",
                                 "custom": true,
                                 "key":"a",
                                 "element": {
-                                    "title": "Members to be notified (Same as emergency Contact )",
+                                    "title": "Same as emergency contact",
                                     "type": "checkbox",
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "checkbox",
-
+                                          
                                             "className": "select",
                                             "class": "col-4",
                                             "defaultValue": false
                                         }
-
+                                      
                                     }
                                 }
                             },
@@ -273,7 +292,7 @@
                                 "children": {
                                     "definition": "NotificationDetails",
                                     "formclass": "row",
-                                    "title": "Notification Details",
+                                   
                                     "fields": [
                                         {
                                             "name": "name",
@@ -307,7 +326,7 @@
 
                                 "element": {
                                     "title": "CONSENT",
-
+                                    "required":true,
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "checkbox",
@@ -318,7 +337,10 @@
 
 
                                             },
-                                            "defaultValue": false
+                                            "defaultValue": false,
+                                            "validation": ["requiredTrue"]
+                                                
+                                            
                                         }
                                     }
                                 }

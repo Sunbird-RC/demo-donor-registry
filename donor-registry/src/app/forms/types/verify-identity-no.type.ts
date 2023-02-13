@@ -18,7 +18,7 @@ import {GeneralService, getDonorServiceHost} from '../../services/general/genera
                   <i class="fa fa-check-circle" aria-hidden="true"></i>
               </span>
        </div>
-       <div class="p12">{{'LINK_TO_ABHA' | translate}}<br> <a href="http://healthidsbx.abdm.gov.in/" target="_blank">{{'LINK' | translate}}</a></div> <br>
+       <div class="p12">{{'LINK_TO_ABHA' | translate}} <a href="http://healthidsbx.abdm.gov.in/" target="_blank">{{'LINK' | translate}}</a></div> <br>
             
             <div *ngIf="isIdentityNo" class="modal fade" id="verifyOtp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
