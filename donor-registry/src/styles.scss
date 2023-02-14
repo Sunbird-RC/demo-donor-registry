@@ -831,6 +831,7 @@ label {
 .head-holder{
     padding: 15px 0!important;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 .btn-holder{
@@ -870,7 +871,7 @@ label {
         line-height: 83px;
     }
     .one-donor{
-        width: 569px;
+        width: 480px;
         height: 63px;
         background-color: #BB5437;
         display: flex;
@@ -878,12 +879,13 @@ label {
         align-items: center;
         font-size: 23px;
         color: #fff;
+        font-weight: 600;
     }
 .triangle-left{
     margin-top: -63px;
     border-top: 32px solid transparent;
     border-bottom: 32px solid transparent;
-    left: 33.7rem;
+    left: 28.2rem;
     position: absolute;
 }
 .triangle-right{
@@ -907,6 +909,7 @@ label {
     color: #fff;
     font-size: 28px;
     line-height: 36px;
+    font-weight: 600;
 }
 .ple-anker{
     font-size: 27px;
@@ -939,44 +942,49 @@ label {
     background: #EDEDF6;
     .organ-tit{
         text-align: center;
-        font-size: 55px;
+        font-size: 35px !important;
+        font-weight: 700 !important;
         color: #444444;
+
     }
     .card-hol{
         border: 3px solid #D6D6D6 !important;
         border-radius: 10px !important;
+        min-height: 251px !important;
     }
     .oragn-sub{
-        color: #444444;
-        line-height: 37px;
+        color: #444444 !important;
+        line-height: 30px;
         text-align: center;
         font-size: 30px;
+        font-weight: 600;
     }
     .img-org{
         margin-top: -94px;
     }
     .card-ti{
-        font-size: 23px;
-        color: #444444;
+        font-size: 17px;
+        color: #444444 !important;
     }
 }
 .logs-holders{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 200px;
+    height: 185px;
 }
 .footer-section{
     height: 347px;
     background-color: #15260F;
 }
 .card-des{
-    height: 145px !important;
+    height: 120px !important;
     width: 375px !important;
     border-radius: 5px !important;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 .pointer{
     cursor: pointer;
