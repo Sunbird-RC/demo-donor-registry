@@ -935,14 +935,34 @@
             }
           },
           "hrct": {
-            "type": "string",
+            "type": "object",
             "title": "HRCT",
-            "format": "date"
+            "properties": {
+              "date": {
+                "type": "string",
+                "title": "Date",
+                "format": "date"
+              },
+              "value": {
+                "type": "string",
+                "title": "Value"
+              }
+            }
           },
           "carotid": {
-            "type": "string",
+            "type": "object",
             "title": "Carotid Doppler",
-            "format": "date"
+            "properties": {
+              "date": {
+                "type": "string",
+                "title": "Date",
+                "format": "date"
+              },
+              "value": {
+                "type": "string",
+                "title": "Value"
+              }
+            }
           }
         }
       },
@@ -1205,24 +1225,64 @@
             "required": [],
             "properties": {
               "hypothyroidism": {
+                "type": "object",
                 "title": "Hypothyroidism",
-                "type": "string",
-                "format": "date"
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "title": "Date",
+                    "format": "date"
+                  },
+                  "value": {
+                    "type": "string",
+                    "title": "Value"
+                  }
+                }
               },
               "pulmonary": {
+                "type": "object",
                 "title": "Pulmonary",
-                "type": "string",
-                "format": "date"
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "title": "Date",
+                    "format": "date"
+                  },
+                  "value": {
+                    "type": "string",
+                    "title": "Value"
+                  }
+                }
               },
               "others": {
+                "type": "object",
                 "title": "Others",
-                "type": "string",
-                "format": "date"
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "title": "Date",
+                    "format": "date"
+                  },
+                  "value": {
+                    "type": "string",
+                    "title": "Value"
+                  }
+                }
               },
               "liverDisease": {
+                "type": "object",
                 "title": "Liver Disease",
-                "type": "string",
-                "format": "date"
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "title": "Date",
+                    "format": "date"
+                  },
+                  "value": {
+                    "type": "string",
+                    "title": "Value"
+                  }
+                }
               },
               "ckd": {
                 "title": "CKD",
@@ -1236,14 +1296,34 @@
             "required": [],
             "properties": {
               "tb": {
+                "type": "object",
                 "title": "TB",
-                "type": "string",
-                "format": "date"
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "title": "Date",
+                    "format": "date"
+                  },
+                  "value": {
+                    "type": "string",
+                    "title": "Value"
+                  }
+                }
               },
               "other": {
+                "type": "object",
                 "title": "Other",
-                "type": "string",
-                "format": "date"
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "title": "Date",
+                    "format": "date"
+                  },
+                  "value": {
+                    "type": "string",
+                    "title": "Value"
+                  }
+                }
               }
             }
           },
@@ -1253,14 +1333,34 @@
             "required": [],
             "properties": {
               "hbv": {
+                "type": "object",
                 "title": "HBV",
-                "type": "string",
-                "format": "date"
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "title": "Date",
+                    "format": "date"
+                  },
+                  "value": {
+                    "type": "string",
+                    "title": "Value"
+                  }
+                }
               },
               "hcv": {
+                "type": "object",
                 "title": "HCV",
-                "type": "string",
-                "format": "date"
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "title": "Date",
+                    "format": "date"
+                  },
+                  "value": {
+                    "type": "string",
+                    "title": "Value"
+                  }
+                }
               }
             }
           },
