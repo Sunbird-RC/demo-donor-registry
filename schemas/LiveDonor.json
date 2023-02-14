@@ -617,7 +617,7 @@
       },
       "RecipientHLATypingDetails": {
         "type": "object",
-        "title": "HLA Typing - Recipient (Only for near relatives)",
+        "title": "HLA Typing - Recipient",
         "required": [
           "a",
           "b",
