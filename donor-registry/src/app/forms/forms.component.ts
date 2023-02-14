@@ -1691,18 +1691,22 @@ export class FormsComponent implements OnInit {
 
         if (this.form == 'recipient') {
           this.model = this.model;
-        }
-        else if (this.form == 'pledge-setup') {
-          for (let i = 0; i < res.length; i++) {
-            if (localStorage.getItem('loggedInUserName') == res[i]['personalDetails']['firstName']) {
-              this.model = res[i];
-            }
-          }
+        } else if (this.form == 'pledge-setup') {
+          this.identifier = res[0].osid;
+          this.model = res[0];
+          // for (let i = 0; i < res.length; i++) {
+          //   if (localStorage.getItem('loggedInUserName') == res[i]['personalDetails']['firstName']) {
+          //     this.model = res[i];
+          //   }
+          // }
         }
         else {
           this.model = {};
         }
+
+        if (this.form != 'pledge-setup') {
         this.identifier = null;
+        }
 
       } else {
         res = (res[0]) ? res[0] : res;
@@ -1770,7 +1774,7 @@ export class FormsComponent implements OnInit {
             if (this.isSaveAsDraft == "Pending") {
               this.toastMsg.success('Success', "Successfully Saved !!");
             } else {
-              this.modalSuccess();
+              //this.modalSuccess();
               this.router.navigate([this.redirectTo]);
             }
 

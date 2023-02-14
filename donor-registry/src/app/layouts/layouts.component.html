@@ -19,20 +19,20 @@
                 </p> -->
             </div>
             <div>
-                <a>
+                 <a>
                     <button *ngIf="layout == 'pledge'" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2" data-mdb-toggle="tooltip" data-toggle="modal"
                     data-target="" (click)="deleteData()">
                          <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'REVOKE' | translate}}
                     </button> 
-                </a>
+                </a> 
              
                 <a href="/profile/Pledge/(claim:edit/pledge-setup)">
                     <button *ngIf="layout == 'pledge'" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2" data-mdb-toggle="tooltip" data-toggle="modal"
                     data-target="">
                          <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'EDIT' | translate}}
                     </button> 
-                </a>
-                <button *ngIf="layout == 'pledge'" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2" data-mdb-toggle="tooltip" data-toggle="modal"
+                </a> 
+                <button *ngIf="layout == 'pledge' && !isDownloadCrt" class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2" data-mdb-toggle="tooltip" data-toggle="modal"
                 data-target="#prewiewProfile" (click)="dowbloadCard()"  [disabled]="">
                      <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
                 </button> 
