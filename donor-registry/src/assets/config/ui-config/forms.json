@@ -249,22 +249,41 @@
                                 }
                             },
                             {
+                                "name": "membersToNotify",
+                                "custom": true,
+                                "required": false,
+                                "key":"note",
+                                "element": {
+                                    "title": "Members to be Notified",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "template",
+                                            "className":"fw-bold p16 mb-2"
+                                         
+                                            
+                                        }
+                                    }
+                                }
+                            },
+                         
+                           
+                            {
                                 "name": "memberToBeNotified",
                                 "title": "Members to be notified (optional)",
                                 "custom": true,
                                 "key":"a",
                                 "element": {
-                                    "title": "Members to be notified (Same as emergency Contact )",
+                                    "title": "Same as emergency contact",
                                     "type": "checkbox",
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "checkbox",
-
+                                          
                                             "className": "select",
                                             "class": "col-4",
                                             "defaultValue": false
                                         }
-
+                                      
                                     }
                                 }
                             },
@@ -273,7 +292,7 @@
                                 "children": {
                                     "definition": "NotificationDetails",
                                     "formclass": "row",
-                                    "title": "Notification Details",
+                                   
                                     "fields": [
                                         {
                                             "name": "name",
@@ -307,7 +326,7 @@
 
                                 "element": {
                                     "title": "CONSENT",
-
+                                    "required":true,
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "checkbox",
@@ -318,7 +337,10 @@
 
 
                                             },
-                                            "defaultValue": false
+                                            "defaultValue": false,
+                                            "validation": ["requiredTrue"]
+                                                
+                                            
                                         }
                                     }
                                 }
@@ -787,40 +809,82 @@
                             {
                                 "name": "recipientDetails",
                                 "children": {
-                                    "definition": "DonorDetails",
+                                    "definition": "RecipientRegistryDetails",
                                     "title": "Recipient Details",
                                     "class": "card card-body m-3",
                                     "formclass": "row form-div ",
                                     "fields": [
                                         {
+                                            "name": "nationality",
+                                            "type":"radio",
+                                            "class": "field-in-row p4"
+                                        },
+                                        {
                                             "name": "identificationValue",
                                             "class": "col-4",
-                                            "type": "verify-code"
+                                            "type": "verify-code",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                           
                                         },
                                         {
                                             "name": "firstName",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                            
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -828,16 +892,116 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "residentialProof",
                                             "type": "date",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
                                         },
                                         {
                                             "name": "residentialValue",
-                                            "class": "col-4"
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Indian",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        },
+                                        {
+                                            "name": "passportNumber",
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Foreign",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        },
+                                        {
+                                            "name": "country",
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Foreign",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        },
+                                        {
+                                            "name": "mobileNumberWithCode",
+                                            "class": "col-4",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Foreign",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        },
+                                        {
+                                            "name": "form21",
+                                            "class": "col-4",
+                                            "type":"file",
+                                            "condition": {
+                                                "type" : "nationality",
+                                                "isIt" : "Foreign",
+                                                "objectPath" : "recipientDetails.nationality"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "organsOrTissues",
+                                "children": {
+                                    "definition": "OrgansOrTissues",
+                                    "title": "Organs or Tissues Needed",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "organsNeeded",
+                                            "class": "field-in-row",
+                                            "type" : "multicheckbox"
+                                        }
+                                    ]
+                                }
+                            } ,
+                            {
+                                "name": "LiverExamination",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
+                                "children": {
+                                    "definition": "LiverExamination",
+                                    "title": "Relation of Donor and Recipient",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "typeOfFailure"
+                                        },
+                                        {
+                                            "name": "primaryDiagnosis"
+                                        },
+                                        {
+                                            "name": "onsetOfDisease"
+                                        },
+                                        {
+                                            "name": "titre"
+                                        },
+                                        {
+                                            "name": "treatmentTaken"
+                                        },
+                                        {
+                                            "name": "onLifeSupport"
                                         }
                                     ]
                                 }
@@ -954,15 +1118,35 @@
                             },
                             {
                                 "name": "urineExam",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "UrineExam",
                                     "title": "urineExam",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "sugar",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "sediment",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "proCrRatio",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "protein",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "eGfr",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
@@ -975,69 +1159,165 @@
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "calcium",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "uricAcid",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "ldl",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "triglycerides",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "bSugarPP",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "phosphate",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "tCholestrol",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "hdl",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "bSugarF",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "hba1c",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "ekg",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "EKG",
                                     "title": "ekg",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "ekg",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "thyroidFunction",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "ThyroidFunction",
                                     "title": "thyroidFunction",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "t3",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "t4",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "tsh",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "virology",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "Virology",
                                     "title": "virology",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "hbsag",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "cmvigg",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "ebvigg",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "antiHIV",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "antiHCV",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "antiHPV",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "cmvigm",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "ebvigm",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "radiology",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "Radiology",
                                     "title": "radiology",
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
+                                            "name": "date",
                                             "class": "col-3",
-                                            "format": "file"
+                                            "type": "date"
+                                        },
+                                        {
+                                            "name": "hrct",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "carotid",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
@@ -1050,15 +1330,31 @@
                                     "formclass": "row form-div",
                                     "fields": [
                                         {
-                                            "name": "file",
-                                            "class": "col-3",
-                                            "format": "file"
+                                            "name": "cardiac",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "respiratory",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name": "psychiatry",
+                                            "class": "col-3"
+                                        },
+                                        {
+                                            "name" :"gynae",
+                                            "class": "col-3"
                                         }
                                     ]
                                 }
                             },
                             {
                                 "name": "recipientHLA",
+                                "condition": {
+                                    "type" : "hideShow",
+                                    "isInclude" : "Liver",
+                                    "objectPath" : "organsOrTissues.organsNeeded"
+                                },
                                 "children": {
                                     "definition": "RecipientHLATypingDetails",
                                     "title": "Relation of Donor and Recipient",
@@ -1086,7 +1382,28 @@
                                         }
                                     ]
                                 }
-                            }
+                            },
+                            {
+                                "name": "report",
+                                "children": {
+                                    "definition": "Report",
+                                    "title": "Report",
+                                    "formclass": "row form-div",
+                                    "fields": [
+                                        {
+                                            "name": "date",
+                                            "class": "field-in-row col-3",
+                                            "type": "date"
+
+                                        },
+                                        {
+                                            "name": "file",
+                                            "class": "field-in-row col-3",
+                                            "type": "file"
+                                        }
+                                    ]
+                                }
+                            } 
                         ]
                     }
                 ],

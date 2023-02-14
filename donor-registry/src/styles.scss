@@ -8,6 +8,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;0,700;1,200;1,300;1,400;1,600&display=swap";
 @import "https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 /* Importing Bootstrap SCSS file. */
 
@@ -328,7 +329,7 @@ body {
 body {
     margin: 0;
     // font-family: "Lato", sans-serif !important;
-    font-family: roboto !important;
+    font-family: 'Roboto', sans-serif !important;
     color: rgb(0, 0, 0);
     background: var(--bodyBackground) !important;
 }
@@ -815,7 +816,7 @@ label {
  }
 
  .mt-191{
-    margin-top: 159px;
+    margin-top: 120px;
 }
 
 .row-bg {
@@ -833,8 +834,8 @@ label {
     justify-content: space-between;
 }
 .btn-holder{
-    width: 222px;
-    height: 63px;
+    width: 212px;
+    height: 53px;
     background: #D66025;
     display: flex;
     justify-content: center;
@@ -842,6 +843,9 @@ label {
     color: #fff;
     font-size: 20px;
     border-radius: 5px;
+}
+.akr:hover{
+    color: #fff !important;
 }
 .second-nav{
     background: #3B864C;
@@ -859,7 +863,7 @@ label {
     display: flex;
     align-items: center;
     .sve-content{
-        font-size: 95px;
+        font-size: 85px;
         text-align: left;
         font-weight: bold;
         color: #fff;
@@ -872,7 +876,7 @@ label {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 33px;
+        font-size: 23px;
         color: #fff;
     }
 .triangle-left{
@@ -901,7 +905,7 @@ label {
 }
 .gve{
     color: #fff;
-    font-size: 30px;
+    font-size: 28px;
     line-height: 36px;
 }
 .ple-anker{
@@ -1071,4 +1075,24 @@ margin: 0;
     position: absolute;
     right: 3%;
     margin-top: 3px;
+}
+.fs{
+    font-size: 20px !important;
+}
+
+@media screen and (max-device-width:1200px), screen and (max-width:1400px){
+   .container{
+    width: 78% !important;
+   }
+}
+.size-bts{
+    width: 135px;
+    height: 39px;
+    font-size: 17px;
+}
+
+.field-in-row .custom-control{
+    display: initial !important;
+    min-height: 1.5rem;
+    padding-left: 3.5rem !important;
 }

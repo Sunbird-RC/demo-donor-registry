@@ -1,27 +1,36 @@
 <app-header [headerFor]='entity' [tab]='tab'></app-header>
-<div class="bg-white btn-ho mt-191"> 
-  <div class="container justify-content-end d-flex">
-    <a class="btn-holder btn-sz" *ngIf="table == 'transplantcoordinator-livedonor'" href="/form/livedonor"> Add Donor</a>
-    <a class="btn-holder btn-sz" *ngIf="table == 'transplantcoordinator-recipient'" href="/form/recipient">Add Recipient</a>
-  </div>
-</div>
-<div class="tble-con">
+
+<div class="tble-con mt-191">
     <div class="container pt-5 pb-5">
         <div class=" d-flex flex-wrap justify-content-between pr-0">
             <div class="card card-block  col-sm-3 card-des pointer {{isActivelivedonor}}" (click)="changeList2('livedonor')">
-                <h2 class="font-600 cd-ti align">450</h2>
+                <h2 class="font-600 cd-ti align">14</h2>
                 <h2 class="p12 mb-1 align cd-sub">Live Donors</h2>
             </div>
             <div class="card card-block col-sm-3 card-des pointer {{isActiverecipient}}" (click)="changeList1('recipient')">
-                <h2 class="font-600 cd-ti align">240</h2>
+                <h2 class="font-600 cd-ti align">4</h2>
                 <h4 class="p12 mb-1 align cd-sub">Recipients</h4>
             </div>
             <div class="card card-block col-sm-3  card-des disabled disa" disabled>
-                <h2 class="font-600 cd-ti align">700</h2>
+                <h2 class="font-600 cd-ti align">0</h2>
                 <h4 class="p12 mb-1 align cd-sub sub1 ">Cadaver Donors</h4>
             </div>
         </div>
-        <div class="d-flex justify-content-end mt-5 pt-4 pb-4 sear-hol">
+
+        <div class="bg-white btn-ho d-flex"> 
+
+            <div class="">
+                <h3 *ngIf="table == 'transplantcoordinator-recipient'" class="float-start fw-bold">Recipients</h3>
+                <h3 *ngIf="table == 'transplantcoordinator-livedonor'" class="float-start fw-bold">Donor</h3>
+
+            </div>
+            <div class="container justify-content-end d-flex">
+              <a class="btn-holder btn-sz" *ngIf="table == 'transplantcoordinator-livedonor'" href="/form/livedonor"> Add Donor</a>
+              <a class="btn-holder btn-sz" *ngIf="table == 'transplantcoordinator-recipient'" href="/form/recipient">Add Recipient</a>
+            </div>
+          </div>
+
+        <div class="d-flex justify-content-end mt-3 pt-4 pb-4 sear-hol">
             <div class=" d-flex">
                 <div class="mr-3 d-flex">
                     <span class="p14 mt-2 fw-bold">Search</span>
