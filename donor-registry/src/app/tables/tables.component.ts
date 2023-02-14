@@ -24,6 +24,8 @@ export class TablesComponent implements OnInit {
   isActivelivedonor = '';    
   page: number = 1;
   limit: number = 10;
+  listcountDonor: any;
+  listcountRecipient: any;
 
   constructor(public router: Router, private route: ActivatedRoute, public generalService: GeneralService, public schemaService: SchemaService) { }
 
@@ -83,6 +85,13 @@ export class TablesComponent implements OnInit {
     }
     this.generalService.getData(get_url).subscribe((res) => {
       this.model = res;
+      if(this.table == 'transplantcoordinator-livedonor')
+      {
+        this.listcountDonor = res.length;
+      }else if( this.table == 'transplantcoordinator-recipient'){
+        this.listcountRecipient = res.length;
+      }
+     
       this.addData()
     });
   }

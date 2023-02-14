@@ -876,59 +876,28 @@
                                         },
                                         {
                                             "name": "firstName",
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
-                                            
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -936,31 +905,16 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "residentialProof",
                                             "type": "date",
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "residentialValue",
-                                            "class": "col-4",
-                                            "condition": {
-                                                "type" : "nationality",
-                                                "isIt" : "Indian",
-                                                "objectPath" : "recipientDetails.nationality"
-                                            }
+                                            "class": "col-4"
                                         },
                                         {
                                             "name": "passportNumber",

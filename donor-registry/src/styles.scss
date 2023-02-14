@@ -1104,3 +1104,7 @@ select.form-control{
     -o-appearance: menulist!important;
     appearance: menulist!important;
 }
+
+formly-multi-schema-type .card{
+    display: none !important;
+}

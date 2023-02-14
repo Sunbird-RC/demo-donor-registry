@@ -191,7 +191,7 @@ export class FormsComponent implements OnInit {
 
 
   ngAfterContentChecked(): void {
-    console.log(this.model);
+
     if (this.model["memberToBeNotified"] == true) {
 
       this.model = {
@@ -376,7 +376,7 @@ export class FormsComponent implements OnInit {
             "residentialProof": (this.model["recipientDetails"]['residentialProof']) ? this.model["recipientDetails"]['residentialProof'] : '',
             "residentialValue": (this.model["recipientDetails"]['residentialValue']) ? this.model["recipientDetails"]['residentialValue'] : '',
             "passportNumber": (this.model["recipientDetails"]['passportNumber']) ? this.model["recipientDetails"]['passportNumber'] : '',
-            "country": (this.model["recipientDetails"]['country']) ? this.model["recipientDetails"]['country'] : '',
+            "country": (this.model["recipientDetails"]['country']) ? this.model["recipientDetails"]['country'] : 'SriLanka',
             "mobileNumberWithCode": (this.model["recipientDetails"]['mobileNumberWithCode']) ? this.model["recipientDetails"]['mobileNumberWithCode'] : '',
             "form21": (this.model["recipientDetails"]['form21']) ? this.model["recipientDetails"]['form21'] : '',
             "nationality": (this.model["recipientDetails"]['nationality']) ? this.model["recipientDetails"]['nationality'] : 'Indian',
@@ -1385,6 +1385,11 @@ export class FormsComponent implements OnInit {
     if (this.form == 'recipient') {
       this.model["recipientDetails"]["identificationProof"] = "Aadhaar";
       this.model["status"] = this.isSaveAsDraft;
+
+      if(this.model["recipientDetails"]["nationality"] = "Indian")
+      {
+        delete this.model["recipientDetails"]["country"];
+      }
     }
 
     if (this.fileFields.length > 0 && this.form != 'livedonor' && this.form != 'recipient') {
