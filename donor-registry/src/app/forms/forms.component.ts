@@ -143,9 +143,12 @@ export class FormsComponent implements OnInit {
       if (localStorage.getItem('isVerified')) {
         if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
           this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"].replaceAll("-", "")));
-          if (this.tempData.monthOfBirth < 10) {
-            this.tempData.monthOfBirth = "0" + this.tempData.monthOfBirth;
-          }
+          // if (this.tempData.monthOfBirth < 10) {
+          //   this.tempData.monthOfBirth = "0" + this.tempData.monthOfBirth;
+          // }
+          // else{
+          //   this.tempData.monthOfBirth;
+          // }
           if (!valuesSetFlag) {
             this.model = {
               ...this.model,
@@ -1805,7 +1808,7 @@ export class FormsComponent implements OnInit {
         }
     }
     else{
-      var modal = document.getElementById("downloadCardModal");
+      var modal = document.getElementById("confirmationModal");
       //  var btn = document.getElementById("submitBtn");
     
         modal.style.display = "block";
