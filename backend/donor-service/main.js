@@ -187,7 +187,7 @@ app.post('/register/:entityName', async(req, res) => {
         res.send(inviteReponse);
     } catch(err) {
         console.log(err);
-        res.status(500).send(err.response.data);
+        res.status(500).send(err?.response?.data || err);
     }
 });
 
