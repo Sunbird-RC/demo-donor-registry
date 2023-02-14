@@ -1049,7 +1049,7 @@ label {
 
 
 .mt-190{
-    margin-top: 150px !important;
+    margin-top: 110px !important;
 }
 
 .pointer{
@@ -1095,4 +1095,12 @@ margin: 0;
     display: initial !important;
     min-height: 1.5rem;
     padding-left: 3.5rem !important;
+}
+
+select.form-control{
+    -webkit-appearance: menulist!important;
+    -moz-appearance: menulist!important;
+    -ms-appearance: menulist!important;
+    -o-appearance: menulist!important;
+    appearance: menulist!important;
 }

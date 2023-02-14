@@ -143,9 +143,12 @@ export class FormsComponent implements OnInit {
       if (localStorage.getItem('isVerified')) {
         if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
           this.tempData = JSON.parse(localStorage.getItem(this.model["identificationDetails"]["abha"].replaceAll("-", "")));
-          if (this.tempData.monthOfBirth < 10) {
-            this.tempData.monthOfBirth = "0" + this.tempData.monthOfBirth;
-          }
+          // if (this.tempData.monthOfBirth < 10) {
+          //   this.tempData.monthOfBirth = "0" + this.tempData.monthOfBirth;
+          // }
+          // else{
+          //   this.tempData.monthOfBirth;
+          // }
           if (!valuesSetFlag) {
             this.model = {
               ...this.model,
@@ -188,13 +191,14 @@ export class FormsComponent implements OnInit {
 
 
   ngAfterContentChecked(): void {
-
+    console.log(this.model);
     if (this.model["memberToBeNotified"] == true) {
 
       this.model = {
         "notificationDetails": {
           "name": this.model["emergencyDetails"]['name'],
           "relation": this.model["emergencyDetails"]['relation'],
+          "otherRelation": this.model["emergencyDetails"]['otherRelation'],
           "mobileNumber": this.model["emergencyDetails"]['mobileNumber'],
         },
         "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
@@ -215,6 +219,7 @@ export class FormsComponent implements OnInit {
             "notificationDetails": {
               "name": "",
               "relation": "",
+              "otherRelation": "",
               "mobileNumber": "",
             },
             "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
@@ -231,6 +236,7 @@ export class FormsComponent implements OnInit {
       }
 
     }
+
 
 
     if (this.form == 'livedonor' && localStorage.getItem('isVerified') && !this.identifier) {
@@ -1811,16 +1817,33 @@ export class FormsComponent implements OnInit {
     });
   }
   modalSuccess() {
-    var modal = document.getElementById("confirmationModal");
-    var btn = document.getElementById("submitBtn");
 
-    modal.style.display = "block";
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-        window.location = this.router.navigate(["/login"]);
-      }
+    if(this.form == 'signup')
+    {
+      var modal = document.getElementById("downloadCardModalPledge");
+      //  var btn = document.getElementById("submitBtn");
+    
+        modal.style.display = "block";
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+            window.location = this.router.navigate(["/login"]);
+          }
+        }
     }
+    else{
+      var modal = document.getElementById("confirmationModal");
+      //  var btn = document.getElementById("submitBtn");
+    
+        modal.style.display = "block";
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+            window.location = this.router.navigate(["/login"]);
+          }
+        }
+    }
+  
 
   }
 
