@@ -314,6 +314,12 @@
               "nationality": {"const": "Foreign"}
             },
             "required": ["passportNumber", "form21", "country", "mobileNumberWithCode"]
+          },
+          {
+            "properties": {
+              "nationality": {"const": "Indian"}
+            },
+            "required": []
           }
         ]
       },
