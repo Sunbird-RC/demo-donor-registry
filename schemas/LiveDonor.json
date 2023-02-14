@@ -1040,7 +1040,17 @@
       "OrgansOrTissues": {
         "title": "Organs or Tissues Needed",
         "type": "object",
-        "required": ["organsNeeded", "tissuesNeeded"],
+        "anyOf": [
+          {
+            "required": ["organsNeeded"]
+          },
+          {
+            "required": ["tissuesNeeded"]
+          },
+          {
+            "required": ["organsNeeded", "tissuesNeeded"]
+          }
+        ],
         "properties": {
           "organsNeeded": {
             "title": "Organs Needed",
