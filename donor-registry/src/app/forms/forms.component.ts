@@ -1790,16 +1790,33 @@ export class FormsComponent implements OnInit {
     });
   }
   modalSuccess() {
-    var modal = document.getElementById("downloadCardModalPledge");
-  //  var btn = document.getElementById("submitBtn");
 
-    modal.style.display = "block";
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-        window.location = this.router.navigate(["/login"]);
-      }
+    if(this.form == 'signup')
+    {
+      var modal = document.getElementById("downloadCardModalPledge");
+      //  var btn = document.getElementById("submitBtn");
+    
+        modal.style.display = "block";
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+            window.location = this.router.navigate(["/login"]);
+          }
+        }
     }
+    else{
+      var modal = document.getElementById("downloadCardModal");
+      //  var btn = document.getElementById("submitBtn");
+    
+        modal.style.display = "block";
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+            window.location = this.router.navigate(["/login"]);
+          }
+        }
+    }
+  
 
   }
 
