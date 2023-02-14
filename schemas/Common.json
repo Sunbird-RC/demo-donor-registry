@@ -69,8 +69,11 @@
         },
         "emailId": {
           "type": "string",
-          "format": "email",
-          "title": "Email Id"
+          "title": "Email Id",
+          "oneOf": [
+            { "enum": [ "" ] },
+            { "format": "email" }
+          ]
         },
         "mobileNumber": {
           "type": "string",
