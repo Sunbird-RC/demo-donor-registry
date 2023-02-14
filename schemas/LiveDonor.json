@@ -288,9 +288,6 @@
             "type": "string",
             "title": "Passport Number"
           },
-          "address": {
-            "$ref": "Common.json/#/definitions/AddressDetails"
-          },
           "form21": {
             "type": "string",
             "format": "file",
@@ -316,7 +313,7 @@
             "properties": {
               "nationality": {"const": "Foreign"}
             },
-            "required": ["passportNumber", "form21", "address"]
+            "required": ["passportNumber", "form21", "country", "mobileNumberWithCode"]
           }
         ]
       },
@@ -1133,7 +1130,7 @@
               "date": {
                 "type": "string",
                 "format": "date",
-                "title": "Titre"
+                "title": "Date"
               },
               "report": {
                 "type": "string",
