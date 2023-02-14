@@ -1691,10 +1691,17 @@ export class FormsComponent implements OnInit {
 
         if (this.form == 'recipient') {
           this.model = this.model;
-        } else {
+        }
+        else if (this.form == 'pledge-setup') {
+          for (let i = 0; i < res.length; i++) {
+            if (localStorage.getItem('loggedInUserName') == res[i]['personalDetails']['firstName']) {
+              this.model = res[i];
+            }
+          }
+        }
+        else {
           this.model = {};
         }
-
         this.identifier = null;
 
       } else {
@@ -1823,7 +1830,7 @@ export class FormsComponent implements OnInit {
   }
   modalSuccess() {
 
-    if(this.form == 'signup')
+    if(this.router.url == "/form/signup")
     {
       var modal = document.getElementById("downloadCardModalPledge");
       //  var btn = document.getElementById("submitBtn");
