@@ -4,11 +4,11 @@
     <div class="container pt-5 pb-5">
         <div class=" d-flex flex-wrap justify-content-between pr-0">
             <div class="card card-block  col-sm-3 card-des pointer {{isActivelivedonor}}" (click)="changeList2('livedonor')">
-                <h2 class="font-600 cd-ti align">14</h2>
+                <h2 class="font-600 cd-ti align">0</h2>
                 <h2 class="p12 mb-1 align cd-sub">Live Donors</h2>
             </div>
             <div class="card card-block col-sm-3 card-des pointer {{isActiverecipient}}" (click)="changeList1('recipient')">
-                <h2 class="font-600 cd-ti align">4</h2>
+                <h2 class="font-600 cd-ti align">2</h2>
                 <h4 class="p12 mb-1 align cd-sub">Recipients</h4>
             </div>
             <div class="card card-block col-sm-3  card-des disabled disa" disabled>
@@ -21,7 +21,7 @@
 
             <div class="">
                 <h3 *ngIf="table == 'transplantcoordinator-recipient'" class="float-start fw-bold">Recipients</h3>
-                <h3 *ngIf="table == 'transplantcoordinator-livedonor'" class="float-start fw-bold">Donor</h3>
+                <h3 *ngIf="table == 'transplantcoordinator-livedonor'" class="float-start fw-bold">Donors</h3>
 
             </div>
             <div class="container justify-content-end d-flex">

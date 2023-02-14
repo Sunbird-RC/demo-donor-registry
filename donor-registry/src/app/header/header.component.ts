@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
   tclogin: boolean=false;
   temp:boolean = true;
   entity: string;
+  profile: boolean = true;
 
  
   constructor(
@@ -59,8 +60,12 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
    if(this.router.url == "/form/signup"){
     this.temp = false;
    }
+
+   if(this.router.url == "/profile/Pledge"){
+    this.profile = false;
+   }
   
-   
+
     this.languages = JSON.parse(localStorage.getItem('languages'));
     this.langCode = localStorage.getItem('setLanguage');
     

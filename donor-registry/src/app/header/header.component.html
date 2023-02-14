@@ -60,12 +60,11 @@
                                 </span>
                                 
                                 <div class="dropdown-menu mr-3" aria-labelledby="dropdownMenuButton">
-                                    <!-- <a class="dropdown-item lang-btn nav-link-color p14"
-                                        href="/profile/TransplantCoordinator-profile">Profile</a> -->
+                                    <a  *ngIf="profile" class="dropdown-item lang-btn nav-link-color p14"
+                                        href="/profile/TransplantCoordinator-profile">Profile</a>
                                     <a class="dropdown-item lang-btn  nav-link-color p14 {{header?.className}} {{header?.activeTab}}"
                                         *ngIf="header?.title" [routerLink]="[header.redirectTo]">{{header?.title |
                                         translate}}</a>
-
                                 </div>
                             </div>
                             <a *ngIf="header?.image" class="nav-link" [routerLink]="[header.redirectTo]">
