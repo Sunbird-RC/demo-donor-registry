@@ -57,7 +57,7 @@
 
             <div class="d-flex justify-content-between">
               
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button" class="btn-holder btn-size btn-centre akr" [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button" class="btn-holder btn-size btn-centre"  data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
             
               <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
               <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end btn-size akr size-bts"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
