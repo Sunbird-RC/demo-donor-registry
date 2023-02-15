@@ -8,35 +8,34 @@ import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { KeycloakService } from 'keycloak-angular';
 
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GeneralService {
   baseUrl = this.config.getEnv('baseUrl');
   translatedString: string;
-  constructor(
-    public dataService: DataService,
+  constructor(public dataService: DataService,
     public keycloak: KeycloakService,
-    private http: HttpClient,
-    private config: AppConfig,
-    public translate: TranslateService
-  ) {}
+    private http: HttpClient, private config: AppConfig, public translate: TranslateService) {
+  }
 
   postData(apiUrl, data) {
     var url;
     if (apiUrl.indexOf('http') > -1) {
-      url = apiUrl;
+      url = apiUrl
     } else {
       if (apiUrl.charAt(0) == '/') {
-        url = `${this.baseUrl}${apiUrl}`;
-      } else {
+        url = `${this.baseUrl}${apiUrl}`
+      }
+      else {
         url = `${this.baseUrl}/${apiUrl}`;
       }
     }
 
     const req = {
       url: url,
-      data: data,
+      data: data
     };
 
     return this.dataService.post(req);
@@ -46,16 +45,18 @@ export class GeneralService {
     return this.dataService.getDocument(url);
   }
 
+
   getData(apiUrl, outside: boolean = false) {
     var url;
     if (outside) {
       url = apiUrl;
-    } else {
+    }
+    else {
       url = `${this.baseUrl}/${apiUrl}`;
     }
     url.replace('//', '/');
     const req = {
-      url: url,
+      url: url
     };
     return this.dataService.get(req);
   }
@@ -66,7 +67,7 @@ export class GeneralService {
     url.replace('//', '/');
     const req = {
       url: url,
-      headers: headers,
+      headers: headers
     };
 
     return this.dataService.get(req);
@@ -76,7 +77,7 @@ export class GeneralService {
     apiUrl.replace('//', '/');
     const req = {
       url: apiUrl,
-      data: data,
+      data: data
     };
 
     return this.dataService.post(req);
@@ -85,22 +86,23 @@ export class GeneralService {
   putData(apiUrl, id, data) {
     var url;
     if (apiUrl.charAt(0) == '/') {
-      url = `${this.baseUrl}${apiUrl}/${id}`;
-    } else {
+      url = `${this.baseUrl}${apiUrl}/${id}`
+    }
+    else {
       url = `${this.baseUrl}/${apiUrl}/${id}`;
     }
     const req = {
       url: url,
-      data: data,
+      data: data
     };
     return this.dataService.put(req);
   }
 
   // Configurations
   getConfigs() {
-    let url = './assets/config/config.json';
+    let url = "./assets/config/config.json";
     const req = {
-      url: url,
+      url: url
     };
 
     return this.dataService.get(req);
@@ -110,14 +112,14 @@ export class GeneralService {
     let url = `${this.baseUrl}${apiUrl}`;
     const req = {
       url: url,
-      data: data,
+      data: data
     };
     return this.dataService.put(req);
   }
 
-  translateString(constantStr) {
-    this.translate.get(constantStr).subscribe((val) => {
-      this.translatedString = val;
+  translateString(constantStr){
+    this.translate.get(constantStr).subscribe((val)=>{
+       this.translatedString = val;
     });
     return this.translatedString;
   }
@@ -126,42 +128,44 @@ export class GeneralService {
     let url = `${this.baseUrl}${apiUrl}`;
     const req = {
       url: url,
-      data: data,
+      data: data
     };
     return this.dataService.put(req);
   }
 
-  openPDF(url) {
+
+  openPDF(url){
     url = `${this.baseUrl}` + '/' + `${url}`;
 
     let requestOptions = { responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
-    this.http
-      .get(url, requestOptions)
-      .pipe(
-        map((data: any) => {
-          let blob = new Blob([data], {
-            type: 'application/pdf', // must match the Accept type
+    this.http.get(url, requestOptions).pipe(map((data: any) => {
+
+        let blob = new Blob([data], {
+            type: 'application/pdf' // must match the Accept type
             // type: 'application/octet-stream' // for excel
-          });
-          var link = document.createElement('a');
-          link.href = window.URL.createObjectURL(blob);
+        });
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
 
-          window.open(link.href, '_blank');
-          // link.download =  'temp.pdf';
-          // link.click();
-          // window.URL.revokeObjectURL(link.href);
-        })
-      )
-      .subscribe((result: any) => {});
-  }
+        window.open(link.href, '_blank')
+       // link.download =  'temp.pdf';
+       // link.click();
+       // window.URL.revokeObjectURL(link.href);
 
-  async isUserLoggedIn() {
-    await this.keycloak.isLoggedIn().then((res) => {
-      // console.log(res);
-      return res;
+    })).subscribe((result: any) => {
     });
   }
+
+
+ async isUserLoggedIn()
+  {
+   await this.keycloak.isLoggedIn().then((res)=>{
+      console.log(res);
+      return res;
+    })
+  }
+  
 }
 
 export function getDonorServiceHost(): string {
