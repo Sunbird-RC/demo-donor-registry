@@ -59,12 +59,12 @@ import {
               <p class="p14">
                 Only individuals of age 18 year or above can pledge.
               </p>
-              <a href="http://">Click for here for more information</a>
+              <a href="http://">Click here for more information</a>
               <br />
               <br />
               <button
                 m
-                type="submit"
+                type="button"
                 class="btn btn-primary w-100 submit-button mb-2"
                 (click)="previous()"
               >
@@ -96,7 +96,7 @@ import {
               <br />
               <button
                 m
-                type="submit"
+                type="button"
                 (click)="submitOtp()"
                 class="btn btn-primary w-100 submit-button mb-2"
               >
