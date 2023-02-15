@@ -262,7 +262,7 @@
           "title": "Mobile Number"
         }
       },
-      "anyOf": [
+      "oneOf": [
         {
           "properties": {
             "relation": {
@@ -270,6 +270,16 @@
             }
           },
           "required": ["otherRelation"]
+        },
+        {
+          "properties": {
+            "relation": {
+              "not": {
+                "const": "Other"
+              }
+            }
+          },
+          "required": []
         }
       ]
     },
@@ -310,7 +320,7 @@
           "title": "Mobile Number"
         }
       },
-      "anyOf": [
+      "oneOf": [
         {
           "properties": {
             "relation": {
@@ -318,6 +328,16 @@
             }
           },
           "required": ["otherRelation"]
+        },
+        {
+          "properties": {
+            "relation": {
+              "not": {
+                "const": "Other"
+              }
+            }
+          },
+          "required": []
         }
       ]
     },
