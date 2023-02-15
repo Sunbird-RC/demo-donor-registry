@@ -1734,8 +1734,9 @@ export class FormsComponent implements OnInit {
     if (this.form == 'signup') {
       await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
         
-
-        const eSignWindow = window.open('', 'pledge esign');
+        let x = screen.width/2 - 500;
+        let y = screen.height/2 - 400;
+        const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left="+x+",top="+y);
         eSignWindow.document.write(`
         <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
 \t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
