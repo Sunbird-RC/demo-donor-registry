@@ -92,7 +92,7 @@ app.post('/auth/sendOTP', async(req, res) => {
         console.log('OTP sent');
     } catch(err) {
         console.log(err)
-        res.status(err.response.status).send(err.response.data);
+        res.status(500).send(err?.response?.data || err);
     }
 });
 
@@ -117,7 +117,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         console.error(err)
         // res.status(err.response.status).send(err.response.data);
         console.log('Error : ', err);
-        res.status(err.response.status).send(err.response.data);
+        res.status(500).send(err?.response?.data || err);
         const mockedProfile = {
             "healthIdNumber": "91-5457-8518-6762",
             "healthId": null,
