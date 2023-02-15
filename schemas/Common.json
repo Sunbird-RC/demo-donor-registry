@@ -170,7 +170,8 @@
     "IdentificationDetails": {
       "type": "object",
       "required": [
-        "abha"
+        "abha",
+        "nottoId"
       ],
       "title": "Identification Details",
       "properties": {
@@ -178,6 +179,10 @@
           "type": "string",
           "title": "ABHA Number",
           "pattern": "^91\\d{12}$"
+        },
+        "nottoId": {
+          "type": "string",
+          "title": "NOTTO ID"
         }
       }
     },

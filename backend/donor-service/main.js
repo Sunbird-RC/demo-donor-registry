@@ -166,6 +166,11 @@ app.post('/auth/verifyOTP', async(req, res) => {
     }
 });
 
+const getRegisteredCount = async(key) => {
+    const value = await redis.getKey(key);
+    return ((value === null ? 0 : parseInt(value)) + 1) + "";
+}
+
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
     const profileFromRedis = JSON.parse(await redis.getKey(req.body.identificationDetails.abha));
@@ -178,7 +183,12 @@ app.post('/register/:entityName', async(req, res) => {
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
+        const year = new Date().getFullYear().toString().substring(2);
+        const registered = await getRegisteredCount("D");
+        const nottoId = "D" + year + (registered + "").padStart(parseInt(config.NUMBER_OF_DIGITS),'0');
+        profile.identificationDetails.nottoId = nottoId;
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
+        redis.increment("D");
         const abha = profileFromReq.identificationDetails.abha;
         const osid = inviteReponse.result[entityName].osid;
         const esignFileData = (await getESingDoc(abha)).data;

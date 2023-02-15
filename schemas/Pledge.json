@@ -59,7 +59,7 @@
       "$.personalDetails.bloodGroup",
       "$.personalDetails.emailId",
       "$.personalDetails.mobileNumber",
-      "$.identificationDetails",
+      "$.identificationDetails.abha",
       "$.addressDetails",
       "$.pledgeDetails",
       "$.emergencyDetails",
