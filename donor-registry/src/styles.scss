@@ -360,6 +360,10 @@ body {
 .fs-8 {
     font-size: 0.7rem;
 }
+
+.fs-14{
+    font-size: 14px;
+}
 .fs-16p {
     font-size: 16px;
 }
@@ -1264,9 +1268,10 @@ formly-field-select-all-checkbox ul{
     justify-content: space-around;
     flex-wrap: wrap;
 }
-// .form-check-input[type=checkbox] {
-//     border-radius: 0.125rem;
-//     margin-top: 0.19em;
-//     margin-right: 858px;
-    
-// }
+
+
+.btn-primary-green {
+    background-color: rgba(231, 255, 239, 1) !important;
+    color:rgba(58, 176, 101, 1) !important;
+    border: 0 !important;
+}

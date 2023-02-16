@@ -444,6 +444,12 @@ export class LayoutsComponent implements OnInit, OnChanges {
         this.model = res
       }
       else {
+        if(this.layout === 'pledge')
+        {
+          this.model = res;
+        }else{
+
+        
         if (res.length > 1) {
           this.model = res[res.length - 1];
         
@@ -452,6 +458,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
           this.model = res[0];
           this.identifier = res[0].osid;
         }
+      }
       }
 
 

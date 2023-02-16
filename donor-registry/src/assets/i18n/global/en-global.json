@@ -191,6 +191,7 @@
     "REVOKE":"Revoke",
     "LINK_TO_ABHA":"Don't have an ABHA? ",
     "LINK": "Click here to create ABHA Number",
-    "UNPLEDGE":"Unpledge"
+    "UNPLEDGE":"Unpledge",
+    "VERIFIED": "Verified"
 
 }
