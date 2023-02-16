@@ -33,13 +33,12 @@
 
         <div class="card m-3" *ngFor="let item of model;let i = index">
             <div class="mb-1 text-wb card-body lh-lg">
-               
-                <button *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length"
-                class="fs-14 fw-bold btn btn-primary-green submit-button float-end"
-                data-mdb-toggle="tooltip" data-toggle="modal" data-target="#prewiewProfile"
-                (click)="dowbloadCard()" [disabled]="">
+                <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}">
+                <button  class="fs-14 fw-bold btn btn-primary-green submit-button float-end"  data-mdb-toggle="tooltip">
                 <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
             </button>
+	</a>
+
             <a href="form/signup/{{item?.osid}}" *ngIf="!item?.pledgeDetails?.organs?.length && !item?.pledgeDetails?.tissues?.length">
                 <button class="fs-14 fw-bold btn btn-primary-green submit-button float-end">
                     Pledge Again
