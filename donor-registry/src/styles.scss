@@ -151,6 +151,21 @@ textarea.form-control {
     border: 0 !important;
 }
 
+
+.btn-primary-notto {
+    background-color: #D9552B !important;
+    color:#FFFFFF !important;
+    border: 0 !important;
+
+}
+
+.btn-secondary-notto {
+    background-color: rgba(217, 85, 43, .1) !important;
+    
+    color:#D9552B !important;
+    border: 0 !important;
+
+}
 .btn-style {
     border-radius: 8px !important;
     height: 40px;
@@ -192,6 +207,10 @@ legend {
 .p12 {
     font-size: 12px !important;
     color: var(--secondaryTextColor);
+}
+
+.p24{
+    font-size: 24px !important;
 }
 
 .btn-bg {
@@ -1115,4 +1134,14 @@ select.form-control{
 
 formly-multi-schema-type .card{
     display: none !important;
+}
+
+.select-all-checkbox-in-row {
+    padding-left: 3.5rem !important;
+    padding-left: 2rem !important;
+}
+
+.remove-ul-style {
+    list-style-type: none;
+    padding: 0;
 }

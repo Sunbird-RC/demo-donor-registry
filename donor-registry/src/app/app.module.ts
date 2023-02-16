@@ -126,6 +126,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 import { initTheme } from './theme.config';
 import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
 import { FormlyTemplateType } from './forms/types/template.type';
+import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbox.type';
 // import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 
@@ -161,7 +162,8 @@ import { FormlyTemplateType } from './forms/types/template.type';
     ScanQrCodeComponent,
     BrowseDocumentsComponent,
     AuthImagePipe,
-    FormlyTemplateType
+    FormlyTemplateType,
+    FormlyFieldNgSelectAllCheckbox
   ],
   imports: [
     BrowserModule,
@@ -225,6 +227,7 @@ import { FormlyTemplateType } from './forms/types/template.type';
         },
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
         { name: 'multiselect', component: FormlyFieldNgSelect },
+        { name: 'selectall-checkbox', component: FormlyFieldNgSelectAllCheckbox },
         { name: 'color', component: FormlyColorInput },
         { name: 'verify-code', component: VerifyIndentityCode },
         { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },

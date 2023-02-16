@@ -1237,6 +1237,21 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'].forEach(enumval => {
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'].push({ label: enumval, value: enumval })
           });
+        }else if (field.type === 'selectall-checkbox') {
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = 'selectall-checkbox';
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['multiple'] = true;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = 'array';
+
+          if (field.required) {
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name) + "*";
+          } else {
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name);
+          }
+
+         this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'] = [];
+         this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'].forEach(enumval => {
+           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'].push({ label: enumval, value: enumval })
+          });
         }
 
         else if (field.type === 'date') {
@@ -1761,8 +1776,8 @@ export class FormsComponent implements OnInit {
             if (this.isSaveAsDraft == "Pending") {
               this.toastMsg.success('Success', "Successfully Saved !!");
             } else {
-              //this.modalSuccess();
-              this.router.navigate([this.redirectTo]);
+              this.modalSuccessPledge();
+             // this.router.navigate([this.redirectTo]);
             }
 
 
@@ -1819,22 +1834,18 @@ export class FormsComponent implements OnInit {
 
     });
   }
+
+  modalSuccessPledge(){
+    var modal =   document.getElementById("downloadCardModalPledge")
+    modal.classList.add("show");
+    modal.style.display = "block";   
+  
+  }
+
   modalSuccess() {
 
-    if(this.router.url == "/form/signup")
-    {
-      var modal = document.getElementById("downloadCardModalPledge");
-      //  var btn = document.getElementById("submitBtn");
-    
-        modal.style.display = "block";
-        window.onclick = function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-            window.location = this.router.navigate(["/login"]);
-          }
-        }
-    }
-    else{
+  
+  
       var modal = document.getElementById("confirmationModal");
       //  var btn = document.getElementById("submitBtn");
     
@@ -1845,7 +1856,7 @@ export class FormsComponent implements OnInit {
             window.location = this.router.navigate(["/login"]);
           }
         }
-    }
+   
   
 
   }
