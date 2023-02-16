@@ -190,6 +190,8 @@ export class VerifyIndentityCode extends FieldType {
         otp: this.optVal,
       };
 
+      localStorage.setItem('isAutoFill',"true")
+      
       this.http
         .post<any>(`${getDonorServiceHost()}/auth/verifyOTP`, this.model2)
         .subscribe({
