@@ -1209,7 +1209,7 @@ export class FormsComponent implements OnInit {
         if (field.condition.type == 'disable') {
 
 
-          if (this.form == 'signup') {
+          if (this.form == 'signup' || this.form == 'pledge-setup') {
             this.model['pledgeDetails'] = { 'other': false }
           }
 
@@ -1455,6 +1455,13 @@ export class FormsComponent implements OnInit {
       if (this.model["recipientDetails"]["nationality"] = "Indian") {
         delete this.model["recipientDetails"]["country"];
       }
+    }
+
+    if (this.form == 'pledge-setup') {
+      if(this.model['pledgeDetails'].hasOwnProperty('other')){
+        this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
+      }
+     
     }
 
     if (this.fileFields.length > 0 && this.form != 'livedonor' && this.form != 'recipient') {

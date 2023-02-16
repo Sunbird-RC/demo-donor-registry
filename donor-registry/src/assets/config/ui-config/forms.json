@@ -621,23 +621,36 @@
                           },
                           {
                               "name": "pledgeDetails",
-                              "formclass": "row",
                               "children": {
                                   "definition": "PledgeDetails",
-                                  "title":"Pledge Details",
+                                  "formclass": "row", 
+                                  
                                   "fields": [
                                       {
                                           "name": "organs",
-                                          "type": "multiselect",
-                                          "class": "col-lg-4 col-sm-12"
+                                         "type": "selectall-checkbox"
                                       },
                                       {
                                           "name": "tissues",
-                                          "type": "multiselect",
-                                          "class": "col-lg-4 col-sm-12"
+                                          "type": "selectall-checkbox"
                                       },
                                       {
-                                          "name": "other"
+                                          "name": "other",
+                                          "type": "multicheckbox",
+                                          "class": "mt-10 col-4",
+                                          "condition": {
+                                            "type": "disable",
+                                            "objectPath": "pledgeDetails.organs, pledgeDetails.tissues"
+                                        } 
+                                      },
+                                      {
+                                          "name": "otherOrgans",
+                                          "class": "col-4",
+                                          "condition": {
+                                            "type": "hideShow",
+                                            "isBoolean" : true,
+                                            "objectPath": "pledgeDetails.other"
+                                        }  
                                       }
                                   ]
                               }
