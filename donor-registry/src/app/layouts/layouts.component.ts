@@ -646,9 +646,6 @@ export class LayoutsComponent implements OnInit, OnChanges {
   modal.style.display = "block";  
 }
 
-  deleteData() {
-
-
   deleteData(model) {
     model = {
       "pledgeDetails": {

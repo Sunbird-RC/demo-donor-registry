@@ -19,25 +19,7 @@
                     </span>
                 </p> -->
                 </div>
-                <div>
-
-                    <a *ngIf="layout == 'pledge' && isUnPledge" href="form/signup/{{identifier}}">
-                        <button class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2">
-                            <i aria-hidden="true" class="fa fa-pencil-square-o"></i> Pledge Again
-                        </button>
-                    </a>
-
-                    <a *ngIf="layout == 'pledge'" href="form/pledge-setup/{{identifier}}">
-                        <button class="fs-14 btn btn-sec-bg text-primary-color submit-button float-end ml-1 mr-2">
-                            <i aria-hidden="true" class="fa fa-pencil-square-o"></i> {{'EDIT' | translate}}
-                        </button>
-                    </a>
-
-
-                  
-
-
-                </div>
+              
 
             </div>
         </nav>
@@ -52,26 +34,32 @@
         <div class="card m-3" *ngFor="let item of model;let i = index">
             <div class="mb-1 text-wb card-body lh-lg">
                
-                <button *ngIf=" !isDownloadCrt"
+                <button *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length"
                 class="fs-14 fw-bold btn btn-primary-green submit-button float-end"
                 data-mdb-toggle="tooltip" data-toggle="modal" data-target="#prewiewProfile"
                 (click)="dowbloadCard()" [disabled]="">
                 <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
             </button>
+            <a href="form/signup/{{item?.osid}}" *ngIf="!item?.pledgeDetails?.organs?.length && !item?.pledgeDetails?.tissues?.length">
+                <button class="fs-14 fw-bold btn btn-primary-green submit-button float-end">
+                    Pledge Again
+                </button>
+            </a>
+
 
 
                 <span class="fs-24 fw-bold">{{item?.personalDetails?.firstName}}
                     {{item?.personalDetails?.lastName}}</span> <br>
                 <img src="assets/images/verified.png" /> <span class="fs-14>"> {{'VERIFIED' | translate}} </span> <br>
 
-                <a href="form/pledge-setup/{{item?.osid}}">
+                <a href="form/pledge-setup/{{item?.osid}}" *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
                     <button class="fs-14 btn btn-primary-green submit-button mt-2 fw-bold">
                         {{'EDIT' | translate}}
                     </button>
                 </a>
 
-                <a>
-                    <button *ngIf="!isUnPledge" class="fs-14 fw-bold btn btn-primary-green submit-button ml-2 mt-2" (click)="actionData(item)" data-mdb-toggle="tooltip" data-toggle="modal"
+                <a *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
+                    <button class="fs-14 fw-bold btn btn-primary-green submit-button ml-2 mt-2" (click)="actionData(item)" data-mdb-toggle="tooltip" data-toggle="modal"
                     data-target="#deleteModalPledge">
                          {{'UNPLEDGE' | translate}}
                     </button> 
