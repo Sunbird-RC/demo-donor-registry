@@ -1251,6 +1251,21 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'].forEach(enumval => {
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'].push({ label: enumval, value: enumval })
           });
+        }else if (field.type === 'selectall-checkbox') {
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = 'selectall-checkbox';
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['multiple'] = true;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = 'array';
+
+          if (field.required) {
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name) + "*";
+          } else {
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name);
+          }
+
+         this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'] = [];
+         this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'].forEach(enumval => {
+           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'].push({ label: enumval, value: enumval })
+          });
         }
 
         else if (field.type === 'date') {

@@ -235,13 +235,11 @@
                                   "fields": [
                                       {
                                           "name": "organs",
-                                          "type": "multicheckbox",
-                                          "class": "col-4"
+                                         "type": "selectall-checkbox"
                                       },
                                       {
                                           "name": "tissues",
-                                          "type": "multicheckbox",
-                                          "class": "col-4"
+                                          "type": "selectall-checkbox"
                                       },
                                       {
                                           "name": "other",
