@@ -1744,6 +1744,11 @@ export class FormsComponent implements OnInit {
 
   }
 
+  removeDuplicates(arr) {
+    return arr.filter((item,
+        index) => arr.indexOf(item) === index);
+}
+
   async postData() {
 
     if (Array.isArray(this.model)) {
@@ -1751,6 +1756,18 @@ export class FormsComponent implements OnInit {
     }
     this.model['sorder'] = this.exLength;
     if (this.form == 'signup') {
+
+      if( this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['organs'])
+      {
+        this.model['pledgeDetails']['organs'] = this.removeDuplicates(this.model['pledgeDetails']['organs']);
+      }
+
+      if( this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['tissues'])
+      {
+        this.model['pledgeDetails']['tissues'] = this.removeDuplicates(this.model['pledgeDetails']['tissues']);
+      }
+
+
       await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
         
         let x = screen.width/2 - 500;

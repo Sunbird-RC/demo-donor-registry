@@ -66,7 +66,7 @@ export class FormlyFieldNgSelectAllCheckbox extends FieldType {
   {
     this.allChecked = !this.allChecked;
    let self = this;
- 
+
      this.to.options.forEach(function (key) {
 
      if (self.to.type === 'array') {
@@ -78,7 +78,7 @@ export class FormlyFieldNgSelectAllCheckbox extends FieldType {
      } else {
        self.formControl.patchValue({ ...this.formControl.value, [key['value']]: self.allChecked });
      }
-     console.log(key);
+    
      })
   }
 }
