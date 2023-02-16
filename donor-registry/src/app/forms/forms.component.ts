@@ -1982,4 +1982,3 @@ export class FormsComponent implements OnInit {
     this.submit();
   }
 }
-
