@@ -8,6 +8,7 @@
       "required": [
         "firstName",
         "lastName",
+        "fatherName",
         "dob",
         "gender",
         "mobileNumber"
