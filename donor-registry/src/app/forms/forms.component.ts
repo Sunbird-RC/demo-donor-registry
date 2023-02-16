@@ -1156,7 +1156,7 @@ export class FormsComponent implements OnInit {
       }
 
       if (field.hasOwnProperty('condition') && field.condition) {
-        if (field.condition.type == 'hideShow') {
+        if (field.condition.type == 'hideShow' && field.condition.hasOwnProperty['isIt']) {
 
           let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'];
 
@@ -1168,6 +1168,22 @@ export class FormsComponent implements OnInit {
           }
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'] = temp;
+        } 
+        else if (field.condition.type == 'hideShow' && !field.condition.hasOwnProperty['isIt']) {
+          let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+            'hideExpression': (model, formState, field1) => {
+              var val = this.getValue(this.model, field.condition.objectPath);
+
+              return (val != field.condition.isIt) ? true : false;
+            }
+          }
+          if (tempObj != undefined) {
+            tempObj['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
+          }
+
         } else if (field.condition.type == 'nationality') {
           if (this.form == 'recipient') {
             this.model['recipientDetails'] = { 'nationality': "Indian" }
@@ -1176,22 +1192,66 @@ export class FormsComponent implements OnInit {
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
             'hideExpression': (model, formState, field1) => {
-               
-               let val = (this.model['recipientDetails']['nationality'] == field.condition.isIt) ? false : true;
 
-               return val;
-                
-               //(this.model['recipientDetails']['nationality'] == "India") ? false : true);
+              let val = (this.model['recipientDetails']['nationality'] == field.condition.isIt) ? false : true;
+
+              return val;
+
             }
           }
 
-          if(temp != undefined)
-          {
+          if (temp != undefined) {
             temp['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = temp;
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = temp;
+          }
         }
 
+        if (field.condition.type == 'disable') {
 
+
+          if (this.form == 'signup') {
+            this.model['pledgeDetails'] = { 'other': false }
+          }
+
+          let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+            'expressionProperties': {
+              "templateOptions.disabled": (model, formState, field1) => {
+
+                if (this.model['pledgeDetails'].hasOwnProperty('organs') && this.model['pledgeDetails'].organs.length) {
+                  return false;
+                } else if (this.model['pledgeDetails'].hasOwnProperty('tissues') && this.model['pledgeDetails'].tissues.length) {
+                  return false;
+                } else {
+                  this.model['pledgeDetails'] = { 'other': false }
+                  return true;
+                }
+              }
+            }
+          }
+
+          if (temp != undefined) {
+            temp['expressionProperties'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['expressionProperties'];
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = temp;
+          }
+        }
+
+         if (field.condition.isBoolean) {
+
+          let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+            'hideExpression': (model, formState, field1) => {
+
+              return !this.model['pledgeDetails']['other'].length;
+            }
+          }
+
+          if (temp != undefined) {
+            temp['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = temp;
+          }
         }
       }
 
@@ -1200,9 +1260,9 @@ export class FormsComponent implements OnInit {
 
         if (field.type === 'verify-code') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XXXXXXXXXXXXXX");
           if (field.required) {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XX-XXXX-XXXX-XXXX");
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XXXXXXXXXXXXXX");
           }
         }
 
@@ -1242,7 +1302,7 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'].forEach(enumval => {
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'].push({ label: enumval, value: enumval })
           });
-        }else if (field.type === 'selectall-checkbox') {
+        } else if (field.type === 'selectall-checkbox') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = 'selectall-checkbox';
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['multiple'] = true;
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = 'array';
@@ -1392,8 +1452,7 @@ export class FormsComponent implements OnInit {
       this.model["recipientDetails"]["identificationProof"] = "Aadhaar";
       this.model["status"] = this.isSaveAsDraft;
 
-      if(this.model["recipientDetails"]["nationality"] = "Indian")
-      {
+      if (this.model["recipientDetails"]["nationality"] = "Indian") {
         delete this.model["recipientDetails"]["country"];
       }
     }
@@ -1711,7 +1770,7 @@ export class FormsComponent implements OnInit {
         }
 
         if (this.form != 'pledge-setup') {
-        this.identifier = null;
+          this.identifier = null;
         }
 
       } else {
@@ -1731,6 +1790,11 @@ export class FormsComponent implements OnInit {
 
   }
 
+  removeDuplicates(arr) {
+    return arr.filter((item,
+      index) => arr.indexOf(item) === index);
+  }
+
   async postData() {
 
     if (Array.isArray(this.model)) {
@@ -1738,11 +1802,21 @@ export class FormsComponent implements OnInit {
     }
     this.model['sorder'] = this.exLength;
     if (this.form == 'signup') {
+
+      if (this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['organs']) {
+        this.model['pledgeDetails']['organs'] = this.removeDuplicates(this.model['pledgeDetails']['organs']);
+      }
+
+      if (this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['tissues']) {
+        this.model['pledgeDetails']['tissues'] = this.removeDuplicates(this.model['pledgeDetails']['tissues']);
+      }
+
+
       await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
-        
-        let x = screen.width/2 - 500;
-        let y = screen.height/2 - 400;
-        const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left="+x+",top="+y);
+
+        let x = screen.width / 2 - 500;
+        let y = screen.height / 2 - 400;
+        const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
         eSignWindow.document.write(`
         <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
 \t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
@@ -1840,29 +1914,25 @@ export class FormsComponent implements OnInit {
     });
   }
 
-  modalSuccessPledge(){
-    var modal =   document.getElementById("downloadCardModalPledge")
+  modalSuccessPledge() {
+    var modal = document.getElementById("downloadCardModalPledge")
     modal.classList.add("show");
-    modal.style.display = "block";   
-  
+    modal.style.display = "block";
+
   }
 
   modalSuccess() {
 
-  
-  
-      var modal = document.getElementById("confirmationModal");
-      //  var btn = document.getElementById("submitBtn");
-    
-        modal.style.display = "block";
-        window.onclick = function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-            window.location = this.router.navigate(["/login"]);
-          }
-        }
-   
-  
+    var modal = document.getElementById("confirmationModal");
+    //  var btn = document.getElementById("submitBtn");
+
+    modal.style.display = "block";
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+        window.location = this.router.navigate(["/login"]);
+      }
+    }
 
   }
 
@@ -1983,4 +2053,41 @@ export class FormsComponent implements OnInit {
   confirmInfo() {
     this.submit();
   }
+
+  getValue(item, fieldsPath) {
+    var propertySplit = fieldsPath.split(".");
+
+    
+    let fieldValue = [];
+
+    for (let j = 0; j < propertySplit.length; j++) {
+      let a = propertySplit[j];
+
+      if (j == 0 && item.hasOwnProperty(a)) {
+        fieldValue = item[a];
+      } else if (fieldValue.hasOwnProperty(a)) {
+
+        fieldValue = fieldValue[a];
+
+      } else if (fieldValue[0]) {
+        let arryItem = []
+        if (fieldValue.length > 0) {
+          for (let i = 0; i < fieldValue.length; i++) {
+          }
+
+          fieldValue = arryItem;
+
+        } else {
+          fieldValue = fieldValue[a];
+        }
+
+      } else {
+        fieldValue = [];
+      }
+    }
+
+    return fieldValue;
+  
+
+}
 }

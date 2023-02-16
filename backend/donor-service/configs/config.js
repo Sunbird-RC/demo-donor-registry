@@ -12,7 +12,7 @@ const PORTAL_PLEDGE_REGISTER_URL = process.env.PORTAL_PLEDGE_REGISTER_URL;
 const SERVICE_ACCOUNT_CLIENT_SECRET = process.env.SERVICE_ACCOUNT_CLIENT_SECRET;
 const KEYCLOAK_URL = process.env.KEYCLOAK_URL;
 const LOG_LEVEL = process.env.LOG_LEVEL || "INFO";
-
+const UNIQUE_ABHA_ENABLED = process.env.UNIQUE_ABHA_ENABLED === "true" || false;
 module.exports = {
     REDIS_URL,
     BASE_URL,
@@ -27,5 +27,6 @@ module.exports = {
     ESIGN_ESP_PDF_URL,
     SERVICE_ACCOUNT_CLIENT_SECRET,
     KEYCLOAK_URL,
-    LOG_LEVEL
+    LOG_LEVEL,
+    UNIQUE_ABHA_ENABLED
 }

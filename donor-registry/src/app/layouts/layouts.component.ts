@@ -46,7 +46,8 @@ export class LayoutsComponent implements OnInit, OnChanges {
   userName: any;
   tcUser: any;
   propertyName: any;
-
+  unPledge = false;
+  revoke = true;
 
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
@@ -442,6 +443,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
       else {
         if (res.length > 1) {
           this.model = res[res.length - 1];
+          // if(this.model["organs"] == [] && this.model["tissues"] == []){
+          //   this.unPledge == true;
+          // }
           this.identifier = res[res.length - 1].osid;
         } else {
           this.model = res[0];
@@ -621,15 +625,20 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
-
+  successDelete()
+{
+  var modal =   document.getElementById("successDeleteModal")
+  modal.classList.add("show");
+  modal.style.display = "block";  
+}
   deleteData() {
 
 
     this.model = {
 
       "pledgeDetails": {
-        "organs": {},
-        "tissues": {},
+        "organs": [],
+        "tissues": [],
         "others": ""
       },
       "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
@@ -640,7 +649,11 @@ export class LayoutsComponent implements OnInit, OnChanges {
     }
     this.generalService.putData('/Pledge', this.identifier, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL') {
-        this.router.navigate(['/profile/Pledge'])
+        console.log(res);
+        this.successDelete();
+        this.unPledge  = true;
+        this.revoke = false;
+        //this.router.navigate(['/profile/Pledge'])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
 
