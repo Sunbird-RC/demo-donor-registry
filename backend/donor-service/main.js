@@ -86,13 +86,20 @@ app.post('/auth/sendOTP', async(req, res) => {
     //TODO:get method from frontend
     const method = 'AADHAAR_OTP';
     try {
+        if(config.UNIQUE_ABHA_ENABLED) {
+            const key = getKeyForBasedOnEntityName("Pledge");
+            const isPresent = await redis.getKey(key+abhaId) !== null ? true : false;
+            if(isPresent) {
+                throw JSON.stringify({error: 'Pledger with this ABHA Id already exists. Please login to continue'});
+            }
+        }
         const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId},
             {headers: {Authorization: 'Bearer '+clientSecretToken}})).data;
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
-        console.log(err)
-        res.status(500).send(err?.response?.data || err);
+        console.log(err);
+        res.status(500).send(err?.response?.data || err?.message || err);
     }
 });
 
@@ -166,6 +173,17 @@ app.post('/auth/verifyOTP', async(req, res) => {
     }
 });
 
+function getKeyForBasedOnEntityName(entityName) {
+    let category = null;
+    switch(entityName) {
+        case "Pledge":
+            category = "D";
+            break;
+
+    }
+    return category;
+}
+
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
     const profileFromRedis = JSON.parse(await redis.getKey(req.body.identificationDetails.abha));
@@ -180,6 +198,7 @@ app.post('/register/:entityName', async(req, res) => {
     try {
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
         const abha = profileFromReq.identificationDetails.abha;
+        redis.storeKey(getKeyForBasedOnEntityName(entityName)+abha, "true");
         const osid = inviteReponse.result[entityName].osid;
         const esignFileData = (await getESingDoc(abha)).data;
         const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
