@@ -57,10 +57,10 @@
 
             <div class="d-flex justify-content-between">
               
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button" class="btn-holder btn-size btn-centre"  data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button" class="btn-holder btn-size size-bts btn-centre"  data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
             
-              <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
-              <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end btn-size akr size-bts"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
+              <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft sve-btnsv ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
+              <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end akr size-bts"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
             </div>
 
           
@@ -142,13 +142,13 @@
     <div class="p-4 modal-content">   
       <div class="modal-body">
         <div class="d-flex flex-column justify-content-center align-items-center">
-         <div><img class="check-logo" src="assets/images/circle-check.png"></div>
-        <div class="p14 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> Confirm Pledge Registration</div>
+         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
+        <div class="p24 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> Confirm Pledge Registration</div>
         <div class="p14 mb-2 mt-2 fw-bold">Please confirm and you will be redirected to eSign Portal</div>
         <div class="container-fluid mt-3">
-        <button data-dismiss="modal"  class="btn btn-bg nav-link-color btn-sec-bg mb-2">Cancel</button>
+        <button data-dismiss="modal"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
         <a class="mt-3">
-          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary float-end submit-button mb-2"  (click)="submit()" data-dismiss="modal">OK, Confirm</button>
+          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2"  (click)="submit()" data-dismiss="modal">Proceed</button>
 
        <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
        <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
@@ -164,18 +164,18 @@
 <!--confirmation Modal Pledge-->
 
 <!--Download card Modal Pledge-->
-<div  class="modal fade" id="downloadCardModalPledge" tabindex="-1" role="dialog" aria-labelledby="downloadCardModalPledge" aria-hidden="true">
+<div  class="modal fade" id="downloadCardModalPledge"  tabindex="-1" role="dialog" aria-labelledby="downloadCardModalPledge" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="p-4 modal-content">
     
       <div class="modal-body">
         <div class="d-flex flex-column justify-content-center align-items-center">
-         <div><img class="check-logo" src="assets/images/circle-check.png"></div>
-        <div class="p14 mb-2 mt-2 fw-bold"> Donor Pledge Registration Completed</div>
-        <div class="p14 mb-2 mt-2">Please login with ABHA number or mobile number </div>
-        <div class="p14 mb-2 mt-2">to view and download the Pledge Certificate </div>
-        <a  href="/login" class="mt-3"> 
-        <button id=""type="submit" class="btn btn-primary submit-button mb-2">{{'LOGIN' | translate}}</button>
+         <div><img class="check-logo-pledge" src="assets/images/circle-check.png"></div>
+        <div class="p24 mb-2 mt-2 fw-bold">You have successfully pledged</div>
+        <div class="p14 mb-2 mt-2">To download the pledge certificate, </div>
+        <div class="p14 mb-2 mt-2">please login with ABHA number or mobile number </div>
+        <a  href="/profile/Pledge" class="mt-3"> 
+        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">{{'LOGIN' | translate}}</button>
         </a>
       </div>
     </div>
