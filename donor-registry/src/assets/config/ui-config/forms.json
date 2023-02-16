@@ -228,7 +228,7 @@
                               
                               "children": {
                                   "definition": "PledgeDetails",
-                                  "formclass": "row",
+                                  "formclass": "row", 
                                   
                                   "fields": [
                                       {
