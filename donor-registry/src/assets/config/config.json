@@ -17,7 +17,7 @@
   ],
   "appType": "attestation",
   "default_theme": {
-  "logoPath": "/assets/images/logo.png",
+        "logoPath": "../../assets/images/NOTTO_WITH_TXT_LOGO.svg",
   "primaryColor": "#1987B6",
   "secondaryColor": "#1987B6",
   "bodyBackground": "#F6F8FC",
@@ -33,7 +33,7 @@
   "cardBorder": "#00000020"
   },
   "dark_theme": {
-  "logoPath": "/assets/images/logo.png",
+        "logoPath": "../../assets/images/NOTTO_WITH_TXT_LOGO.svg",
   "primaryColor": "#1987B6",
   "secondaryColor": "#1987B6",
   "bodyBackground": "#080808",
