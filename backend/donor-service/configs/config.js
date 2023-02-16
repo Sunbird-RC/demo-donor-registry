@@ -12,7 +12,7 @@ const PORTAL_PLEDGE_REGISTER_URL = process.env.PORTAL_PLEDGE_REGISTER_URL;
 const SERVICE_ACCOUNT_CLIENT_SECRET = process.env.SERVICE_ACCOUNT_CLIENT_SECRET;
 const KEYCLOAK_URL = process.env.KEYCLOAK_URL;
 const LOG_LEVEL = process.env.LOG_LEVEL || "INFO";
-const NUMBER_OF_DIGITS = process.env.NUMBER_OF_DIGITS;
+const NUMBER_OF_DIGITS = process.env.NUMBER_OF_DIGITS || 7;
 module.exports = {
     REDIS_URL,
     BASE_URL,

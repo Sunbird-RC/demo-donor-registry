@@ -171,6 +171,17 @@ const getRegisteredCount = async(key) => {
     return ((value === null ? 0 : parseInt(value)) + 1) + "";
 }
 
+function getKeyForNottoID(entityName) {
+    let registrationCategory = null;
+    switch(entityName) {
+        case "Pledge":
+            registrationCategory = "D";
+            break;
+            
+    }
+    return registrationCategory;
+}
+
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
     const profileFromRedis = JSON.parse(await redis.getKey(req.body.identificationDetails.abha));
@@ -184,11 +195,15 @@ app.post('/register/:entityName', async(req, res) => {
     const entityName = req.params.entityName;
     try {
         const year = new Date().getFullYear().toString().substring(2);
-        const registered = await getRegisteredCount("D");
-        const nottoId = "D" + year + (registered + "").padStart(parseInt(config.NUMBER_OF_DIGITS),'0');
+        const registrationCategory = getKeyForNottoID(entityName);
+        if(registrationCategory === null) {
+            throw new Error({error: "Entity " + entityName + " not supported"})
+        }
+        const registered = await getRegisteredCount(registrationCategory);
+        const nottoId = registrationCategory + year + (registered + "").padStart(parseInt(config.NUMBER_OF_DIGITS),'0');
         profile.identificationDetails.nottoId = nottoId;
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
-        redis.increment("D");
+        redis.increment(registrationCategory);
         const abha = profileFromReq.identificationDetails.abha;
         const osid = inviteReponse.result[entityName].osid;
         const esignFileData = (await getESingDoc(abha)).data;
@@ -197,7 +212,7 @@ app.post('/register/:entityName', async(req, res) => {
         res.send(inviteReponse);
     } catch(err) {
         console.log(err);
-        res.status(500).send(err?.response?.data || err);
+        res.status(500).json(err?.response?.data || err?.message || err);
     }
 });
 
