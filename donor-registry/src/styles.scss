@@ -1250,15 +1250,19 @@ formly-multi-schema-type .card{
         height: 34px;
         margin-top: 9px !important;
     }
+    formly-field-select-all-checkbox ul{
+        flex-direction: column !important;
+        margin-bottom: 20px;
+    }
 }
-// formly-field-select-all-checkbox ul{
-//     display: flex; 
-//     justify-content: space-around;
-//     flex-wrap: wrap;
-// }
+formly-field-select-all-checkbox ul{
+    display: flex; 
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
 // .form-check-input[type=checkbox] {
 //     border-radius: 0.125rem;
 //     margin-top: 0.19em;
-//     margin-right: 868px;
+//     margin-right: 858px;
     
 // }
