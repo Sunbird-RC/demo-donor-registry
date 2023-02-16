@@ -1165,7 +1165,7 @@ export class FormsComponent implements OnInit {
       }
 
       if (field.hasOwnProperty('condition') && field.condition) {
-        if (field.condition.type == 'hideShow') {
+        if (field.condition.type == 'hideShow' && field.condition.hasOwnProperty['isIt']) {
 
           let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'];
 
@@ -1177,7 +1177,25 @@ export class FormsComponent implements OnInit {
           }
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'] = temp;
-        } else if (field.condition.type == 'nationality') {
+        }    else if(field.condition.type == 'hideShow' && !field.condition.hasOwnProperty['isIt']){
+          let tempObj : any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+            'hideExpression': (model, formState, field1) => {
+           var val =  this.getValue(this.model, field.condition.objectPath);
+                 
+              return (val != field.condition.isIt)? true:false;                     
+            }
+          }
+          if(tempObj != undefined)
+          {
+            tempObj['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
+        }
+
+        }
+        
+        else if (field.condition.type == 'nationality') {
           if (this.form == 'recipient') {
             this.model['recipientDetails'] = { 'nationality': "Indian" }
           }
@@ -1992,4 +2010,41 @@ export class FormsComponent implements OnInit {
   confirmInfo() {
     this.submit();
   }
+
+  getValue(item, fieldsPath) {
+    var propertySplit = fieldsPath.split(".");
+
+    
+    let fieldValue = [];
+
+    for (let j = 0; j < propertySplit.length; j++) {
+      let a = propertySplit[j];
+
+      if (j == 0 && item.hasOwnProperty(a)) {
+        fieldValue = item[a];
+      } else if (fieldValue.hasOwnProperty(a)) {
+
+        fieldValue = fieldValue[a];
+
+      } else if (fieldValue[0]) {
+        let arryItem = []
+        if (fieldValue.length > 0) {
+          for (let i = 0; i < fieldValue.length; i++) {
+          }
+
+          fieldValue = arryItem;
+
+        } else {
+          fieldValue = fieldValue[a];
+        }
+
+      } else {
+        fieldValue = [];
+      }
+    }
+
+    return fieldValue;
+  
+
+}
 }
