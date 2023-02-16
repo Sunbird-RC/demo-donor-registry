@@ -13,6 +13,7 @@ const SERVICE_ACCOUNT_CLIENT_SECRET = process.env.SERVICE_ACCOUNT_CLIENT_SECRET;
 const KEYCLOAK_URL = process.env.KEYCLOAK_URL;
 const LOG_LEVEL = process.env.LOG_LEVEL || "INFO";
 const NUMBER_OF_DIGITS = process.env.NUMBER_OF_DIGITS || 7;
+const UNIQUE_ABHA_ENABLED = process.env.UNIQUE_ABHA_ENABLED === "true" || false;
 module.exports = {
     REDIS_URL,
     BASE_URL,
@@ -28,5 +29,6 @@ module.exports = {
     SERVICE_ACCOUNT_CLIENT_SECRET,
     KEYCLOAK_URL,
     LOG_LEVEL,
-    NUMBER_OF_DIGITS
+    NUMBER_OF_DIGITS,
+    UNIQUE_ABHA_ENABLED
 }

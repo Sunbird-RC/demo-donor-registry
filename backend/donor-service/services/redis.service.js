@@ -20,6 +20,10 @@ async function storeKeyWithExpiry(key, value, expiry) {
   });
 }
 
+async function storeKey(key, value) {
+  await client.set(key, value);
+}
+
 async function getKey(key) {
   return await client.get(key);
 }
@@ -37,5 +41,6 @@ module.exports = {
   initRedis,
   getKey,
   deleteKey,
-  increment
+  increment,
+  storeKey
 };

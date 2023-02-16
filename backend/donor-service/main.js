@@ -86,13 +86,20 @@ app.post('/auth/sendOTP', async(req, res) => {
     //TODO:get method from frontend
     const method = 'AADHAAR_OTP';
     try {
+        if(config.UNIQUE_ABHA_ENABLED) {
+            const key = getKeyForBasedOnEntityName("Pledge");
+            const isPresent = await redis.getKey(key+abhaId) !== null ? true : false;
+            if(isPresent) {
+                throw JSON.stringify({error: 'Pledger with this ABHA Id already exists. Please login to continue'});
+            }
+        }
         const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId},
             {headers: {Authorization: 'Bearer '+clientSecretToken}})).data;
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
-        console.log(err)
-        res.status(500).send(err?.response?.data || err);
+        console.log(err);
+        res.status(500).send(err?.response?.data || err?.message || err);
     }
 });
 
@@ -166,20 +173,21 @@ app.post('/auth/verifyOTP', async(req, res) => {
     }
 });
 
+
 const getRegisteredCount = async(key) => {
     const value = await redis.getKey(key);
     return ((value === null ? 0 : parseInt(value)) + 1) + "";
 }
 
-function getKeyForNottoID(entityName) {
-    let registrationCategory = null;
+function getKeyForBasedOnEntityName(entityName) {
+    let category = null;
     switch(entityName) {
         case "Pledge":
-            registrationCategory = "D";
+            category = "D";
             break;
-            
+
     }
-    return registrationCategory;
+    return category;
 }
 
 app.post('/register/:entityName', async(req, res) => {
@@ -195,7 +203,7 @@ app.post('/register/:entityName', async(req, res) => {
     const entityName = req.params.entityName;
     try {
         const year = new Date().getFullYear().toString().substring(2);
-        const registrationCategory = getKeyForNottoID(entityName);
+        const registrationCategory = getKeyForBasedOnEntityName(entityName);
         if(registrationCategory === null) {
             throw new Error({error: "Entity " + entityName + " not supported"})
         }
@@ -205,6 +213,7 @@ app.post('/register/:entityName', async(req, res) => {
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
         redis.increment(registrationCategory);
         const abha = profileFromReq.identificationDetails.abha;
+        redis.storeKey(getKeyForBasedOnEntityName(entityName)+abha, "true");
         const osid = inviteReponse.result[entityName].osid;
         const esignFileData = (await getESingDoc(abha)).data;
         const uploadESignFileRes = await uploadESignFile(osid, esignFileData);

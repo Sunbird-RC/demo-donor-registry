@@ -188,10 +188,6 @@
     },
     "PledgeDetails": {
       "type": "object",
-      "required": [
-        "organs",
-        "tissues"
-      ],
       "title": "Pledge Details",
       "properties": {
         "organs": {
@@ -226,9 +222,48 @@
         },
         "other": {
           "type": "string",
-          "title": "Other Organs/Tissues"
+          "title": "Other Organs or Tissues",
+          "description": "(Please select atleast one organ or tissue above to add other organs or tissues",
+          "enum": [
+            "Other Organs or Tissues"
+          ]
+        },
+        "otherOrgans": {
+          "type": "string",
+          "title": "Enter Organs/Tissues Name"
         }
-      }
+      },
+      "anyOf": [
+        {
+          "required": ["organs"]
+        },
+        {
+          "required": ["tissues"]
+        },
+        {
+          "required": ["organs", "tissues"]
+        }
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "other": {
+              "const": "Other Organs or Tissues"
+            }
+          },
+          "required": ["otherOrgans"]
+        },
+        {
+          "properties": {
+            "other": {
+              "not": {
+                "const": "Other Organs or Tissues"
+              }
+            }
+          },
+          "required": []
+        }
+      ]
     },
     "EmergencyDetails": {
       "type": "object",
