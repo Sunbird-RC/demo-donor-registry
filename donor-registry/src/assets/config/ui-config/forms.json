@@ -48,7 +48,7 @@
                                         {
                                             "name": "abha",
                                             "type": "verify-code",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "required": true,
                                             "placeholder": "xx-xxxx-xxxx-xxxx",
                                             "validation": {
@@ -72,7 +72,7 @@
                                     "fields": [
                                         {
                                             "name": "firstName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "pattern": "^[a-zA-Z\\s-']+$",
                                             "validation": {
                                                 "message": "Enter a valid name"
@@ -80,7 +80,7 @@
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -88,7 +88,7 @@
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -96,7 +96,7 @@
                                         },
                                         {
                                             "name": "fatherName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -104,7 +104,7 @@
                                         },
                                         {
                                             "name": "motherName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -113,22 +113,22 @@
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "future": false
                                             }
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "bloodGroup",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
                                                 "message": "Enter a valid email"
@@ -140,7 +140,7 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         }
                                     ]
                                 }
@@ -154,15 +154,15 @@
                                     "fields": [
                                         {
                                             "name": "addressLine1",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "addressLine2",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "country",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid country"
@@ -170,11 +170,11 @@
                                         },
                                         {
                                             "name": "state",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "district",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid district"
@@ -182,7 +182,7 @@
                                         },
                                         {
                                             "name": "pincode",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[0-9]+$",
                                                 "message": "Enter a valid pincode"
@@ -236,16 +236,16 @@
                                         {
                                             "name": "organs",
                                             "type": "multicheckbox",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "tissues",
                                             "type": "multicheckbox",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "other",
-                                            "class": "mt-10 col-4"
+                                            "class": "mt-10 col-lg-4 col-sm-12"
                                         }
                                     ]
                                 }
@@ -259,7 +259,7 @@
                                     "fields": [
                                         {
                                             "name": "name",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -267,17 +267,17 @@
                                         },
                                         {
                                             "name": "relation",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "otherRelation",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
 
 
                                         {
                                             "name": "mobileNumber",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
@@ -318,7 +318,7 @@
                                             "type": "checkbox",
                                           
                                             "className": "select",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "defaultValue": false
                                         }
                                       
@@ -334,23 +334,23 @@
                                     "fields": [
                                         {
                                             "name": "name",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
 
                                         },
                                         {
                                             "name": "relation",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "otherRelation",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                             
                                         },
 
 
                                         {
                                             "name": "mobileNumber",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
 
                                         }
                                     ]
@@ -358,7 +358,7 @@
                             },
                             {
                                 "name": "instituteReference",
-                                "class":"m-0 p-0 col-4"
+                                "class":"m-0 p-0 col-lg-4 col-sm-12"
 
                             },
 
@@ -433,7 +433,7 @@
                                         {
                                             "name": "abha",
                                             "type": "verify-code",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "required": true,
                                             "placeholder": "xx-xxxx-xxxx-xxxx",
                                             "validation": {
@@ -453,7 +453,7 @@
                                     "fields": [
                                         {
                                             "name": "firstName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "pattern": "^[a-zA-Z\\s-']+$",
                                             "validation": {
                                                 "message": "Enter a valid name"
@@ -461,7 +461,7 @@
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -469,7 +469,7 @@
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -477,7 +477,7 @@
                                         },
                                         {
                                             "name": "fatherName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -485,7 +485,7 @@
                                         },
                                         {
                                             "name": "motherName",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -494,22 +494,22 @@
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "future": false
                                             }
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "bloodGroup",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
                                                 "message": "Enter a valid email"
@@ -521,7 +521,7 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         }
                                     ]
                                 }
@@ -535,15 +535,15 @@
                                     "fields": [
                                         {
                                             "name": "addressLine1",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "addressLine2",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "country",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid country"
@@ -551,11 +551,11 @@
                                         },
                                         {
                                             "name": "state",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "district",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid district"
@@ -563,7 +563,7 @@
                                         },
                                         {
                                             "name": "pincode",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[0-9]+$",
                                                 "message": "Enter a valid pincode"
@@ -581,7 +581,7 @@
                                     "fields": [
                                         {
                                             "name": "name",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "^[a-zA-Z\\s-']+$",
                                                 "message": "Enter a valid name"
@@ -589,11 +589,11 @@
                                         },
                                         {
                                             "name": "relation",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "mobileNumber",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "validation": {
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
@@ -612,12 +612,12 @@
                                         {
                                             "name": "organs",
                                             "type": "multiselect",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "tissues",
                                             "type": "multiselect",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "other"
@@ -865,7 +865,7 @@
                                         },
                                         {
                                             "name": "identificationValue",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "type": "verify-code",
                                             "condition": {
                                                 "type" : "nationality",
@@ -876,28 +876,28 @@
                                         },
                                         {
                                             "name": "firstName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -905,20 +905,20 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "residentialProof",
                                             "type": "date",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "residentialValue",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "passportNumber",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "condition": {
                                                 "type" : "nationality",
                                                 "isIt" : "Foreign",
@@ -927,7 +927,7 @@
                                         },
                                         {
                                             "name": "country",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "condition": {
                                                 "type" : "nationality",
                                                 "isIt" : "Foreign",
@@ -936,7 +936,7 @@
                                         },
                                         {
                                             "name": "mobileNumberWithCode",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "condition": {
                                                 "type" : "nationality",
                                                 "isIt" : "Foreign",
@@ -945,7 +945,7 @@
                                         },
                                         {
                                             "name": "form21",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "type":"file",
                                             "condition": {
                                                 "type" : "nationality",
@@ -1013,15 +1013,15 @@
                                     "fields": [
                                         {
                                             "name": "height",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "weight",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "bmi",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         }
                                     ]
                                 }
@@ -1035,29 +1035,29 @@
                                     "fields": [
                                         {
                                             "name": "hypertension",
-                                            "class": "col-3",
+                                            "class": "col-lg-3 col-sm-12 ",
                                             "type": "radio"
                                         },
                                         {
                                             "name": "diabetes",
-                                            "class": "col-3",
+                                            "class": "col-lg-3 col-sm-12",
                                             "type": "radio"
                                         },
                                         {
                                             "name": "systolic",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "diastolic",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "gfr",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "historyIllness",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1071,11 +1071,11 @@
                                     "fields": [
                                         {
                                             "name": "group",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "transfusion",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1089,27 +1089,27 @@
                                     "fields": [
                                         {
                                             "name": "hb",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "tlc",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "dcl",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "platelets",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "pbSmear",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "esr",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1128,23 +1128,23 @@
                                     "fields": [
                                         {
                                             "name": "sugar",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "sediment",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "proCrRatio",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "protein",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "eGfr",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1158,43 +1158,43 @@
                                     "fields": [
                                         {
                                             "name": "calcium",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "uricAcid",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "ldl",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "triglycerides",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "bSugarPP",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "phosphate",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "tCholestrol",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "hdl",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "bSugarF",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "hba1c",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1213,7 +1213,7 @@
                                     "fields": [
                                         {
                                             "name": "ekg",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1232,15 +1232,15 @@
                                     "fields": [
                                         {
                                             "name": "t3",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "t4",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "tsh",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1259,35 +1259,35 @@
                                     "fields": [
                                         {
                                             "name": "hbsag",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "cmvigg",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "ebvigg",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "antiHIV",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "antiHCV",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "antiHPV",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "cmvigm",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "ebvigm",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1306,16 +1306,16 @@
                                     "fields": [
                                         {
                                             "name": "date",
-                                            "class": "col-3",
+                                            "class": "col-lg-3 col-sm-12",
                                             "type": "date"
                                         },
                                         {
                                             "name": "hrct",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "carotid",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1329,19 +1329,19 @@
                                     "fields": [
                                         {
                                             "name": "cardiac",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "respiratory",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "psychiatry",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name" :"gynae",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1360,23 +1360,23 @@
                                     "fields": [
                                         {
                                             "name": "a",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "b",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "dr",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "dq",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "other",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         }
                                     ]
                                 }
@@ -1390,13 +1390,13 @@
                                     "fields": [
                                         {
                                             "name": "date",
-                                            "class": "field-in-row col-3",
+                                            "class": "field-in-row col-lg-3 col-sm-12",
                                             "type": "date"
 
                                         },
                                         {
                                             "name": "file",
-                                            "class": "field-in-row col-3",
+                                            "class": "field-in-row col-lg-3 col-sm-12",
                                             "type": "file"
                                         }
                                     ]
@@ -1665,33 +1665,33 @@
                                     "fields": [
                                         {
                                             "name": "identificationValue",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "type": "verify-code"
                                         },
                                         {
                                             "name": "firstName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -1699,7 +1699,7 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1719,28 +1719,28 @@
                                         },
                                         {
                                             "name": "firstName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "middleName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "lastName",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "dob",
                                             "type": "date",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "gender",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "emailId",
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         },
                                         {
                                             "name": "mobileNumber",
@@ -1748,7 +1748,7 @@
                                                 "pattern": "[6-9]{1}[0-9]{9}",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             },
-                                            "class": "col-4"
+                                            "class": "col-lg-4 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1762,15 +1762,15 @@
                                     "fields": [
                                         {
                                             "name": "height",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "weight",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "bmi",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         }
                                     ]
                                 }
@@ -1784,29 +1784,29 @@
                                     "fields": [
                                         {
                                             "name": "hypertension",
-                                            "class": "col-3",
+                                            "class": "col-lg-3 col-sm-12",
                                             "type": "radio"
                                         },
                                         {
                                             "name": "diabetes",
-                                            "class": "col-3",
+                                            "class": "col-lg-3 col-sm-12",
                                             "type": "radio"
                                         },
                                         {
                                             "name": "systolic",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "diastolic",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "gfr",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         },
                                         {
                                             "name": "historyIllness",
-                                            "class": "col-3"
+                                            "class": "col-lg-3 col-sm-12"
                                         }
                                     ]
                                 }
@@ -1839,23 +1839,23 @@
                                     "fields": [
                                         {
                                             "name": "a",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "b",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "dr",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "dq",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "other",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         }
                                     ]
                                 }
@@ -1869,23 +1869,23 @@
                                     "fields": [
                                         {
                                             "name": "a",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "b",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "dr",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "dq",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         },
                                         {
                                             "name": "other",
-                                            "class": "col-2"
+                                            "class": "col-lg-2 col-sm-4"
                                         }
                                     ]
                                 }
@@ -1899,7 +1899,7 @@
                                     "fields": [
                                         {
                                             "name": "dnaFile",
-                                            "class": "col-3",
+                                            "class": "col-lg-3 col-sm-12",
                                             "format": "file"
                                         }
                                     ]
@@ -1924,12 +1924,12 @@
                                     "fields": [
                                         {
                                             "name": "crossMatchDate",
-                                            "class": "col-4",
+                                            "class": "col-lg-4 col-sm-12",
                                             "type": "date"
                                         },
                                         {
                                             "name": "crossMatchFile",
-                                            "class": "col-3",
+                                            "class": "col-lg-3 col-sm-12",
                                             "type": "string",
                                             "format":"file"
                                         }

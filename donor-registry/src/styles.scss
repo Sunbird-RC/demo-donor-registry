@@ -835,8 +835,9 @@ label {
     justify-content: space-between;
 }
 .btn-holder{
-    width: 212px;
-    height: 53px;
+    // width: 212px;
+    // height: 53px;
+    padding: 13px;
     background: #D66025;
     display: flex;
     justify-content: center;
@@ -938,7 +939,7 @@ label {
      }
 }
 .organ-sec{
-    padding: 40px 0;
+    padding: 50px 0;
     background: #EDEDF6;
     .organ-tit{
         text-align: center;
@@ -971,10 +972,10 @@ label {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 185px;
+    padding: 50px 0;
 }
 .footer-section{
-    height: 347px;
+    padding: 64px 0;
     background-color: #15260F;
 }
 .card-des{
@@ -1014,10 +1015,10 @@ label {
 .table-bordered td, .table-bordered th {
     border: 2px solid #d5cfcf!important;
 }
-.btn-sz{
-    width: 154px !important;
-    height: 52px !important;
-}
+// .btn-sz{
+//     width: 154px !important;
+//     height: 52px !important;
+// }
 .btn-ho{
     padding: 20px 0;
 }
@@ -1115,4 +1116,119 @@ select.form-control{
 
 formly-multi-schema-type .card{
     display: none !important;
+}
+@media (max-width:600px) {
+    .head-holder{
+        flex-direction: column;
+    }
+    .logs-holders{
+        flex-direction: column;
+        img{
+            margin-bottom: 2.2rem;
+        }
+    }
+    .mob-sec{
+        flex-direction: column;
+        .add-sec{
+            margin-bottom: 30px;
+        }
+    }
+    .btn-holder {
+        font-size: 12px;
+        margin-top: 20px;
+    }
+    .crd{
+        margin-bottom: 4.5rem;
+    }
+    .organ-sec .card-ti {
+        font-size: 14px;
+    }
+    .organ-sec .card-hol {
+        padding: 10px !important;
+        min-height: unset !important;
+    }
+    .organ-sec {
+        padding: 30px 0;
+    }
+    .sve-live .sve-content {
+        font-size: 43px;
+        line-height: 58px;
+    }
+    .sve-live .one-donor {
+        width: 264px;
+        height: 50px;
+        font-size: 14px;
+    }
+    .sve-live .triangle-left { 
+        left: 14.77rem;
+        border-right: 27px solid #224E24;
+        border-top: 39px solid transparent;
+        border-bottom: 28px solid transparent;
+    }
+    .sve-live .triangle-right {
+        border-left: 23px solid #224E24;
+        border-top: 29px solid transparent;
+        border-bottom: 18px solid transparent;
+    }
+    .gve{
+        font-size: 22px;
+        line-height: 30px;
+    }
+    .sve-live{
+        height: 430px;
+    }
+    .ple-anker {
+        width: 104px;
+        height: 45px;
+    }
+    .organ-sec .organ-tit {
+        font-size: 24px !important;
+    }
+    .nvs {
+        padding: 12px 12px;
+        font-size: 15px;
+    }
+    .tb{
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .ngx-pagination{
+        padding-left: 0px !important;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .pagination-next{
+        a{
+            display: contents !important;
+        }
+    }.mt-191 {
+        margin-top: 130px;
+    }
+    .btn-sz {
+        margin-top: 47px !important;
+        font-size: 10px !important;
+    }
+    .ser{
+        flex-direction: column;
+        .ser1{
+            margin-bottom: 20px;
+        }
+        .inp1{
+            margin-left: 26px !important;
+        }
+    }
+    .sve-btnsv{
+        margin-right: 17px;
+        font-size: 12px;
+        height: 36px;
+        width: 132px;
+    }
+    .size-bts {
+        width: 122px;
+        height: 34px;
+        margin-top: 9px !important;
+    }
 }
