@@ -1775,8 +1775,8 @@ export class FormsComponent implements OnInit {
             if (this.isSaveAsDraft == "Pending") {
               this.toastMsg.success('Success', "Successfully Saved !!");
             } else {
-              //this.modalSuccess();
-              this.router.navigate([this.redirectTo]);
+              this.modalSuccessPledge();
+             // this.router.navigate([this.redirectTo]);
             }
 
 
@@ -1833,22 +1833,18 @@ export class FormsComponent implements OnInit {
 
     });
   }
+
+  modalSuccessPledge(){
+    var modal =   document.getElementById("downloadCardModalPledge")
+    modal.classList.add("show");
+    modal.style.display = "block";   
+  
+  }
+
   modalSuccess() {
 
-    if(this.router.url == "/form/signup")
-    {
-      var modal = document.getElementById("downloadCardModalPledge");
-      //  var btn = document.getElementById("submitBtn");
-    
-        modal.style.display = "block";
-        window.onclick = function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-            window.location = this.router.navigate(["/login"]);
-          }
-        }
-    }
-    else{
+  
+  
       var modal = document.getElementById("confirmationModal");
       //  var btn = document.getElementById("submitBtn");
     
@@ -1859,7 +1855,7 @@ export class FormsComponent implements OnInit {
             window.location = this.router.navigate(["/login"]);
           }
         }
-    }
+   
   
 
   }
