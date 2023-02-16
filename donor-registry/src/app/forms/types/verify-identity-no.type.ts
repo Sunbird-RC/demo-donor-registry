@@ -65,7 +65,7 @@ import {
               <button
                 m
                 type="button"
-                class="btn btn-primary w-100 submit-button mb-2"
+                class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
                 (click)="previous()"
               >
                 Ok
@@ -87,18 +87,12 @@ import {
                 name="optVal"
                 class="form-control"
               />
-              <button
-                data-dismiss="modal"
-                class="btn my-3 w-100 fw-bold text-dark p12 btn-bg nav-link-color btn-sec-bg mb-2"
-              >
-                Please enter OTP sent to registered number
-              </button>
               <br />
               <button
                 m
                 type="button"
                 (click)="submitOtp()"
-                class="btn btn-primary w-100 submit-button mb-2"
+                class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
               >
                 Verify
               </button>
@@ -145,7 +139,10 @@ export class VerifyIndentityCode extends FieldType {
   constructor(private http: HttpClient, public generalService: GeneralService) {
     super();
   }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    localStorage.removeItem('form_value');
+  }
 
   async verifyOtp(value) {
     this.number = (<HTMLInputElement>document.getElementById(value)).value;
@@ -218,8 +215,12 @@ export class VerifyIndentityCode extends FieldType {
                 ''
               );
               localStorage.setItem(healthIdNumber, JSON.stringify(this.data1));
+              localStorage.setItem('form_value', JSON.stringify(this.data1));
               localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
               document.getElementById('closeModalButton').click();
+              setTimeout(() => {
+                (document.getElementById('abha') as any).focus();
+              }, 1000);
             }
           },
           error: (error) => {

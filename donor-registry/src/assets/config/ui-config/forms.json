@@ -268,11 +268,14 @@
                                           "class": "col-lg-4 col-sm-12"
                                       },
                                       {
-                                          "name": "otherRelation",
-                                          "class": "col-lg-4 col-sm-12"
-                                      },
-
-
+                                        "name": "otherRelation",
+                                        "class": "col-4",
+                                        "condition": {
+                                            "type": "hideShow",
+                                            "isIt": "Other",
+                                            "objectPath": "emergencyDetails.relation"
+                                        }                                           
+                                    },
                                       {
                                           "name": "mobileNumber",
                                           "class": "col-lg-4 col-sm-12",
@@ -340,11 +343,15 @@
                                           "class": "col-lg-4 col-sm-12"
                                       },
                                       {
-                                          "name": "otherRelation",
-                                          "class": "col-lg-4 col-sm-12"
-                                          
-                                      },
+                                        "name": "otherRelation",
+                                        "class": "col-4",                        
+                                        "condition": {
+                                            "type": "hideShow",
+                                            "isIt": "Other",
+                                            "objectPath": "notificationDetails.relation"
+                                        } 
 
+                                    },
 
                                       {
                                           "name": "mobileNumber",
