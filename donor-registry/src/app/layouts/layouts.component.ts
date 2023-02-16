@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./layouts.component.scss']
 })
 export class LayoutsComponent implements OnInit, OnChanges {
+  [x: string]: any;
   @Input() layout;
   @Input() publicData;
 
@@ -644,23 +645,24 @@ export class LayoutsComponent implements OnInit, OnChanges {
   modal.classList.add("show");
   modal.style.display = "block";  
 }
+
   deleteData() {
 
 
-    this.model = {
-
+  deleteData(model) {
+    model = {
       "pledgeDetails": {
         "organs": [],
         "tissues": [],
         "others": ""
       },
-      "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
-      "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
-      "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
-      "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-      "notificationDetails": (this.model["notificationDetails"]) ? this.model["notificationDetails"] : {},
+      "personalDetails": (model["personalDetails"]) ? model["personalDetails"] : {},
+      "identificationDetails": (model["identificationDetails"]) ? model["identificationDetails"] : {},
+      "addressDetails": (model["addressDetails"]) ? model["addressDetails"] : {},
+      "emergencyDetails": (model["emergencyDetails"]) ? model["emergencyDetails"] : {},
+      "notificationDetails": (model["notificationDetails"]) ? model["notificationDetails"] : {},
     }
-    this.generalService.putData('/Pledge', this.identifier, this.model).subscribe((res) => {
+    this.generalService.putData('/Pledge',  this.resItem.osid, model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL') {
         console.log(res);
         this.successDelete();
@@ -674,5 +676,10 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
 
     });
+  }
+
+  actionData(res)
+  {
+      this.resItem = res;
   }
 }
