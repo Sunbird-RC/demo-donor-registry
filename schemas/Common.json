@@ -183,10 +183,6 @@
     },
     "PledgeDetails": {
       "type": "object",
-      "required": [
-        "organs",
-        "tissues"
-      ],
       "title": "Pledge Details",
       "properties": {
         "organs": {
@@ -232,6 +228,17 @@
           "title": "Enter Organs/Tissues Name"
         }
       },
+      "anyOf": [
+        {
+          "required": ["organs"]
+        },
+        {
+          "required": ["tissues"]
+        },
+        {
+          "required": ["organs", "tissues"]
+        }
+      ],
       "oneOf": [
         {
           "properties": {
