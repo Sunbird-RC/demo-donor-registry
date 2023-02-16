@@ -6,13 +6,14 @@ import { FieldType } from '@ngx-formly/core';
   styleUrls: ["../forms.component.scss"],
   template: `
  
-  <span class="fw-bold p12">{{ to.label }}*</span> <br>
+    <span class="fw-bold p12">{{ to.label }}*</span> <br>
   
     
     <ul class="d-flex">
+    <div>
     <input type="checkbox" class="form-check-input fs-12" [checked]="allChecked" (change)="setAll($event.checked)"> 
     <label class="form-check-label fs-12 pt-1 pl-1"> Select All </label>
-  
+    </div>
     <li *ngFor="let option of to.options; let i = index" class="select-all-checkbox-in-row remove-ul-style">
     <input 
     type="checkbox"
@@ -65,7 +66,7 @@ export class FormlyFieldNgSelectAllCheckbox extends FieldType {
   {
     this.allChecked = !this.allChecked;
    let self = this;
- 
+
      this.to.options.forEach(function (key) {
 
      if (self.to.type === 'array') {
@@ -77,7 +78,7 @@ export class FormlyFieldNgSelectAllCheckbox extends FieldType {
      } else {
        self.formControl.patchValue({ ...this.formControl.value, [key['value']]: self.allChecked });
      }
-     console.log(key);
+    
      })
   }
 }
