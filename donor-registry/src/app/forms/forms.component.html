@@ -16,10 +16,20 @@
         <span class="p16" *ngIf="identifier"> Edit </span> Recipient</p>
   </button>
 
-    <h3 class="font-weight-bold mb-2">  {{headingTitle}}</h3>
+  <button *ngIf="(form == 'pledge-setup' || form == 'signup') && identifier" class="gobackBtn d-flex fw-bold my-3" onClick="history.go(-1); return false;">
+    <i class="fa fa-angle-left primary-text backIcon"></i>  &nbsp; &nbsp;
+      <span class="fs-24 fw-bold" *ngIf="form == 'pledge-setup' && identifier"> Edit Details </span> 
+      <span class="fs-24 fw-bold" *ngIf="form == 'signup' && identifier"> Register to Pledge </span> 
+   
+</button>
+
+<div *ngIf="form == 'signup' && !identifier">
+  <h3 class="font-weight-bold mb-2">  {{headingTitle}}</h3>
     <h5 *ngIf="formDescription" class="font-weight-bold mb-2">  {{formDescription}}</h5>
     <h5 *ngIf="subDescription" class="font-weight-bold mb-2">  {{subDescription}}</h5>
 
+</div>
+  
     <div class="card mb-5">
       <div *ngIf="schemaloaded; else loader" class="card-body">
         <div> 

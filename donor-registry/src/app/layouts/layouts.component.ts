@@ -46,8 +46,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   userName: any;
   tcUser: any;
   propertyName: any;
-  unPledge = false;
-  revoke = true;
+  isUnPledge = false;
 
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
@@ -130,6 +129,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
   addData() {
+    if(this.layoutSchema.blocks.length){
     this.layoutSchema.blocks.forEach(block => {
       this.property = [];
       block['items'] = [];
@@ -417,6 +417,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
       this.Data.push(block)
       this.schemaloaded = true;
     });
+  }else{
+    this.schemaloaded = true;
+  }
   }
 
   pushData(data) {
@@ -443,19 +446,22 @@ export class LayoutsComponent implements OnInit, OnChanges {
       else {
         if (res.length > 1) {
           this.model = res[res.length - 1];
-          // if(this.model["organs"] == [] && this.model["tissues"] == []){
-          //   this.unPledge == true;
-          // }
+        
           this.identifier = res[res.length - 1].osid;
         } else {
           this.model = res[0];
           this.identifier = res[0].osid;
         }
       }
+
+
       if (this.layout === 'pledge') {
         if ('photo' in this.model['personalDetails']) {
           delete this.model['personalDetails']['photo'];
         }
+
+        this.isUnPledge = (!this.model['pledgeDetails'].organs.length && !this.model['pledgeDetails'].tissues.length) ? true : false;
+       
       }
       this.getHeadingTitle(this.model);
 
@@ -651,8 +657,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
       if (res.params.status == 'SUCCESSFUL') {
         console.log(res);
         this.successDelete();
-        this.unPledge  = true;
-        this.revoke = false;
+        this.isUnPledge  = true;
         //this.router.navigate(['/profile/Pledge'])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
