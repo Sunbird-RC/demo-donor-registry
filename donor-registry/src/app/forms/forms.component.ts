@@ -141,34 +141,39 @@ export class FormsComponent implements OnInit {
       if (localStorage.getItem('isVerified')) {
         if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
           this.tempData = JSON.parse(localStorage.getItem("form_value"));
-          this.model = {
-            ...this.model,
-            "personalDetails": {
-              ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
-              "firstName": this.tempData?.firstName,
-              "middleName": this.tempData?.middleName,
-              "lastName": this.tempData?.lastName,
-              "fatherName": this.tempData?.middleName,
-              "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
-              "emailId": (this.tempData?.email) ? this.tempData?.email : "",
-              "mobileNumber": this.tempData?.mobile,
-              "dob": this.tempData?.yearOfBirth + "-" + ('0' + this.tempData?.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData?.dayOfBirth).slice(-2)
+          const isAutoFill = localStorage.getItem('isAutoFill');
+          
+          if(isAutoFill != "false") {
+            this.model = {
+              ...this.model,
+              "personalDetails": {
+                ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
+                "firstName": this.tempData?.firstName,
+                "middleName": this.tempData?.middleName,
+                "lastName": this.tempData?.lastName,
+                "fatherName": this.tempData?.middleName,
+                "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
+                "emailId": (this.tempData?.email) ? this.tempData?.email : "",
+                "mobileNumber": this.tempData?.mobile,
+                "dob": this.tempData?.yearOfBirth + "-" + ('0' + this.tempData?.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData?.dayOfBirth).slice(-2)
 
-            },
-            "addressDetails": {
-              ...('addressDetails' in this.model ? this.model['addressDetails'] : {}),
-              "addressLine1": this.tempData?.address,
-              "country": "India",
-              "state": `${titleCase(this.tempData?.stateName)}`,
-              "district": this.tempData?.townName,
-              "pincode": this.tempData?.pincode,
+              },
+              "addressDetails": {
+                ...('addressDetails' in this.model ? this.model['addressDetails'] : {}),
+                "addressLine1": this.tempData?.address,
+                "country": "India",
+                "state": `${titleCase(this.tempData?.stateName)}`,
+                "district": this.tempData?.townName,
+                "pincode": this.tempData?.pincode,
 
-            },
-            "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-            "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-            // "notificationDetails": this.model["notificationDetails"]? this.model["notificationDetails"] : {},
-            "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
-          };
+              },
+              "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+              "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+              // "notificationDetails": this.model["notificationDetails"]? this.model["notificationDetails"] : {},
+              "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
+            };
+            localStorage.setItem('isAutoFill',"false")
+          }
         }
       }
 

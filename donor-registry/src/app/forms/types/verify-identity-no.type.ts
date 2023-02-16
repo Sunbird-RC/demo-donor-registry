@@ -189,8 +189,8 @@ export class VerifyIndentityCode extends FieldType {
       };
 
       this.isVerify = true;
-      (document.getElementById('abha') as any).disabled = true;
-
+      localStorage.setItem('isAutoFill',"true")
+      
       this.http
         .post<any>(`${getDonorServiceHost()}/auth/verifyOTP`, this.model2)
         .subscribe({
