@@ -134,6 +134,7 @@ export class FormsComponent implements OnInit {
   formDescription: any;
   subDescription: any;
   temporaryData = {};
+  flag: boolean=true;
 
   ngAfterViewChecked() {
     if (this.form == 'signup') {
@@ -184,7 +185,7 @@ export class FormsComponent implements OnInit {
   ngAfterContentChecked(): void {
 
     if (this.model["memberToBeNotified"] == true) {
-
+      this.flag = false;
       this.model = {
         "notificationDetails": {
           "name": this.model["emergencyDetails"]['name'],
@@ -203,29 +204,33 @@ export class FormsComponent implements OnInit {
 
       }
     }
-    if (this.model["memberToBeNotified"] == false) {
-      if (JSON.stringify(this.model["notificationDetails"]) != '{}') {
-        if (JSON.stringify(this.model["notificationDetails"]) === JSON.stringify(this.model["emergencyDetails"])) {
-          this.model = {
-            "notificationDetails": {
-              "name": "",
-              "relation": "",
-              "otherRelation": "",
-              "mobileNumber": "",
-            },
-            "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
-            "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
-            "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
-            "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-            "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-            "memberToBeNotified": this.model["memberToBeNotified"],
-            "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
-            "consent": this.model["consent"]
-
+    if(!this.flag){
+      if (this.model["memberToBeNotified"] == false) {  
+        this.flag = true;
+        if (JSON.stringify(this.model["notificationDetails"]) != '{}') {
+          if (JSON.stringify(this.model["notificationDetails"]) != JSON.stringify(this.model["emergencyDetails"])) {
+            this.model = {
+              "notificationDetails": {
+                "name": "",
+                "relation": "",
+                "otherRelation": "",
+                "mobileNumber": "",
+              },
+              "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
+              "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
+              "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
+              "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+              "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+              "memberToBeNotified": this.model["memberToBeNotified"],
+              //"notificationDetails": {}? this.model["notificationDetails"],
+              "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
+              "consent": this.model["consent"]
+  
+            }
           }
         }
+  
       }
-
     }
 
 
