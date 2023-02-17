@@ -606,7 +606,7 @@
                                     },
                                     {
                                         "name": "other",
-                                        "type": "multicheckbox",
+                                        "type": "checkbox",
                                         "class": "mt-10 col-lg-4 col-sm-12",
                                         "condition": {
                                           "type": "disable",

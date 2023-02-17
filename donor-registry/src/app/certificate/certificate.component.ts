@@ -78,7 +78,7 @@ export class CertificateComponent implements OnInit {
   }
 
   dowbloadCard1() {
-    let pdfName = 'vc-card';
+    let pdfName = this.identifier;
     let headerOptions = new HttpHeaders({
       'template-key': this.documentName,
       'Accept': 'image/svg+xml'

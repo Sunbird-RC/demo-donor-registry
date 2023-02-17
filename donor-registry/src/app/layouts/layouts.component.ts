@@ -463,14 +463,14 @@ export class LayoutsComponent implements OnInit, OnChanges {
       }
 
 
-      if (this.layout === 'pledge') {
+     /* if (this.layout === 'pledge') {
         if ('photo' in this.model['personalDetails']) {
           delete this.model['personalDetails']['photo'];
         }
 
-        this.isUnPledge = (!this.model['pledgeDetails'].organs.length && !this.model['pledgeDetails'].tissues.length) ? true : false;
+       this.isUnPledge = (!this.model['pledgeDetails'].organs.length && !this.model['pledgeDetails'].tissues.length) ? true : false;
        
-      }
+      }*/
       this.getHeadingTitle(this.model);
 
       this.Data = [];

@@ -571,6 +571,17 @@ export class FormsComponent implements OnInit {
           }
         });
 
+        if(this.property.hasOwnProperty('pledgeDetails') && this.property['pledgeDetails']['properties'].hasOwnProperty('other'))
+        {
+            this.property['pledgeDetails'].properties['other']['widget']['formlyConfig']['type'] = 'checkbox';
+            this.property['pledgeDetails'].properties['other']['widget']['formlyConfig']['defaultValue'] = false;
+        }
+
+        if(this.property.hasOwnProperty('emergencyDetails') && this.property['emergencyDetails']['properties'].hasOwnProperty('relation'))
+        {
+            this.property['emergencyDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = [];
+        }
+
         this.ordering = this.formSchema.order;
         this.schema["type"] = "object";
         this.schema["title"] = this.formSchema.title;
@@ -1244,6 +1255,13 @@ export class FormsComponent implements OnInit {
 
          if (field.condition.isBoolean) {
 
+          if(this.model['pledgeDetails']['other'] == "Other Organs or Tissues")
+              {
+                this.model['pledgeDetails']['other'] = true
+              }else{
+                this.model['pledgeDetails']['other'] = false;
+              }
+
           let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
@@ -1255,7 +1273,7 @@ export class FormsComponent implements OnInit {
               }else if(!this.model['pledgeDetails']['other'].length){
                 return true
               }*/
-              return ( !this.model['pledgeDetails']['other'].length);
+              return ( !this.model['pledgeDetails']['other']);
             }
           }
 
@@ -1476,11 +1494,15 @@ export class FormsComponent implements OnInit {
     if (this.form == 'pledge-setup' || this.form == 'signup') {
       if(this.model['pledgeDetails'].hasOwnProperty('other')){
 
-          if(!this.model['pledgeDetails'].other || this.model['pledgeDetails'].other == undefined)
+          if(!this.model['pledgeDetails'].other)
           {
             delete this.model['pledgeDetails'].other;
+
+            if(this.model['pledgeDetails'].hasOwnProperty('otherOrgans')){
+              delete this.model['pledgeDetails'].otherOrgans;
+            }
           }else{
-            this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
+            this.model['pledgeDetails'].other =  'Other Organs or Tissues';
           }
   
       }
@@ -1846,12 +1868,17 @@ export class FormsComponent implements OnInit {
 
       if(this.model['pledgeDetails'].hasOwnProperty('other')){
 
-        if(!this.model['pledgeDetails'].other || this.model['pledgeDetails'].other == undefined)
-        {
-          delete this.model['pledgeDetails'].other;
-        }else{
-          this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
-        }
+        if(!this.model['pledgeDetails'].other)
+          {
+            delete this.model['pledgeDetails'].other;
+
+            if(this.model['pledgeDetails'].hasOwnProperty('otherOrgans')){
+              delete this.model['pledgeDetails'].otherOrgans;
+            }
+          }else{
+            this.model['pledgeDetails'].other =  'Other Organs or Tissues';
+          }
+  
 
       }
 
