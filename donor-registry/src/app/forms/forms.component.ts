@@ -1457,7 +1457,7 @@ export class FormsComponent implements OnInit {
       }
     }
 
-    if (this.form == 'pledge-setup') {
+    if (this.form == 'pledge-setup' || this.form == 'signup') {
       if(this.model['pledgeDetails'].hasOwnProperty('other')){
         this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
       }
@@ -1816,6 +1816,16 @@ export class FormsComponent implements OnInit {
 
       if (this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['tissues']) {
         this.model['pledgeDetails']['tissues'] = this.removeDuplicates(this.model['pledgeDetails']['tissues']);
+      }
+
+      if(this.model['pledgeDetails'].hasOwnProperty('other')){
+
+        if(!this.model['pledgeDetails'].other)
+        {
+          delete this.model['pledgeDetails'].other;
+        }
+
+        this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
       }
 
 
