@@ -1473,9 +1473,10 @@ export class FormsComponent implements OnInit {
           if(!this.model['pledgeDetails'].other || this.model['pledgeDetails'].other == undefined)
           {
             delete this.model['pledgeDetails'].other;
+          }else{
+            this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
           }
   
-        this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
       }
      
     }
@@ -1842,9 +1843,10 @@ export class FormsComponent implements OnInit {
         if(!this.model['pledgeDetails'].other || this.model['pledgeDetails'].other == undefined)
         {
           delete this.model['pledgeDetails'].other;
+        }else{
+          this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
         }
 
-        this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
       }
 
 
