@@ -1464,6 +1464,12 @@ export class FormsComponent implements OnInit {
 
     if (this.form == 'pledge-setup' || this.form == 'signup') {
       if(this.model['pledgeDetails'].hasOwnProperty('other')){
+
+          if(!this.model['pledgeDetails'].other || this.model['pledgeDetails'].other == undefined)
+          {
+            delete this.model['pledgeDetails'].other;
+          }
+  
         this.model['pledgeDetails'].other =  (typeof(this.model['pledgeDetails'].other) == 'string') ? this.model['pledgeDetails'].other : this.model['pledgeDetails'].other[0];
       }
      
@@ -1828,7 +1834,7 @@ export class FormsComponent implements OnInit {
 
       if(this.model['pledgeDetails'].hasOwnProperty('other')){
 
-        if(!this.model['pledgeDetails'].other)
+        if(!this.model['pledgeDetails'].other || this.model['pledgeDetails'].other == undefined)
         {
           delete this.model['pledgeDetails'].other;
         }
