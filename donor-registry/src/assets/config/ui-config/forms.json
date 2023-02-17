@@ -242,7 +242,7 @@
                                       {
                                           "name": "other",
                                           "type": "multicheckbox",
-                                          "class": "mt-10 col-4",
+                                          "class": "mt-10 col-lg-4 col-sm-12",
                                           "condition": {
                                             "type": "disable",
                                             "objectPath": "pledgeDetails.organs, pledgeDetails.tissues"
@@ -250,7 +250,7 @@
                                       },
                                       {
                                           "name": "otherOrgans",
-                                          "class": "col-4",
+                                          "class": "col-lg-4 col-sm-12",
                                           "condition": {
                                             "type": "hideShow",
                                             "isBoolean" : true,
@@ -281,7 +281,7 @@
                                       },
                                       {
                                         "name": "otherRelation",
-                                        "class": "col-4",
+                                        "class": "col-lg-4 col-sm-12",
                                         "condition": {
                                             "type": "hideShow",
                                             "isIt": "Other",
@@ -356,7 +356,7 @@
                                       },
                                       {
                                         "name": "otherRelation",
-                                        "class": "col-4",                        
+                                        "class": "col-lg-4 col-sm-12",                        
                                         "condition": {
                                             "type": "hideShow",
                                             "isIt": "Other",
@@ -637,7 +637,7 @@
                                       {
                                           "name": "other",
                                           "type": "multicheckbox",
-                                          "class": "mt-10 col-4",
+                                          "class": "mt-10 col-lg-4 col-sm-12",
                                           "condition": {
                                             "type": "disable",
                                             "objectPath": "pledgeDetails.organs, pledgeDetails.tissues"
@@ -645,7 +645,7 @@
                                       },
                                       {
                                           "name": "otherOrgans",
-                                          "class": "col-4",
+                                          "class": "col-lg-4 col-sm-12",
                                           "condition": {
                                             "type": "hideShow",
                                             "isBoolean" : true,

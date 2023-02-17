@@ -1263,13 +1263,17 @@ formly-multi-schema-type .card{
         margin-bottom: 20px;
     }
 }
-formly-field-select-all-checkbox ul{
-    display: flex; 
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-
+// formly-field-select-all-checkbox ul{
+//     display: flex; 
+//     justify-content: space-around;
+//     flex-wrap: wrap;
+// }
+// .form-check-input[type=checkbox] {
+//     border-radius: 0.125rem;
+//     margin-top: 0.19em;
+//     margin-right: 858px;
+    
+// }
 .btn-primary-green {
     background-color: rgba(231, 255, 239, 1) !important;
     color:rgba(58, 176, 101, 1) !important;
