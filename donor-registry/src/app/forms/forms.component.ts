@@ -1249,7 +1249,13 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
             'hideExpression': (model, formState, field1) => {
 
-              return !this.model['pledgeDetails']['other'].length;
+              if(!this.model['pledgeDetails']['other'])
+              {
+                return true
+              }else if(!this.model['pledgeDetails']['other'].length){
+                return true
+              }
+             // return (this.model['pledgeDetails']['other'] || !this.model['pledgeDetails']['other'].length);
             }
           }
 
