@@ -75,8 +75,13 @@ import {
         </div>
         <div *ngIf="isIdentityNo" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
-          <div class="close float-end" data-dismiss="modal" aria-label="Close"><span class=" float-end"
-                                aria-hidden="true">&times;</span></div>
+            <div
+              class="close float-end"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span class=" float-end" aria-hidden="true">&times;</span>
+            </div>
             <div class="modal-body">
               <h3 class="fw-bold mb-3">Confirm OTP</h3>
               <p class="p14">
@@ -144,6 +149,9 @@ export class VerifyIndentityCode extends FieldType {
 
   ngOnInit(): void {
     localStorage.removeItem('form_value');
+    if (localStorage.getItem('isVerify') === 'true') {
+      this.isVerify = true;
+    }
   }
 
   async verifyOtp(value) {
@@ -190,8 +198,8 @@ export class VerifyIndentityCode extends FieldType {
         otp: this.optVal,
       };
 
-      localStorage.setItem('isAutoFill',"true")
-      
+      localStorage.setItem('isAutoFill', 'true');
+
       this.http
         .post<any>(`${getDonorServiceHost()}/auth/verifyOTP`, this.model2)
         .subscribe({
