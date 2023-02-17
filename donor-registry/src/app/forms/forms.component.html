@@ -67,12 +67,14 @@
 
             <div class="d-flex justify-content-between">
               
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button" class="btn-holder btn-size size-bts btn-centre"  data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && form !='pledge-setup'" type="button" class="btn-holder btn-size size-bts btn-centre"  data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button>
             
               <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft sve-btnsv ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
               <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end akr size-bts"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
             </div>
 
+          
 
           </form>
         </div>
@@ -146,7 +148,7 @@
 
 
 <!--confirmation Modal Pledge -->
-<div id="confirmationModalPledge" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModalPledge" aria-hidden="true">
+<div  id="confirmationModalPledge" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModalPledge" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="p-4 modal-content">   
       <div class="modal-body">
