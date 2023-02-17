@@ -173,6 +173,12 @@ app.post('/auth/verifyOTP', async(req, res) => {
     }
 });
 
+
+const getRegisteredCount = async(key) => {
+    const value = await redis.getKey(key);
+    return ((value === null ? 0 : parseInt(value)) + 1) + "";
+}
+
 function getKeyForBasedOnEntityName(entityName) {
     let category = null;
     switch(entityName) {
@@ -196,7 +202,16 @@ app.post('/register/:entityName', async(req, res) => {
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
+        const year = new Date().getFullYear().toString().substring(2);
+        const registrationCategory = getKeyForBasedOnEntityName(entityName);
+        if(registrationCategory === null) {
+            throw new Error({error: "Entity " + entityName + " not supported"})
+        }
+        const registered = await getRegisteredCount(registrationCategory);
+        const nottoId = registrationCategory + year + (registered + "").padStart(parseInt(config.NUMBER_OF_DIGITS),'0');
+        profile.identificationDetails.nottoId = nottoId;
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
+        redis.increment(registrationCategory);
         const abha = profileFromReq.identificationDetails.abha;
         redis.storeKey(getKeyForBasedOnEntityName(entityName)+abha, "true");
         const osid = inviteReponse.result[entityName].osid;
@@ -206,7 +221,7 @@ app.post('/register/:entityName', async(req, res) => {
         res.send(inviteReponse);
     } catch(err) {
         console.log(err);
-        res.status(500).send(err?.response?.data || err);
+        res.status(500).json(err?.response?.data || err?.message || err);
     }
 });
 

@@ -28,6 +28,10 @@ async function getKey(key) {
   return await client.get(key);
 }
 
+async function increment(key) {
+  return await client.incr(key);
+}
+
 function deleteKey(key) {
     client.del(key);
 }
@@ -37,5 +41,6 @@ module.exports = {
   initRedis,
   getKey,
   deleteKey,
+  increment,
   storeKey
 };
