@@ -1743,7 +1743,10 @@ export class FormsComponent implements OnInit {
     if (this.identifier) {
       if (this.propertyName != undefined) {
         get_url = this.propertyName + '/' + this.identifier;
-      } else {
+      } else if(this.form == 'signup' && this.entityName == "Pledge"){
+        get_url =  '/Pledge/' + this.identifier;
+      }else
+      {
         get_url = this.apiUrl + '/' + this.identifier;
       }
 
@@ -1916,6 +1919,10 @@ export class FormsComponent implements OnInit {
   }
 
   updateData() {
+    if(this.form == 'signup' && this.entityName == "Pledge"){
+      this.apiUrl =  '/Pledge/';
+    }
+
     this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
         this.router.navigate([this.redirectTo])
