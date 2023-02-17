@@ -16,10 +16,20 @@
         <span class="p16" *ngIf="identifier"> Edit </span> Recipient</p>
   </button>
 
-    <h3 class="font-weight-bold mb-2">  {{headingTitle}}</h3>
+  <button *ngIf="(form == 'pledge-setup' || form == 'signup') && identifier" class="gobackBtn d-flex fw-bold my-3" onClick="history.go(-1); return false;">
+    <i class="fa fa-angle-left primary-text backIcon"></i>  &nbsp; &nbsp;
+      <span class="fs-24 fw-bold" *ngIf="form == 'pledge-setup' && identifier"> Edit Details </span> 
+      <span class="fs-24 fw-bold" *ngIf="form == 'signup' && identifier"> Register to Pledge </span> 
+   
+</button>
+
+<div *ngIf="form == 'signup' && !identifier">
+  <h3 class="font-weight-bold mb-2">  {{headingTitle}}</h3>
     <h5 *ngIf="formDescription" class="font-weight-bold mb-2">  {{formDescription}}</h5>
     <h5 *ngIf="subDescription" class="font-weight-bold mb-2">  {{subDescription}}</h5>
 
+</div>
+  
     <div class="card mb-5">
       <div *ngIf="schemaloaded; else loader" class="card-body">
         <div> 
@@ -57,7 +67,8 @@
 
             <div class="d-flex justify-content-between">
               
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button" class="btn-holder btn-size size-bts btn-centre"  data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && form !='pledge-setup'" type="button" class="btn-holder btn-size size-bts btn-centre"  data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button>
             
               <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft sve-btnsv ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
               <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end akr size-bts"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
@@ -137,7 +148,7 @@
 
 
 <!--confirmation Modal Pledge -->
-<div id="confirmationModalPledge" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModalPledge" aria-hidden="true">
+<div  id="confirmationModalPledge" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModalPledge" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="p-4 modal-content">   
       <div class="modal-body">

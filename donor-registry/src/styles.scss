@@ -360,11 +360,19 @@ body {
 .fs-8 {
     font-size: 0.7rem;
 }
+
+.fs-14{
+    font-size: 14px;
+}
 .fs-16p {
     font-size: 16px;
 }
 .fs-18p {
     font-size: 18px;
+}
+
+.fs-24 {
+    font-size: 18px;  
 }
 
 .w-70 {
@@ -1266,3 +1274,8 @@ formly-multi-schema-type .card{
 //     margin-right: 858px;
     
 // }
+.btn-primary-green {
+    background-color: rgba(231, 255, 239, 1) !important;
+    color:rgba(58, 176, 101, 1) !important;
+    border: 0 !important;
+}

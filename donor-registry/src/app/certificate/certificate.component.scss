@@ -1,0 +1,19 @@
+.wrapper{
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden;
+
+}
+
+iframe{
+   height: 100%;
+   width: 100%;
+   overflow: hidden;
+   transform: scale(0.7,0.7); 
+    transform-origin: 0 0;
+}
+
+.temp{
+    margin-left: 15%;
+    margin-top: 5%;
+}

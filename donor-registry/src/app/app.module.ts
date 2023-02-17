@@ -127,6 +127,7 @@ import { initTheme } from './theme.config';
 import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
 import { FormlyTemplateType } from './forms/types/template.type';
 import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbox.type';
+import { CertificateComponent } from './certificate/certificate.component';
 // import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 
@@ -163,7 +164,8 @@ import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbo
     BrowseDocumentsComponent,
     AuthImagePipe,
     FormlyTemplateType,
-    FormlyFieldNgSelectAllCheckbox
+    FormlyFieldNgSelectAllCheckbox,
+    CertificateComponent
   ],
   imports: [
     BrowserModule,
