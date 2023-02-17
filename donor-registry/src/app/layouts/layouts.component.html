@@ -32,37 +32,42 @@
 
 
         <div class="card m-3" *ngFor="let item of model;let i = index">
-            <div class="mb-1 text-wb card-body lh-lg">
-                <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}">
-                <button  class="fs-14 fw-bold btn btn-primary-green submit-button float-end"  data-mdb-toggle="tooltip">
-                <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
-            </button>
-	</a>
+            <div class="mb-1 text-wb card-body lh-lg d-flex justify-content-between pledge-crd">
+                <div>
+                    <span class="fs-24 fw-bold">{{item?.personalDetails?.firstName}}
+                        {{item?.personalDetails?.lastName}}</span> <br>
+                    <img src="assets/images/verified.png" /> <span class="fs-14>"> {{'VERIFIED' | translate}} </span> <br>
+    
+                    <a href="form/pledge-setup/{{item?.osid}}" *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
+                        <button class="fs-14 btn btn-primary-green submit-button mt-2 fw-bold">
+                            {{'EDIT' | translate}}
+                        </button>
+                    </a>
+    
+                    <a *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
+                        <button class="fs-14 fw-bold btn btn-primary-green submit-button ml-2 mt-2" (click)="actionData(item)" data-mdb-toggle="tooltip" data-toggle="modal"
+                        data-target="#deleteModalPledge">
+                             {{'UNPLEDGE' | translate}}
+                        </button> 
+                    </a> 
+                </div>
+                <div class="pledge-btn">
+                    <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}">
+                        <button class="fs-14 fw-bold btn btn-primary-green submit-button " data-mdb-toggle="tooltip">
+                        <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
+                        </button>
+                        </a>
+                        
+                        <a href="form/signup/{{item?.osid}}" *ngIf="!item?.pledgeDetails?.organs?.length && !item?.pledgeDetails?.tissues?.length">
+                        <button class="fs-14 fw-bold btn btn-primary-green submit-button">
+                        Pledge Again
+                        </button>
+                        </a>
+                </div>
 
-            <a href="form/signup/{{item?.osid}}" *ngIf="!item?.pledgeDetails?.organs?.length && !item?.pledgeDetails?.tissues?.length">
-                <button class="fs-14 fw-bold btn btn-primary-green submit-button float-end">
-                    Pledge Again
-                </button>
-            </a>
 
 
-
-                <span class="fs-24 fw-bold">{{item?.personalDetails?.firstName}}
-                    {{item?.personalDetails?.lastName}}</span> <br>
-                <img src="assets/images/verified.png" /> <span class="fs-14>"> {{'VERIFIED' | translate}} </span> <br>
-
-                <a href="form/pledge-setup/{{item?.osid}}" *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
-                    <button class="fs-14 btn btn-primary-green submit-button mt-2 fw-bold">
-                        {{'EDIT' | translate}}
-                    </button>
-                </a>
-
-                <a *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
-                    <button class="fs-14 fw-bold btn btn-primary-green submit-button ml-2 mt-2" (click)="actionData(item)" data-mdb-toggle="tooltip" data-toggle="modal"
-                    data-target="#deleteModalPledge">
-                         {{'UNPLEDGE' | translate}}
-                    </button> 
-                </a> 
+                
 
 
 

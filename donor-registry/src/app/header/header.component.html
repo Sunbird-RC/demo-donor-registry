@@ -49,10 +49,10 @@
 
                 <ng-template [ngIf]="headerSchema?.right">
                     <ul *ngFor="let header of headerSchema.right" class="navbar-nav ms-auto">
-                        <li class="nav-item">
+                        <li class="nav-item drp">
 
-                            <div class="dropdown mr-5" *ngIf="temp">
-                                <span id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            <div class="dropdown mr-5 cr-pointer" *ngIf="temp">
+                                <span id="dropdownMenuButton" class="p-4" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                  <span *ngIf="tclogin ">{{tcUserName}}  </span>
                                   <span  *ngIf="plegelogin && !tclogin"> {{ loggedInUserName }}</span> &nbsp;
