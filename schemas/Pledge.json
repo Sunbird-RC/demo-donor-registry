@@ -66,6 +66,7 @@
       "$.notificationDetails",
       "$.instituteReference"
     ],
+    "enableSearch": "false",
     "indexFields": [],
     "uniqueIndexFields": [],
     "systemFields": [
