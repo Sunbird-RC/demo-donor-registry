@@ -9,7 +9,7 @@ import { FieldType } from '@ngx-formly/core';
     <span class="fw-bold p12">{{ to.label }}*</span> <br>
   
     
-    <ul class="row mt-2">
+    <ul class="row mt-2 checkbox-list-style">
     <div class="col-lg-2 col-sm-6">
     <input type="checkbox" class="form-check-input fs-12" [checked]="allChecked" (change)="setAll($event.checked)"> 
     <label class="form-check-label fs-12 pt-1 pl-1"> Select All </label>

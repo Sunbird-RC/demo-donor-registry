@@ -14,11 +14,13 @@ import { KeycloakService } from 'keycloak-angular';
 })
 export class GeneralService {
   baseUrl = this.config.getEnv('baseUrl');
+  domainName = this.config.getEnv('domainName');
   translatedString: string;
   constructor(public dataService: DataService,
     public keycloak: KeycloakService,
-    private http: HttpClient, private config: AppConfig, public translate: TranslateService) {
-  }
+    private http: HttpClient, public config: AppConfig, public translate: TranslateService) {
+      localStorage.setItem('domainName', this.domainName);
+    }
 
   postData(apiUrl, data) {
     var url;
@@ -169,6 +171,7 @@ export class GeneralService {
 }
 
 export function getDonorServiceHost(): string {
+//    return  localStorage.getItem('domainName') + '/donor-service';
   if (window.location.host === 'localhost:4200') {
     return 'https://demo-nha-donor-registry.xiv.in/donor-service';
   } else {
