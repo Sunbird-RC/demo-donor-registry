@@ -81,6 +81,7 @@
         <div class="modal-dialog" role="document">
             <div class="p-4 modal-content">
                 <div class="modal-body">
+                    
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
                         <div class="p24 mb-2 mt-2 fw-bold"> Do you want to unpledge? </div>
@@ -110,20 +111,21 @@
                 <div class="modal-body">
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
+                      
                         <h3 class="mb-1 text-wb">
-                            <p *ngIf="subHeadername.length"> <span *ngFor="let a of subHeadername;let i = index">
-                                    {{a}}
-                                </span>
-                            </p>
+                           
+                            
+                           <span id="firstName"> {{resItem?.personalDetails?.firstName}}</span> &nbsp;<span id="lastName">{{resItem?.personalDetails?.lastName}}</span>
                             <div>has successfully unpledged</div>
                         </h3>
-                        <div class="container-fluid mt-3">
-                            <!-- <button data-dismiss="modal"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button> -->
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <a class="mt-3" href="profile/Pledge/">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                        <div class="container-fluid mt-3 d-flex w-100 justify-content-between align-items-center">
+                         <div>  <button type="button" class="btn btn-secondary-notto btn-style" data-dismiss="modal">Close</button></div>
+                           
+                         <div>  <a class="mt-3" href="profile/Pledge/">
+                                <button type="button" class="btn btn-primary-notto btn-style" data-dismiss="modal">OK</button>
                                 <!-- <button id=""type="button" data-dismiss="modal"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2"   data-dismiss="modal">OK</button> -->
                             </a>
+                        </div> 
                         </div>
                     </div>
                 </div>
