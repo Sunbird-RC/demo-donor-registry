@@ -74,8 +74,6 @@
               <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end akr size-bts"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
             </div>
 
-          
-
           </form>
         </div>
         <!-- <div *ngIf="isSignupForm"> 
@@ -148,7 +146,7 @@
 
 
 <!--confirmation Modal Pledge -->
-<div  id="confirmationModalPledge" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModalPledge" aria-hidden="true">
+<div id="confirmationModalPledge" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModalPledge" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="p-4 modal-content">   
       <div class="modal-body">
