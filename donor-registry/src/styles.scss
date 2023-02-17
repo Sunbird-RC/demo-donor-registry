@@ -1262,6 +1262,12 @@ formly-multi-schema-type .card{
         flex-direction: column !important;
         margin-bottom: 20px;
     }
+    .pledge-crd{
+        flex-direction: column !important;
+    }
+    .pledge-btn{
+        margin-top: 20px;
+    }
 }
 // formly-field-select-all-checkbox ul{
 //     display: flex; 
@@ -1278,4 +1284,10 @@ formly-multi-schema-type .card{
     background-color: rgba(231, 255, 239, 1) !important;
     color:rgba(58, 176, 101, 1) !important;
     border: 0 !important;
+}
+.drp{
+    cursor: unset !important;
+}
+.cr-pointer{
+    cursor:  pointer !important;
 }
