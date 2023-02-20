@@ -6,7 +6,7 @@ import { FieldType } from '@ngx-formly/core';
   styleUrls: ["../forms.component.scss"],
   template: `
  
-    <span class="fw-bold p12">{{ to.label }}*</span> <br>
+    <span class="fw-bold p12">{{ to.label }}</span> <br>
   
     
     <ul class="row mt-2 checkbox-list-style">

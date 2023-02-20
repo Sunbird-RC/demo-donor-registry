@@ -225,6 +225,29 @@ app.post('/register/:entityName', async(req, res) => {
     }
 });
 
+app.put('/register/:entityName/:entityId', async(req, res) => {
+    console.log('Inviting entity');
+    let profileFromReq = req.body;
+    profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
+    const entityName = req.params.entityName;
+    const entityId = req.params.entityId;
+    const userData = getUserData(getKeyForBasedOnEntityName(entityName) + entityId);
+    try {
+        if(checkIfNonEditableFieldsPresent(profileFromReq, userData)) {
+            throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
+        }
+        const updateApiResponse = (await axios.put(`${config.REGISTRY_URL}/api/v1/${entityName}/${entityId}`, profile, {headers: {...req.headers}})).data;
+        const osid = updateApiResponse.result[entityName].osid;
+        const esignFileData = (await getESingDoc(abha)).data;
+        const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
+        console.log(uploadESignFileRes);
+        res.send(updateApiResponse);
+    } catch(err) {
+        console.log(err);
+        res.status(500).json(err?.response?.data || err?.message || err);
+    }
+});
+
 app.post('/esign/init', async (req, res) => {
     try {
         // if (!'data' in req.query) {
@@ -233,70 +256,84 @@ app.post('/esign/init', async (req, res) => {
         console.log(req.query)
         // const pledge = JSON.parse(req.query.data)
         const pledge = req.body.data;
-        const data = JSON.stringify({
-            "document": {
-                "integratorName": "NOTTO_DONOR_REGISTRY",
-                "templateId": "TEMPLATE_1",
-                "submitterName": "TarunL",
-                "signingPlace": "Delhi",
-                "identification": {
-                    "abha": R.pathOr("", ["identificationDetails", "abha"], pledge)
-                },
-                "personaldetails": {
-                    "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
-                    "middleName": R.pathOr("", ["personalDetails", "middleName"], pledge),
-                    "lastName": R.pathOr("", ["personalDetails", "lastName"], pledge),
-                    "fatherName": R.pathOr("", ["personalDetails", "fatherName"], pledge),
-                    "motherName": R.pathOr("", ["personalDetails", "motherName"], pledge),
-                    "dob": R.pathOr("", ["personalDetails", "dob"], pledge),
-                    "gender": R.pathOr("", ["personalDetails", "gender"], pledge),
-                    "bloodGroup": R.pathOr("", ["personalDetails", "bloodGroup"], pledge),
-                    "emailId": R.pathOr("", ["personalDetails", "emailId"], pledge),
-                    "mobileNumber": R.pathOr("", ["personalDetails", "mobileNumber"], pledge),
-                },
-                "addressdetails": {
-                    "addressLine1": R.pathOr("", ["addressDetails", "addressLine1"], pledge),
-                    "addressLine2": R.pathOr("", ["addressDetails", "addressLine2"], pledge),
-                    "country": R.pathOr("", ["addressDetails", "country"], pledge),
-                    "state": R.pathOr("", ["addressDetails", "state"], pledge),
-                    "district": R.pathOr("", ["addressDetails", "district"], pledge),
-                    "pincode": R.pathOr("", ["addressDetails", "pincode"], pledge),
-                },
-                "pledgedetails": {
-                    "organs": R.pathOr([], ["pledgeDetails", "organs"], pledge),
-                    "tissues": R.pathOr([], ["pledgeDetails", "tissues"], pledge),
-                    "other": R.pathOr("", ["pledgeDetails", "other"], pledge)
-                },
-                "emergencydetails": {
-                    "name": R.pathOr("", ["emergencyDetails", "name"], pledge),
-                    "relation": R.pathOr("", ["emergencyDetails", "relation"], pledge),
-                    "mobileNumber": R.pathOr("", ["emergencyDetails", "mobileNumber"], pledge)
-                },
-                "notificationdetails": {
-                    "name": R.pathOr("", ["notificationDetails", "name"], pledge),
-                    "relation": R.pathOr("", ["notificationDetails", "relation"], pledge),
-                    "mobileNumber": R.pathOr("", ["notificationDetails", "mobileNumber"], pledge)
-                },
-                "instituteReference": R.pathOr("", ["instituteReference"], pledge),
-                "consent": true,
-                "sorder": 0
-            }
+        const esignData = await getEsignData(pledge);
+        res.send({
+            signUrl: config.ESIGN_FORM_SIGN_URL,
+            xmlContent: esignData.xmlContent,
+            aspTxnId: esignData.txnId,
         })
+    } catch (e) {
+        console.error(e)
+        res.status(500).send(e);
+    }
 
-        const apiResponse = await axios({
-            method: 'post',
-            url: config.ESIGN_ESP_URL,
-            headers: {
-                'Content-Type': 'application/json'
+});
+
+const getEsignData = async(pledge) => {
+    const data = JSON.stringify({
+        "document": {
+            "integratorName": "NOTTO_DONOR_REGISTRY",
+            "templateId": "TEMPLATE_1",
+            "submitterName": "TarunL",
+            "signingPlace": "Delhi",
+            "identification": {
+                "abha": R.pathOr("", ["identificationDetails", "abha"], pledge)
             },
-            data: data,
-            httpsAgent: new https.Agent({
-                rejectUnauthorized: false
-            })
-        });
-        let xmlContent = apiResponse.data.espRequest;
-        // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
-        await redis.storeKeyWithExpiry(getEsginKey(pledge.identificationDetails.abha), apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
+            "personaldetails": {
+                "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
+                "middleName": R.pathOr("", ["personalDetails", "middleName"], pledge),
+                "lastName": R.pathOr("", ["personalDetails", "lastName"], pledge),
+                "fatherName": R.pathOr("", ["personalDetails", "fatherName"], pledge),
+                "motherName": R.pathOr("", ["personalDetails", "motherName"], pledge),
+                "dob": R.pathOr("", ["personalDetails", "dob"], pledge),
+                "gender": R.pathOr("", ["personalDetails", "gender"], pledge),
+                "bloodGroup": R.pathOr("", ["personalDetails", "bloodGroup"], pledge),
+                "emailId": R.pathOr("", ["personalDetails", "emailId"], pledge),
+                "mobileNumber": R.pathOr("", ["personalDetails", "mobileNumber"], pledge),
+            },
+            "addressdetails": {
+                "addressLine1": R.pathOr("", ["addressDetails", "addressLine1"], pledge),
+                "addressLine2": R.pathOr("", ["addressDetails", "addressLine2"], pledge),
+                "country": R.pathOr("", ["addressDetails", "country"], pledge),
+                "state": R.pathOr("", ["addressDetails", "state"], pledge),
+                "district": R.pathOr("", ["addressDetails", "district"], pledge),
+                "pincode": R.pathOr("", ["addressDetails", "pincode"], pledge),
+            },
+            "pledgedetails": {
+                "organs": R.pathOr([], ["pledgeDetails", "organs"], pledge),
+                "tissues": R.pathOr([], ["pledgeDetails", "tissues"], pledge),
+                "other": R.pathOr("", ["pledgeDetails", "other"], pledge)
+            },
+            "emergencydetails": {
+                "name": R.pathOr("", ["emergencyDetails", "name"], pledge),
+                "relation": R.pathOr("", ["emergencyDetails", "relation"], pledge),
+                "mobileNumber": R.pathOr("", ["emergencyDetails", "mobileNumber"], pledge)
+            },
+            "notificationdetails": {
+                "name": R.pathOr("", ["notificationDetails", "name"], pledge),
+                "relation": R.pathOr("", ["notificationDetails", "relation"], pledge),
+                "mobileNumber": R.pathOr("", ["notificationDetails", "mobileNumber"], pledge)
+            },
+            "instituteReference": R.pathOr("", ["instituteReference"], pledge),
+            "consent": true,
+            "sorder": 0
+        }
+    })
+
+    const apiResponse = await axios({
+        method: 'post',
+        url: config.ESIGN_ESP_URL,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: data,
+        httpsAgent: new https.Agent({
+            rejectUnauthorized: false
+        })
+    });
+    let xmlContent = apiResponse.data.espRequest;
+    // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
+    await redis.storeKeyWithExpiry(getEsginKey(pledge.identificationDetails.abha), apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
 //         res.send(`
 //         <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
 //             <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
@@ -307,18 +344,53 @@ app.post('/esign/init', async (req, res) => {
 //
 //             document.getElementById("formid").submit();
 //         </script>
+        return {xmlContent: xmlContent, txnId: apiResponse.data.aspTxnId};
 // `);
+}
+
+const getUserData = async(key, req) => {
+    let userData = await redis.getKey(key);
+    console.log(userData);
+    if(userData !== null) {
+        return userData;
+    }
+    userData = (await axios.get(`${config.REGISTRY_URL}/api/v1/${req.params.entityName}/${req.params.entityId}`, {headers: {...req.headers}})).data;
+    redis.storeKeyWithExpiry(key, JSON.stringify(userData), 2 * 24 * 60 * 60);
+    return userData;
+}
+
+app.put('/esign/init/:entityName/:entityId', async(req, res) => {
+    try {
+        const userData = await getUserData(getKeyForBasedOnEntityName(req.params.entityName) + req.params.entityId, req);
+        console.log("USERDATA : ", userData);
+        if(checkIfNonEditableFieldsPresent(req.body.data, userData)) {
+            throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
+        }
+        const esignData = await getEsignData(userData);
         res.send({
             signUrl: config.ESIGN_FORM_SIGN_URL,
-            xmlContent,
-            aspTxnId: apiResponse.data.aspTxnId,
+            xmlContent: esignData.xmlContent,
+            aspTxnId: esignData.txnId,
         })
-    } catch (e) {
-        console.error(e)
-        res.status(500).send(e);
+    } catch(err) {
+        console.log(err);
+        res.status(500).json(err?.response?.data ||err?.message || err);
     }
+});
 
-})
+function checkIfNonEditableFieldsPresent(reqData, userData) {
+    const partiallyEditablePersonalDetails = Object.keys(userData.personalDetails).filter(key => !(['motherName', 'bloodGroup', 'emailId'].includes(key)));
+    const partiallyEditableAddressDetails = Object.keys(userData.addressDetails).filter(key => !(['addressLine2'].includes(key)));
+    let result = !(userData.identificationDetails.abha === reqData.identificationDetails.abha && userData.identificationDetails.nottoId === reqData.identificationDetails.nottoId);
+    for(const key of partiallyEditablePersonalDetails) {
+       result = result || !(userData.personalDetails[key] === reqData.personalDetails[key]); 
+    }
+    if(result) return result;
+    for(const key of partiallyEditableAddressDetails) {
+        result = result || !(userData.addressDetails[key] === reqData.addressDetails[key]);
+    }
+    return result;
+}
 
 function getEsginKey(abha) {
     return `${abha}-esign`;
