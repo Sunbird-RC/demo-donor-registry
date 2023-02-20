@@ -2077,8 +2077,13 @@ export class FormsComponent implements OnInit {
       eSignWindow.close();
       this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
         if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-         this.editCardModal();
-        // this.router.navigate([this.redirectTo])
+          if(this.form == 'signup' && "this.identifier" ){
+            this.pledgeAgainCardModal();
+          }
+          if(this.form == 'pledge-setup' && "this.identifier" ){
+            this.editCardModal();
+          }
+    
         }
         else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
           this.toastMsg.error('error', res.params.errmsg);
@@ -2089,50 +2094,11 @@ export class FormsComponent implements OnInit {
         this.isSubmitForm = false;
   
       });
-      //  this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
-      //   if (res.params.status == 'SUCCESS' && !this.model['attest']) {
-      //     console.log("successful");
-
-      //     if (this.isSaveAsDraft == "Pending") {
-      //       this.toastMsg.success('Successful', "Successfully Saved !!");
-      //     } else {
-          
-      //      this.editCardModal();
-      //     }
-
-      //    this.editCardModal();
-      //   } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
-      //     this.toastMsg.error('error', res.params.errmsg);
-      //     this.isSubmitForm = false;
-      //   }
-      // }, (err) => {
-      //   this.toastMsg.error('error', err.error.params.errmsg);
-      //   this.isSubmitForm = false;
-      // });
       localStorage.removeItem(this.model['identificationDetails']['abha']);
       localStorage.removeItem('isVerified');
 
     });
-     
-     
-   
-
-
-
-
-    console.log(this.model);
-
-
-
-
-   
-
-
-
-
-
-
-  
+       
   }
 
   modalSuccessPledge() {
@@ -2164,6 +2130,13 @@ export class FormsComponent implements OnInit {
 
   modalInvalidForm() {
     var modal = document.getElementById("formInvalidModal")
+    modal.classList.add("show");
+    modal.style.display = "block";
+
+  }
+
+  pledgeAgainCardModal() {
+    var modal = document.getElementById("pledgeAgainCardModal")
     modal.classList.add("show");
     modal.style.display = "block";
 
