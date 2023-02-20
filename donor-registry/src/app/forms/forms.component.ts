@@ -14,6 +14,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { throwError } from 'rxjs';
 import { templateJitUrl } from '@angular/compiler';
 import { HttpClient } from "@angular/common/http";
+import { FormService } from './form.service';
+
 
 const GenderMap = {
   M: 'Male',
@@ -135,6 +137,7 @@ export class FormsComponent implements OnInit {
   subDescription: any;
   temporaryData = {};
   flag: boolean=true;
+
 
   ngAfterViewChecked() {
     if (this.form == 'signup') {
@@ -400,17 +403,18 @@ export class FormsComponent implements OnInit {
   }
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
-    public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient) { }
+    public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient,public formService: FormService) { }
 
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    //this.modalErrorPledge();
 
-    let temp = { "healthIdNumber": "91-5457-8518-6762", "healthId": null, "mobile": "7709151274", "firstName": "Chaitrali", "middleName": "Nitin", "lastName": "Rairikar", "name": "Chaitrali Nitin Rairikar", "yearOfBirth": "1998", "dayOfBirth": "30", "monthOfBirth": "3", "gender": "F", "email": "chaitralir30@gmail.com" }
+    // let temp = { "healthIdNumber": "91-5457-8518-6762", "healthId": null, "mobile": "7709151274", "firstName": "Chaitrali", "middleName": "Nitin", "lastName": "Rairikar", "name": "Chaitrali Nitin Rairikar", "yearOfBirth": "1998", "dayOfBirth": "30", "monthOfBirth": "3", "gender": "F", "email": "chaitralir30@gmail.com" }
 
-    localStorage.setItem('91545785186764', JSON.stringify(temp));
-    let temp1 = { "healthIdNumber": "91-5457-8518-6763", "healthId": null, "mobile": "7709151274", "firstName": "Pratiksha", "middleName": "Chintaman", "lastName": "khandagale", "name": "Chaitrali Nitin Rairikar", "yearOfBirth": "1993", "dayOfBirth": "30", "monthOfBirth": "3", "gender": "F", "email": "chaitralir30@gmail.com" }
+    // localStorage.setItem('91545785186764', JSON.stringify(temp));
+    // let temp1 = { "healthIdNumber": "91-5457-8518-6763", "healthId": null, "mobile": "7709151274", "firstName": "Pratiksha", "middleName": "Chintaman", "lastName": "khandagale", "name": "Chaitrali Nitin Rairikar", "yearOfBirth": "1993", "dayOfBirth": "30", "monthOfBirth": "3", "gender": "F", "email": "chaitralir30@gmail.com" }
 
-    localStorage.setItem('91545785186763', JSON.stringify(temp1));
+    // localStorage.setItem('91545785186763', JSON.stringify(temp1));
 
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
@@ -1461,8 +1465,23 @@ export class FormsComponent implements OnInit {
     }
   };
 
+  // submit2()
+  // {
+  //   if(this.form == 'signup')
+  //   {
+  //     if(!this.form2.valid)
+  //     { 
+  //       this.modalInvalidForm()
+  //     }
+  //     else{
+  //       this.modalConfirmationPledge()
+  //     }
+  //   }
+  // }
   submit() {
     this.isSubmitForm = true;
+
+   
     // if (this.model.hasOwnProperty('pledgeDetails')) {
     //   this.model["pledgeDetails"]["organs"] = Object.keys(this.model["pledgeDetails"]["organs"]);
     //   this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
@@ -1969,14 +1988,96 @@ export class FormsComponent implements OnInit {
     });
   }
 
-  updateData() {
+ async updateData() {
     if(this.form == 'signup' && this.entityName == "Pledge"){
       this.apiUrl =  '/Pledge/';
     }
+    
+
+
+
+    await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
+
+      let x = screen.width / 2 - 500;
+      let y = screen.height / 2 - 400;
+      const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
+      eSignWindow.document.write(`
+      <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
+\t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
+\t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
+\t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
+      </form>
+\t<script>
+\t\tdocument.getElementById("formid").submit();
+\t</script>`);
+      eSignWindow.focus();
+      let checkESignStatus = true;
+      let count = 0;
+      while (checkESignStatus) {
+        try {
+          this.http.get<any>(`${getDonorServiceHost()}/esign/${this?.model['identificationDetails']['abha']}/status`)
+            .subscribe((res) => {
+              checkESignStatus = false;
+              console.log(res)
+            }, (err) => {
+              console.log(err)
+            });
+        } catch (e) {
+          console.log(e)
+        }
+        await new Promise(r => setTimeout(r, 3000));
+        if (count++ === 400) {
+          checkESignStatus = false;
+          alert("Esign session expired. Please try again");
+        }
+      }
+      eSignWindow.close();
+       this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
+        console.log(res);
+        if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+
+          
+          if (this.isSaveAsDraft == "Pending") {
+            this.toastMsg.success('Success', "Successfully Saved !!");
+          } else {
+          // this.editCardModal();
+            //this.router.navigate([this.redirectTo]);
+           
+          }
+
+          this.editCardModal();
+        } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+          this.toastMsg.error('error', res.params.errmsg);
+          this.isSubmitForm = false;
+        }
+      }, (err) => {
+        this.toastMsg.error('error', err.error.params.errmsg);
+        this.isSubmitForm = false;
+      });
+      localStorage.removeItem(this.model['identificationDetails']['abha']);
+      localStorage.removeItem('isVerified');
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+    console.log(this.model);
+
+
+
 
     this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-        this.router.navigate([this.redirectTo])
+       //this.editCardModal();
+       // this.router.navigate([this.redirectTo])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
         this.toastMsg.error('error', res.params.errmsg);
@@ -1987,6 +2088,13 @@ export class FormsComponent implements OnInit {
       this.isSubmitForm = false;
 
     });
+
+
+
+
+
+
+  
   }
 
   modalSuccessPledge() {
@@ -1996,6 +2104,32 @@ export class FormsComponent implements OnInit {
 
   }
 
+  editCardModal() {
+    var modal = document.getElementById("editCardModal")
+    modal.classList.add("show");
+    modal.style.display = "block";
+
+  }
+
+  modalConfirmationPledge() {
+    var modal = document.getElementById("confirmationModalPledge")
+    modal.classList.add("show");
+    modal.style.display = "block";
+
+  }
+  modalErrorPledge() {
+    var modal = document.getElementById("errorCardModal")
+    modal.classList.add("show");
+    modal.style.display = "block";
+
+  }
+
+  modalInvalidForm() {
+    var modal = document.getElementById("formInvalidModal")
+    modal.classList.add("show");
+    modal.style.display = "block";
+
+  }
   modalSuccess() {
 
     var modal = document.getElementById("confirmationModal");

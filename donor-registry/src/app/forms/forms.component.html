@@ -67,8 +67,8 @@
 
             <div class="d-flex justify-content-between">
               
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && form !='pledge-setup'" type="button" class="btn-holder btn-size size-bts btn-centre"  data-toggle="modal" data-target="#confirmationModalPledge">{{'SUBMIT' | translate}}</button>
-                <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button"  data-toggle="modal" data-target="#confirmationModalPledge" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button>
+                <!-- <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button> -->
             
               <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft sve-btnsv ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
               <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end akr size-bts"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
@@ -193,6 +193,78 @@
 </div>
 
 <!--Download card  Modal Pledge-->
+
+
+<!--Download card Modal Pledge-->
+<div  class="modal fade" id="editCardModal"  tabindex="-1" role="dialog" aria-labelledby="editCardModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">
+    
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+         <div><img class="check-logo-pledge" src="assets/images/circle-check.png"></div>
+        <div class="p24 mb-2 mt-2 fw-bold">You have successfully edited Pledge</div>
+        <div class="p14 mb-2 mt-2">To download the pledge certificate, click OK</div>
+       
+        <a  href="/profile/Pledge" class="mt-3"> 
+        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">{{'OK' | translate}}</button>
+        </a>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--Download card  Modal Pledge-->
+
+
+<!--Error card Modal Pledge-->
+<div  class="modal fade" id="errorCardModal"  tabindex="-1" role="dialog" aria-labelledby="errorCardModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">
+    
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="p24 mb-2 mt-2 fw-bold">You have attempted too many times</div>
+        <div class="p14 mb-2 mt-2">Try again after some time </div>
+        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- <button data-dismiss="modal"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button> -->
+        <!-- <a  href="/profile/Pledge" class="mt-3"> 
+        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">{{'LOGIN' | translate}}</button>
+        </a> -->
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--Error card  Modal Pledge-->
+
+
+<!--Form Invalid card Modal Pledge-->
+<div  class="modal fade" id="formInvalidModal"  tabindex="-1" role="dialog" aria-labelledby="formInvalidModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">
+    
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="p24 mb-2 mt-2 fw-bold">Fill up all the form fields</div>
+      
+    <!-- ?    <button data-dismiss="modal"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button> -->
+      
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>  
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--Form Invalid Pledge-->
 
 <div *ngIf="schemaloaded; else loader" class="card-body">
   <div *ngIf="modal==='true'; else noModal" class="modal-body">
