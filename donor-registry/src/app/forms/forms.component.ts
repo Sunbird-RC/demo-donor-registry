@@ -146,7 +146,7 @@ export class FormsComponent implements OnInit {
         if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
           this.tempData = JSON.parse(localStorage.getItem("form_value"));
           const isAutoFill = localStorage.getItem('isAutoFill');
-          
+          if(this.tempData){
           if(isAutoFill != "false") {
             this.model = {
               ...this.model,
@@ -178,6 +178,7 @@ export class FormsComponent implements OnInit {
             };
             localStorage.setItem('isAutoFill',"false")
           }
+        }
         }
       }
 
