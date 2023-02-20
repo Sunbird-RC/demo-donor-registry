@@ -190,6 +190,16 @@ export class FormsComponent implements OnInit {
         }
       }
     }
+
+    if (this.form == 'pledge-setup') {
+      let obj = { ...this.model['personalDetails'], ...this.model['addressDetails']}; 
+      for (let propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+          delete obj[propName];
+        }
+      }
+      localStorage.setItem('notReadOnly',JSON.stringify(Object.keys(obj)));
+    }
   }
 
   ngAfterContentChecked(): void {
@@ -1392,9 +1402,10 @@ export class FormsComponent implements OnInit {
         }
       }
       
-      this.responseData.definitions[fieldset.definition].properties[field.name]['readOnly'] = false;
 
       if (field.enableField) {
+        this.responseData.definitions[fieldset.definition].properties[field.name]['readOnly'] = false;
+
         let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
         this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
           'expressionProperties': {
