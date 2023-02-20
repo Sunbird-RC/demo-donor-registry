@@ -2064,39 +2064,47 @@ export class FormsComponent implements OnInit {
         }
       }
       eSignWindow.close();
-       this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
-        console.log(res);
+      this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
         if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-
-          
-          if (this.isSaveAsDraft == "Pending") {
-            this.toastMsg.success('Success', "Successfully Saved !!");
-          } else {
-          // this.editCardModal();
-            //this.router.navigate([this.redirectTo]);
-           
-          }
-
-          this.editCardModal();
-        } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+         this.editCardModal();
+        // this.router.navigate([this.redirectTo])
+        }
+        else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
           this.toastMsg.error('error', res.params.errmsg);
           this.isSubmitForm = false;
         }
       }, (err) => {
         this.toastMsg.error('error', err.error.params.errmsg);
         this.isSubmitForm = false;
+  
       });
+      //  this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
+      //   if (res.params.status == 'SUCCESS' && !this.model['attest']) {
+      //     console.log("successful");
+
+      //     if (this.isSaveAsDraft == "Pending") {
+      //       this.toastMsg.success('Successful', "Successfully Saved !!");
+      //     } else {
+          
+      //      this.editCardModal();
+      //     }
+
+      //    this.editCardModal();
+      //   } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+      //     this.toastMsg.error('error', res.params.errmsg);
+      //     this.isSubmitForm = false;
+      //   }
+      // }, (err) => {
+      //   this.toastMsg.error('error', err.error.params.errmsg);
+      //   this.isSubmitForm = false;
+      // });
       localStorage.removeItem(this.model['identificationDetails']['abha']);
       localStorage.removeItem('isVerified');
+
     });
-
-
-
-
-
-
-
-
+     
+     
+   
 
 
 
@@ -2106,20 +2114,7 @@ export class FormsComponent implements OnInit {
 
 
 
-    this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
-      if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-       //this.editCardModal();
-       // this.router.navigate([this.redirectTo])
-      }
-      else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
-        this.toastMsg.error('error', res.params.errmsg);
-        this.isSubmitForm = false;
-      }
-    }, (err) => {
-      this.toastMsg.error('error', err.error.params.errmsg);
-      this.isSubmitForm = false;
-
-    });
+   
 
 
 
