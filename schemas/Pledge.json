@@ -124,7 +124,7 @@
       ],
       "nonTransferable": "true"
     },
-    "inviteRoles":["donor-service"],
+    "inviteRoles":["anonymous"],
     "roles": ["donor-service"],
     "ownershipAttributes": [
       {
