@@ -143,44 +143,51 @@ export class FormsComponent implements OnInit {
         if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
           this.tempData = JSON.parse(localStorage.getItem("form_value"));
           const isAutoFill = localStorage.getItem('isAutoFill');
-          
-          if(isAutoFill != "false") {
-            this.model = {
-              ...this.model,
-              "personalDetails": {
-                ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
-                "firstName": this.tempData?.firstName,
-                "middleName": this.tempData?.middleName,
-                "lastName": this.tempData?.lastName,
-                "fatherName": this.tempData?.middleName,
-                "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
-                "emailId": (this.tempData?.email) ? this.tempData?.email : "",
-                "mobileNumber": this.tempData?.mobile,
-                "dob": this.tempData?.yearOfBirth + "-" + ('0' + this.tempData?.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData?.dayOfBirth).slice(-2)
+           
+          if(this.tempData) {
+            if(isAutoFill != "false") {
+              this.model = {
+                ...this.model,
+                "personalDetails": {
+                  ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
+                  "firstName": this.tempData?.firstName,
+                  "middleName": this.tempData?.middleName,
+                  "lastName": this.tempData?.lastName,
+                  "fatherName": this.tempData?.middleName,
+                  "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
+                  "emailId": (this.tempData?.email) ? this.tempData?.email : "",
+                  "mobileNumber": this.tempData?.mobile,
+                  "dob": this.tempData?.yearOfBirth + "-" + ('0' + this.tempData?.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData?.dayOfBirth).slice(-2)
 
-              },
-              "addressDetails": {
-                ...('addressDetails' in this.model ? this.model['addressDetails'] : {}),
-                "addressLine1": this.tempData?.address,
-                "country": "India",
-                "state": `${titleCase(this.tempData?.stateName)}`,
-                "district": this.tempData?.townName,
-                "pincode": this.tempData?.pincode,
+                },
+                "addressDetails": {
+                  ...('addressDetails' in this.model ? this.model['addressDetails'] : {}),
+                  "addressLine1": this.tempData?.address,
+                  "country": "India",
+                  "state": `${titleCase(this.tempData?.stateName)}`,
+                  "district": this.tempData?.townName,
+                  "pincode": this.tempData?.pincode,
 
-              },
-              "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-              "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
-              // "notificationDetails": this.model["notificationDetails"]? this.model["notificationDetails"] : {},
-              "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
-            };
-            localStorage.setItem('isAutoFill',"false")
+                },
+                "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
+                "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
+                // "notificationDetails": this.model["notificationDetails"]? this.model["notificationDetails"] : {},
+                "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
+              };
+              localStorage.setItem('isAutoFill',"false");
+              let obj = this.model['personalDetails']; 
+              for (let propName in obj) {
+                if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+                  delete obj[propName];
+                }
+              }
+              localStorage.setItem('notReadOnly',JSON.stringify(Object.keys(obj)));
+            }
           }
         }
       }
-
     }
   }
-
 
   ngAfterContentChecked(): void {
 
@@ -404,13 +411,6 @@ export class FormsComponent implements OnInit {
 
 
   ngOnInit(): void {
-
-    let temp = { "healthIdNumber": "91-5457-8518-6762", "healthId": null, "mobile": "7709151274", "firstName": "Chaitrali", "middleName": "Nitin", "lastName": "Rairikar", "name": "Chaitrali Nitin Rairikar", "yearOfBirth": "1998", "dayOfBirth": "30", "monthOfBirth": "3", "gender": "F", "email": "chaitralir30@gmail.com" }
-
-    localStorage.setItem('91545785186764', JSON.stringify(temp));
-    let temp1 = { "healthIdNumber": "91-5457-8518-6763", "healthId": null, "mobile": "7709151274", "firstName": "Pratiksha", "middleName": "Chintaman", "lastName": "khandagale", "name": "Chaitrali Nitin Rairikar", "yearOfBirth": "1993", "dayOfBirth": "30", "monthOfBirth": "3", "gender": "F", "email": "chaitralir30@gmail.com" }
-
-    localStorage.setItem('91545785186763', JSON.stringify(temp1));
 
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
@@ -1382,6 +1382,33 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = field.type;
         }
       }
+      
+      this.responseData.definitions[fieldset.definition].properties[field.name]['readOnly'] = false;
+
+      if (field.enableField) {
+        let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+          'expressionProperties': {
+            "templateOptions.disabled": (model, formState, field1) => {
+              const notReadOnly = JSON.parse(localStorage.getItem("notReadOnly"));
+              if(!notReadOnly?.includes(field.name))
+              {
+                this.responseData.definitions[fieldset.definition].properties[field.name]['readOnly'] = false;
+                return false;
+              } else {
+                this.responseData.definitions[fieldset.definition].properties[field.name]['readOnly'] = true;
+                return true;
+              }
+            }
+          }
+        }
+
+        if (temp != undefined) {
+          temp['expressionProperties'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['expressionProperties'];
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = temp;
+        }
+      }
+
       if (field.disabled || field.disable) {
         this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['disabled'] = field.disabled
       };
