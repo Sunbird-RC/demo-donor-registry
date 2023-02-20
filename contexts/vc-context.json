@@ -2,38 +2,64 @@
   "@context": {
     "@version": 1.1,
     "@protected": true,
-    "PledgeCertificate": {
-      "@id": "https://github.com/sunbird-specs/vc-specs#PledgeCertificate",
+    "id": "@id",
+    "type": "@type",
+    "schema": "https://schema.org/",
+    "pledge": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/contexts/vc-context.json",
+    "ProofOfOrganPledge": {
+      "@id": "schema:ProofOfOrganPledge",
       "@context": {
         "id": "@id",
         "@version": 1.1,
-        "@protected": true
+        "@protected": true,
+        "nonTransferable": "pledge:nonTransferable"
       }
     },
-    "Donor": {
-      "@id": "https://github.com/sunbird-specs/vc-specs#Donor",
+    "Person": {
+      "@id": "schema:Person",
       "@context": {
-        "name": "schema:Text",
-        "dob": "schema:Text",
-        "gender": "schema:Text",
-        "identificationProof": "schema:Text",
-        "identificationNumber": "schema:Text",
-        "abha": "schema:Text",
-        "mobileNumber": "schema:Text",
-        "emailId": "schema:Text",
-        "emergencyMobileNumber": "schema:Text",
-        "fatherName": "schema:Text",
-        "photo": "schema:Text",
-        "registrationNumber": "schema:Text"
+        "@version": 1.1,
+        "@protected": true,
+        "nottoId": "schema:Text",
+        "name": "schema:name",
+        "fatherName": "schema:name",
+        "dob": "schema:birthDate",
+        "gender": "schema:gender",
+        "nationality": "schema:nationality",
+        "bloodGroup": "schema:Text",
+        "address": {
+          "@id": "schema:PostalAddress",
+          "@context": {
+            "@version": 1.1,
+            "@protected": true,
+            "addressLine1": "schema:streetAddress",
+            "addressLine2": "schema:Text",
+            "district": "schema:Text",
+            "state": "schema:Text",
+            "country": "schema:addressCountry",
+            "pincode": "schema:postalCode"
+          }
+        }
       }
     },
-    "Pledge": {
-      "@id": "https://github.com/sunbird-specs/vc-specs#Affiliation",
+    "OrganPledge": {
+      "@id": "pledge:OrganPledge",
       "@context": {
         "organs": "schema:Text",
         "tissues": "schema:Text",
-        "bloodGroup": "schema:Text",
-        "witness": "schema:Text"
+        "additionalOrgans": "schema:Text"
+      }
+    },
+    "eKYC": {
+      "@id": "pledge:eKYC",
+      "@context": {
+        "@version": 1.1,
+        "@protected": true,
+        "refId": "schema:id",
+        "verifier": "schema:id",
+        "evidenceDocument": "schema:Text",
+        "subjectPresence": "schema:Text"
+
       }
     }
   }

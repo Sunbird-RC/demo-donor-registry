@@ -82,30 +82,49 @@
       ],
       "type": [
         "VerifiableCredential",
-        "PledgeCertificate"
+        "ProofOfOrganPledge"
       ],
-      "issuer": "https://nha.gov.in",
+      "id": "https://dev-donor-registry.abdm.gov.in/pledgecredentials/{{osid}}",
+      "issuer": "https://dev-donor-registry.abdm.gov.in",
       "issuanceDate": "{{osCreatedAt}}",
       "credentialSubject": {
-        "type": "Donor",
+        "type": "Person",
+        "id": "did:abha:{{identificationDetails.abha}}",
+        "nottoId": "{{identificationDetails.nottoId}}",
         "name": "{{personalDetails.firstName}} {{personalDetails.middleName}} {{personalDetails.lastName}}",
         "dob": "{{personalDetails.dob}}",
         "gender": "{{personalDetails.gender}}",
-        "abha": "{{identificationDetails.abha}}",
-        "mobileNumber": "{{personalDetails.mobileNumber}}",
-        "emailId": "{{personalDetails.emailId}}",
         "fatherName": "{{personalDetails.fatherName}}",
-        "emergencyMobileNumber": "{{emergencyDetails.mobileNumber}}"
-      },
-      "evidence": {
-        "type": "Pledge",
-        "organs": "{{pledgeDetails.organs}}",
-        "tissues": "{{pledgeDetails.tissues}}",
         "bloodGroup": "{{personalDetails.bloodGroup}}",
-        "witness": "{{witnessDetails.0.name}}"
-      }
+        "pledge": {
+          "type": "OrganPledge",
+          "organs": "{{pledgeDetails.organs}}",
+          "tissues": "{{pledgeDetails.tissues}}",
+          "additionalOrgans": "{{pledgeDetails.other}}"
+        },
+        "address": {
+          "addressLine1": "{{addressDetails.addressLine1}}",
+          "addressLine2": "{{addressDetails.addressLine2}}",
+          "district": "{{addressDetails.district}}",
+          "state": "{{addressDetails.state}}",
+          "country": "{{addressDetails.country}}",
+          "pincode": "{{addressDetails.pincode}}"
+        }
+      },
+      "evidence": [
+        {
+          "type": [
+            "eKYC"
+          ],
+          "verifier": "https://healthidsbx.abdm.gov.in/",
+          "evidenceDocument": "ABHA",
+          "subjectPresence": "online",
+          "refId": "{{identificationDetails.abha}}"
+        }
+      ],
+      "nonTransferable": "true"
     },
-    "inviteRoles":["anonymous"],
+    "inviteRoles":["donor-service"],
     "roles": ["donor-service"],
     "ownershipAttributes": [
       {
