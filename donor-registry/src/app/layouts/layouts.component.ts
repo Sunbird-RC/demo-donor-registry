@@ -479,6 +479,26 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
+  pledgeAgain(id){
+    console.log(typeof(id));
+    var modal = document.getElementById("confirmationModalPledgeAgain")
+    var pledgeAgain = document.getElementById("pledgeAgain");
+    var a = document.getElementById('myId'); //or grab it by tagname etc
+    var c = "form/signup/" + id;
+a.setAttribute("href",c);
+    modal.classList.add("show");
+    modal.style.display = "block";
+
+    
+    document.getElementById("cancelBtn").addEventListener("click", function () {
+      const container = document.getElementById("confirmationModalPledgeAgain");
+      //const modal = new bootstrap.Modal(container);
+      modal.classList.remove('hidden');
+      modal.style.display = "none";
+  });
+   
+  }
+
   includeFields(fields) {
     fields.forEach(element => {
       if (typeof element == "object") {
