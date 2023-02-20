@@ -177,7 +177,8 @@ export class FormsComponent implements OnInit {
                 "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
               };
               localStorage.setItem('isAutoFill',"false");
-              let obj = this.model['personalDetails']; 
+            
+              let obj = { ...this.model['personalDetails'], ...this.model['addressDetails']}; 
               for (let propName in obj) {
                 if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
                   delete obj[propName];
@@ -583,6 +584,11 @@ export class FormsComponent implements OnInit {
         if(this.property.hasOwnProperty('emergencyDetails') && this.property['emergencyDetails']['properties'].hasOwnProperty('relation'))
         {
             this.property['emergencyDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = [];
+        }
+
+         if(this.property.hasOwnProperty('notificationDetails') && this.property['notificationDetails']['properties'].hasOwnProperty('relation'))
+        {
+            this.property['notificationDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = [];
         }
 
         this.ordering = this.formSchema.order;

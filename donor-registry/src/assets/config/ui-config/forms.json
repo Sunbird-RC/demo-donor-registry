@@ -157,7 +157,8 @@
                   "fields": [
                     {
                       "name": "addressLine1",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12",
+                      "enableField": true
                     },
                     {
                       "name": "addressLine2",
@@ -169,11 +170,13 @@
                       "validation": {
                         "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                         "message": "Enter a valid country"
-                      }
+                      },
+                      "enableField": true
                     },
                     {
                       "name": "state",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12",
+                      "enableField": true
                     },
                     {
                       "name": "district",
@@ -181,7 +184,8 @@
                       "validation": {
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid district"
-                      }
+                      },
+                      "enableField": true
                     },
                     {
                       "name": "pincode",
@@ -189,7 +193,8 @@
                       "validation": {
                         "pattern": "^[0-9]+$",
                         "message": "Enter a valid pincode"
-                      }
+                      },
+                      "enableField": true
                     }
                   ]
                 }
@@ -541,7 +546,8 @@
                   "fields": [
                     {
                       "name": "addressLine1",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12",
+                      "enableField": true
                     },
                     {
                       "name": "addressLine2",
@@ -553,11 +559,13 @@
                       "validation": {
                         "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                         "message": "Enter a valid country"
-                      }
+                      },
+                      "enableField": true
                     },
                     {
                       "name": "state",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12",
+                      "enableField": true
                     },
                     {
                       "name": "district",
@@ -565,7 +573,8 @@
                       "validation": {
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid district"
-                      }
+                      },
+                      "enableField": true
                     },
                     {
                       "name": "pincode",
@@ -573,7 +582,8 @@
                       "validation": {
                         "pattern": "^[0-9]+$",
                         "message": "Enter a valid pincode"
-                      }
+                      },
+                      "enableField": true
                     }
                   ]
                 }
