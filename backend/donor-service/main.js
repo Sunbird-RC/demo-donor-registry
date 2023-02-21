@@ -134,7 +134,6 @@ app.post('/auth/verifyOTP', async(req, res) => {
         console.log('Sent Profile KYC');
     } catch(err) {
         let message = err?.message || err;
-        console.log(err.response.data.details);
         let status = err?.response?.status || err?.status || 500
         if(err?.response?.data?.details[0]?.code === 'HIS-1039') {
             message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
