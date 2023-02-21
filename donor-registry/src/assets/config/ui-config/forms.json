@@ -228,7 +228,7 @@
                   "widget": {
                     "formlyConfig": {
                       "type": "template",
-                      "className": "p14 mb-2"
+                      "className": "p14 mb-2 Organs_and_Tissues_to_Pledge"
                     }
                   }
                 }
@@ -278,6 +278,7 @@
                     {
                       "name": "name",
                       "class": "col-lg-4 col-sm-12",
+                      "required": true,
                       "validation": {
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
@@ -285,11 +286,13 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12",
+                      "required": true
                     },
                     {
                       "name": "otherRelation",
                       "class": "col-lg-4 col-sm-12",
+                      "required": true,
                       "condition": {
                         "type": "hideShow",
                         "isIt": "Other",
@@ -299,6 +302,7 @@
                     {
                       "name": "mobileNumber",
                       "class": "col-lg-4 col-sm-12",
+                      "required": true,
                       "validation": {
                         "pattern": "[6-9]{1}[0-9]{9}",
                         "message": "MOBILE_NO_MUST_10_DIGIT"
@@ -386,7 +390,7 @@
                     "formlyConfig": {
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
-                      "className": "checkbox",
+                      "className": "checkbox consent",
                       "templateOptions": {
                         "required": true
                       },
@@ -730,7 +734,7 @@
                     "formlyConfig": {
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
-                      "className": "checkbox",
+                      "className": "checkbox consent",
                       "templateOptions": {
                         "required": true
                       },
@@ -955,7 +959,7 @@
                     "formlyConfig": {
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
-                      "className": "checkbox",
+                      "className": "checkbox consent",
                       "templateOptions": {
                         "required": true
                       }

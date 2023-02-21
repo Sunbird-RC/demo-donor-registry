@@ -67,7 +67,7 @@
 
             <div class="d-flex justify-content-between">
               
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button"  data-toggle="modal" data-target="#confirmationModalPledge" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button>
                 <!-- <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button> -->
             
               <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft sve-btnsv ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
@@ -157,7 +157,7 @@
         <div class="container-fluid mt-3">
         <button data-dismiss="modal"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
         <a class="mt-3">
-          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2"  (click)="submit()" data-dismiss="modal">Proceed</button>
+          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2"  (click)="submit('Proceed')" data-dismiss="modal">Proceed</button>
 
        <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
        <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
