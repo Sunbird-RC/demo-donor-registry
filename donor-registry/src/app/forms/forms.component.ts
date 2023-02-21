@@ -1309,10 +1309,10 @@ export class FormsComponent implements OnInit {
       if (field.type) {
         if (field.type === 'verify-code') {
           if((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
-            localStorage.setItem("isVerify","true");
+            localStorage.setItem("isVerified","true");
             this.responseData.definitions[fieldset.definition].properties[field.name]['readOnly'] = true;
           } else {
-            localStorage.removeItem("isVerify");
+            localStorage.removeItem("isVerified");
           }
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XXXXXXXXXXXXXX");

@@ -157,7 +157,7 @@ export class VerifyIndentityCode extends FieldType {
       this.signupForm = true;
      }
     localStorage.removeItem('form_value');
-    if (localStorage.getItem('isVerify') === 'true') {
+    if (localStorage.getItem('isVerified') === 'true') {
       this.isVerify = true;
     }
   }

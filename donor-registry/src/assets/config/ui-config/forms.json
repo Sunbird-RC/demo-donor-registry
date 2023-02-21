@@ -617,7 +617,7 @@
                   "widget": {
                     "formlyConfig": {
                       "type": "template",
-                      "className": "p14 mb-2"
+                      "className": "p14 mb-2 Organs_and_Tissues_to_Pledge"
                     }
                   }
                 }
