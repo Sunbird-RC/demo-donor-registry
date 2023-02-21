@@ -101,7 +101,13 @@ app.post('/auth/sendOTP', async(req, res) => {
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
-        let message = err?.response?.data?.message + err?.response?.data?.details[0]?.message || err?.message || err?.response?.data || err;
+        let message = "";
+        if(err?.message?.data?.details === null) {
+            message = err?.message || err?.response?.data || err;
+        }
+        else {
+            message = "Please wait for 30 minutes to try again with same ABHA number";
+        }
         let error = {
             message: message
         }
@@ -132,7 +138,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         if(err?.response?.data?.details[0]?.code === 'HIS-1039') {
             message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
             status = 429;
-        } else if(err?.response?.details?.code === 'HIS-1013') {
+        } else if(err?.response?.details[0]?.code === 'HIS-1013') {
             message = 'Please enter correct OTP number';
             status = 401;
         }
