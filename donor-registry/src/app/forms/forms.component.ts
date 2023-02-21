@@ -1207,7 +1207,7 @@ export class FormsComponent implements OnInit {
           }
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'] = temp;
-        } 
+        }
         else if (field.condition.type == 'hideShow' && !field.condition.hasOwnProperty['isIt']) {
           let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
 
@@ -2081,18 +2081,19 @@ export class FormsComponent implements OnInit {
   }
 
   async updateData() {
-    if (this.form == 'signup' && this.entityName == "Pledge") {
+    if ((this.form == 'signup' || this.form == 'pledge-setup') && this.entityName == "Pledge") {
       this.apiUrl = '/Pledge/';
 
       this.checkOtherVal();
-      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation']== "") {
+      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
         this.model['emergencyDetails'] = {}
-    }
-    
- if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
+      }
+
+      if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
         this.model['notificationDetails'] = {}
+      }
     }
-}
+
     this.routeNew = "/esign/init/" + this.entityName + "/" + this.identifier;
 
     await this.http.put<any>(`${getDonorServiceHost()}` + this.routeNew, { data: this.model }).subscribe(async (res) => {
@@ -2102,14 +2103,14 @@ export class FormsComponent implements OnInit {
       const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
       eSignWindow.document.write(`
       <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
-\t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
-\t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
-\t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
-      </form>
-\t<script>
-\t\tdocument.getElementById("formid").submit();
-\t</script>`);
-      eSignWindow.focus();
+    \t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
+    \t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
+    \t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
+          </form>
+    \t<script>
+    \t\tdocument.getElementById("formid").submit();
+    \t</script>`);
+          eSignWindow.focus();
       let checkESignStatus = true;
       let count = 0;
       while (checkESignStatus) {
@@ -2132,27 +2133,26 @@ export class FormsComponent implements OnInit {
       }
       eSignWindow.close();
       this.checkOtherVal();
-      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation']== "") {
-      
-          this.model['emergencyDetails'] = {}
-        
+      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
+        this.model['emergencyDetails'] = {}
       }
 
       if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
-   
-          this.model['notificationDetails'] = {}
-        
+        this.model['notificationDetails'] = {}
       }
-      this.tempUrl = "/register/" + this.entityName +"/" + this.identifier;
-      this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
-        if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-          if(this.form == 'signup' && "this.identifier" ){
+
+      this.tempUrl = `${getDonorServiceHost()}/register/Pledge` + "/" + this.identifier;
+     // this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
+      await this.http.put<any>(this.tempUrl, this.model).subscribe((res) => {
+ 
+     if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+          if (this.form == 'signup' && this.identifier) {
             this.pledgeAgainCardModal();
           }
-          if(this.form == 'pledge-setup' && "this.identifier" ){
+          if (this.form == 'pledge-setup' && this.identifier) {
             this.editCardModal();
           }
-    
+
         }
         else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
           this.toastMsg.error('error', res.params.errmsg);
@@ -2161,7 +2161,7 @@ export class FormsComponent implements OnInit {
       }, (err) => {
         this.toastMsg.error('error', err.error.params.errmsg);
         this.isSubmitForm = false;
-  
+
       });
       localStorage.removeItem(this.model['identificationDetails']['abha']);
       localStorage.removeItem('isVerified');
