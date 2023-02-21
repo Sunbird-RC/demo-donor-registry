@@ -84,7 +84,7 @@ app.post('/auth/sendOTP', async(req, res) => {
     const clientSecretToken = await getClientSecretToken();
     const abhaId = req.body.healthId;
     //TODO:get method from frontend
-    const method = 'AADHAAR_OTP';
+    const method = 'MOBILE_OTP';
     try {
         if(config.UNIQUE_ABHA_ENABLED) {
             const key = getKeyForBasedOnEntityName("Pledge");
@@ -110,7 +110,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
     const otp = req.body.otp;
     const clientSecretToken = await getClientSecretToken();
     try {
-        const verifyOtp = (await axios.post(`${config.BASE_URL}/v1/auth/confirmWithAadhaarOtp`, {
+        const verifyOtp = (await axios.post(`${config.BASE_URL}/v1/auth/confirmWithMobileOTP`, {
             "otp": otp,
             "txnId": transactionId
         }, {headers: {Authorization: 'Bearer ' + clientSecretToken}})).data;
