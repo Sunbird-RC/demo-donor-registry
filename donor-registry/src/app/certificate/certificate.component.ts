@@ -62,13 +62,13 @@ export class CertificateComponent implements OnInit {
     this.identifier = this.route.snapshot.paramMap.get('identifier');
     let headerOptions = new HttpHeaders({
       'template-key': this.documentName,
-      'Accept': 'image/svg+xml'
+      'Accept': 'application/pdf'
     });
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
     this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + this.identifier, requestOptions).pipe(map((data: any) => {
       let blob = new Blob([data], {
-        type: 'image/svg+xml' // must match the Accept type
+        type: 'application/pdf' // must match the Accept type
       });
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob))
 
@@ -81,7 +81,7 @@ export class CertificateComponent implements OnInit {
     let pdfName = this.identifier;
     let headerOptions = new HttpHeaders({
       'template-key': this.documentName,
-      'Accept': 'image/svg+xml'
+      'Accept': 'application/pdf'
     });
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
@@ -90,11 +90,11 @@ export class CertificateComponent implements OnInit {
 
 
       let blob = new Blob([data], {
-        type: 'image/svg+xml' // must match the Accept type
+        type: 'application/pdf' // must match the Accept type
       });
       var link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.download = pdfName + '.svg';
+      link.download = pdfName + '.pdf';
       link.click();
       window.URL.revokeObjectURL(link.href);
 
