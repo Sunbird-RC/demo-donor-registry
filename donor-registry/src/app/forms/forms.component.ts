@@ -195,7 +195,7 @@ export class FormsComponent implements OnInit {
       }
     }
 
-    if (this.form == 'pledge-setup') {
+    if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
       let notReadOnly = localStorage.getItem('notReadOnly');
       if(!notReadOnly || notReadOnly === "[]") {
       let obj = { ...this.model['personalDetails'], ...this.model['addressDetails']}; 
@@ -2019,6 +2019,17 @@ export class FormsComponent implements OnInit {
           }
         }
         eSignWindow.close();
+
+        if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation']== "") {
+          this.model['emergencyDetails'] = {}
+          }
+
+      if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
+          this.model['notificationDetails'] = {}
+      }
+
+        this.checkOtherVal();
+
         await this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
           if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
 
@@ -2075,11 +2086,13 @@ export class FormsComponent implements OnInit {
 
       this.checkOtherVal();
       if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation']== "") {
-      
         this.model['emergencyDetails'] = {}
-      
     }
     
+ if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
+        this.model['notificationDetails'] = {}
+    }
+}
     this.routeNew = "/esign/init/" + this.entityName + "/" + this.identifier;
 
     await this.http.put<any>(`${getDonorServiceHost()}` + this.routeNew, { data: this.model }).subscribe(async (res) => {
@@ -2154,8 +2167,6 @@ export class FormsComponent implements OnInit {
       localStorage.removeItem('isVerified');
 
     });
-       
-  }
 }
 
   checkOtherVal(){
