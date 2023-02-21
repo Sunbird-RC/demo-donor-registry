@@ -67,7 +67,9 @@
 
             <div class="d-flex justify-content-between">
               
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="button"  data-toggle="modal" data-target="#confirmationModalPledge" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button>
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && form != 'pledge-setup'" type="button"  data-toggle="modal" data-target="#confirmationModalPledge" class="btn-holder btn-size size-bts btn-centre">{{'REGISTER' | translate}}</button>
+                <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="button"  data-toggle="modal" data-target="#confirmationModalPledge" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button>
+
                 <!-- <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button> -->
             
               <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft sve-btnsv ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>

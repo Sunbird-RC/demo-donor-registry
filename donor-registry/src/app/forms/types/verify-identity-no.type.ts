@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import {
   GeneralService,
   getDonorServiceHost,
@@ -13,7 +15,7 @@ import {
       <span class="fw-bold p12">{{ to.label }}*</span> <br />
       <div class="d-flex">
         <input
-          id="{{ field.key }}"
+          id="{{ field.key }}"  maxlength="14"
           [formControl]="formControl"
           [formlyAttributes]="field"
           pattern="[9]{1}[1]{1}[0-9]{12}"
@@ -32,7 +34,7 @@ import {
           <i class="fa fa-check-circle" aria-hidden="true"></i>
         </span>
       </div>
-      <div class="p12">
+      <div *ngIf="signupForm" class="p12">
         {{ 'LINK_TO_ABHA' | translate }}
         <a href="http://healthidsbx.abdm.gov.in/" target="_blank">{{
           'LINK' | translate
@@ -143,11 +145,15 @@ export class VerifyIndentityCode extends FieldType {
   data1: any;
   // @Output() sendData1 = new EventEmitter<any>();
   model2: any;
-  constructor(private http: HttpClient, public generalService: GeneralService) {
+  signupForm: boolean;
+  constructor(private http: HttpClient, public generalService: GeneralService,public router: Router,) {
     super();
   }
 
   ngOnInit(): void {
+    if(this.router.url == "/form/signup"){
+      this.signupForm = true;
+     }
     localStorage.removeItem('form_value');
     if (localStorage.getItem('isVerify') === 'true') {
       this.isVerify = true;

@@ -139,6 +139,8 @@ export class FormsComponent implements OnInit {
   subDescription: any;
   temporaryData = {};
   flag: boolean=true;
+  routeNew: string;
+  tempUrl: string;
 
 
   ngAfterViewChecked() {
@@ -2028,18 +2030,11 @@ export class FormsComponent implements OnInit {
         this.model['emergencyDetails'] = {}
       
     }
+    
+    this.routeNew = "/esign/init/" + this.entityName + "/" + this.identifier;
 
-    if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
- 
-        this.model['notificationDetails'] = {}
-      
-    }
-    }
-
-
-
-
-    await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
+    console.log(this.routeNew);
+    await this.http.put<any>(`${getDonorServiceHost()}` + this.routeNew, { data: this.model }).subscribe(async (res) => {
 
       let x = screen.width / 2 - 500;
       let y = screen.height / 2 - 400;
@@ -2087,6 +2082,7 @@ export class FormsComponent implements OnInit {
           this.model['notificationDetails'] = {}
         
       }
+      this.tempUrl = "/register/" + this.entityName +"/" + this.identifier;
       this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
         if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
           if(this.form == 'signup' && "this.identifier" ){
