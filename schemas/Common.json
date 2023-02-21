@@ -226,7 +226,8 @@
           "title": "Other Organs or Tissues",
           "description": "(Please select atleast one organ or tissue above to add other organs or tissues",
           "enum": [
-            "Other Organs or Tissues"
+            "Other Organs or Tissues",
+            ""
           ]
         },
         "otherOrgans": {
