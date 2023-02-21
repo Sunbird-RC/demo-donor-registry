@@ -195,7 +195,9 @@ export class FormsComponent implements OnInit {
       }
     }
 
-    if (this.form == 'pledge-setup') {
+    if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
+      let notReadOnly = localStorage.getItem('notReadOnly');
+      if(!notReadOnly || notReadOnly === "[]") {
       let obj = { ...this.model['personalDetails'], ...this.model['addressDetails']}; 
       for (let propName in obj) {
         if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
@@ -203,6 +205,7 @@ export class FormsComponent implements OnInit {
         }
       }
       localStorage.setItem('notReadOnly',JSON.stringify(Object.keys(obj)));
+    }
     }
   }
 
@@ -429,7 +432,6 @@ export class FormsComponent implements OnInit {
 
   ngOnInit(): void { 
     //this.modalErrorPledge();
-
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
 
@@ -1205,7 +1207,7 @@ export class FormsComponent implements OnInit {
           }
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['fieldGroupClassName'] = temp;
-        } 
+        }
         else if (field.condition.type == 'hideShow' && !field.condition.hasOwnProperty['isIt']) {
           let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
 
@@ -1309,10 +1311,10 @@ export class FormsComponent implements OnInit {
       if (field.type) {
         if (field.type === 'verify-code') {
           if((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
-            localStorage.setItem("isVerify","true");
+            localStorage.setItem("isVerified","true");
             this.responseData.definitions[fieldset.definition].properties[field.name]['readOnly'] = true;
           } else {
-            localStorage.removeItem("isVerify");
+            localStorage.removeItem("isVerified");
           }
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XXXXXXXXXXXXXX");
@@ -1523,73 +1525,156 @@ export class FormsComponent implements OnInit {
   //     }
   //   }
   // }
-  submit() {
+
+  addElement(className:string,message:string,spanClassName:string) {
+    let ele = document.getElementsByClassName(className)[0];
+    let span = document.createElement('span');
+    span.setAttribute('class',`text-danger ${spanClassName}`);
+    span.innerText = message;
+    ele.appendChild(span);
+  }
+
+  removeElement(className:string) {
+    document.getElementsByClassName(className)[0]?.remove();
+  }
+
+  checkValidation() {
+    const isVerify = localStorage.getItem('isVerified');
+    let isformVerity = true;
+    if(!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues']) {
+      this.removeElement("oterrormsg");
+      this.addElement('Organs_and_Tissues_to_Pledge','Please select atleast one organs or tissues','oterrormsg')
+      isformVerity = false;
+    } else {
+      this.removeElement("oterrormsg");
+    }
+    
+    if(!this.model['consent']) {
+      document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.add('is-invalid')
+      isformVerity = false;
+    } else {
+      document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
+    }
+
+    if(isVerify !== "true") {
+      let dateSpan = document.getElementById('abhamessage');
+      dateSpan.classList.add('text-danger');
+      dateSpan.innerText = "Please very abha number";
+      document.getElementById('abha').focus();
+      document.getElementById('abha').classList.add('is-invalid');
+      isformVerity = false;
+    } else {
+      let dateSpan = document.getElementById('abhamessage');
+      dateSpan.classList.remove('text-danger');
+      dateSpan.innerText = "";
+      document.getElementById('abha').classList.remove('is-invalid');
+      (this.myForm as any).submitted = true;
+    }
+    if(!isformVerity) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  
+  submit(button = "") {
     this.isSubmitForm = true;
-
-    this.form2.markAsTouched();
-    (this.myForm as any).submitted = true;
-
-
-    // if (this.model.hasOwnProperty('pledgeDetails')) {
-    //   this.model["pledgeDetails"]["organs"] = Object.keys(this.model["pledgeDetails"]["organs"]);
-    //   this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
-    // }
-
-    if (this.form == 'livedonor') {
-      this.model["donorDetails"]["identificationProof"] = "Aadhaar";
-      this.model["donorDetails"]["residentialProof"] = "Aadhaar";
-      this.model["donorDetails"]["residentialValue"] = "PK90";
-      // this.model["crossMatchDetails"]["crossMatchDate"] = "2022-03-05";
-      let recipientId = this.model["recipientDetails"]['identificationValue'];
-      this.model["recipientDetails"] = {}
-      this.model["recipientDetails"]["recipientId"] = recipientId;
-      this.model["proofOfRelation"]["relationType"] = 'related';
-      this.model["proofOfRelation"]["relation"] = 'mother';
-
-      this.model["status"] = this.isSaveAsDraft;
+    if(!this.checkValidation()) {
+      return false
     }
-
-    if (this.form == 'recipient') {
-      this.model["recipientDetails"]["identificationProof"] = "Aadhaar";
-      this.model["status"] = this.isSaveAsDraft;
-
-      if (this.model["recipientDetails"]["nationality"] = "Indian") {
-        delete this.model["recipientDetails"]["country"];
+    
+    if(this.form2.valid) {
+      if(button === "") {
+        this.modalSuccessPledge('confirmationModalPledge')
+        return false;
       }
-    }
+      // if (this.model.hasOwnProperty('pledgeDetails')) {
+      //   this.model["pledgeDetails"]["organs"] = Object.keys(this.model["pledgeDetails"]["organs"]);
+      //   this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
+      // }
+
+      if (this.form == 'livedonor') {
+        this.model["donorDetails"]["identificationProof"] = "Aadhaar";
+        this.model["donorDetails"]["residentialProof"] = "Aadhaar";
+        this.model["donorDetails"]["residentialValue"] = "PK90";
+        // this.model["crossMatchDetails"]["crossMatchDate"] = "2022-03-05";
+        let recipientId = this.model["recipientDetails"]['identificationValue'];
+        this.model["recipientDetails"] = {}
+        this.model["recipientDetails"]["recipientId"] = recipientId;
+        this.model["proofOfRelation"]["relationType"] = 'related';
+        this.model["proofOfRelation"]["relation"] = 'mother';
+
+        this.model["status"] = this.isSaveAsDraft;
+      }
 
     if (this.form == 'pledge-setup' || this.form == 'signup') {
      this.checkOtherVal();
      
     }
 
-    if (this.fileFields.length > 0 && this.form != 'livedonor' && this.form != 'recipient') {
-      this.fileFields.forEach(fileField => {
-        if (this.model[fileField]) {
-          var formData = new FormData();
-          for (let i = 0; i < this.model[fileField].length; i++) {
-            const file = this.model[fileField][i]
-            formData.append("files", file);
-          }
 
-          if (this.type && this.type.includes("property")) {
-            var property = this.type.split(":")[1];
-          }
-
-          let id = (this.entityId) ? this.entityId : this.identifier;
-          var url = [this.apiUrl, id, property, 'documents']
-          this.generalService.postData(url.join('/'), formData).subscribe((res) => {
-            var documents_list: any[] = [];
-            var documents_obj = {
-              "fileName": "",
-              "format": "file"
+      if (this.fileFields.length > 0 && this.form != 'livedonor' && this.form != 'recipient') {
+        this.fileFields.forEach(fileField => {
+          if (this.model[fileField]) {
+            var formData = new FormData();
+            for (let i = 0; i < this.model[fileField].length; i++) {
+              const file = this.model[fileField][i]
+              formData.append("files", file);
             }
-            res.documentLocations.forEach(element => {
-              documents_obj.fileName = element;
-              documents_list.push(documents_obj);
-            });
 
-            this.model[fileField] = documents_list;
+            if (this.type && this.type.includes("property")) {
+              var property = this.type.split(":")[1];
+            }
+
+            let id = (this.entityId) ? this.entityId : this.identifier;
+            var url = [this.apiUrl, id, property, 'documents']
+            this.generalService.postData(url.join('/'), formData).subscribe((res) => {
+              var documents_list: any[] = [];
+              var documents_obj = {
+                "fileName": "",
+                "format": "file"
+              }
+              res.documentLocations.forEach(element => {
+                documents_obj.fileName = element;
+                documents_list.push(documents_obj);
+              });
+
+              this.model[fileField] = documents_list;
+              if (this.type && this.type === 'entity') {
+
+                if (this.identifier != null) {
+                  this.updateData()
+                } else {
+                  this.postData()
+                }
+              }
+              else if (this.type && this.type.includes("property")) {
+                var property = this.type.split(":")[1];
+
+                if (this.identifier != null && this.entityId != undefined) {
+                  var url = [this.apiUrl, this.entityId, property, this.identifier];
+                } else {
+                  var url = [this.apiUrl, this.identifier, property];
+                }
+
+                this.apiUrl = (url.join("/"));
+                if (this.model[property]) {
+                  this.model = this.model[property];
+                }
+
+
+                this.postData();
+
+                if (this.model.hasOwnProperty('attest') && this.model['attest']) {
+                  this.raiseClaim(property);
+                }
+              }
+            }, (err) => {
+              console.log(err);
+              this.toastMsg.error('error', this.translate.instant('SOMETHING_WENT_WRONG'))
+            });
+          }
+          else {
             if (this.type && this.type === 'entity') {
 
               if (this.identifier != null) {
@@ -1613,88 +1698,53 @@ export class FormsComponent implements OnInit {
               }
 
 
-              this.postData();
+              if (this.identifier != null && this.entityId != undefined) {
+                this.updateClaims()
+              } else {
+                this.postData()
+              }
 
               if (this.model.hasOwnProperty('attest') && this.model['attest']) {
                 this.raiseClaim(property);
               }
-            }
-          }, (err) => {
-            console.log(err);
-            this.toastMsg.error('error', this.translate.instant('SOMETHING_WENT_WRONG'))
-          });
-        }
-        else {
-          if (this.type && this.type === 'entity') {
 
-            if (this.identifier != null) {
-              this.updateData()
-            } else {
-              this.postData()
             }
           }
-          else if (this.type && this.type.includes("property")) {
-            var property = this.type.split(":")[1];
-
-            if (this.identifier != null && this.entityId != undefined) {
-              var url = [this.apiUrl, this.entityId, property, this.identifier];
-            } else {
-              var url = [this.apiUrl, this.identifier, property];
-            }
-
-            this.apiUrl = (url.join("/"));
-            if (this.model[property]) {
-              this.model = this.model[property];
-            }
-
-
-            if (this.identifier != null && this.entityId != undefined) {
-              this.updateClaims()
-            } else {
-              this.postData()
-            }
-
-            if (this.model.hasOwnProperty('attest') && this.model['attest']) {
-              this.raiseClaim(property);
-            }
-
-          }
-        }
-      });
-    }
-    else {
-      if (this.type && this.type === 'entity') {
-
-        if (this.identifier != null) {
-          this.updateData()
-        } else {
-          this.postData()
-        }
+        });
       }
-      else if (this.type && this.type.includes("property")) {
-        var property = this.type.split(":")[1];
+      else {
+        if (this.type && this.type === 'entity') {
 
-        if (this.identifier != null && this.entityId != undefined) {
-          var url = [this.apiUrl, this.entityId, property, this.identifier];
-        } else {
-          var url = [this.apiUrl, this.identifier, property];
+          if (this.identifier != null) {
+            this.updateData()
+          } else {
+            this.postData()
+          }
         }
+        else if (this.type && this.type.includes("property")) {
+          var property = this.type.split(":")[1];
 
-        this.apiUrl = (url.join("/"));
-        if (this.model[property]) {
-          this.model = this.model[property];
+          if (this.identifier != null && this.entityId != undefined) {
+            var url = [this.apiUrl, this.entityId, property, this.identifier];
+          } else {
+            var url = [this.apiUrl, this.identifier, property];
+          }
+
+          this.apiUrl = (url.join("/"));
+          if (this.model[property]) {
+            this.model = this.model[property];
+          }
+
+          if (this.identifier != null && this.entityId != undefined) {
+            this.updateClaims()
+          } else {
+            this.postData()
+          }
+
+          if (this.model.hasOwnProperty('attest') && this.model['attest']) {
+            this.raiseClaim(property);
+          }
         }
-
-        if (this.identifier != null && this.entityId != undefined) {
-          this.updateClaims()
-        } else {
-          this.postData()
-        }
-
-        if (this.model.hasOwnProperty('attest') && this.model['attest']) {
-          this.raiseClaim(property);
-        }
-
       }
     }
   }
@@ -1900,8 +1950,7 @@ export class FormsComponent implements OnInit {
   }
 
   removeDuplicates(arr) {
-    return arr.filter((item,
-      index) => arr.indexOf(item) === index);
+    return arr.filter((item, index) => arr.indexOf(item) === index);
   }
 
   async postData() {
@@ -1970,6 +2019,17 @@ export class FormsComponent implements OnInit {
           }
         }
         eSignWindow.close();
+
+        if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation']== "") {
+          this.model['emergencyDetails'] = {}
+          }
+
+      if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
+          this.model['notificationDetails'] = {}
+      }
+
+        this.checkOtherVal();
+
         await this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
           if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
 
@@ -2021,19 +2081,21 @@ export class FormsComponent implements OnInit {
   }
 
   async updateData() {
-    if (this.form == 'signup' && this.entityName == "Pledge") {
+    if ((this.form == 'signup' || this.form == 'pledge-setup') && this.entityName == "Pledge") {
       this.apiUrl = '/Pledge/';
 
       this.checkOtherVal();
-      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation']== "") {
-      
+      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
         this.model['emergencyDetails'] = {}
-      
+      }
+
+      if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
+        this.model['notificationDetails'] = {}
+      }
     }
-    
+
     this.routeNew = "/esign/init/" + this.entityName + "/" + this.identifier;
 
-    console.log(this.routeNew);
     await this.http.put<any>(`${getDonorServiceHost()}` + this.routeNew, { data: this.model }).subscribe(async (res) => {
 
       let x = screen.width / 2 - 500;
@@ -2041,14 +2103,14 @@ export class FormsComponent implements OnInit {
       const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
       eSignWindow.document.write(`
       <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
-\t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
-\t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
-\t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
-      </form>
-\t<script>
-\t\tdocument.getElementById("formid").submit();
-\t</script>`);
-      eSignWindow.focus();
+    \t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
+    \t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
+    \t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
+          </form>
+    \t<script>
+    \t\tdocument.getElementById("formid").submit();
+    \t</script>`);
+          eSignWindow.focus();
       let checkESignStatus = true;
       let count = 0;
       while (checkESignStatus) {
@@ -2071,27 +2133,26 @@ export class FormsComponent implements OnInit {
       }
       eSignWindow.close();
       this.checkOtherVal();
-      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation']== "") {
-      
-          this.model['emergencyDetails'] = {}
-        
+      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
+        this.model['emergencyDetails'] = {}
       }
 
       if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
-   
-          this.model['notificationDetails'] = {}
-        
+        this.model['notificationDetails'] = {}
       }
-      this.tempUrl = "/register/" + this.entityName +"/" + this.identifier;
-      this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
-        if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-          if(this.form == 'signup' && "this.identifier" ){
+
+      this.tempUrl = `${getDonorServiceHost()}/register/Pledge` + "/" + this.identifier;
+     // this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
+      await this.http.put<any>(this.tempUrl, this.model).subscribe((res) => {
+ 
+     if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+          if (this.form == 'signup' && this.identifier) {
             this.pledgeAgainCardModal();
           }
-          if(this.form == 'pledge-setup' && "this.identifier" ){
+          if (this.form == 'pledge-setup' && this.identifier) {
             this.editCardModal();
           }
-    
+
         }
         else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
           this.toastMsg.error('error', res.params.errmsg);
@@ -2100,14 +2161,13 @@ export class FormsComponent implements OnInit {
       }, (err) => {
         this.toastMsg.error('error', err.error.params.errmsg);
         this.isSubmitForm = false;
-  
+
       });
       localStorage.removeItem(this.model['identificationDetails']['abha']);
       localStorage.removeItem('isVerified');
 
     });
-       
-  }
+}
 
   checkOtherVal(){
     if (this.model['pledgeDetails'].hasOwnProperty('other')) {
@@ -2122,10 +2182,13 @@ export class FormsComponent implements OnInit {
      }
   }
 
-  modalSuccessPledge() {
-    var modal = document.getElementById("downloadCardModalPledge")
-    modal.classList.add("show");
-    modal.style.display = "block";
+  modalSuccessPledge(id = "downloadCardModalPledge") {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
 
   }
 

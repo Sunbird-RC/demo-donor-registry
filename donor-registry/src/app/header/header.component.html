@@ -51,14 +51,13 @@
                     <ul *ngFor="let header of headerSchema.right" class="navbar-nav ms-auto">
                         <li class="nav-item drp d-flex mt-2">
 
-                            <div class="dropdown mr-5" *ngIf="temp">
+                            <div class="dropdown mr-4" *ngIf="temp">
                                 <span id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                  <span *ngIf="tclogin ">{{tcUserName}}  </span>
                                   <span  *ngIf="plegelogin && !tclogin"> {{ loggedInUserName }}</span> &nbsp;
-                                  <label class="lab" for="">Account</label> &nbsp;
+                                  <label class="lab p14" for="">Account</label> &nbsp;
                                   <i class="fa fa-chevron-down fs-10 text-color"></i>
-                                  <label class="lab" for="">Account</label>
                                 </span>
                                 
                                 <div class="dropdown-menu mr-3" aria-labelledby="dropdownMenuButton">

@@ -228,7 +228,7 @@
                   "widget": {
                     "formlyConfig": {
                       "type": "template",
-                      "className": "p14 mb-2"
+                      "className": "p14 mb-2 Organs_and_Tissues_to_Pledge"
                     }
                   }
                 }
@@ -386,7 +386,7 @@
                     "formlyConfig": {
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
-                      "className": "checkbox",
+                      "className": "checkbox consent",
                       "templateOptions": {
                         "required": true
                       },
@@ -617,7 +617,7 @@
                   "widget": {
                     "formlyConfig": {
                       "type": "template",
-                      "className": "p14 mb-2"
+                      "className": "p14 mb-2 Organs_and_Tissues_to_Pledge"
                     }
                   }
                 }
@@ -760,7 +760,7 @@
                     "formlyConfig": {
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
-                      "className": "checkbox",
+                      "className": "checkbox consent",
                       "templateOptions": {
                         "required": true
                       },
@@ -985,7 +985,7 @@
                     "formlyConfig": {
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
-                      "className": "checkbox",
+                      "className": "checkbox consent",
                       "templateOptions": {
                         "required": true
                       }

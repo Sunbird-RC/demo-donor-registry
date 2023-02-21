@@ -40,6 +40,8 @@ import {
           'LINK' | translate
         }}</a>
       </div>
+      <div class="p12" id="abhamessage"></div>
+      
       <br />
 
       <div
@@ -155,7 +157,7 @@ export class VerifyIndentityCode extends FieldType {
       this.signupForm = true;
      }
     localStorage.removeItem('form_value');
-    if (localStorage.getItem('isVerify') === 'true') {
+    if (localStorage.getItem('isVerified') === 'true') {
       this.isVerify = true;
     }
   }
@@ -211,6 +213,10 @@ export class VerifyIndentityCode extends FieldType {
         .subscribe({
           next: (data) => {
             this.isVerify = true;
+            let dateSpan = document.getElementById('abhamessage');
+            dateSpan.classList.remove('text-danger');
+            dateSpan.innerText = "";
+            document.getElementById('abha').classList.remove('is-invalid');
             (document.getElementById('abha') as any).disabled = true;
 
             this.data1 = data;
