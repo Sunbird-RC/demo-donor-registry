@@ -196,6 +196,8 @@ export class FormsComponent implements OnInit {
     }
 
     if (this.form == 'pledge-setup') {
+      let notReadOnly = localStorage.getItem('notReadOnly');
+      if(!notReadOnly || notReadOnly === "[]") {
       let obj = { ...this.model['personalDetails'], ...this.model['addressDetails']}; 
       for (let propName in obj) {
         if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
@@ -203,6 +205,7 @@ export class FormsComponent implements OnInit {
         }
       }
       localStorage.setItem('notReadOnly',JSON.stringify(Object.keys(obj)));
+    }
     }
   }
 
@@ -429,7 +432,6 @@ export class FormsComponent implements OnInit {
 
   ngOnInit(): void { 
     //this.modalErrorPledge();
-
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
 
