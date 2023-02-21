@@ -35,7 +35,7 @@
         <div> 
 
         
-          <form [formGroup]="form2" (ngSubmit)="submit()" *ngIf="fields">
+          <form [formGroup]="form2" (ngSubmit)="submit()" *ngIf="fields" #myForm="ngForm">
             <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form2"></formly-form>
 
             <span *ngIf="form == 'livedonor'">

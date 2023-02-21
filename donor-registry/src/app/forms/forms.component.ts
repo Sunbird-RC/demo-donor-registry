@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
 import { JSONSchema7 } from "json-schema";
@@ -81,6 +81,8 @@ function titleCase(str) {
 
 
 export class FormsComponent implements OnInit {
+  @ViewChild('myForm') myForm: NgForm;
+
   @Input() form;
   @Input() modal;
   @Input() identifier;
@@ -1523,6 +1525,9 @@ export class FormsComponent implements OnInit {
   // }
   submit() {
     this.isSubmitForm = true;
+
+    this.form2.markAsTouched();
+    (this.myForm as any).submitted = true;
 
    
     // if (this.model.hasOwnProperty('pledgeDetails')) {
