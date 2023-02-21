@@ -5,15 +5,14 @@
 
 }
 
-iframe{
-    height: 177%;
-    width: 217%;
-    overflow: hidden;
-    transform: scale(0.4,0.5);
-    transform-origin: 0 0;
-}
-
 .temp{
     margin-left: 30%;
     margin-top: 1%;
 }
+
+.pdfDisplay{
+    height: 700px;
+    width: 100%;
+    padding-top: 20px;
+    }
+

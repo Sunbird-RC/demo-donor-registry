@@ -278,7 +278,6 @@
                     {
                       "name": "name",
                       "class": "col-lg-4 col-sm-12",
-                      "required": true,
                       "validation": {
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
@@ -286,13 +285,11 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12",
-                      "required": true
+                      "class": "col-lg-4 col-sm-12"
                     },
                     {
                       "name": "otherRelation",
                       "class": "col-lg-4 col-sm-12",
-                      "required": true,
                       "condition": {
                         "type": "hideShow",
                         "isIt": "Other",
@@ -302,7 +299,6 @@
                     {
                       "name": "mobileNumber",
                       "class": "col-lg-4 col-sm-12",
-                      "required": true,
                       "validation": {
                         "pattern": "[6-9]{1}[0-9]{9}",
                         "message": "MOBILE_NO_MUST_10_DIGIT"
@@ -594,6 +590,36 @@
                       "enableField": true
                     }
                   ]
+                }
+              },
+              {
+                "name": "pledgeDeets",
+                "custom": true,
+                "required": false,
+                "key": "pDet",
+                "element": {
+                  "title": "Pledge Details",
+                  "widget": {
+                    "formlyConfig": {
+                      "type": "template",
+                      "className": "fw-bold p16 mb-2"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "pledgeDeetsMessage",
+                "custom": true,
+                "required": false,
+                "key": "pDetMsg",
+                "element": {
+                  "title": "Organs and Tissues to Pledge*",
+                  "widget": {
+                    "formlyConfig": {
+                      "type": "template",
+                      "className": "p14 mb-2"
+                    }
+                  }
                 }
               },
               {
