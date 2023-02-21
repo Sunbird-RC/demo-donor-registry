@@ -231,15 +231,14 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
     profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
     const entityName = req.params.entityName;
     const entityId = req.params.entityId;
-    const userData = getUserData(getKeyForBasedOnEntityName(entityName) + entityId);
+    const userData = JSON.parse(await getUserData(getKeyForBasedOnEntityName(entityName) + entityId));
     try {
         if(checkIfNonEditableFieldsPresent(profileFromReq, userData)) {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
         }
-        const updateApiResponse = (await axios.put(`${config.REGISTRY_URL}/api/v1/${entityName}/${entityId}`, profile, {headers: {...req.headers}})).data;
-        const osid = updateApiResponse.result[entityName].osid;
-        const esignFileData = (await getESingDoc(abha)).data;
-        const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
+        const updateApiResponse = (await axios.put(`${config.REGISTRY_URL}/api/v1/${entityName}/${entityId}`, profileFromReq, {headers: {...req.headers}})).data;
+        const esignFileData = (await getESingDoc(profileFromReq.identificationDetails.abha)).data;
+        const uploadESignFileRes = await uploadESignFile(entityId, esignFileData);
         console.log(uploadESignFileRes);
         res.send(updateApiResponse);
     } catch(err) {
@@ -350,23 +349,21 @@ const getEsignData = async(pledge) => {
 
 const getUserData = async(key, req) => {
     let userData = await redis.getKey(key);
-    console.log(userData);
     if(userData !== null) {
         return userData;
     }
     userData = (await axios.get(`${config.REGISTRY_URL}/api/v1/${req.params.entityName}/${req.params.entityId}`, {headers: {...req.headers}})).data;
     redis.storeKeyWithExpiry(key, JSON.stringify(userData), 2 * 24 * 60 * 60);
-    return userData;
+    return JSON.stringify(userData);
 }
 
 app.put('/esign/init/:entityName/:entityId', async(req, res) => {
     try {
-        const userData = await getUserData(getKeyForBasedOnEntityName(req.params.entityName) + req.params.entityId, req);
-        console.log("USERDATA : ", userData);
+        const userData = JSON.parse(await getUserData(getKeyForBasedOnEntityName(req.params.entityName) + req.params.entityId, req));
         if(checkIfNonEditableFieldsPresent(req.body.data, userData)) {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
         }
-        const esignData = await getEsignData(userData);
+        const esignData = await getEsignData(req.body.data);
         res.send({
             signUrl: config.ESIGN_FORM_SIGN_URL,
             xmlContent: esignData.xmlContent,
@@ -379,11 +376,11 @@ app.put('/esign/init/:entityName/:entityId', async(req, res) => {
 });
 
 function checkIfNonEditableFieldsPresent(reqData, userData) {
-    const partiallyEditablePersonalDetails = Object.keys(userData.personalDetails).filter(key => !(['motherName', 'bloodGroup', 'emailId'].includes(key)));
-    const partiallyEditableAddressDetails = Object.keys(userData.addressDetails).filter(key => !(['addressLine2'].includes(key)));
+    const partiallyEditablePersonalDetails = Object.keys(userData.personalDetails).filter(key => !(['motherName', 'bloodGroup', 'emailId', 'photo', 'osUpdatedAt', 'osUpdatedBy'].includes(key)));
+    const partiallyEditableAddressDetails = Object.keys(userData.addressDetails).filter(key => !(['addressLine2', 'osUpdatedBy', 'osUpdatedAt'].includes(key)));
     let result = !(userData.identificationDetails.abha === reqData.identificationDetails.abha && userData.identificationDetails.nottoId === reqData.identificationDetails.nottoId);
     for(const key of partiallyEditablePersonalDetails) {
-       result = result || !(userData.personalDetails[key] === reqData.personalDetails[key]); 
+        result = result || !(userData.personalDetails[key] === reqData.personalDetails[key]); 
     }
     if(result) return result;
     for(const key of partiallyEditableAddressDetails) {
