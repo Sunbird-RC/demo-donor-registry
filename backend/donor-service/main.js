@@ -138,7 +138,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         if(err?.response?.data?.details[0]?.code === 'HIS-1039') {
             message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
             status = 429;
-        } else if(err?.response?.details[0]?.code === 'HIS-1013') {
+        } else if(err?.response?.data?.details[0]?.code === 'HIS-1013') {
             message = 'Please enter correct OTP number';
             status = 401;
         }
