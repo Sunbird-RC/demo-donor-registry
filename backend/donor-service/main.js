@@ -11,7 +11,6 @@ const config = require('./configs/config');
 const constants = require('./configs/constants');
 const SERVICE_ACCOUNT_TOKEN = "SERVICE_ACCOUNT_TOKEN";
 const R = require('ramda');
-
 const app = express();
 
 (async() => {
@@ -102,8 +101,9 @@ app.post('/auth/sendOTP', async(req, res) => {
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
+        let message = err?.response?.data?.message + err?.response?.data?.details[0]?.message || err?.message || err?.response?.data || err;
         let error = {
-            message: err?.response?.data?.message + err?.response?.data?.details[0]?.message || err?.message || err?.response?.data || err
+            message: message
         }
         res.status(err.status || 500).send(error);
     }
@@ -128,13 +128,13 @@ app.post('/auth/verifyOTP', async(req, res) => {
         console.log('Sent Profile KYC');
     } catch(err) {
         let message = err?.message || err;
-        let status = err?.response?.status | err?.status || 500
-        if(err?.response?.details?.code === 'HIS-1039') {
+        let status = err?.response?.status || err?.status || 500
+        if(err?.response?.data?.details[0]?.code === 'HIS-1039') {
             message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
-            status = 'HIS-1039'
-        } else if(err?.response?.details.code === 'HIS-1013') {
+            status = 429;
+        } else if(err?.response?.details?.code === 'HIS-1013') {
             message = 'Please enter correct OTP number';
-            status = 'HIS-1013'
+            status = 401;
         }
         let error = {
             status: status,
