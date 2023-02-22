@@ -4,12 +4,14 @@ import (
 	"archive/zip"
 	"bytes"
 	"compress/flate"
+	"encoding/base64"
 	"encoding/json"
 	"flag"
 	"io"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/signintech/gopdf"
@@ -36,7 +38,7 @@ func getCertificate(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
 	}
-	bodyKeyUrl := []string{"templateUrl", "certificate", "entityName", "entityId"}
+	bodyKeyUrl := []string{"templateUrl", "certificate", "entityName", "entityId", "entityName"}
 	for i := range bodyKeyUrl {
 		if _, ok := body[bodyKeyUrl[i]]; !ok {
 			http.Error(w, "Required parameters missing", http.StatusBadRequest)
@@ -46,39 +48,117 @@ func getCertificate(w http.ResponseWriter, r *http.Request) {
 	certificate := body["certificate"]
 	entityName := body["entityName"]
 	entityId := body["entityId"]
-
+	entity := body["entity"].(map[string]interface{})
 	if accept == "application/pdf" {
-		getCertificateInPDF(templateUrl.(string), certificate.(string), entityName.(string), entityId.(string))
+		if pdfBytes, err := getCertificateInPDF(templateUrl.(string), certificate.(string), entityName.(string), entityId.(string), entity); err != nil {
+			log.Errorf("Error in creating certificate pdf")
+		} else {
+			w.WriteHeader(200)
+			_, _ = w.Write(pdfBytes)
+			return
+		}
 	} else if accept == "image/svg+xml" || accept == "text/html" {
 		getCertificateInImage(templateUrl.(string), certificate.(string), entityName.(string), entityId.(string))
 	}
 }
 
-func getCertificateInPDF(templateUrl string, certificate string, entityName string, entityId string) (interface{}, error) {
+func getCertificateInPDF(templateUrl string, certificate string, entityName string, entityId string, entity map[string]interface{}) ([]byte, error) {
 	var qrData string
-	var certificateData map[string]interface{}
-	log.Printf("Till here")
 	if qrCodeType := Config.QrType; strings.ToUpper(qrCodeType) == URL {
 		qrData = Config.CertDomainUrl + "/certs/" + entityId + "?t=" + qrCodeType + "&entity=" + entityName + Config.AdditionalQueryParams
 	} else {
 		qrData, _ = getQRCodeImageBytes(certificate)
 	}
-	certificateData, err := prepareDataForCertificateWithQRCode(certificate, qrData)
+	personalDetailsMap := entity["personalDetails"].(map[string]interface{})
+	return renderToPDFTemplate(certificate, []byte(qrData), []byte(personalDetailsMap["photo"].(string)))
+}
+
+func renderToPDFTemplate(certificate string, qrData []byte, photo []byte) ([]byte, error) {
+	var certificateData Certificate
+	if err := json.Unmarshal([]byte(certificate), &certificateData); err == nil {
+		log.Printf("Data : %v", certificateData)
+	}
+	pdf := gopdf.GoPdf{}
+	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
+	pdf.AddPage()
+	if err := pdf.AddTTFFont("dev", "NotoSansDevanagari.ttf"); err != nil {
+		log.Printf(err.Error())
+		return nil, err
+	}
+	tpl1 := pdf.ImportPage("certificate.pdf", 1, "/MediaBox")
+	pdf.UseImportedTemplate(tpl1, 0, 0, 580, 0)
+	if err := pdf.SetFont("dev", "", 18); err != nil {
+		log.Print(err.Error())
+		return nil, err
+	}
+	offsetX := 190.0
+	offsetY := 180.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.Name)
+	if err := pdf.SetFont("dev", "", 10); err != nil {
+		log.Print(err.Error())
+		return nil, err
+	}
+	offsetX = 190.0
+	offsetY = 340.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.IssuanceDate)
+	offsetX = 432.0
+	offsetY = 340.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.FatherName)
+	offsetX = 190.0
+	offsetY = 377.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.Evidence[0].RefId)
+	offsetX = 432.0
+	offsetY = 377.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.BloodGroup)
+	offsetX = 190.0
+	offsetY = 414.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.NottoId)
+	offsetX = 432.0
+	offsetY = 414.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.EmergencyContacts.Contact)
+	offsetX = 190.0
+	offsetY = 451.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Organs)
+	offsetX = 190.0
+	offsetY = 488.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Tissues)
+	holder, err := gopdf.ImageHolderByBytes(qrData)
+	if err = pdf.ImageByHolder(holder, 47, 566, &gopdf.Rect{W: 210, H: 210}); err != nil {
+		log.Errorf("Error creating QR Code")
+	}
+	photoStr, err := base64.StdEncoding.DecodeString(string(photo))
 	if err != nil {
 		return nil, err
 	}
-	return renderToPDFTemplate(certificateData), nil
-}
-
-func renderToPDFTemplate(certificateData map[string]interface{}) interface{} {
-	for k, v := range certificateData {
-		log.Println("Key : %v-----Value : %v", k, v)
+	holder, err = gopdf.ImageHolderByBytes(photoStr)
+	if err = pdf.ImageByHolder(holder, 47, 181, &gopdf.Rect{W: 120, H: 120}); err != nil {
+		log.Errorf("Error creating Profile photo")
 	}
-	return nil
+	var b bytes.Buffer
+	_ = pdf.Write(&b)
+	return b.Bytes(), nil
 }
 
-func getCertificateInImage(templateUrl string, certificate string, entityName string, entityId string) {
-
+func getCertificateInImage(templateUrl string, certificate string, entityName string, entityId string) (interface{}, error) {
+	return nil, nil
 }
 
 func prepareDataForCertificateWithQRCode(certificate string, qrcode interface{}) (map[string]interface{}, error) {
@@ -113,7 +193,7 @@ func getQRCodeImageBytes(certificateText string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	imageBytes, err := qrCode.PNG(-3)
+	imageBytes, err := qrCode.PNG(380)
 	return string(imageBytes[:]), err
 }
 
@@ -155,4 +235,56 @@ func compress(certificateText string) (*bytes.Buffer, error) {
 		log.Error(err)
 	}
 	return buf, err
+}
+
+type Certificate struct {
+	Context         []string `json:"@context"`
+	Type            []string `json:"type"`
+	IssuanceDate    string   `json:"issuanceDate"`
+	NonTransferable string   `json:"nonTransferable"`
+	Issuer          string   `json:"issuer"`
+	Id              string   `json:"id"`
+	Proof           struct {
+		Type               string    `json:"type"`
+		Created            time.Time `json:"created"`
+		VerificationMethod string    `json:"verificationMethod"`
+		ProofPurpose       string    `json:"proofPurpose"`
+		Jws                string    `json:"jws"`
+	} `json:"proof"`
+	CredentialSubject struct {
+		Type              string `json:"type"`
+		Dob               string `json:"dob"`
+		BloodGroup        string `json:"bloodGroup"`
+		Name              string `json:"name"`
+		Gender            string `json:"gender"`
+		FatherName        string `json:"fatherName"`
+		NottoId           string `json:"nottoId"`
+		Id                string `json:"id"`
+		EmergencyContacts struct {
+			Name     string `json:"name"`
+			Contact  string `json:"contact"`
+			Relation string `json:"relation"`
+		} `json:"emergencyContacts"`
+		Pledge struct {
+			AdditionalOrgans string `json:"additionalOrgans"`
+			Organs           string `json:"organs"`
+			Tissues          string `json:"tissues"`
+			Type             string `json:"type"`
+		} `json:"pledge"`
+		Address struct {
+			AddressLine1 string `json:"addressLine1"`
+			AddressLine2 string `json:"addressLine2"`
+			Country      string `json:"country"`
+			District     string `json:"district"`
+			Pincode      string `json:"pincode"`
+			State        string `json:"state"`
+		} `json:"address"`
+	} `json:"credentialSubject"`
+	Evidence []struct {
+		EvidenceDocument string   `json:"evidenceDocument"`
+		RefId            string   `json:"refId"`
+		SubjectPresence  string   `json:"subjectPresence"`
+		Type             []string `json:"type"`
+		Verifier         string   `json:"verifier"`
+	} `json:"evidence"`
 }
