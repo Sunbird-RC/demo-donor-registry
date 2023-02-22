@@ -107,11 +107,14 @@ app.post('/auth/sendOTP', async(req, res) => {
         console.log('OTP sent');
     } catch(err) {
         let message = "";
-        if(err?.message?.data?.details === null) {
-            message = err?.message || err?.response?.data || err;
+        console.log(err?.response?.data?.code);
+        if(err?.response?.data?.code === 'HIS-500') {
+            message = "Please enter valid ABHA Number";
         }
-        else {
+        else if(err?.response?.data?.code === 'HIS-422'){
             message = "Please wait for 30 minutes to try again with same ABHA number";
+        } else {
+            message = err?.message || err?.response?.data || err;
         }
         let error = {
             message: message
