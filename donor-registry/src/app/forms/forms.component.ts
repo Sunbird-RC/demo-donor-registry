@@ -643,6 +643,21 @@ export class FormsComponent implements OnInit {
       this.model = {};
     }
     this.schemaloaded = true;
+
+    setTimeout(() => {
+    let nameInput = document.getElementById('abha');
+    nameInput.addEventListener('keydown', (e) => {
+        let charCode =  e.which;
+
+      if(!(charCode > 31 && (charCode < 48 || charCode > 57)))
+      {
+        null;
+      }else{
+        e.preventDefault();
+      }
+     
+      });
+        }, 6000);
   }
 
   visilibity(fields) {
