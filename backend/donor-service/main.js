@@ -230,6 +230,7 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
         const uploadESignFileRes = await uploadESignFile(entityId, esignFileData);
         console.log(uploadESignFileRes);
         res.send(updateApiResponse);
+        redis.deleteKey(getKeyForBasedOnEntityName(entityName) + entityId);
     } catch(err) {
         err = {
             message: err?.response?.data || err?.message || err
