@@ -29,7 +29,7 @@ const URL_W3C_VC = "URL_W3C_VC"
 func main() {
 	load()
 	router := mux.NewRouter()
-	router.HandleFunc("/api/v1/certificate", getCertificate).Methods("POST")
+	router.HandleFunc("/api/v1/certificatePDF", getCertificate).Methods("POST")
 	http.Handle("/", router)
 	_ = http.ListenAndServe(*addr, nil)
 }
@@ -47,13 +47,13 @@ func getCertificate(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Required parameters missing", http.StatusBadRequest)
 		}
 	}
-	templateUrl := body["templateUrl"]
+	templateUrl := body["templateUrl"].(string)[7:]
 	certificate := body["certificate"]
 	entityName := body["entityName"]
 	entityId := body["entityId"]
 	entity := body["entity"].(map[string]interface{})
 	if accept == "application/pdf" {
-		if pdfBytes, err := getCertificateInPDF(templateUrl.(string), certificate.(string), entityName.(string), entityId.(string), entity); err != nil {
+		if pdfBytes, err := getCertificateInPDF(templateUrl, certificate.(string), entityName.(string), entityId.(string), entity); err != nil {
 			log.Errorf("Error in creating certificate pdf")
 		} else {
 			w.WriteHeader(200)
@@ -61,7 +61,7 @@ func getCertificate(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	} else if accept == "image/svg+xml" || accept == "text/html" {
-		if certificate, err := getCertificateInImage(templateUrl.(string), certificate.(string), entityName.(string), entityId.(string)); err != nil {
+		if certificate, err := getCertificateInImage(templateUrl, certificate.(string), entityName.(string), entityId.(string)); err != nil {
 			log.Errorf("Error %v", err)
 		} else {
 			w.WriteHeader(200)
@@ -137,6 +137,7 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 		log.Printf(err.Error())
 		return nil, err
 	}
+
 	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
 	certificateUrl := CertificateUrlMapping[templateUrl]["portrait"][otherOrganCertificateType]
 	err := getTemplateFile(certificateUrl, templateUrl+"_"+"portrait_"+otherOrganCertificateType+".pdf")
