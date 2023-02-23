@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/coderhaoxin/handlebars"
 	"github.com/gorilla/mux"
 	"github.com/signintech/gopdf"
 	log "github.com/sirupsen/logrus"
@@ -58,7 +59,13 @@ func getCertificate(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	} else if accept == "image/svg+xml" || accept == "text/html" {
-		getCertificateInImage(templateUrl.(string), certificate.(string), entityName.(string), entityId.(string))
+		if certificate, err := getCertificateInImage(templateUrl.(string), certificate.(string), entityName.(string), entityId.(string)); err != nil {
+			log.Errorf("Error %v", err)
+		} else {
+			w.WriteHeader(200)
+			_, _ = w.Write([]byte(certificate.(string)))
+		}
+
 	}
 }
 
@@ -158,7 +165,29 @@ func renderToPDFTemplate(certificate string, qrData []byte, photo []byte) ([]byt
 }
 
 func getCertificateInImage(templateUrl string, certificate string, entityName string, entityId string) (interface{}, error) {
-	return nil, nil
+	var qrData string
+	if qrCodeType := Config.QrType; strings.ToUpper(qrCodeType) == URL {
+		qrData = Config.CertDomainUrl + "/certs/" + entityId + "?t=" + qrCodeType + "&entity=" + entityName + Config.AdditionalQueryParams
+	} else {
+		qrData, _ = getQRCodeImageBytes(certificate)
+	}
+	var certificateData map[string]interface{}
+	err := json.Unmarshal([]byte(certificate), &certificateData)
+	if err != nil {
+		return nil, err
+	}
+	certificateData["qrCode"] = qrData
+	// content, err := ioutil.ReadFile("./certificate.svg")
+	// if err != nil {
+	// 	return nil, err
+	// }
+	tpl := handlebars.RenderFile("./certificate.svg", certificateData)
+	return tpl, nil
+	// data, err := tpl.Exec(certificateData)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// return data, nil
 }
 
 func prepareDataForCertificateWithQRCode(certificate string, qrcode interface{}) (map[string]interface{}, error) {
