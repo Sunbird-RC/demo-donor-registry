@@ -6,6 +6,7 @@ import (
 	"compress/flate"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"flag"
 	"io"
 	"net/http"
@@ -26,6 +27,7 @@ const URL = "URL"
 const URL_W3C_VC = "URL_W3C_VC"
 
 func main() {
+	load()
 	router := mux.NewRouter()
 	router.HandleFunc("/api/v1/certificate", getCertificate).Methods("POST")
 	http.Handle("/", router)
@@ -77,10 +79,53 @@ func getCertificateInPDF(templateUrl string, certificate string, entityName stri
 		qrData, _ = getQRCodeImageBytes(certificate)
 	}
 	personalDetailsMap := entity["personalDetails"].(map[string]interface{})
-	return renderToPDFTemplate(certificate, []byte(qrData), []byte(personalDetailsMap["photo"].(string)))
+	return renderToPDFTemplate(templateUrl, certificate, []byte(qrData), []byte(personalDetailsMap["photo"].(string)))
 }
 
-func renderToPDFTemplate(certificate string, qrData []byte, photo []byte) ([]byte, error) {
+func DownloadFile(url string, fileName string) error {
+	log.Printf("URL : %v", url)
+	response, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode != 200 {
+		return errors.New("Received non 200 response code")
+	}
+	//Create a empty file
+	file, err := os.Create(fileName)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	//Write the bytes to the fiel
+	_, err = io.Copy(file, response.Body)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func getTemplateFile(certificateUrl string, fileName string) error {
+	_, err := os.Stat(fileName)
+	if os.IsNotExist(err) {
+		return DownloadFile(certificateUrl, fileName)
+	}
+	return nil
+}
+
+func getOtherOrganCertificateType(otherOrgans string) string {
+	withOtherOrgans := "withOtherOrgans"
+	withoutOtherOrgans := "withoutOtherOrgans"
+	if otherOrgans != "" {
+		return withOtherOrgans
+	}
+	return withoutOtherOrgans
+}
+
+func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, photo []byte) ([]byte, error) {
 	var certificateData Certificate
 	if err := json.Unmarshal([]byte(certificate), &certificateData); err != nil {
 		return nil, err
@@ -92,7 +137,14 @@ func renderToPDFTemplate(certificate string, qrData []byte, photo []byte) ([]byt
 		log.Printf(err.Error())
 		return nil, err
 	}
-	tpl1 := pdf.ImportPage("certificate.pdf", 1, "/MediaBox")
+	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
+	certificateUrl := CertificateUrlMapping[templateUrl]["portrait"][otherOrganCertificateType]
+	err := getTemplateFile(certificateUrl, templateUrl+"_"+"portrait_"+otherOrganCertificateType+".pdf")
+	if err != nil {
+		log.Printf("Error in certificate download : %v", err)
+		return nil, err
+	}
+	tpl1 := pdf.ImportPage(templateUrl+"_"+"portrait_"+otherOrganCertificateType+".pdf", 1, "/MediaBox")
 	pdf.UseImportedTemplate(tpl1, 0, 0, 580, 0)
 	if err := pdf.SetFont("dev", "", 18); err != nil {
 		log.Print(err.Error())
@@ -166,6 +218,12 @@ func renderToPDFTemplate(certificate string, qrData []byte, photo []byte) ([]byt
 	var b bytes.Buffer
 	_ = pdf.Write(&b)
 	return b.Bytes(), nil
+}
+
+func setValueAtOffsets(pdf gopdf.GoPdf, offsetX float64, offsetY float64, data string) {
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, data)
 }
 
 func getCertificateInImage(templateUrl string, certificate string, entityName string, entityId string) (interface{}, error) {

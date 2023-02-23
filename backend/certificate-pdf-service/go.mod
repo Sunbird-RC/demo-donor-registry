@@ -3,6 +3,7 @@ module certificate-pdf
 go 1.20
 
 require (
+	github.com/coderhaoxin/handlebars v0.0.0-20220106031245-660b00c087cf
 	github.com/gorilla/mux v1.8.0
 	github.com/jinzhu/configor v1.2.1
 	github.com/mitchellh/mapstructure v1.5.0
