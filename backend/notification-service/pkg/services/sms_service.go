@@ -7,6 +7,7 @@ import (
 	"github.com/imroc/req"
 	log "github.com/sirupsen/logrus"
 	"github.com/sunbirdrc/notification-service/config"
+	"strings"
 	"text/template"
 )
 
@@ -43,6 +44,10 @@ func SendSMS(mobileNumber string, message string) (map[string]interface{}, error
 		if response.Response().StatusCode != 200 {
 			responseStr, _ := response.ToString()
 			return nil, errors.New(responseStr)
+		}
+		responseStr, err := response.ToString()
+		if !strings.HasPrefix(responseStr, "1701") {
+			return nil, errors.New("Sending SMS failed with status" + responseStr)
 		}
 		responseObject := map[string]interface{}{}
 		err = response.ToJSON(&responseObject)

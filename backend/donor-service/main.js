@@ -11,6 +11,8 @@ const config = require('./configs/config');
 const constants = require('./configs/constants');
 const SERVICE_ACCOUNT_TOKEN = "SERVICE_ACCOUNT_TOKEN";
 const R = require('ramda');
+const {sendNotification} = require("./services/notify.service");
+const {LOGIN_LINK, INVITE_TEMPLATE_ID, NOTIFY_TEMPLATE_ID} = require("./configs/config");
 const app = express();
 
 (async() => {
@@ -176,8 +178,33 @@ function getKeyForBasedOnEntityName(entityName) {
     return category;
 }
 
+async function sendNotifications(profile) {
+    if (R.pathOr("", ["personalDetails", "mobileNumber"], profile).length > 0) {
+        await sendNotification(profile.personalDetails.mobileNumber, "Congratulations!\\n" +
+            "You’ve successfully pledged for organs/tissues donation.\\n" +
+            `You can login now to view and download pledge certificate ${LOGIN_LINK}.\\n` +
+            "\\n" +
+            "NOTTO, NHA", INVITE_TEMPLATE_ID);
+    }
+    const notifyName = R.pathOr("", ["notificationDetails", "name"], profile);
+    const notifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], profile);
+    if (notifyName.length > 0 && notifyNumber.length > 0) {
+        await sendNotification(notifyNumber, `Dear Mr/Ms ${notifyName},\\n` +
+            `This is to inform you that Mr/Ms ${profile.personalDetails.firstName} ${profile.personalDetails.middleName} ${profile.personalDetails.lastName} has pledged for Organ/Tissue donation.\\n` +
+            "\\n" +
+            "To know more about the NOTTO visit notto.gov.in.\\n" +
+            "\\n" +
+            "NOTTO, NHA", NOTIFY_TEMPLATE_ID);
+    }
+}
+
+app.get('/health', async(req, res) => {
+    res.status(200).send({status: 'UP'});
+});
+
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
+    //TODO : check duplicate
     const profileFromRedis = JSON.parse(await redis.getKey(req.body.identificationDetails.abha));
     if(profileFromRedis === null) {
         res.status(401).send({message: 'Abha number verification expired. Please refresh the page and restart registration'});
@@ -204,6 +231,8 @@ app.post('/register/:entityName', async(req, res) => {
         const esignFileData = (await getESingDoc(abha)).data;
         const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
         console.log(uploadESignFileRes);
+        sendNotifications(profile);
+
         res.send(inviteReponse);
     } catch(err) {
         console.log(err);
@@ -373,7 +402,7 @@ function checkIfNonEditableFieldsPresent(reqData, userData) {
     const partiallyEditableAddressDetails = Object.keys(userData.addressDetails).filter(key => !(['addressLine2', 'osUpdatedBy', 'osUpdatedAt'].includes(key)));
     let result = !(userData.identificationDetails.abha === reqData.identificationDetails.abha && userData.identificationDetails.nottoId === reqData.identificationDetails.nottoId);
     for(const key of partiallyEditablePersonalDetails) {
-        result = result || !(userData.personalDetails[key] === reqData.personalDetails[key]); 
+        result = result || !(userData.personalDetails[key] === reqData.personalDetails[key]);
     }
     if(result) return result;
     for(const key of partiallyEditableAddressDetails) {
