@@ -657,7 +657,7 @@ export class FormsComponent implements OnInit {
       }
      
       });
-        }, 6000);
+        }, 3000);
   }
 
   visilibity(fields) {
