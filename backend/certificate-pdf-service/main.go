@@ -82,8 +82,8 @@ func getCertificateInPDF(templateUrl string, certificate string, entityName stri
 
 func renderToPDFTemplate(certificate string, qrData []byte, photo []byte) ([]byte, error) {
 	var certificateData Certificate
-	if err := json.Unmarshal([]byte(certificate), &certificateData); err == nil {
-		log.Printf("Data : %v", certificateData)
+	if err := json.Unmarshal([]byte(certificate), &certificateData); err != nil {
+		return nil, err
 	}
 	pdf := gopdf.GoPdf{}
 	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
@@ -111,7 +111,11 @@ func renderToPDFTemplate(certificate string, qrData []byte, photo []byte) ([]byt
 	offsetY = 340.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.IssuanceDate)
+	date, err := time.Parse(time.RFC3339, certificateData.IssuanceDate)
+	if err != nil {
+		return nil, err
+	}
+	_ = pdf.Cell(nil, date.Format("02-03-2006"))
 	offsetX = 432.0
 	offsetY = 340.0
 	pdf.SetX(offsetX)
