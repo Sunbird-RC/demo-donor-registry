@@ -1560,7 +1560,7 @@ export class FormsComponent implements OnInit {
     if(isVerify !== "true") {
       let dateSpan = document.getElementById('abhamessage');
       dateSpan.classList.add('text-danger');
-      dateSpan.innerText = "Please very abha number";
+      dateSpan.innerText = "Please verify abha number";
       document.getElementById('abha').focus();
       document.getElementById('abha').classList.add('is-invalid');
       isformVerity = false;
