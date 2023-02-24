@@ -33,10 +33,15 @@ import { FieldType } from '@ngx-formly/core';
     
   </li>
   </ul>
-
   `,
 })
 export class FormlyFieldNgSelectAllCheckbox extends FieldType {
+  ngOnInit(): void { 
+    if(Object.keys(this.formControl.value).length == Object.keys(this.to.options).length)
+    {
+      this.setAll(true);
+    }
+  }
   allChecked: boolean = false;
   onChange(value: any, checked: boolean) {
     this.allChecked = false;
@@ -44,13 +49,17 @@ export class FormlyFieldNgSelectAllCheckbox extends FieldType {
     if (this.to.type === 'array') {
       this.formControl.patchValue(
         checked
-          ? [...(this.formControl.value || []), value]
-          : [...(this.formControl.value || [])].filter((o) => o !== value),
+          ? [...new Set(this.formControl.value || []), value]
+          : [...new Set(this.formControl.value || [])].filter((o) => o !== value),
       );
     } else {
-      this.formControl.patchValue({ ...this.formControl.value, [value]: checked });
+      this.formControl.patchValue({ ...new Set(this.formControl.value), [value]: checked });
     }
     this.formControl.markAsTouched();
+    if(Object.keys(this.formControl.value).length == Object.keys(this.to.options).length)
+    {
+      this.setAll(true);
+    }
   }
 
   isChecked(option: any) {
@@ -72,11 +81,11 @@ export class FormlyFieldNgSelectAllCheckbox extends FieldType {
      if (self.to.type === 'array') {
       self.formControl.patchValue(
         self.allChecked
-           ? [...(self.formControl.value || []), key['value']]
-           : [...(self.formControl.value || [])].filter((o) => o !== key['value']),
+           ? [...new Set(self.formControl.value || []), key['value']]
+           : [...new Set(self.formControl.value || [])].filter((o) => o !== key['value']),
        );
      } else {
-       self.formControl.patchValue({ ...this.formControl.value, [key['value']]: self.allChecked });
+       self.formControl.patchValue({ ...new Set(this.formControl.value), [key['value']]: self.allChecked });
      }
     
      })
