@@ -211,6 +211,8 @@ export class FormsComponent implements OnInit {
 
   ngAfterContentChecked(): void {
 
+
+
     if (this.model["memberToBeNotified"] == true) {
       this.flag = false;
       this.model = {
@@ -231,7 +233,11 @@ export class FormsComponent implements OnInit {
 
       }
     }
+    if (this.model.hasOwnProperty('memberToBeNotified') && this.model['memberToBeNotified']== "false") {
+      this.model['memberToBeNotified'] = false;
+    }
     if(!this.flag){
+     
       if (this.model["memberToBeNotified"] == false) {  
         this.flag = true;
         if (JSON.stringify(this.model["notificationDetails"]) != '{}') {
@@ -256,8 +262,10 @@ export class FormsComponent implements OnInit {
             }
           }
         }
-  
+      
       }
+
+     
     }
 
 
@@ -1919,6 +1927,7 @@ export class FormsComponent implements OnInit {
         } else if (this.form == 'pledge-setup') {
           this.identifier = res[0].osid;
           this.model = res[0];
+         
           // for (let i = 0; i < res.length; i++) {
           //   if (localStorage.getItem('loggedInUserName') == res[i]['personalDetails']['firstName']) {
           //     this.model = res[i];
@@ -2089,7 +2098,7 @@ export class FormsComponent implements OnInit {
       if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
         this.model['emergencyDetails'] = {}
       }
-
+     
       if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
         this.model['notificationDetails'] = {}
       }
@@ -2141,7 +2150,7 @@ export class FormsComponent implements OnInit {
       if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
         this.model['notificationDetails'] = {}
       }
-
+        
       this.tempUrl = `${getDonorServiceHost()}/register/Pledge` + "/" + this.identifier;
      // this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
       await this.http.put<any>(this.tempUrl, this.model).subscribe((res) => {
@@ -2151,6 +2160,9 @@ export class FormsComponent implements OnInit {
             this.pledgeAgainCardModal();
           }
           if (this.form == 'pledge-setup' && this.identifier) {
+       
+         
+      
             this.editCardModal();
           }
 
