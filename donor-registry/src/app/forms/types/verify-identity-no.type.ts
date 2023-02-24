@@ -64,17 +64,13 @@ import {
               <p class="p14">
                 Only individuals of age 18 year or above can pledge.
               </p>
-              <a href="http://">Click here for more information</a>
+              <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf">Click here for more information</a>
               <br />
               <br />
-              <button
-                m
-                type="button"
-                class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
-                (click)="previous()"
-              >
-                Ok
-              </button>
+              <div class="container-fluid mt-3">
+              <button type="button" class=" btn btn-primary-notto btn-style w-100 submit-button mb-2"
+              data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
+          </div>
             </div>
           </div>
         </div>
@@ -112,7 +108,7 @@ import {
             </div>
         </div>
     </div>
-        <div *ngIf="!isGotErr || err401" class="modal-dialog" role="document">
+        <div *ngIf="(!isGotErr || err401) || canRegister" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
             <div
               class="close float-end"
@@ -210,7 +206,7 @@ export class VerifyIndentityCode extends FieldType {
     this.isIdentityNo = true;
     this.canRegister = true;
     this.isGotErr = false;
-
+    this.optVal = "";
     this.number = (<HTMLInputElement>document.getElementById(value)).value;
 
     if (this.number) {
