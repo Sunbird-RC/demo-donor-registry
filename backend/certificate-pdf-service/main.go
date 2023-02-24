@@ -146,13 +146,13 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 		return nil, err
 	}
 	tpl1 := pdf.ImportPage(templateUrl+"_"+"portrait_"+otherOrganCertificateType+".pdf", 1, "/MediaBox")
-	pdf.UseImportedTemplate(tpl1, 0, 0, 580, 0)
+	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
 	if err := pdf.SetFont("dev", "", 18); err != nil {
 		log.Print(err.Error())
 		return nil, err
 	}
 	offsetX := 190.0
-	offsetY := 180.0
+	offsetY := 190.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.Name)
@@ -161,7 +161,7 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 		return nil, err
 	}
 	offsetX = 190.0
-	offsetY = 340.0
+	offsetY = 350.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	date, err := time.Parse(time.RFC3339, certificateData.IssuanceDate)
@@ -170,42 +170,42 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 	}
 	_ = pdf.Cell(nil, date.Format("02-03-2006"))
 	offsetX = 432.0
-	offsetY = 340.0
+	offsetY = 350.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.FatherName)
 	offsetX = 190.0
-	offsetY = 377.0
+	offsetY = 387.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.Evidence[0].RefId)
 	offsetX = 432.0
-	offsetY = 377.0
+	offsetY = 387.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.BloodGroup)
 	offsetX = 190.0
-	offsetY = 414.0
+	offsetY = 424.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.NottoId)
 	offsetX = 432.0
-	offsetY = 414.0
+	offsetY = 424.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.EmergencyContacts.Contact)
 	offsetX = 190.0
-	offsetY = 451.0
+	offsetY = 461.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Organs)
 	offsetX = 190.0
-	offsetY = 488.0
+	offsetY = 498.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Tissues)
 	holder, err := gopdf.ImageHolderByBytes(qrData)
-	if err = pdf.ImageByHolder(holder, 47, 566, &gopdf.Rect{W: 210, H: 210}); err != nil {
+	if err = pdf.ImageByHolder(holder, 47, 576, &gopdf.Rect{W: 210, H: 210}); err != nil {
 		log.Errorf("Error creating QR Code")
 	}
 	photoStr, err := base64.StdEncoding.DecodeString(string(photo))
@@ -213,7 +213,7 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 		return nil, err
 	}
 	holder, err = gopdf.ImageHolderByBytes(photoStr)
-	if err = pdf.ImageByHolder(holder, 47, 181, &gopdf.Rect{W: 120, H: 120}); err != nil {
+	if err = pdf.ImageByHolder(holder, 47, 191, &gopdf.Rect{W: 120, H: 120}); err != nil {
 		log.Errorf("Error creating Profile photo")
 	}
 	var b bytes.Buffer

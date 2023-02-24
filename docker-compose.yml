@@ -53,7 +53,7 @@ services:
       - sign_url=http://certificate-signer:8079/sign
       - sign_health_check_url=http://certificate-signer:8079/health
       - signature_enabled=true
-      - pdf_url=http://certificate-api:8078/api/v1/certificatePDF
+      - pdf_url=http://certificate-pdf:8003/api/v1/certificatePDF
       - certificate_health_check_url=http://certificate-api:8078/health
       - template_base_url=http://registry:8081/api/v1/templates/ #Looks for certificate templates for pdf copy of the signed certificate
       - sunbird_keycloak_user_set_password=true
@@ -282,6 +282,10 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+  certificate-pdf:
+    build: backend/certificate-pdf-service
+    ports:
+      - "8003:8003"
   donor-service:
     build: backend/donor-service
     ports:
