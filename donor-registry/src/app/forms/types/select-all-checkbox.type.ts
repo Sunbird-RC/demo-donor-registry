@@ -12,7 +12,7 @@ import { FieldType } from '@ngx-formly/core';
     <ul class="row mt-2 checkbox-list-style">
     <div class="col-lg-2 col-sm-6">
     <input type="checkbox" class="form-check-input fs-12" [checked]="allChecked" (change)="setAll($event.checked)"> 
-    <label class="form-check-label fs-12 pt-1 pl-1"> Select All </label>
+    <label class="form-check-label fs-12 pt-1 pl-1"> All {{ to.label }} </label>
     </div>
     <li *ngFor="let option of to.options; let i = index" class="select-all-checkbox-in-row remove-ul-style col-lg-2 col-sm-6 mt-1">
     <input 
@@ -33,10 +33,15 @@ import { FieldType } from '@ngx-formly/core';
     
   </li>
   </ul>
-
   `,
 })
 export class FormlyFieldNgSelectAllCheckbox extends FieldType {
+  ngOnInit(): void { 
+    if(Object.keys(this.formControl.value).length == Object.keys(this.to.options).length)
+    {
+      this.setAll(true);
+    }
+  }
   allChecked: boolean = false;
   onChange(value: any, checked: boolean) {
     this.allChecked = false;
@@ -44,13 +49,17 @@ export class FormlyFieldNgSelectAllCheckbox extends FieldType {
     if (this.to.type === 'array') {
       this.formControl.patchValue(
         checked
-          ? [...(this.formControl.value || []), value]
-          : [...(this.formControl.value || [])].filter((o) => o !== value),
+          ? [...new Set(this.formControl.value || []), value]
+          : [...new Set(this.formControl.value || [])].filter((o) => o !== value),
       );
     } else {
-      this.formControl.patchValue({ ...this.formControl.value, [value]: checked });
+      this.formControl.patchValue({ ...new Set(this.formControl.value), [value]: checked });
     }
     this.formControl.markAsTouched();
+    if(Object.keys(this.formControl.value).length == Object.keys(this.to.options).length)
+    {
+      this.setAll(true);
+    }
   }
 
   isChecked(option: any) {
@@ -72,11 +81,11 @@ export class FormlyFieldNgSelectAllCheckbox extends FieldType {
      if (self.to.type === 'array') {
       self.formControl.patchValue(
         self.allChecked
-           ? [...(self.formControl.value || []), key['value']]
-           : [...(self.formControl.value || [])].filter((o) => o !== key['value']),
+           ? [...new Set(self.formControl.value || []), key['value']]
+           : [...new Set(self.formControl.value || [])].filter((o) => o !== key['value']),
        );
      } else {
-       self.formControl.patchValue({ ...this.formControl.value, [key['value']]: self.allChecked });
+       self.formControl.patchValue({ ...new Set(this.formControl.value), [key['value']]: self.allChecked });
      }
     
      })

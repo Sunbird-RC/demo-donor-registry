@@ -14,6 +14,10 @@ const KEYCLOAK_URL = process.env.KEYCLOAK_URL;
 const LOG_LEVEL = process.env.LOG_LEVEL || "INFO";
 const NUMBER_OF_DIGITS = process.env.NUMBER_OF_DIGITS || 7;
 const UNIQUE_ABHA_ENABLED = process.env.UNIQUE_ABHA_ENABLED === "true" || false;
+const NOTIFICATION_SERVICE_URL = process.env.NOTIFICATION_SERVICE_URL;
+const LOGIN_LINK = process.env.LOGIN_LINK;
+const INVITE_TEMPLATE_ID = process.env.INVITE_TEMPLATE_ID;
+const NOTIFY_TEMPLATE_ID = process.env.NOTIFY_TEMPLATE_ID;
 module.exports = {
     REDIS_URL,
     BASE_URL,
@@ -30,5 +34,9 @@ module.exports = {
     KEYCLOAK_URL,
     LOG_LEVEL,
     NUMBER_OF_DIGITS,
-    UNIQUE_ABHA_ENABLED
+    UNIQUE_ABHA_ENABLED,
+    NOTIFICATION_SERVICE_URL,
+    LOGIN_LINK,
+    INVITE_TEMPLATE_ID,
+    NOTIFY_TEMPLATE_ID
 }

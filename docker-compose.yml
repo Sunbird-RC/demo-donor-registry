@@ -110,6 +110,9 @@ services:
       - SHOW_FOOTER=false
       - SHOW_BANNER=false
       - LOGIN_USER_ID_TITLE=ABHA Number / Mobile Number
+      - MOCK_OTP=false
+      - MESSAGE_TEMPLATE=${MESSAGE_TEMPLATE}
+      - NOTIFICATION_SERVICE_URL=http://notification-ms:8765/notification-service/v1/notification
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:9990/ || exit 1"]
@@ -184,9 +187,18 @@ services:
       timeout: 20s
       retries: 10
   notification-ms:
-    image: dockerhub/sunbird-rc-notification-service:${RELEASE_VERSION}
+    build: backend/notification-service
     ports:
       - "8765:8765"
+    environment:
+      - KAFKA_ENABLED=false
+      - SMPP_ENTITY_ID=${SMPP_ENTITY_ID}
+      - SMPP_PASSWORD=${SMPP_PASSWORD}
+      - SMPP_SOURCE=${SMPP_SOURCE}
+      - SMPP_USER_NAME=${SMPP_USER_NAME}
+      - SMS_URL=${SMS_URL}
+      - ENABLE_SMS=true
+      - ENABLE_EMAIL=false
     healthcheck:
       test:
         [ "CMD-SHELL", "wget -nv -t1 --spider http://localhost:8765/notification-service/v1/health || exit 1" ]
@@ -303,3 +315,7 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
       NUMBER_OF_DIGITS: ${NUMBER_OF_DIGITS}
       UNIQUE_ABHA_ENABLED: ${UNIQUE_ABHA_ENABLED}
+      NOTIFICATION_SERVICE_URL: http://notification-ms:8765/notification-service/v1/notification
+      LOGIN_LINK: ${LOGIN_LINK}
+      INVITE_TEMPLATE_ID: ${INVITE_TEMPLATE_ID}
+      NOTIFY_TEMPLATE_ID: ${NOTIFY_TEMPLATE_ID}

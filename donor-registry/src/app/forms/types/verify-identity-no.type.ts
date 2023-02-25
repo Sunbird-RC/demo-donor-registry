@@ -12,10 +12,12 @@ import {
   styleUrls: ['../forms.component.scss'],
   template: `
     <div>
-      <span class="fw-bold p12">{{ to.label }}*</span> <br />
+ 
+      <span class="fw-bold p12">{{ to.label }} *</span> <br />
       <div class="d-flex">
         <input
-          id="{{ field.key }}"  maxlength="14"
+          onkeypress='return !((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'
+          id="{{ field.key }}"  maxlength="14" 
           [formControl]="formControl"
           [formlyAttributes]="field"
           pattern="[9]{1}[1]{1}[0-9]{12}"
@@ -43,9 +45,8 @@ import {
       <div class="p12" id="abhamessage"></div>
       
       <br />
-
       <div
-        *ngIf="!canRegister || isIdentityNo"
+        *ngIf="!canRegister || isIdentityNo || isGotErr"
         class="modal fade"
         id="verifyOtp"
         tabindex="-1"
@@ -55,7 +56,7 @@ import {
         data-backdrop="static"
         data-keyboard="false"
       >
-        <div *ngIf="!canRegister" class="modal-dialog" role="document">
+        <div *ngIf="!canRegister && !isGotErr" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
             <div class="modal-body text-center">
               <h3 class="fw-bold mb-3">Cannot register for Pledge</h3>
@@ -63,21 +64,51 @@ import {
               <p class="p14">
                 Only individuals of age 18 year or above can pledge.
               </p>
-              <a href="http://">Click here for more information</a>
+              <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf">Click here for more information</a>
               <br />
               <br />
-              <button
-                m
-                type="button"
-                class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
-                (click)="previous()"
-              >
-                Ok
-              </button>
+              <div class="container-fluid mt-3">
+              <button type="button" class=" btn btn-primary-notto btn-style w-100 submit-button mb-2"
+              data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
+          </div>
             </div>
           </div>
         </div>
-        <div *ngIf="isIdentityNo" class="modal-dialog" role="document">
+        <div *ngIf="isGotErr && !err401 " class="modal-dialog" role="document">
+        <div class="p-4 modal-content">
+            <div  class="modal-body text-center">
+                <div   class="d-flex flex-column justify-content-center align-items-center">
+                   <div *ngIf="isAbhaNoErr">
+                   <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold"></span>
+                   <br>
+                   <span *ngIf="customErrCode == '420'" class="p24 mb-2 mt-2 mb-2 fw-bold">ABHA number entered multiple times</span>
+                   <span *ngIf="customErrCode == '427'" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid ABHA number</span>
+                   <br /> <br />
+                   <span *ngIf="errorMessage" class="p14 mb-2 mt-2 mb-2">{{errorMessage}}</span>
+                   
+                   <br /> <br />
+                 
+                
+                    </div>
+                    <div *ngIf="!isAbhaNoErr">
+                    <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid OTP number</span>
+                    <span *ngIf="customErrCode == '429'" class="p24 mb-2 mt-2 mb-2 fw-bold">OTP entered multiple times</span>
+                    <br>
+                  
+                    <br>
+                    <span *ngIf="errorMessage" class="p16 mb-2 mt-2 mb-2 fw-bold">{{errorMessage}}</span>
+                    <br />
+                    <br />
+                     </div>
+                    <div class="container-fluid mt-3">
+                        <button type="button" class=" btn btn-primary-notto btn-style w-100 submit-button mb-2"
+                        data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div *ngIf="(!isGotErr || err401) || canRegister" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
             <div
               class="close float-end"
@@ -92,12 +123,13 @@ import {
                 Enter the code sent to mobile number associated with your ID
               </p>
               <span class="fw-bold p12"> Enter OTP</span> <br />
-              <input
+              <input maxLength="6"
                 type="input"
                 [(ngModel)]="optVal"
                 name="optVal"
                 class="form-control"
               />
+              <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
               <br />
               <button
                 m
@@ -130,6 +162,7 @@ import {
           Close
         </button>
       </div>
+     
     </div>
   `,
 })
@@ -141,13 +174,20 @@ export class VerifyIndentityCode extends FieldType {
   number: string;
   isIdentityNo: boolean = true;
   canRegister: boolean = true;
+  isGotErr: boolean = false;
+  isConfirmPopup : boolean = false;
   transactionId: string;
   model1: any;
   errorMessage: any;
   data1: any;
   // @Output() sendData1 = new EventEmitter<any>();
   model2: any;
-  signupForm: boolean;
+ signupForm: boolean;
+  isAbhaNoErr: boolean = false;
+  customErrCode: string;
+  err401: boolean = false;
+  err429: boolean = false;
+
   constructor(private http: HttpClient, public generalService: GeneralService,public router: Router,) {
     super();
   }
@@ -163,7 +203,12 @@ export class VerifyIndentityCode extends FieldType {
   }
 
   async verifyOtp(value) {
+    this.isIdentityNo = true;
+    this.canRegister = true;
+    this.isGotErr = false;
+    this.optVal = "";
     this.number = (<HTMLInputElement>document.getElementById(value)).value;
+
     if (this.number) {
       this.model1 = {
         healthId: this.number,
@@ -173,21 +218,28 @@ export class VerifyIndentityCode extends FieldType {
         .post<any>(`${getDonorServiceHost()}/auth/sendOTP`, this.model1)
         .subscribe({
           next: (data) => {
+            this.isGotErr = false;
+            this.isIdentityNo = true;
+            this.isConfirmPopup = true;
             console.log(data);
             this.transactionId = data.txnId;
           },
           error: (error) => {
-            this.errorMessage = error.message;
+
+            this.checkErrType(error);
+           // this.errorMessage = error?.error['message'];
 
             if (
               localStorage.getItem('formtype') != 'recipient' &&
               localStorage.getItem('formtype') != 'livedonor'
             ) {
-              alert(this.errorMessage);
+              // alert(this.errorMessage);
             }
+            this.isGotErr = true;
+            this.isAbhaNoErr = true;
 
-            this.isIdentityNo = true;
-            console.error('There was an error!', error);
+            // this.isIdentityNo = true;
+            //  console.error('There was an error!', error);
           },
         });
     } else {
@@ -198,6 +250,24 @@ export class VerifyIndentityCode extends FieldType {
   previous = () => {
     window.history.back();
   };
+
+  checkErrType(err)
+  {
+
+     this.errorMessage = err?.error['message'];
+    if(this.errorMessage.includes('30'))
+    {
+      this.customErrCode = '420';
+     
+    }
+    if(this.errorMessage.includes('enter valid ABHA'))
+    {
+      this.customErrCode = '427';
+     
+    }
+
+
+  }
 
   submitOtp() {
     if (this.optVal) {
@@ -212,7 +282,9 @@ export class VerifyIndentityCode extends FieldType {
         .post<any>(`${getDonorServiceHost()}/auth/verifyOTP`, this.model2)
         .subscribe({
           next: (data) => {
+            this.isIdentityNo = true;
             this.isVerify = true;
+  	    this.isGotErr = false;
             let dateSpan = document.getElementById('abhamessage');
             dateSpan.classList.remove('text-danger');
             dateSpan.innerText = "";
@@ -248,9 +320,27 @@ export class VerifyIndentityCode extends FieldType {
             }
           },
           error: (error) => {
-            this.errorMessage = error.message;
-            alert(this.errorMessage);
-            this.isIdentityNo = true;
+            this.errorMessage = error?.error['message'];
+            this.customErrCode = (error?.error['status'])? error?.error['status'] : "";
+            if( error?.error['status'] == '401')
+            {
+              this.isGotErr = true;
+              this.isAbhaNoErr = false;
+              this.isIdentityNo = true;
+              this.err401 = true;
+              this.err429 = false;
+
+            }
+            if( error?.error['status'] == '429')
+            {
+              this.isGotErr = true;
+              this.isAbhaNoErr = false;
+              this.isIdentityNo = true;
+              this.err401 = false;
+              this.err429 = true;
+
+            }
+         
             console.error('There was an error!', error);
           },
         });
