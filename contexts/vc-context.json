@@ -6,6 +6,7 @@
     "type": "@type",
     "schema": "https://schema.org/",
     "pledge": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/contexts/vc-context.json",
+    "emergency": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/contexts/vc-context.json",
     "ProofOfOrganPledge": {
       "@id": "schema:ProofOfOrganPledge",
       "@context": {
@@ -40,6 +41,15 @@
             "pincode": "schema:postalCode"
           }
         }
+      }
+    },
+    "Emergency": {
+      "@id": "pledge:EmergencyDetails",
+      "@context": {
+        "name": "schema:Text",
+        "mobileNumber": "schema:Text",
+        "relation": "schema:Text",
+        "otherRelation": "schema:Text"
       }
     },
     "OrganPledge": {
