@@ -867,6 +867,30 @@ export class FormsComponent implements OnInit {
             this.responseData.definitions[fieldset.definition].properties[field.name]['key'] = this.translate.instant(field.element.key);
           }
           this.customFields.push(field.key);
+
+          if (field.element.hasOwnProperty('condition') && field.element.condition.type == 'disable') {
+            console.log(field.element.condition.type);
+            if (this.form == 'signup' || this.form == 'pledge-setup') {
+
+              let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+                'expressionProperties': {
+                  "templateOptions.disabled": (model, formState, field1) => {
+
+
+                    if (this.model['emergencyDetails']['mobileNumber'] || this.model['emergencyDetails']['name'] || this.model['emergencyDetails']['relation']) {
+                      return false;
+                    }
+                    else {
+                      return true;
+                    }
+
+                  }
+                }
+              }
+            }
+          }
+          
         } else {
           this.addWidget(fieldset, field, '')
         }
