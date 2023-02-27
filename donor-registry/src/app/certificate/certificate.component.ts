@@ -48,6 +48,7 @@ export class CertificateComponent implements OnInit {
   unPledge = false;
   revoke = true;
   documentName: string;
+  orientation: string;
     
 
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
@@ -56,9 +57,9 @@ export class CertificateComponent implements OnInit {
     private config: AppConfig) {
   }
   ngOnInit(): void {
-
-    this.documentName = this.route.snapshot.paramMap.get('stateVal');
-    console.log(typeof(this.documentName));
+    
+    this.orientation = (screen.orientation.angle  == 90) ? "_landscape" : '_portrait'
+    this.documentName = this.route.snapshot.paramMap.get('stateVal') + this.orientation;
     this.identifier = this.route.snapshot.paramMap.get('identifier');
     let headerOptions = new HttpHeaders({
       'template-key': this.documentName,
