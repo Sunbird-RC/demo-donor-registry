@@ -110,12 +110,13 @@ app.post('/auth/sendOTP', async(req, res) => {
     } catch(err) {
         let message = "";
         console.log(err?.response?.data?.code);
-        if(err?.response?.data?.code === 'HIS-500') {
+        if(err?.response?.data?.code === 'HIS-500' || err?.response?.data?.details[0]?.code === 'HIS-1008') {
             message = "Please enter valid ABHA Number";
         }
-        else if(err?.response?.data?.code === 'HIS-422'){
+        else if(err?.response?.data?.details[0]?.code === 'HIS-1023'){
             message = "Please wait for 30 minutes to try again with same ABHA number";
-        } else {
+        }
+        else {
             message = err?.message || err?.response?.data || err;
         }
         let error = {
