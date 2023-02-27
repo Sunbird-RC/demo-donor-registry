@@ -131,7 +131,6 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 		log.Printf("%v", err)
 		return nil, err
 	}
-	log.Printf("Certificate : %v", certificateData)
 	pdf := gopdf.GoPdf{}
 	if strings.Contains(templateUrl, "portrait") {
 		return renderPortraitPdf(pdf, templateUrl, certificateData, qrData, photo)
@@ -140,7 +139,6 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 }
 
 func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Certificate, qrData []byte, photo []byte) ([]byte, error) {
-	log.Printf("Landscape")
 	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4Landscape})
 	pdf.AddPage()
 	if err := pdf.AddTTFFont("dev", "NotoSansDevanagari.ttf"); err != nil {
@@ -243,7 +241,6 @@ func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cer
 }
 
 func renderPortraitPdf(pdf gopdf.GoPdf, templateUrl string, certificateData Certificate, qrData []byte, photo []byte) ([]byte, error) {
-	log.Printf("Portrait")
 	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
 	pdf.AddPage()
 	if err := pdf.AddTTFFont("dev", "NotoSansDevanagari.ttf"); err != nil {
