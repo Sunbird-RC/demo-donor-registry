@@ -330,6 +330,9 @@
                 "element": {
                   "title": "Same as emergency contact",
                   "type": "checkbox",
+                  "condition": {
+                    "type": "disable"
+                  },
                   "widget": {
                     "formlyConfig": {
                       "type": "checkbox",
