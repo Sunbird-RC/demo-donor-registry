@@ -468,9 +468,10 @@ type Certificate struct {
 		NottoId    string `json:"nottoId"`
 		Id         string `json:"id"`
 		Emergency  struct {
-			Name         string `json:"name"`
-			MobileNumber string `json:"mobileNumber"`
-			Relation     string `json:"relation"`
+			Name          string `json:"name"`
+			MobileNumber  string `json:"mobileNumber"`
+			Relation      string `json:"relation"`
+			OtherRelation string `json:"otherRelation"`
 		} `json:"emergency"`
 		Pledge struct {
 			AdditionalOrgans string `json:"additionalOrgans"`

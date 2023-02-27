@@ -102,6 +102,13 @@
           "tissues": "{{pledgeDetails.tissues}}",
           "additionalOrgans": "{{pledgeDetails.other}}"
         },
+        "emergency": {
+          "type": "Emergency",
+          "name": "{{emergencyDetails.name}}",
+          "mobileNumber": "{{emergencyDetails.mobileNumber}}",
+          "otherRelation": "{{emergencyDetails.otherRelation}}",
+          "relation": "{{emergencyDetails.relation}}"
+        },
         "address": {
           "addressLine1": "{{addressDetails.addressLine1}}",
           "addressLine2": "{{addressDetails.addressLine2}}",
