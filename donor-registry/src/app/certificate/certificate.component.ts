@@ -57,19 +57,9 @@ export class CertificateComponent implements OnInit {
     private config: AppConfig) {
   }
   ngOnInit(): void {
-    console.log(screen.orientation.angle);
-   if(screen.orientation.angle == 90){
-    this.orientation = "_landscape"
-   }
-   else if(screen.orientation.angle == 0)
-   {
-    this.orientation = "_portrait" 
-   }
-
+    
+    this.orientation = (screen.orientation.angle  == 90) ? "_landscape" : '_portrait'
     this.documentName = this.route.snapshot.paramMap.get('stateVal') + this.orientation;
-
-   // this.documentName = this.route.snapshot.paramMap.get('stateVal');
-    console.log(typeof(this.documentName));
     this.identifier = this.route.snapshot.paramMap.get('identifier');
     let headerOptions = new HttpHeaders({
       'template-key': this.documentName,
