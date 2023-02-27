@@ -92,6 +92,7 @@ services:
     image: varadeth/sunbird-rc-keycloak:v0.0.13-3
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
+      - ${PWD}/${KEYCLOAK_THEMES_DIR-keycloak/themes/nha}:/opt/jboss/keycloak/themes/nha
     environment:
       - KEYCLOAK_LOGO=https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/imports/header_logo.svg
       - DB_VENDOR=postgres
