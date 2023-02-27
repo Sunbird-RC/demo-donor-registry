@@ -269,7 +269,11 @@
     },
     "EmergencyDetails": {
       "type": "object",
-      "required": [],
+      "required": [
+        "name",
+        "relation",
+        "mobileNumber"
+      ],
       "title": "Emergency Contact Details",
       "properties": {
         "name": {

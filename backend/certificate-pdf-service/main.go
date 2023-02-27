@@ -27,7 +27,6 @@ const URL = "URL"
 const URL_W3C_VC = "URL_W3C_VC"
 
 func main() {
-	load()
 	router := mux.NewRouter()
 	router.HandleFunc("/api/v1/certificatePDF", getCertificate).Methods("POST")
 	http.Handle("/", router)
@@ -47,7 +46,7 @@ func getCertificate(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Required parameters missing", http.StatusBadRequest)
 		}
 	}
-	templateUrl := body["templateUrl"].(string)[7:]
+	templateUrl := body["templateUrl"].(string)
 	certificate := body["certificate"]
 	entityName := body["entityName"]
 	entityId := body["entityId"]
@@ -86,6 +85,7 @@ func DownloadFile(url string, fileName string) error {
 	log.Printf("URL : %v", url)
 	response, err := http.Get(url)
 	if err != nil {
+		log.Printf("%v", err)
 		return err
 	}
 	defer response.Body.Close()
@@ -117,8 +117,8 @@ func getTemplateFile(certificateUrl string, fileName string) error {
 }
 
 func getOtherOrganCertificateType(otherOrgans string) string {
-	withOtherOrgans := "withOtherOrgans"
-	withoutOtherOrgans := "withoutOtherOrgans"
+	withOtherOrgans := "otherOrgans.pdf"
+	withoutOtherOrgans := "withoutOtherOrgans.pdf"
 	if otherOrgans != "" {
 		return withOtherOrgans
 	}
@@ -128,9 +128,119 @@ func getOtherOrganCertificateType(otherOrgans string) string {
 func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, photo []byte) ([]byte, error) {
 	var certificateData Certificate
 	if err := json.Unmarshal([]byte(certificate), &certificateData); err != nil {
+		log.Printf("%v", err)
 		return nil, err
 	}
 	pdf := gopdf.GoPdf{}
+	if strings.Contains(templateUrl, "portrait") {
+		return renderPortraitPdf(pdf, templateUrl, certificateData, qrData, photo)
+	}
+	return renderLandscapePdf(pdf, templateUrl, certificateData, qrData, photo)
+}
+
+func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Certificate, qrData []byte, photo []byte) ([]byte, error) {
+	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4Landscape})
+	pdf.AddPage()
+	if err := pdf.AddTTFFont("dev", "NotoSansDevanagari.ttf"); err != nil {
+		log.Printf(err.Error())
+		return nil, err
+	}
+	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
+	certificateUrl := templateUrl + otherOrganCertificateType
+	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
+	err := getTemplateFile(certificateUrl, fileName)
+	if err != nil {
+		log.Printf("Error in certificate download : %v", err)
+		return nil, err
+	}
+	tpl1 := pdf.ImportPage(fileName, 1, "/MediaBox")
+	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
+	if err := pdf.SetFont("dev", "", 18); err != nil {
+		log.Print(err.Error())
+		return nil, err
+	}
+	offsetX := 163.0
+	offsetY := 160.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.Name)
+
+	if err := pdf.SetFont("dev", "", 10); err != nil {
+		log.Print(err.Error())
+		return nil, err
+	}
+	offsetX = 164.0
+	offsetY = 291.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	date, err := time.Parse(time.RFC3339, certificateData.IssuanceDate)
+	if err != nil {
+		log.Printf("Error : %v", err.Error())
+		return nil, err
+	}
+	_ = pdf.Cell(nil, date.Format("02-03-2006"))
+
+	offsetX = 164.0
+	offsetY = 327.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.Evidence[0].RefId)
+
+	offsetX = 164.0
+	offsetY = 361.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.NottoId)
+
+	offsetX = 164.0
+	offsetY = 395.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Organs)
+
+	offsetX = 164.0
+	offsetY = 429.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Tissues)
+
+	offsetX = 464.0
+	offsetY = 291.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.FatherName)
+
+	offsetX = 464.0
+	offsetY = 327.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.BloodGroup)
+
+	offsetX = 464.0
+	offsetY = 361.0
+	pdf.SetX(offsetX)
+	pdf.SetY(offsetY)
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.Emergency.MobileNumber)
+
+	holder, err := gopdf.ImageHolderByBytes(qrData)
+	if err = pdf.ImageByHolder(holder, 544, 276, &gopdf.Rect{W: 210, H: 210}); err != nil {
+		log.Errorf("Error creating QR Code")
+	}
+	photoStr, err := base64.StdEncoding.DecodeString(string(photo))
+	if err != nil {
+		return nil, err
+	}
+	holder, err = gopdf.ImageHolderByBytes(photoStr)
+	if err = pdf.ImageByHolder(holder, 50, 161, &gopdf.Rect{W: 110, H: 110}); err != nil {
+		log.Errorf("Error creating Profile photo")
+	}
+
+	var b bytes.Buffer
+	_ = pdf.Write(&b)
+	return b.Bytes(), nil
+}
+
+func renderPortraitPdf(pdf gopdf.GoPdf, templateUrl string, certificateData Certificate, qrData []byte, photo []byte) ([]byte, error) {
 	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
 	pdf.AddPage()
 	if err := pdf.AddTTFFont("dev", "NotoSansDevanagari.ttf"); err != nil {
@@ -139,19 +249,21 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 	}
 
 	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
-	certificateUrl := CertificateUrlMapping[templateUrl]["portrait"][otherOrganCertificateType]
-	err := getTemplateFile(certificateUrl, templateUrl+"_"+"portrait_"+otherOrganCertificateType+".pdf")
+	certificateUrl := templateUrl + otherOrganCertificateType
+	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
+
+	err := getTemplateFile(certificateUrl, fileName)
 	if err != nil {
 		log.Printf("Error in certificate download : %v", err)
 		return nil, err
 	}
-	tpl1 := pdf.ImportPage(templateUrl+"_"+"portrait_"+otherOrganCertificateType+".pdf", 1, "/MediaBox")
+	tpl1 := pdf.ImportPage(fileName, 1, "/MediaBox")
 	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
 	if err := pdf.SetFont("dev", "", 18); err != nil {
 		log.Print(err.Error())
 		return nil, err
 	}
-	offsetX := 190.0
+	offsetX := 193.0
 	offsetY := 190.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
@@ -160,7 +272,7 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 		log.Print(err.Error())
 		return nil, err
 	}
-	offsetX = 190.0
+	offsetX = 193.0
 	offsetY = 350.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
@@ -174,7 +286,7 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.FatherName)
-	offsetX = 190.0
+	offsetX = 193.0
 	offsetY = 387.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
@@ -184,7 +296,7 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.BloodGroup)
-	offsetX = 190.0
+	offsetX = 193.0
 	offsetY = 424.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
@@ -193,19 +305,19 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 	offsetY = 424.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.EmergencyContacts.Contact)
-	offsetX = 190.0
+	_ = pdf.Cell(nil, certificateData.CredentialSubject.Emergency.MobileNumber)
+	offsetX = 193.0
 	offsetY = 461.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Organs)
-	offsetX = 190.0
+	offsetX = 193.0
 	offsetY = 498.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Tissues)
 	holder, err := gopdf.ImageHolderByBytes(qrData)
-	if err = pdf.ImageByHolder(holder, 47, 576, &gopdf.Rect{W: 210, H: 210}); err != nil {
+	if err = pdf.ImageByHolder(holder, 44, 576, &gopdf.Rect{W: 210, H: 210}); err != nil {
 		log.Errorf("Error creating QR Code")
 	}
 	photoStr, err := base64.StdEncoding.DecodeString(string(photo))
@@ -213,7 +325,7 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 		return nil, err
 	}
 	holder, err = gopdf.ImageHolderByBytes(photoStr)
-	if err = pdf.ImageByHolder(holder, 47, 191, &gopdf.Rect{W: 120, H: 120}); err != nil {
+	if err = pdf.ImageByHolder(holder, 50, 191, &gopdf.Rect{W: 120, H: 120}); err != nil {
 		log.Errorf("Error creating Profile photo")
 	}
 	var b bytes.Buffer
@@ -286,6 +398,9 @@ func getQRCodeImageBytes(certificateText string) (string, error) {
 		return "", err
 	}
 	imageBytes, err := qrCode.PNG(380)
+	if err != nil {
+		log.Printf("%v", err.Error())
+	}
 	return string(imageBytes[:]), err
 }
 
@@ -344,19 +459,20 @@ type Certificate struct {
 		Jws                string    `json:"jws"`
 	} `json:"proof"`
 	CredentialSubject struct {
-		Type              string `json:"type"`
-		Dob               string `json:"dob"`
-		BloodGroup        string `json:"bloodGroup"`
-		Name              string `json:"name"`
-		Gender            string `json:"gender"`
-		FatherName        string `json:"fatherName"`
-		NottoId           string `json:"nottoId"`
-		Id                string `json:"id"`
-		EmergencyContacts struct {
-			Name     string `json:"name"`
-			Contact  string `json:"contact"`
-			Relation string `json:"relation"`
-		} `json:"emergencyContacts"`
+		Type       string `json:"type"`
+		Dob        string `json:"dob"`
+		BloodGroup string `json:"bloodGroup"`
+		Name       string `json:"name"`
+		Gender     string `json:"gender"`
+		FatherName string `json:"fatherName"`
+		NottoId    string `json:"nottoId"`
+		Id         string `json:"id"`
+		Emergency  struct {
+			Name          string `json:"name"`
+			MobileNumber  string `json:"mobileNumber"`
+			Relation      string `json:"relation"`
+			OtherRelation string `json:"otherRelation"`
+		} `json:"emergency"`
 		Pledge struct {
 			AdditionalOrgans string `json:"additionalOrgans"`
 			Organs           string `json:"organs"`
