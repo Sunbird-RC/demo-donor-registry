@@ -58,15 +58,15 @@ export class CertificateComponent implements OnInit {
   }
   ngOnInit(): void {
     console.log(screen.orientation.angle);
-  //  if(screen.orientation.angle == 90){
-  //   this.orientation = "_landscape"
-  //  }
-  //  else if(screen.orientation.angle == 0)
-  //  {
-  //   this.orientation = "_portrait" 
-  //  }
+   if(screen.orientation.angle == 90){
+    this.orientation = "_landscape"
+   }
+   else if(screen.orientation.angle == 0)
+   {
+    this.orientation = "_portrait" 
+   }
 
-    this.documentName = this.route.snapshot.paramMap.get('stateVal') + "_portrait";
+    this.documentName = this.route.snapshot.paramMap.get('stateVal') + this.orientation;
 
    // this.documentName = this.route.snapshot.paramMap.get('stateVal');
     console.log(typeof(this.documentName));
