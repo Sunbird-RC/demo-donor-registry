@@ -27,7 +27,6 @@ const URL = "URL"
 const URL_W3C_VC = "URL_W3C_VC"
 
 func main() {
-	load()
 	router := mux.NewRouter()
 	router.HandleFunc("/api/v1/certificatePDF", getCertificate).Methods("POST")
 	http.Handle("/", router)
@@ -47,7 +46,7 @@ func getCertificate(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Required parameters missing", http.StatusBadRequest)
 		}
 	}
-	templateUrl := body["templateUrl"].(string)[7:]
+	templateUrl := body["templateUrl"].(string)
 	certificate := body["certificate"]
 	entityName := body["entityName"]
 	entityId := body["entityId"]
@@ -118,8 +117,8 @@ func getTemplateFile(certificateUrl string, fileName string) error {
 }
 
 func getOtherOrganCertificateType(otherOrgans string) string {
-	withOtherOrgans := "withOtherOrgans"
-	withoutOtherOrgans := "withoutOtherOrgans"
+	withOtherOrgans := "otherOrgans.pdf"
+	withoutOtherOrgans := "withoutOtherOrgans.pdf"
 	if otherOrgans != "" {
 		return withOtherOrgans
 	}
@@ -134,8 +133,7 @@ func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, 
 	}
 	log.Printf("Certificate : %v", certificateData)
 	pdf := gopdf.GoPdf{}
-	typeOfView := "landscape"
-	if typeOfView == "portrait" {
+	if strings.Contains(templateUrl, "portrait") {
 		return renderPortraitPdf(pdf, templateUrl, certificateData, qrData, photo)
 	}
 	return renderLandscapePdf(pdf, templateUrl, certificateData, qrData, photo)
@@ -150,13 +148,14 @@ func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cer
 		return nil, err
 	}
 	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
-	certificateUrl := CertificateUrlMapping[templateUrl]["landscape"][otherOrganCertificateType]
-	err := getTemplateFile(certificateUrl, templateUrl+"_"+"landscape_"+otherOrganCertificateType+".pdf")
+	certificateUrl := templateUrl + otherOrganCertificateType
+	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
+	err := getTemplateFile(certificateUrl, fileName)
 	if err != nil {
 		log.Printf("Error in certificate download : %v", err)
 		return nil, err
 	}
-	tpl1 := pdf.ImportPage(templateUrl+"_"+"landscape_"+otherOrganCertificateType+".pdf", 1, "/MediaBox")
+	tpl1 := pdf.ImportPage(fileName, 1, "/MediaBox")
 	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
 	if err := pdf.SetFont("dev", "", 18); err != nil {
 		log.Print(err.Error())
@@ -253,13 +252,15 @@ func renderPortraitPdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cert
 	}
 
 	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
-	certificateUrl := CertificateUrlMapping[templateUrl]["portrait"][otherOrganCertificateType]
-	err := getTemplateFile(certificateUrl, templateUrl+"_"+"portrait_"+otherOrganCertificateType+".pdf")
+	certificateUrl := templateUrl + otherOrganCertificateType
+	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
+
+	err := getTemplateFile(certificateUrl, fileName)
 	if err != nil {
 		log.Printf("Error in certificate download : %v", err)
 		return nil, err
 	}
-	tpl1 := pdf.ImportPage(templateUrl+"_"+"portrait_"+otherOrganCertificateType+".pdf", 1, "/MediaBox")
+	tpl1 := pdf.ImportPage(fileName, 1, "/MediaBox")
 	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
 	if err := pdf.SetFont("dev", "", 18); err != nil {
 		log.Print(err.Error())
