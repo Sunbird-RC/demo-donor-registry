@@ -57,8 +57,11 @@ export class CertificateComponent implements OnInit {
     private config: AppConfig) {
   }
   ngOnInit(): void {
+
+    let mode = this.getDeviceInfo();
     
-    this.orientation = (screen.orientation.angle  == 90) ? "_landscape" : '_portrait'
+   // this.orientation = (screen.orientation.angle  == 90) ? "_landscape" : '_portrait';
+   this.orientation =  (mode == null) ? "_landscape" : '_portrait';
     this.documentName = this.route.snapshot.paramMap.get('stateVal') + this.orientation;
     this.identifier = this.route.snapshot.paramMap.get('identifier');
     let headerOptions = new HttpHeaders({
@@ -102,4 +105,31 @@ export class CertificateComponent implements OnInit {
     })).subscribe((result: any) => {
     });
   }
+
+
+    android() {
+        return navigator.userAgent.match(/Android/i);
+    }
+
+    BlackBerry() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    }
+
+    iOS (){
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    }
+    Opera() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    }
+
+    Windows() {
+        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+    }
+
+    getDeviceInfo() {
+        return (this.android() || this.BlackBerry() || this.iOS() || this.Opera() || this.Windows());
+    }
+
+
+
 }

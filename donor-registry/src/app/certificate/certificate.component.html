@@ -9,7 +9,7 @@
     </nav>
 </header>
 
-<div class="modal-body" class="wrapper">
+<div *ngIf="url" class="modal-body" class="wrapper">
     <iframe class="pdfDisplay" [src]="url"></iframe>
     <!-- <app-layouts layout={{layout}} identifier={{identifier}} public="true"></app-layouts> -->
 </div>
