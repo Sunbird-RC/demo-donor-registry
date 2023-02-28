@@ -114,6 +114,7 @@ services:
       - MOCK_OTP=false
       - MESSAGE_TEMPLATE=${MESSAGE_TEMPLATE}
       - NOTIFICATION_SERVICE_URL=http://notification-ms:8765/notification-service/v1/notification
+      - REGISTER_URL=${REGISTER_URL}
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:9990/ || exit 1"]
