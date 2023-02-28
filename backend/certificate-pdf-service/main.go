@@ -159,7 +159,7 @@ func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cer
 		log.Print(err.Error())
 		return nil, err
 	}
-	offsetX := 163.0
+	offsetX := 165.0
 	offsetY := 160.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
@@ -169,8 +169,8 @@ func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cer
 		log.Print(err.Error())
 		return nil, err
 	}
-	offsetX = 164.0
-	offsetY = 291.0
+	offsetX = 185.0
+	offsetY = 288.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	date, err := time.Parse(time.RFC3339, certificateData.IssuanceDate)
@@ -180,50 +180,50 @@ func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cer
 	}
 	_ = pdf.Cell(nil, date.Format("02-03-2006"))
 
-	offsetX = 164.0
-	offsetY = 327.0
+	offsetX = 185.0
+	offsetY = 323.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.Evidence[0].RefId)
 
-	offsetX = 164.0
-	offsetY = 361.0
+	offsetX = 185.0
+	offsetY = 356.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.NottoId)
 
-	offsetX = 164.0
-	offsetY = 395.0
+	offsetX = 185.0
+	offsetY = 391.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Organs)
 
-	offsetX = 164.0
-	offsetY = 429.0
+	offsetX = 185.0
+	offsetY = 425.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Tissues)
 
 	offsetX = 464.0
-	offsetY = 291.0
+	offsetY = 288.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.FatherName)
 
 	offsetX = 464.0
-	offsetY = 327.0
+	offsetY = 323.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.BloodGroup)
 
 	offsetX = 464.0
-	offsetY = 361.0
+	offsetY = 356.0
 	pdf.SetX(offsetX)
 	pdf.SetY(offsetY)
 	_ = pdf.Cell(nil, certificateData.CredentialSubject.Emergency.MobileNumber)
 
 	holder, err := gopdf.ImageHolderByBytes(qrData)
-	if err = pdf.ImageByHolder(holder, 544, 276, &gopdf.Rect{W: 210, H: 210}); err != nil {
+	if err = pdf.ImageByHolder(holder, 577, 300, &gopdf.Rect{W: 220, H: 220}); err != nil {
 		log.Errorf("Error creating QR Code")
 	}
 	photoStr, err := base64.StdEncoding.DecodeString(string(photo))
@@ -231,7 +231,7 @@ func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cer
 		return nil, err
 	}
 	holder, err = gopdf.ImageHolderByBytes(photoStr)
-	if err = pdf.ImageByHolder(holder, 50, 161, &gopdf.Rect{W: 110, H: 110}); err != nil {
+	if err = pdf.ImageByHolder(holder, 46, 161, &gopdf.Rect{W: 100, H: 100}); err != nil {
 		log.Errorf("Error creating Profile photo")
 	}
 
