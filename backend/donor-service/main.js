@@ -259,6 +259,16 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
         const esignFileData = (await getESingDoc(profileFromReq.identificationDetails.abha)).data;
         const uploadESignFileRes = await uploadESignFile(entityId, esignFileData);
         console.log(uploadESignFileRes);
+        if(checkIfEmergencyMobileNumberUpdated(profileFromReq, userData)) {
+            const notifyName = R.pathOr("", ["notificationDetails", "name"], profileFromReq);
+            const notifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], profileFromReq);
+            await sendNotification(notifyNumber, `Dear Mr/Ms ${notifyName},\\n` +
+            `This is to inform you that Mr/Ms ${profileFromReq.personalDetails.firstName} ${profileFromReq.personalDetails.middleName} ${profileFromReq.personalDetails.lastName} has pledged for Organ/Tissue donation.\\n` +
+            "\\n" +
+            "To know more about the NOTTO visit notto.gov.in.\\n" +
+            "\\n" +
+            "NOTTO, NHA", NOTIFY_TEMPLATE_ID);
+        }
         res.send(updateApiResponse);
         redis.deleteKey(getKeyForBasedOnEntityName(entityName) + entityId);
     } catch(err) {
@@ -269,6 +279,12 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
         res.status(500).json(err);
     }
 });
+
+function checkIfEmergencyMobileNumberUpdated(profileFromReq, userData) {
+    const userNotifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], userData);
+    const reqNotifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], profileFromReq);
+    return userNotifyNumber !== reqNotifyNumber && reqNotifyNumber !== "";
+}
 
 app.post('/esign/init', async (req, res) => {
     try {
