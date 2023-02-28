@@ -2021,7 +2021,7 @@ export class FormsComponent implements OnInit {
         let y = screen.height / 2 - 400;
         const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
         eSignWindow.document.write(`
-        <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
+        <form action='${res.signUrl}' method="post" id="formid">
 \t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
 \t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
 \t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
@@ -2134,7 +2134,7 @@ export class FormsComponent implements OnInit {
       let y = screen.height / 2 - 400;
       const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
       eSignWindow.document.write(`
-      <form action="https://es-staging.cdac.in/esignlevel1/2.1/form/signdoc" method="post" id="formid">
+      <form action='${res.signUrl}' method="post" id="formid">
     \t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
     \t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
     \t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
