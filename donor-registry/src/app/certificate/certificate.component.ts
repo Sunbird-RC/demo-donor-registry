@@ -49,6 +49,7 @@ export class CertificateComponent implements OnInit {
   revoke = true;
   documentName: string;
   orientation: string;
+  mode: any;
     
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
@@ -57,11 +58,13 @@ export class CertificateComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    let mode = this.getDeviceInfo();
+    this.mode = this.getDeviceInfo();
     
    // this.orientation = (screen.orientation.angle  == 90) ? "_landscape" : '_portrait';
-   this.orientation =  (mode == null) ? "_landscape" : '_portrait';
-    this.documentName = this.route.snapshot.paramMap.get('stateVal') + this.orientation;
+   this.orientation =  (this.mode == null) ? "_landscape" : '_portrait';
+  let state =  this.route.snapshot.paramMap.get('stateVal');
+   state =  state.replace( " " , "_" );
+    this.documentName = state + this.orientation;
     this.identifier = this.route.snapshot.paramMap.get('identifier');
     let headerOptions = new HttpHeaders({
       'template-key': this.documentName,
