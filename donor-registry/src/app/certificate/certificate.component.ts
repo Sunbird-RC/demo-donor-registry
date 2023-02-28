@@ -50,7 +50,6 @@ export class CertificateComponent implements OnInit {
   documentName: string;
   orientation: string;
     
-
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
     private http: HttpClient,
