@@ -298,7 +298,8 @@
                     },
                     {
                       "name": "mobileNumber",
-                      "class": "col-lg-4 col-sm-12",
+                      "class": "col-lg-4 col-sm-12 onlyNumber",
+                      "onlyNumber": true,
                       "validation": {
                         "pattern": "[6-9]{1}[0-9]{9}",
                         "message": "MOBILE_NO_MUST_10_DIGIT"
@@ -368,7 +369,8 @@
                     },
                     {
                       "name": "mobileNumber",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12 onlyNumber",
+                      "onlyNumber": true
                     }
                   ]
                 }
@@ -690,13 +692,29 @@
                     },
                     {
                       "name": "mobileNumber",
-                      "class": "col-lg-4 col-sm-12",
+                      "class": "col-lg-4 col-sm-12 onlyNumber",
+                      "onlyNumber":true,
                       "validation": {
                         "pattern": "[6-9]{1}[0-9]{9}",
                         "message": "MOBILE_NO_MUST_10_DIGIT"
                       }
                     }
                   ]
+                }
+              },
+              {
+                "name": "membersToNotify",
+                "custom": true,
+                "required": false,
+                "key": "note",
+                "element": {
+                  "title": "Members to be Notified",
+                  "widget": {
+                    "formlyConfig": {
+                      "type": "template",
+                      "className": "fw-bold p16 mb-2"
+                    }
+                  }
                 }
               },
               {
@@ -707,6 +725,9 @@
                 "element": {
                   "title": "Same as emergency contact",
                   "type": "checkbox",
+                  "condition": {
+                    "type": "disable"
+                  },
                   "widget": {
                     "formlyConfig": {
                       "type": "checkbox",
@@ -742,7 +763,8 @@
                     },
                     {
                       "name": "mobileNumber",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12 onlyNumber",
+                      "onlyNumber":true
                     }
                   ]
                 }
