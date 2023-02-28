@@ -1353,9 +1353,8 @@ export class FormsComponent implements OnInit {
             });
           }
         }, 1000);
-
-
       }
+
       if (field.type) {
         if (field.type === 'verify-code') {
           if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
