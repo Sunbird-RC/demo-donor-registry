@@ -59,7 +59,6 @@ export class CertificateComponent implements OnInit {
   ngOnInit(): void {
 
     this.mode = this.getDeviceInfo();
-    
    // this.orientation = (screen.orientation.angle  == 90) ? "_landscape" : '_portrait';
    this.orientation =  (this.mode == null) ? "_landscape" : '_portrait';
   let state =  this.route.snapshot.paramMap.get('stateVal');
