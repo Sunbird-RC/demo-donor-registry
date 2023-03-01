@@ -64,7 +64,7 @@
                                            pattern="[0-9]+"
                                            onchange="try{setCustomValidity('')}catch(e){}"
                                            oninput="try{setCustomValidity('')}catch(e){}"
-                                           oninvalid="try{setCustomValidity('Not a valid OTP')}catch(e){}">
+                                           oninvalid="try{setCustomValidity('Please enter valid OTP')}catch(e){}">
                                 </div>
                             </div>
                             <#if message?? && (message.summary)??>
