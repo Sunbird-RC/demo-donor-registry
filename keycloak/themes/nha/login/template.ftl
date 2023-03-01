@@ -21,14 +21,6 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
-        <script>
-            window.onload = function (e) {
-                var errorElement = document.getElementById("kc-error-message");
-                if (errorElement) {
-                    document.getElementById("errorMessage")[0].innerHTML = "Entered ABHA/mobile number is not registered"
-                }
-            }
-        </script>
         <title><#nested "title"></title>
         <#if properties.styles?has_content>
             <#list properties.styles?split(' ') as style>

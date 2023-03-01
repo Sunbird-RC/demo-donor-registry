@@ -63,6 +63,13 @@
                                            name="otp" tabindex="2">
                                 </div>
                             </div>
+                            <#if message?? && (message.summary)??>
+                                <div id="kc-error-message">
+                                    <p class="instruction">${message.summary}</p>
+                                </div>
+                            <#else>
+                                <div></div>
+                            </#if>
                             <div class="mt-2" id="resend-timer"></div>
                             <div class="mt-2 d-none" id="resend-msg">Didn’t receive code? <a class="register-link" onclick="window.location.reload()">Send again</a></div>
                             <#if properties.mockOTP = "true">
