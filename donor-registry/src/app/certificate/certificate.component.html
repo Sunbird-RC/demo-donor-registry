@@ -9,8 +9,16 @@
     </nav>
 </header>
 
-<div *ngIf="url" class="modal-body" class="wrapper">
+<div *ngIf="url && orientation == '_landscape'" class="modal-body" class="wrapper">
     <iframe class="pdfDisplay" [src]="url"></iframe>
-    <!-- <app-layouts layout={{layout}} identifier={{identifier}} public="true"></app-layouts> -->
 </div>
         
+<div *ngIf="orientation == '_portrait'" id="pdf_container"></div>
+
+<div *ngIf="!url">
+    <div class="d-flex justify-content-center p-4">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">{{'LOADING' | translate}}</span>
+      </div>
+    </div>
+  </div>
