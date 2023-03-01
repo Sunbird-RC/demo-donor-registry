@@ -159,7 +159,6 @@ export class FormsComponent implements OnInit {
                   "firstName": this.tempData?.firstName,
                   "middleName": this.tempData?.middleName,
                   "lastName": this.tempData?.lastName,
-                  "fatherName": this.tempData?.middleName,
                   "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
                   "emailId": (this.tempData?.email) ? this.tempData?.email : "",
                   "mobileNumber": this.tempData?.mobile,
@@ -869,7 +868,7 @@ export class FormsComponent implements OnInit {
 
           if (field.element.hasOwnProperty('condition') && field.element.condition.type == 'disable') {
             if (this.form == 'signup' || this.form == 'pledge-setup') {
-
+              this.model['memberToBeNotified'] = false ;
               let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
               this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
                 'expressionProperties': {
