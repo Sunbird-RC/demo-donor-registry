@@ -56,7 +56,7 @@ import {
         data-backdrop="static"
         data-keyboard="false"
       >
-        <div *ngIf="!canRegister && !isGotErr" class="modal-dialog" role="document">
+        <div *ngIf="!canRegister" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
             <div class="modal-body text-center">
               <h3 class="fw-bold mb-3">Cannot register for Pledge</h3>
@@ -64,7 +64,7 @@ import {
               <p class="p14">
                 Only individuals of age 18 year or above can pledge.
               </p>
-              <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf">Click here for more information</a>
+              <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf#page=52"  target="_blank">Click here for more information</a>
               <br />
               <br />
               <div class="container-fluid mt-3">
@@ -74,7 +74,7 @@ import {
             </div>
           </div>
         </div>
-        <div *ngIf="isGotErr && !err401 " class="modal-dialog" role="document">
+        <div *ngIf="isGotErr && !err401 && canRegister" class="modal-dialog" role="document">
         <div class="p-4 modal-content">
             <div  class="modal-body text-center">
                 <div   class="d-flex flex-column justify-content-center align-items-center">
@@ -90,7 +90,7 @@ import {
                  
                 
                     </div>
-                    <div *ngIf="!isAbhaNoErr">
+                    <div *ngIf="!isAbhaNoErr && canRegister">
                     <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid OTP number</span>
                     <span *ngIf="customErrCode == '429'" class="p24 mb-2 mt-2 mb-2 fw-bold">OTP entered multiple times</span>
                     <br>
@@ -101,14 +101,14 @@ import {
                     <br />
                      </div>
                     <div class="container-fluid mt-3">
-                        <button type="button" class=" btn btn-primary-notto btn-style w-100 submit-button mb-2"
+                        <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
                         data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-        <div *ngIf="(!isGotErr || err401) || canRegister" class="modal-dialog" role="document">
+        <div *ngIf="!isGotErr || err401" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
             <div
               class="close float-end"
@@ -187,6 +187,7 @@ export class VerifyIndentityCode extends FieldType {
   customErrCode: string;
   err401: boolean = false;
   err429: boolean = false;
+  showConfirmPopup:boolean = false;
 
   constructor(private http: HttpClient, public generalService: GeneralService,public router: Router,) {
     super();
@@ -221,6 +222,7 @@ export class VerifyIndentityCode extends FieldType {
             this.isGotErr = false;
             this.isIdentityNo = true;
             this.isConfirmPopup = true;
+            this.showConfirmPopup = true;
             console.log(data);
             this.transactionId = data.txnId;
           },
@@ -284,7 +286,7 @@ export class VerifyIndentityCode extends FieldType {
           next: (data) => {
             this.isIdentityNo = true;
             this.isVerify = true;
-  	    this.isGotErr = false;
+  	        this.isGotErr = false;
             let dateSpan = document.getElementById('abhamessage');
             dateSpan.classList.remove('text-danger');
             dateSpan.innerText = "";
@@ -305,6 +307,9 @@ export class VerifyIndentityCode extends FieldType {
             if (age < 18) {
               this.canRegister = false;
               this.isIdentityNo = false;
+              this.isGotErr = true;
+              this.err401 = false;
+              
             } else {
               const healthIdNumber = this.data1.healthIdNumber.replaceAll(
                 '-',
