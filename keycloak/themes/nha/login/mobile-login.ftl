@@ -38,6 +38,13 @@
                                 </div>
 
                             </div>
+                            <#if message?? && (message.summary)??>
+                                <div id="kc-error-message">
+                                    <p class="instruction">${message.summary}</p>
+                                </div>
+                            <#else>
+                                <div></div>
+                            </#if>
                             <input type="hidden" id="type-hidden-input" name="form_type" value="login" />
                             <button id="submit-btn" class="submit" type="submit" tabindex="3">
                                 <span>Continue</span>
