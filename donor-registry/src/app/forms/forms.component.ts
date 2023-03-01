@@ -869,7 +869,7 @@ export class FormsComponent implements OnInit {
 
           if (field.element.hasOwnProperty('condition') && field.element.condition.type == 'disable') {
             if (this.form == 'signup' || this.form == 'pledge-setup') {
-
+              this.model['memberToBeNotified'] = false ;
               let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
               this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
                 'expressionProperties': {
