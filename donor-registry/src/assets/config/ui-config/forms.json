@@ -101,6 +101,7 @@
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
                       },
+                      "enableField": true,
                       "required": true
                     },
                     {
@@ -498,6 +499,7 @@
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
                       },
+                      "enableField": true,
                       "required": true
                     },
                     {
