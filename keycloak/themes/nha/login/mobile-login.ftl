@@ -34,6 +34,10 @@
                                     <input id="mobile_number" class="login-field" placeholder="XXXXXXXXXX"
                                            type="text"
                                            name="mobile_number"
+                                           pattern="[0-9]+"
+                                           onchange="try{setCustomValidity('')}catch(e){}"
+                                           oninput="try{setCustomValidity('')}catch(e){}"
+                                           oninvalid="try{setCustomValidity('Not a valid ABHA / phone number')}catch(e){}"
                                            tabindex="1"/>
                                 </div>
 
