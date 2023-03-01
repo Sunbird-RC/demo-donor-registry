@@ -63,7 +63,7 @@ export class CertificateComponent implements OnInit {
    // this.orientation = (screen.orientation.angle  == 90) ? "_landscape" : '_portrait';
    this.orientation =  (this.mode == null) ? "_landscape" : '_portrait';
   let state =  this.route.snapshot.paramMap.get('stateVal');
-   state =  state.replace( " " , "_" );
+   state =  state.replace(/ /g,"_");
     this.documentName = state + this.orientation;
     this.identifier = this.route.snapshot.paramMap.get('identifier');
     let headerOptions = new HttpHeaders({

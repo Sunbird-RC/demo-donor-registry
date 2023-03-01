@@ -101,7 +101,7 @@
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
                       },
-                      "enableField": true,
+                      "enableField":true,
                       "required": true
                     },
                     {
@@ -396,7 +396,9 @@
                         "required": true
                       },
                       "defaultValue": false,
-                      "validation": ["requiredTrue"]
+                      "validation": [
+                        "requiredTrue"
+                      ]
                     }
                   }
                 }
@@ -497,7 +499,8 @@
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
                       },
-                      "enableField": true
+                      "enableField":true,
+                      "required":true
                     },
                     {
                       "name": "motherName",
@@ -693,7 +696,7 @@
                     {
                       "name": "mobileNumber",
                       "class": "col-lg-4 col-sm-12 onlyNumber",
-                      "onlyNumber":true,
+                      "onlyNumber": true,
                       "validation": {
                         "pattern": "[6-9]{1}[0-9]{9}",
                         "message": "MOBILE_NO_MUST_10_DIGIT"
@@ -764,7 +767,7 @@
                     {
                       "name": "mobileNumber",
                       "class": "col-lg-4 col-sm-12 onlyNumber",
-                      "onlyNumber":true
+                      "onlyNumber": true
                     }
                   ]
                 }
@@ -790,7 +793,9 @@
                         "required": true
                       },
                       "defaultValue": false,
-                      "validation": ["requiredTrue"]
+                      "validation": [
+                        "requiredTrue"
+                      ]
                     }
                   }
                 }
@@ -1606,7 +1611,9 @@
                     "properties": {
                       "className": "form-div",
                       "proofOfRelationtype": {
-                        "enum": ["Near Relative"]
+                        "enum": [
+                          "Near Relative"
+                        ]
                       },
                       "details": {
                         "type": "object",
@@ -1667,7 +1674,9 @@
                   {
                     "properties": {
                       "proofOfRelationtype": {
-                        "enum": ["Spousal"]
+                        "enum": [
+                          "Spousal"
+                        ]
                       },
                       "details": {
                         "type": "object",
@@ -1710,7 +1719,9 @@
                   {
                     "properties": {
                       "proofOfRelationtype": {
-                        "enum": ["Unrelated"]
+                        "enum": [
+                          "Unrelated"
+                        ]
                       },
                       "details": {
                         "type": "object",
@@ -1771,7 +1782,9 @@
                   {
                     "properties": {
                       "crossMatching": {
-                        "enum": ["Positive"]
+                        "enum": [
+                          "Positive"
+                        ]
                       },
                       "crossMatchDetails": {
                         "type": "object",
@@ -1782,7 +1795,9 @@
                               {
                                 "properties": {
                                   "swapConsent": {
-                                    "enum": ["Yes"]
+                                    "enum": [
+                                      "Yes"
+                                    ]
                                   },
                                   "swapDetails": {
                                     "type": "object",
@@ -1807,7 +1822,10 @@
                         "properties": {
                           "swapConsent": {
                             "type": "radio",
-                            "enum": ["Yes", "No"],
+                            "enum": [
+                              "Yes",
+                              "No"
+                            ],
                             "widget": {
                               "formlyConfig": {
                                 "type": "radio",
@@ -1984,7 +2002,11 @@
                 "custom": true,
                 "element": {
                   "title": "Relation of Donor and Recipient",
-                  "enum": ["Near Relative", "Spousal", "Unrelated"],
+                  "enum": [
+                    "Near Relative",
+                    "Spousal",
+                    "Unrelated"
+                  ],
                   "widget": {
                     "formlyConfig": {
                       "type": "radio",
@@ -2105,7 +2127,10 @@
                 "custom": true,
                 "element": {
                   "title": "Cross Matching Status",
-                  "enum": ["Positive", "Negative"],
+                  "enum": [
+                    "Positive",
+                    "Negative"
+                  ],
                   "widget": {
                     "formlyConfig": {
                       "type": "radio",
