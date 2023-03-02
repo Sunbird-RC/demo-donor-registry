@@ -118,6 +118,8 @@ services:
       - INVALID_REGISTRATION=${INVALID_REGISTRATION}
       - INVALID_USERNAME=${INVALID_USERNAME}
       - VALID_OTP=${VALID_OTP}
+      - OTP_MAX_RETRY_LIMIT=${OTP_MAX_RETRY_LIMIT}
+      - MAX_RETRIES_LIMIT_MESSAGE=${MAX_RETRIES_LIMIT_MESSAGE}
     healthcheck:
       test:
         ["CMD-SHELL", "curl -f http://localhost:9990/ || exit 1"]
