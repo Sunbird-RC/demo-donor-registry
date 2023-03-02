@@ -8,15 +8,22 @@
         </div>
     </nav>
 </header>
+<div class="text-center" *ngIf="orientation == '_portrait'" >
+<button  (click)="zoominbutton()"  class="w-30px" type="button">+</button> &nbsp;
+<button (click)="zoomoutbutton()" class="w-30px" type="button"> - </button>
+</div>
 
 <div *ngIf="url && orientation == '_landscape'" class="modal-body" class="wrapper">
     <iframe class="pdfDisplay" [src]="url"></iframe>
 </div>
         
-<div *ngIf="orientation == '_portrait'" id="pdf_container"></div>
+<div *ngIf="orientation == '_portrait'" id="pdf_container">
+  <canvas id="the-canvas" style="border:1px  solid black"></canvas>
+
+</div>
 
 <div *ngIf="isLoading">
-  <div class="d-flex justify-content-center p-4">
+    <div class="d-flex justify-content-center p-4">
       <div class="spinner-border" role="status">
         <span class="sr-only">{{'LOADING' | translate}}</span>
       </div>
