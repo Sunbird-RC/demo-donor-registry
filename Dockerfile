@@ -9,4 +9,5 @@ RUN npm run build -- --outputPath=./dist/out
 # Stage 2, use the compiled app, ready for production with Nginx
 FROM dockerhub/sunbird-rc-nginx
 COPY --from=build /app/dist/out/ /usr/share/nginx/html/admin
+RUN rm /usr/share/nginx/html/admin/ngsw.json
 COPY /imports/nginx.conf /etc/nginx/conf.d/default.conf
