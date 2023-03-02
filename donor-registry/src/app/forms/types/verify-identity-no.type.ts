@@ -11,159 +11,141 @@ import {
   selector: 'verify-identity-code',
   styleUrls: ['../forms.component.scss'],
   template: `
-    <div>
- 
-      <span class="fw-bold p12">{{ to.label }} *</span> <br />
-      <div class="d-flex">
-        <input
+  <div>
+  <span class="fw-bold p12">{{ to.label }} *</span> <br />
+  <div class="d-flex">
+      <input
           onkeypress='return !((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'
-          id="{{ field.key }}"  maxlength="14" 
-          [formControl]="formControl"
-          [formlyAttributes]="field"
-          pattern="[9]{1}[1]{1}[0-9]{12}"
-          [ngClass]="isIdentityNo ? 'form-control' : 'form-control is-invalid'"
-          required
-        />
-        <span
-          class="text-primary fw-bold p-1 p14 pointer"
-          *ngIf="!isVerify"
-          (click)="verifyOtp(field.key)"
-          data-toggle="modal"
-          data-target="#verifyOtp"
-          >Verify</span
-        >
-        <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerify">
+          id="{{ field.key }}" maxlength="14" [formControl]="formControl" [formlyAttributes]="field"
+          pattern="[9]{1}[1]{1}[0-9]{12}" [ngClass]="isIdentityNo ? 'form-control' : 'form-control is-invalid'"
+          required />
+      <span class="text-primary fw-bold p-1 p14 pointer" *ngIf="!isVerify"  data-toggle="modal"
+      data-target="#verifyOtp"
+          (click)="verifyOtp(field.key)">Verify</span>
+      <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerify">
           <i class="fa fa-check-circle" aria-hidden="true"></i>
-        </span>
-      </div>
-      <div *ngIf="signupForm" class="p12">
-        {{ 'LINK_TO_ABHA' | translate }}
-        <a href="http://healthidsbx.abdm.gov.in/" target="_blank">{{
+      </span>
+  </div>
+  <div *ngIf="signupForm" class="p12">
+      {{ 'LINK_TO_ABHA' | translate }}
+      <a href="http://healthidsbx.abdm.gov.in/" target="_blank">{{
           'LINK' | translate
-        }}</a>
+          }}</a>
+  </div>
+  <div class="p12" id="abhamessage"></div>
+
+  <br />
+  <div class="modal fade" id="verifyOtp" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div *ngIf="!canRegister" class="modal-dialog" role="document">
+          <div class="p-4 modal-content">
+              <div class="modal-body text-center">
+                  <h3 class="fw-bold mb-3">Cannot register for Pledge</h3>
+                  <p class="p14">You are not eligible to pledge for donation.</p>
+                  <p class="p14">
+                      Only individuals of age 18 year or above can pledge.
+                  </p>
+                  <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf#page=52"
+                      target="_blank">Click here for more information</a>
+                  <br />
+                  <br />
+                  <div class="container-fluid mt-3">
+                  <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
+                  data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
+              </div>
+              </div>
+          </div>
       </div>
-      <div class="p12" id="abhamessage"></div>
-      
-      <br />
-      <div
-        *ngIf="!canRegister || isIdentityNo || isGotErr"
-        class="modal fade"
-        id="verifyOtp"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-        data-backdrop="static"
-        data-keyboard="false"
-      >
-        <div *ngIf="!canRegister" class="modal-dialog" role="document">
+      <div *ngIf="isGotErr && !err401 && canRegister" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
-            <div class="modal-body text-center">
-              <h3 class="fw-bold mb-3">Cannot register for Pledge</h3>
-              <p class="p14">You are not eligible to pledge for donation.</p>
-              <p class="p14">
-                Only individuals of age 18 year or above can pledge.
-              </p>
-              <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf#page=52"  target="_blank">Click here for more information</a>
-              <br />
-              <br />
-              <div class="container-fluid mt-3">
-              <button type="button" class=" btn btn-primary-notto btn-style w-100 submit-button mb-2"
-              data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
+              <div class="modal-body text-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center">
+                      <div *ngIf="isAbhaNoErr">
+                          <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold"></span>
+                          <br>
+                          <span *ngIf="customErrCode == '420'" class="p24 mb-2 mt-2 mb-2 fw-bold">ABHA number entered
+                              multiple times</span>
+                          <span *ngIf="customErrCode == '427'" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid ABHA
+                              number</span>
+                          <br /> <br />
+                          <span *ngIf="errorMessage" class="p14 mb-2 mt-2 mb-2">{{errorMessage}}</span>
+
+                          <br /> <br />
+                         
+
+                      </div>
+                      <div *ngIf="!isAbhaNoErr && canRegister">
+                          <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid OTP number</span>
+                          <span *ngIf="customErrCode == '429'" class="p24 mb-2 mt-2 mb-2 fw-bold">OTP entered multiple
+                              times</span>
+                          <br>
+
+                          <br>
+                          <span *ngIf="errorMessage" class="p16 mb-2 mt-2 mb-2 fw-bold">{{errorMessage}}</span>
+                          <br />
+                          <br />
+
+                      </div>
+                      <div class="container-fluid mt-3">
+                      <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
+                      data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
+                  </div>
+                  </div>
+              </div>
           </div>
-            </div>
-          </div>
-        </div>
-        <div *ngIf="isGotErr && !err401 && canRegister" class="modal-dialog" role="document">
-        <div class="p-4 modal-content">
-            <div  class="modal-body text-center">
-                <div   class="d-flex flex-column justify-content-center align-items-center">
-                   <div *ngIf="isAbhaNoErr">
-                   <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold"></span>
-                   <br>
-                   <span *ngIf="customErrCode == '420'" class="p24 mb-2 mt-2 mb-2 fw-bold">ABHA number entered multiple times</span>
-                   <span *ngIf="customErrCode == '427'" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid ABHA number</span>
-                   <br /> <br />
-                   <span *ngIf="errorMessage" class="p14 mb-2 mt-2 mb-2">{{errorMessage}}</span>
-                   
-                   <br /> <br />
-                 
-                
-                    </div>
-                    <div *ngIf="!isAbhaNoErr && canRegister">
-                    <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid OTP number</span>
-                    <span *ngIf="customErrCode == '429'" class="p24 mb-2 mt-2 mb-2 fw-bold">OTP entered multiple times</span>
-                    <br>
-                  
-                    <br>
-                    <span *ngIf="errorMessage" class="p16 mb-2 mt-2 mb-2 fw-bold">{{errorMessage}}</span>
-                    <br />
-                    <br />
-                     </div>
-                    <div class="container-fluid mt-3">
-                        <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
-                        data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-        <div *ngIf="!isGotErr || err401" class="modal-dialog" role="document">
+      </div>
+
+      <div *ngIf="(!isGotErr || err401) && showConfirmPopup" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
-            <div
-              class="close float-end"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span class=" float-end" aria-hidden="true">&times;</span>
-            </div>
-            <div class="modal-body">
-              <h3 class="fw-bold mb-3">Confirm OTP</h3>
-              <p class="p14">
-                Enter the code sent to mobile number associated with your ID
-              </p>
-              <span class="fw-bold p12"> Enter OTP</span> <br />
-              <input maxLength="6"
-                type="input"
-                [(ngModel)]="optVal"
-                name="optVal"
-                class="form-control"
-              />
-              <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
-              <br />
-              <button
-                m
-                type="button"
-                (click)="submitOtp()"
-                class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
-              >
-                Verify
-              </button>
-            </div>
+              <div class="close float-end" data-dismiss="modal" aria-label="Close">
+                  <span class=" float-end" aria-hidden="true">&times;</span>
+              </div>
+              <div class="modal-body">
+                  <h3 class="fw-bold mb-3">Confirm OTP</h3>
+                  <p class="p14">
+                      Enter the code sent to mobile number associated with your ID
+                  </p>
+                  <span class="fw-bold p12"> Enter OTP</span> <br />
+                  <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
+                  <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
+                  <br />
+                  <button m type="button" (click)="submitOtp()"
+                      class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
+                      Verify
+                  </button>
+              </div>
           </div>
-        </div>
-        <button
-          id="openModalButton"
-          [hidden]="true"
-          data-toggle="modal"
-          data-
-          target="#verifyOtp"
-        >
+      </div>
+      <button id="openModalButton" [hidden]="true" data-toggle="modal" data- target="#verifyOtp">
           Open Modal
-        </button>
-        <button
-          id="closeModalButton"
-          [hidden]="true"
-          data-toggle="modal"
-          data-target="#verifyOtp"
-          class="btn btn-default"
-          data-dismiss="modal"
-        >
+      </button>
+      <button id="closeModalButton" [hidden]="true" data-toggle="modal" data-target="#verifyOtp"
+          class="btn btn-default" data-dismiss="modal">
           Close
-        </button>
+      </button>
+  
+  <div class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
       </div>
-     
     </div>
+  </div>
+</div>
+
   `,
 })
 export class VerifyIndentityCode extends FieldType {
@@ -202,7 +184,12 @@ export class VerifyIndentityCode extends FieldType {
       this.isVerify = true;
     }
   }
+  // pledgeAgainCardModal() {
+  //   var modal = document.getElementById("verifyOtp")
+  //   modal.classList.add("show");
+  //   modal.style.display = "block";
 
+  // }
   async verifyOtp(value) {
     this.isIdentityNo = true;
     this.canRegister = true;
@@ -309,7 +296,7 @@ export class VerifyIndentityCode extends FieldType {
               this.isIdentityNo = false;
               this.isGotErr = true;
               this.err401 = false;
-              
+              this.isVerify = false;
             } else {
               const healthIdNumber = this.data1.healthIdNumber.replaceAll(
                 '-',
@@ -334,7 +321,7 @@ export class VerifyIndentityCode extends FieldType {
               this.isIdentityNo = true;
               this.err401 = true;
               this.err429 = false;
-
+              this.optVal = "";
             }
             if( error?.error['status'] == '429')
             {
