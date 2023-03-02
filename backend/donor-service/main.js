@@ -297,7 +297,7 @@ app.post('/esign/init', async (req, res) => {
         const pledge = req.body.data;
         const esignData = await getEsignData(pledge);
         res.send({
-            signUrl: config.ESIGN_FORM_SIGN_URL,
+            signUrl: esignData.espUrl,
             xmlContent: esignData.xmlContent,
             aspTxnId: esignData.txnId,
         })
@@ -383,7 +383,7 @@ const getEsignData = async(pledge) => {
 //
 //             document.getElementById("formid").submit();
 //         </script>
-        return {xmlContent: xmlContent, txnId: apiResponse.data.aspTxnId};
+        return {xmlContent: xmlContent, txnId: apiResponse.data.aspTxnId, espUrl: apiResponse.data.espUrl};
 // `);
 }
 
@@ -405,7 +405,7 @@ app.put('/esign/init/:entityName/:entityId', async(req, res) => {
         }
         const esignData = await getEsignData(req.body.data);
         res.send({
-            signUrl: config.ESIGN_FORM_SIGN_URL,
+            signUrl: esignData.espUrl,
             xmlContent: esignData.xmlContent,
             aspTxnId: esignData.txnId,
         })
