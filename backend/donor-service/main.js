@@ -183,7 +183,7 @@ function getKeyForBasedOnEntityName(entityName) {
 async function sendNotifications(profile) {
     if (R.pathOr("", ["personalDetails", "mobileNumber"], profile).length > 0) {
         await sendNotification(profile.personalDetails.mobileNumber, "Congratulations!\\n" +
-            "You’ve successfully pledged for organs/tissues donation.\\n" +
+            "You've successfully pledged for organs/tissues donation.\\n" +
             `You can login now to view and download pledge certificate ${LOGIN_LINK}.\\n` +
             "\\n" +
             "NOTTO, NHA", INVITE_TEMPLATE_ID);
