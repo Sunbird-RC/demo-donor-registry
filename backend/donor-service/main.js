@@ -1,4 +1,5 @@
 const express = require('express');
+require('express-async-errors');
 const yaml = require('yamljs');
 const swagger = require('swagger-ui-express');
 const bodyParser = require('body-parser');
@@ -515,4 +516,17 @@ app.get('/esign/:abha/status', async (req, res) => {
     }
 });
 
+app.use(function(err, req, res, next) {
+    console.error("Error occurred for ")
+    console.error("URL: ", req.url)
+    if (config.LOG_LEVEL === "DEBUG") {
+        console.error("BODY: ", req.body)
+        console.error("HEADERS: ", req.headers)
+    }
+    console.error(err)
+    res.status(500).send({
+        status: "error",
+        message: "Internal server error"
+    })
+});
 app.listen('3000');
