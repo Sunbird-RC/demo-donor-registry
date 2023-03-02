@@ -8,8 +8,8 @@ import { DomSanitizer, Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../app.config';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// var pdfjsLib = window['pdfjs-dist/build/pdf'];
-// pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
 
 import { map } from 'rxjs/operators';
 @Component({
@@ -53,10 +53,11 @@ export class CertificateComponent implements OnInit {
   documentName: string;
   orientation: string;
   mode: any;
-  //  pdfDoc : any;
-  //  scale = 1; //Set Scale for Zoom.
-  //  resolution = this.IsMobile() ? 1.5 : 1; //Set Resolution as per Desktop and Mobile.
-  
+   pdfDoc : any;
+   scale = 1; //Set Scale for Zoom.
+   resolution = this.IsMobile() ? 1.5 : 1; //Set Resolution as per Desktop and Mobile.
+   isLoading = true;
+
 
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
@@ -66,6 +67,8 @@ export class CertificateComponent implements OnInit {
   ngOnInit(): void {
 
     this.mode = this.getDeviceInfo();
+    this.isLoading = true;
+
     
    // this.orientation = (screen.orientation.angle  == 90) ? "_landscape" : '_portrait';
    this.orientation =  (!this.mode) ? "_landscape" : '_portrait';
@@ -84,12 +87,14 @@ export class CertificateComponent implements OnInit {
         type: 'application/pdf' // must match the Accept type
       });
 
-      this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-      // if( this.orientation == '_landscape'){
-      //   this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
-      // }else{
-      //   this.LoadPdfFromUrl(window.URL.createObjectURL(blob));
-      // }
+      if( this.orientation == '_landscape'){
+        this.isLoading = false;
+
+        this.url = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+      }else{
+        this.LoadPdfFromUrl(window.URL.createObjectURL(blob));
+
+      }
 
     })).subscribe((result: any) => {
     });
@@ -147,7 +152,7 @@ export class CertificateComponent implements OnInit {
     }
 
 
-   /*  LoadPdfFromUrl(url) {
+     LoadPdfFromUrl(url) {
       //Read PDF from URL.
       pdfjsLib.getDocument(url).promise.then( (pdfDoc_) => {
           this.pdfDoc = pdfDoc_;
@@ -162,9 +167,9 @@ export class CertificateComponent implements OnInit {
               this.RenderPage(pdf_container, i);
           }
       });
-  };*/
+  };
 
- /* RenderPage(pdf_container, num) {
+  RenderPage(pdf_container, num) {
     this.pdfDoc.getPage(num).then( (page) => {
         //Create Canvas element and append to the Container DIV.
         var canvas = document.createElement('canvas');
@@ -189,14 +194,16 @@ export class CertificateComponent implements OnInit {
             transform: [this.resolution, 0, 0, this.resolution, 0, 0]
         };
 
+        this.isLoading = false;
+
         page.render(renderContext);
     });
-};*/
+};
 
 
-// IsMobile() {
-//   var r = new RegExp("Android|webOS|iPhone|iPad|iPod|BlackBerry|");
-//   return r.test(navigator.userAgent);
-// }
+IsMobile() {
+  var r = new RegExp("Android|webOS|iPhone|iPad|iPod|BlackBerry|Mobile");
+  return r.test(navigator.userAgent);
+}
 
 }
