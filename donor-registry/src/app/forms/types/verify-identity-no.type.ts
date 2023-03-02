@@ -291,7 +291,7 @@ export class VerifyIndentityCode extends FieldType {
             let year = age_dt.getUTCFullYear();
             let age = Math.abs(year - 1970);
 
-            if (age < 27) {
+            if (age < 18) {
               this.canRegister = false;
               this.isIdentityNo = false;
               this.isGotErr = true;
