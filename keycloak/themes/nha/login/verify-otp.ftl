@@ -38,6 +38,12 @@
                 }, 1000 * timerCount + 1000)
             }
         </script>
+        <script>
+            beforeSubmit = function() {
+                document.getElementById("type-hidden-input").value = "login";
+                $('#submit_btn').click();
+            }
+        </script>
     <#elseif section = "form">
         <h3 class="d-flex align-items-center"><a onclick="window.location.reload()"><img src="${url.resourcesPath}/img/next-btn.svg" alt="" class="pr-3"></a> Confirm OTP</h3>
         <div class="ndear-login-card-wrapper">
@@ -75,14 +81,14 @@
                                 <div></div>
                             </#if>
                             <div class="mt-2" id="resend-timer"></div>
-                            <div class="mt-2 d-none" id="resend-msg">Didn’t receive code? <a class="register-link" onclick="window.location.reload()">Send again</a></div>
+                            <div class="mt-2 d-none" id="resend-msg">Didn’t receive code? <a class="register-link" onclick="beforeSubmit();">Send again</a></div>
                             <#if properties.mockOTP = "true">
                                 <div class="green-label">
                                     <span>Please enter OTP as '${properties.mockOTPValue}' as this is a demo portal</span>
                                 </div>
                             </#if>
                             <input type="hidden" id="type-hidden-input" name="form_type" value="verify_otp"/>
-                            <button class="submit" type="submit" tabindex="3">
+                            <button id="submit_btn" class="submit" type="submit" tabindex="3">
                                 <span>Verify</span>
                             </button>
                         </form>
