@@ -66,6 +66,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { config } from 'process';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
+
 
 
 //form validations
@@ -128,8 +130,17 @@ import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
 import { FormlyTemplateType } from './forms/types/template.type';
 import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbox.type';
 import { CertificateComponent } from './certificate/certificate.component';
+
+import { VerifyModule } from 'vc-verification';
+
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
 // import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
+const configData = {
+  baseUrl: "https://demo-nha-donor-registry.xiv.in/registry/api/v1"
+  }   
+
 
 @NgModule({
   declarations: [
@@ -165,7 +176,8 @@ import { CertificateComponent } from './certificate/certificate.component';
     AuthImagePipe,
     FormlyTemplateType,
     FormlyFieldNgSelectAllCheckbox,
-    CertificateComponent
+    CertificateComponent,
+    VerifyCertificateComponent
   ],
   imports: [
     BrowserModule,
@@ -181,7 +193,8 @@ import { CertificateComponent } from './certificate/certificate.component';
     Bootstrap4FrameworkModule,
     AngularMultiSelectModule,
     NgSelectModule,
-
+    VerifyModule.forChild(configData),
+    ZXingScannerModule,
     HttpClientModule,
     TranslateModule.forRoot(),
 
@@ -276,6 +289,7 @@ import { CertificateComponent } from './certificate/certificate.component';
 
 export class AppModule {
   languages;
+
   constructor(translate: TranslateService, authConfig: AuthConfigService) {
 
     authConfig.getConfig().subscribe((config) => {
@@ -304,5 +318,6 @@ export class AppModule {
     });
 
   }
+
 }
 
