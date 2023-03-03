@@ -45,6 +45,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "@zxing/browser": "0.0.10",
     "@zxing/library": "^0.18.6",
+    "@zxing/ngx-scanner": "^3.1.0",
     "ajv": "^6.10.2",
     "angular-ng-autocomplete": "^2.0.5",
     "angular2-multiselect-dropdown": "^5.0.4",
@@ -74,6 +75,7 @@
     "rxjs": "^6.5.4",
     "tslib": "^2.0.0",
     "typescript": "3.9.5",
+    "vc-verification": "^0.0.2",
     "write-json-file": "^5.0.0",
     "z-schema": "^5.0.0",
     "zone.js": "~0.10.3"
