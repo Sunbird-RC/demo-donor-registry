@@ -17,7 +17,7 @@ import {
       <input
           onkeypress='return !((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'
           id="{{ field.key }}" maxlength="14" [formControl]="formControl" [formlyAttributes]="field"
-          pattern="[9]{1}[1]{1}[0-9]{12}" [ngClass]="isIdentityNo ? 'form-control' : 'form-control is-invalid'"
+          pattern="[1-9]{1}[0-9]{1}[0-9]{12}" [ngClass]="isIdentityNo ? 'form-control' : 'form-control is-invalid'"
           required />
       <span class="text-primary fw-bold p-1 p14 pointer" *ngIf="!isVerify"  data-toggle="modal"
       data-target="#verifyOtp"
