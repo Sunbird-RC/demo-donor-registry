@@ -147,3 +147,7 @@ footer a {
 footer a:last-child {
     margin-right: 0px;
 }
+
+.instruction {
+    color: rgba(255, 0, 0, 1);
+  }

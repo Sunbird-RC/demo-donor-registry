@@ -45,7 +45,7 @@
             }
         </script>
     <#elseif section = "form">
-        <h3 class="d-flex align-items-center"><a onclick="window.location.reload()"><img src="${url.resourcesPath}/img/next-btn.svg" alt="" class="pr-3"></a> Confirm OTP</h3>
+        <h3 class="d-flex align-items-center"><a href="/login"><img src="${url.resourcesPath}/img/next-btn.svg" alt="" class="pr-3"></a> Confirm OTP</h3>
         <div class="ndear-login-card-wrapper">
             <span id="mobile-label">Enter the code sent to </span>
             <div class="box-container">
