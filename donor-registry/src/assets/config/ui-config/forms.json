@@ -51,7 +51,7 @@
                       "required": true,
                       "placeholder": "xx-xxxx-xxxx-xxxx",
                       "validation": {
-                        "pattern": "[9]{1}[1]{1}[0-9]{12}",
+                        "pattern": "[1-9]{1}[0-9]{1}[0-9]{12}",
                         "message": "ABHA Number must be 14 digits"
                       }
                     }
@@ -451,7 +451,7 @@
                       "required": true,
                       "placeholder": "xx-xxxx-xxxx-xxxx",
                       "validation": {
-                        "pattern": "[9]{1}[1]{1}[0-9]{12}",
+                        "pattern": "[1-9]{1}[0-9]{1}[0-9]{12}",
                         "message": "ABHA Number must be 14 digits"
                       }
                     }
