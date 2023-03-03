@@ -21,6 +21,8 @@ import { BrowseDocumentsComponent } from './documents/browse-documents/browse-do
 import { PagesComponent } from './pages/pages.component';
 import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-view.component';
 import { CertificateComponent } from './certificate/certificate.component';
+import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
+
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -92,6 +94,8 @@ const routes: Routes = [
 { path: 'discovery', component: SearchComponent },
 { path: 'certificate', component: CertificateComponent },
 { path: 'certificate/:stateVal/:identifier', component: CertificateComponent, canActivate: [AuthGuard] },
+{ path: 'verify-certificate', component: VerifyCertificateComponent },
+
 
 // { path: 'template', component: CreateCertificateComponent },
 

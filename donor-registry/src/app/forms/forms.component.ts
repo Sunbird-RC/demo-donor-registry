@@ -438,7 +438,7 @@ export class FormsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    localStorage.setItem('notReadOnly','');
+    localStorage.removeItem('notReadOnly');
     //this.modalErrorPledge();
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
