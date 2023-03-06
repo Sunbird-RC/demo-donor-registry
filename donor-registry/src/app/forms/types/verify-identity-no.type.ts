@@ -103,7 +103,7 @@ import {
               <div class="modal-body">
                   <h3 class="fw-bold mb-3">Confirm OTP</h3>
                   <p class="p14">
-                      Enter the code sent to mobile number associated with your ID
+                      Enter the code sent to mobile number associated with your ABHA number
                   </p>
                   <span class="fw-bold p12"> Enter OTP</span> <br />
                   <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
