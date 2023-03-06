@@ -178,7 +178,7 @@ func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cer
 		log.Printf("Error : %v", err.Error())
 		return nil, err
 	}
-	_ = pdf.Cell(nil, date.Format("02-03-2006"))
+	_ = pdf.Cell(nil, date.Format("02-01-2006"))
 
 	offsetX = 185.0
 	offsetY = 323.0
