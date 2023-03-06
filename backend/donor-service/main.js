@@ -21,8 +21,8 @@ const app = express();
 })();
 
 const swaggerDocs = yaml.load('./abha-swagger.yaml');
-app.use(bodyParser.urlencoded({extended: false}));
-app.use((bodyParser.json()));
+app.use(bodyParser.urlencoded({extended: false, limit: '500kb'}));
+app.use((bodyParser.json({limit: '500kb'})));
 
 app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
 
@@ -251,7 +251,7 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
     profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
     const entityName = req.params.entityName;
     const entityId = req.params.entityId;
-    const userData = JSON.parse(await getUserData(getKeyForBasedOnEntityName(entityName) + entityId));
+    const userData = JSON.parse(await getUserData(getKeyForBasedOnEntityName(entityName) + entityId, req));
     try {
         if(checkIfNonEditableFieldsPresent(profileFromReq, userData)) {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
