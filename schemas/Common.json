@@ -179,7 +179,7 @@
         "abha": {
           "type": "string",
           "title": "ABHA Number",
-          "pattern": "^91\\d{12}$"
+          "pattern": "^\\d{14}$"
         },
         "nottoId": {
           "type": "string",
