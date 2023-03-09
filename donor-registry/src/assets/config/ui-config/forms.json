@@ -129,7 +129,7 @@
                     {
                       "name": "bloodGroup",
                       "class": "col-lg-4 col-sm-12",
-                      "placeholder": "select"
+                      "placeholder": "Select"
                     },
                     {
                       "name": "emailId",

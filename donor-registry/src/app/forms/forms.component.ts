@@ -993,7 +993,8 @@ export class FormsComponent implements OnInit {
         }
 
         if (field.placeholder) {
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.generalService.translateString(this.langKey + '.' + field.placeholder);
+        let placeHolder = this.checkString(this.langKey, field.placeholder);       
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = placeHolder;
         }
 
         if (field.description) {
@@ -1355,9 +1356,6 @@ export class FormsComponent implements OnInit {
         }, 1000);
       }
 
-      if(field.name == 'bloodGroup'){
-        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("Select");
-      }
       if (field.type) {
         if (field.type === 'verify-code') {
           if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
