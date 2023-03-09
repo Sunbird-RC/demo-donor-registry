@@ -280,7 +280,7 @@ func renderPortraitPdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cert
 	if err != nil {
 		return nil, err
 	}
-	_ = pdf.Cell(nil, date.Format("02-03-2006"))
+	_ = pdf.Cell(nil, date.Format("02-01-2006"))
 	offsetX = 432.0
 	offsetY = 350.0
 	pdf.SetX(offsetX)
