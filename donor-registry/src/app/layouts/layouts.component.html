@@ -52,7 +52,7 @@
                     </a> 
                 </div>
                 <div class="pledge-btn">
-                    <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}"  *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
+                    <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}" target="_blank" *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
                         <button class="fs-14 fw-bold btn btn-primary-green submit-button " data-mdb-toggle="tooltip">
                         <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
                         </button>

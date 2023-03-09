@@ -128,7 +128,8 @@
                     },
                     {
                       "name": "bloodGroup",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12",
+                      "placeholder": "select"
                     },
                     {
                       "name": "emailId",
