@@ -111,7 +111,7 @@ import {
                   <br />
                   <button m type="button" (click)="submitOtp()"
                       class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
-                      Verify
+                      Confirm
                   </button>
               </div>
           </div>

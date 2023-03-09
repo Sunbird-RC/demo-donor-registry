@@ -160,7 +160,7 @@
         <div class="container-fluid mt-3">
         <button data-dismiss="modal"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
         <a class="mt-3">
-          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2"  (click)="submit('Proceed')" data-dismiss="modal">Proceed</button>
+          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2 confirm-btn"  (click)="submit('Proceed')" data-dismiss="modal">Confirm & Proceed</button>
 
        <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
        <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
@@ -183,11 +183,11 @@
       <div class="modal-body">
         <div class="d-flex flex-column justify-content-center align-items-center">
          <div><img class="check-logo-pledge" src="assets/images/circle-check.png"></div>
-        <div class="p24 mb-2 mt-2 fw-bold">You have successfully pledged</div>
-        <div class="p14 mb-2 mt-2">To download the pledge certificate, </div>
-        <div class="p14 mb-2 mt-2">please login with ABHA number or mobile number </div>
+        <div class="p24 mb-2 mt-2 fw-bold">You've pledged successfully </div>
+        <div class="p14 mb-2 mt-2">To download the pledge certificate, please login with ABHA</div>
+        <div class="p14 mb-2"> number or mobile number </div>
         <a  href="/profile/Pledge" class="mt-3"> 
-        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">{{'LOGIN' | translate}}</button>
+        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">Login To Download Certificate</button>
         </a>
       </div>
     </div>
