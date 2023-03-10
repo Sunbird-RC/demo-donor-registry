@@ -12,7 +12,7 @@
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
               crossorigin="anonymous">
         <link rel="stylesheet" href=""/>
-        <link href="${url.resourcesPath}/img/favicon.png" rel="shortcut icon"/>
+        <link href="${url.resourcesPath}/img/favicon.ico" rel="shortcut icon"/>
         <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js"
                 integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo="
                 crossorigin="anonymous"></script>
