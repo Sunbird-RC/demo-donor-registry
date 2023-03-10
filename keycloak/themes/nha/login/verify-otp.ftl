@@ -9,7 +9,7 @@
             window.onload = function (e) {
                 var mobileNumber = sessionStorage.getItem("mobile_number");
                 document.getElementById("mobile_number").value = mobileNumber;
-                document.getElementById("mobile-label").innerText = "Please enter the otp " + (mobileNumber.length == 14 ? ("sent to your associated abha number XXXXXXXXXX" + mobileNumber.substring(10)) : ("received on your mobile XXXXXX"+mobileNumber.substring(6)));
+                document.getElementById("mobile-label").innerText = "Please enter the OTP " + (mobileNumber.length == 14 ? ("sent to your mobile associated with ABHA number") : ("received on your mobile XXXXXX"+mobileNumber.substring(6)));
                 if(window.location.protocol === "https:") {
                     let formField = document.getElementById("kc-form-login");
                     if (formField) {
