@@ -896,6 +896,10 @@ li {
     border-radius: 5px;
 }
 
+.btn-verify{
+    padding: 6px;
+    margin-left: 7px;
+}
 .akr:hover {
     color: #fff !important;
 }
@@ -1370,6 +1374,9 @@ formly-multi-schema-type .card {
     }
     .confirm-btn {
         margin-right: -18px !important;
+    }
+    .btn-verify-mobile{
+        margin-top: 0px !important;
     }
 }
 
