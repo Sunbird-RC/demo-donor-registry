@@ -9,7 +9,7 @@
             window.onload = function (e) {
                 var mobileNumber = sessionStorage.getItem("mobile_number");
                 document.getElementById("mobile_number").value = mobileNumber;
-                document.getElementById("mobile-label").innerText = "Enter the code sent to " + (mobileNumber.length > 3 ? "***"+mobileNumber.substring(3) : mobileNumber);
+                document.getElementById("mobile-label").innerText = "Please enter the otp " + (mobileNumber.length == 14 ? ("sent to your associated abha number XXXXXXXXXX" + mobileNumber.substring(10)) : ("received on your mobile XXXXXX"+mobileNumber.substring(6)));
                 if(window.location.protocol === "https:") {
                     let formField = document.getElementById("kc-form-login");
                     if (formField) {
@@ -47,7 +47,7 @@
     <#elseif section = "form">
         <h3 class="d-flex align-items-center"><a href="/login"><img src="${url.resourcesPath}/img/next-btn.svg" alt="" class="pr-3"></a> Confirm OTP</h3>
         <div class="ndear-login-card-wrapper">
-            <span id="mobile-label">Enter the code sent to </span>
+            <span id="mobile-label"></span>
             <div class="box-container">
                 <#if realm.password>
                     <div>

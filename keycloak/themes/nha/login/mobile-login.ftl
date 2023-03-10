@@ -58,6 +58,9 @@
                     <div class="text-center mt-3">
                         <a href="${properties.registerUrl}">Not Registered as Pledger? Register here</a>
                     </div>
+                    <div class="text-center mt-3">
+                        <span>Forgot your ABHA? Click <a href="${properties.forgotAbha}" target="_blank">here</a> to know your ABHA</span>
+                    </div>
                 </#if>
             </div>
         </div>
