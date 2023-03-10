@@ -1631,9 +1631,9 @@ export class FormsComponent implements OnInit {
        document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
       }
 
-      if ((this.model['pledgeDetails']['organs'] ||  this.model['pledgeDetails']['tissues']) && this.model['personalDetails']['fatherName'] && this.model['emergencyDetails']) {
-        document.getElementById("formly_72_checkbox_consent_13").focus();
-       }
+      // if ((this.model['pledgeDetails']['organs'] ||  this.model['pledgeDetails']['tissues']) && this.model['personalDetails']['fatherName'] && this.model['emergencyDetails']) {
+      //   document.getElementById("formly_72_checkbox_consent_13").focus();
+      //  }
 
        
 
