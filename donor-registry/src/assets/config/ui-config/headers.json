@@ -16,8 +16,8 @@
                 "left": [],
                 "right":[
                     {
-                        "title": "LOGIN",
-                        "redirectTo": "/login"
+                        "title": "HOME",
+                        "redirectTo": "/"
                     }
                 ]
             }
@@ -25,10 +25,7 @@
         {
             "pledge": {
                 "left": [
-                    {
-                        "title": "HOME",
-                        "redirectTo": "/profile/Pledge"
-                    }
+
                 ],
                 "right": [
                     {
@@ -71,6 +68,6 @@
                     "className" : "font-weight-bold"
                 } ]
             }
-        }
+        }        
     ]
 }

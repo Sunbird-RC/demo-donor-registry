@@ -1216,6 +1216,10 @@ formly-multi-schema-type .card {
     display: none !important;
 }
 
+.btn-size{
+    min-width: 6rem !important;
+}
+
 @media (max-width:600px) {
     .head-holder {
         flex-direction: column;
@@ -1378,6 +1382,12 @@ formly-multi-schema-type .card {
     .btn-verify-mobile{
         margin-top: 0px !important;
     }
+    .nav-mobile{
+        align-items: flex-end;
+        display: flex;
+    flex-direction: column;
+    }
+    
 }
 
 // formly-field-select-all-checkbox ul{
