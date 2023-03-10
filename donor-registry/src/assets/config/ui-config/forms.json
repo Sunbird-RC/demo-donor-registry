@@ -124,7 +124,8 @@
                     {
                       "name": "gender",
                       "class": "col-lg-4 col-sm-12",
-                      "enableField": true
+                      "enableField": true,
+                      "placeholder": "Select"
                     },
                     {
                       "name": "bloodGroup",
@@ -181,7 +182,8 @@
                     {
                       "name": "state",
                       "class": "col-lg-4 col-sm-12",
-                      "enableField": true
+                      "enableField": true,
+                      "placeholder": "Select"
                     },
                     {
                       "name": "district",
@@ -357,7 +359,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12"                    
                     },
                     {
                       "name": "otherRelation",
@@ -523,11 +525,13 @@
                     {
                       "name": "gender",
                       "class": "col-lg-4 col-sm-12",
-                      "enableField": true
+                      "enableField": true,
+                      "placeholder": "Select"
                     },
                     {
                       "name": "bloodGroup",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12",
+                      "placeholder": "Select"
                     },
                     {
                       "name": "emailId",
@@ -578,7 +582,8 @@
                     {
                       "name": "state",
                       "class": "col-lg-4 col-sm-12",
-                      "enableField": true
+                      "enableField": true,
+                      "placeholder": "Select"
                     },
                     {
                       "name": "district",
@@ -683,7 +688,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12"                    
                     },
                     {
                       "name": "otherRelation",
@@ -754,7 +759,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12"                    
                     },
                     {
                       "name": "otherRelation",
