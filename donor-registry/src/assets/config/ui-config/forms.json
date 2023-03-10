@@ -288,8 +288,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12",
-                      "placeholder": "Select"
+                      "class": "col-lg-4 col-sm-12"
                     },
                     {
                       "name": "otherRelation",
@@ -360,8 +359,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12",
-                      "placeholder": "Select"
+                      "class": "col-lg-4 col-sm-12"                    
                     },
                     {
                       "name": "otherRelation",
@@ -690,8 +688,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12",
-                      "placeholder": "Select"
+                      "class": "col-lg-4 col-sm-12"                    
                     },
                     {
                       "name": "otherRelation",
@@ -762,8 +759,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12",
-                      "placeholder": "Select"
+                      "class": "col-lg-4 col-sm-12"                    
                     },
                     {
                       "name": "otherRelation",
