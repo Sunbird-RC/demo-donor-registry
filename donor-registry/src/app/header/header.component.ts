@@ -33,6 +33,8 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
   temp:boolean = true;
   entity: string;
   profile: boolean = true;
+  homeMenu: boolean;
+  logoutMenu: boolean;
 
  
   constructor(
@@ -59,13 +61,13 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
   async ngOnInit() {
    if(this.router.url == "/form/signup"){
     this.temp = false;
+    this.homeMenu = true;
    }
 
    if(this.router.url == "/profile/Pledge"){
     this.profile = false;
    }
-  
-
+   
     this.languages = JSON.parse(localStorage.getItem('languages'));
     this.langCode = localStorage.getItem('setLanguage');
     
@@ -133,4 +135,3 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
   }
 
 }
-
