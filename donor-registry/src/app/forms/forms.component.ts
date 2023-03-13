@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
@@ -193,6 +193,11 @@ export class FormsComponent implements OnInit {
         }
       }
     }
+
+   if(this.model["consent"]){
+    document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
+   }
+  
 
     if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
       let notReadOnly = localStorage.getItem('notReadOnly');
@@ -434,7 +439,7 @@ export class FormsComponent implements OnInit {
   }
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
-    public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient, public formService: FormService) { }
+    public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient, public formService: FormService,private el: ElementRef) { }
 
 
   ngOnInit(): void {
@@ -1288,13 +1293,14 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
             'expressionProperties': {
               "templateOptions.disabled": (model, formState, field1) => {
-
+                
                 if (this.model['pledgeDetails'].hasOwnProperty('organs') && this.model['pledgeDetails'].organs.length) {
                   return false;
                 } else if (this.model['pledgeDetails'].hasOwnProperty('tissues') && this.model['pledgeDetails'].tissues.length) {
                   return false;
                 } else {
                   this.model['pledgeDetails'] = { 'other': false }
+                
                   return true;
                 }
               }
@@ -1355,6 +1361,7 @@ export class FormsComponent implements OnInit {
           }
         }, 1000);
       }
+
 
       if (field.type) {
         if (field.type === 'verify-code') {
@@ -1586,15 +1593,20 @@ export class FormsComponent implements OnInit {
   }
 
   checkValidation() {
+
     const isVerify = localStorage.getItem('isVerified');
     let isformVerity = true;
     if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues']) {
       this.removeElement("oterrormsg");
+     // document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
       this.addElement('Organs_and_Tissues_to_Pledge', 'Please select atleast one organs or tissues', 'oterrormsg')
       isformVerity = false;
     } else {
       this.removeElement("oterrormsg");
     }
+
+
+ 
 
     if (!this.model['consent']) {
       document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.add('is-invalid')
@@ -1607,7 +1619,7 @@ export class FormsComponent implements OnInit {
       let dateSpan = document.getElementById('abhamessage');
       dateSpan.classList.add('text-danger');
       dateSpan.innerText = "Please verify abha number";
-      document.getElementById('abha').focus();
+     // document.getElementById('abha').focus();
       document.getElementById('abha').classList.add('is-invalid');
       isformVerity = false;
     } else {
@@ -1615,7 +1627,19 @@ export class FormsComponent implements OnInit {
       dateSpan.classList.remove('text-danger');
       dateSpan.innerText = "";
       document.getElementById('abha').classList.remove('is-invalid');
+      if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues'] && this.model['personalDetails']['fatherName']) {
+       document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
+      }
+
+      // if ((this.model['pledgeDetails']['organs'] ||  this.model['pledgeDetails']['tissues']) && this.model['personalDetails']['fatherName'] && this.model['emergencyDetails']) {
+      //   document.getElementById("formly_72_checkbox_consent_13").focus();
+      //  }
+
+       
+
       (this.myForm as any).submitted = true;
+
+
     }
     if (!isformVerity) {
       return false;
@@ -1626,10 +1650,19 @@ export class FormsComponent implements OnInit {
 
   submit(button = "") {
     this.isSubmitForm = true;
+
+    if(!this.form2.valid){
+      const firstInvalidControl: HTMLElement = this.el.nativeElement.querySelector(
+        "form .ng-invalid"
+      );
+      firstInvalidControl.focus(); 
+    }
+
     if (!this.checkValidation()) {
       return false
     }
 
+  
     if (this.form2.valid) {
       if (button === "") {
         this.modalSuccessPledge('confirmationModalPledge')

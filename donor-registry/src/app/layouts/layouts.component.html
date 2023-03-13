@@ -52,11 +52,17 @@
                     </a> 
                 </div>
                 <div class="pledge-btn">
-                    <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}" target="_blank" *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
-                        <button class="fs-14 fw-bold btn btn-primary-green submit-button " data-mdb-toggle="tooltip">
-                        <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
-                        </button>
-                        </a>
+                    <div  *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
+                        <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}" target="_blank">
+                            <button class="fs-14 fw-bold btn btn-primary-green submit-button " data-mdb-toggle="tooltip">
+                            <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
+                            </button>
+                            
+                            </a>
+                            <p class="mt-1 fs-10 ml-3 fw-bold">{{item?.pledgeDetails.osUpdatedAt | date : 'dd-MM-y : H:mm'}}</p>
+                          
+                    </div>
+                   
                         
                         <a  *ngIf="!item?.pledgeDetails?.organs?.length && !item?.pledgeDetails?.tissues?.length">
                             <button class="fs-14 fw-bold btn btn-primary-green submit-button" (click)="pledgeAgain(item?.osid)">
