@@ -435,6 +435,7 @@
       "pledge-setup": {
         "api": "/Pledge",
         "type": "entity",
+        "header": "default",
         "langKey": "institute",
         "fieldsets": [
           {
