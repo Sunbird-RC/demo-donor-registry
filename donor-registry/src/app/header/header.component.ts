@@ -34,8 +34,7 @@ export class HeaderComponent implements OnInit, AfterContentChecked{
   entity: string;
   profile: boolean = true;
   homeMenu: boolean;
-  logoutMenu: boolean;
-
+  
  
   constructor(
     public router: Router, private config: AppConfig, public schemaService: SchemaService,
