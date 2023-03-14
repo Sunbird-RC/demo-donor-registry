@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { VerifyService } from 'vc-verification';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
- const { createCanvas, loadImage } = require('canvas');
- const { scanImageData } = require('zbar-angular.wasm');
+//  const { createCanvas, loadImage } = require('canvas');
+//  const { scanImageData } = require('zbar-angular.wasm');
 
 @Component({
   selector: 'app-verify-certificate',
@@ -18,24 +18,24 @@ itemData:any;
 
   }
 
-   getImageData = async (src) => {
-    const img = await loadImage(src);
-    const canvas = createCanvas(img.width, img.height);
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
-    return ctx.getImageData(0, 0, img.width, img.height);
-  };
+  //  getImageData = async (src) => {
+  //   const img = await loadImage(src);
+  //   const canvas = createCanvas(img.width, img.height);
+  //   const ctx = canvas.getContext('2d');
+  //   ctx.drawImage(img, 0, 0);
+  //   return ctx.getImageData(0, 0, img.width, img.height);
+  // };
 
-  main = async () => {
-    const img = await this.getImageData('/assets/images/vc.png');
-    const res = await scanImageData(img);
-    console.log(res[0].typeName); // ZBAR_QRCODE
-    console.log(res[0].decode()); // Hello World
-  };
+  // main = async () => {
+  //   const img = await this.getImageData('/assets/images/vc.png');
+  //   const res = await scanImageData(img);
+  //   console.log(res[0].typeName); // ZBAR_QRCODE
+  //   console.log(res[0].decode()); // Hello World
+  // };
 
   ngOnInit(): void {
 
-    this.main();
+    // this.main();
 
       this.itemData =
 
