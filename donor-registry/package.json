@@ -51,7 +51,6 @@
     "angular2-multiselect-dropdown": "^5.0.4",
     "angular6-json-schema-form": "^8.0.0",
     "bootstrap": "^4.5.0",
-    "canvas": "^2.11.0",
     "core-js": "^2.4.1",
     "country-state-city": "^3.0.1",
     "iso-639-1": "^2.1.11",
@@ -79,7 +78,6 @@
     "vc-verification": "^0.0.2",
     "write-json-file": "^5.0.0",
     "z-schema": "^5.0.0",
-    "zbar-angular.wasm": "^1.0.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
@@ -107,9 +105,6 @@
   },
   "browser": {
     "http": false,
-    "https": false,
-    "fs": false,
-    "path": false,
-    "os": false
+    "https": false
   }
 }
