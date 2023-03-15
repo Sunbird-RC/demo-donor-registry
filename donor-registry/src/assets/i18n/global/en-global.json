@@ -192,6 +192,7 @@
     "LINK_TO_ABHA":"Don't have an ABHA? ",
     "LINK": "Click here to create ABHA Number",
     "UNPLEDGE":"Unpledge",
-    "VERIFIED": "Verified"
+    "VERIFIED": "Verified",
+    "Organs_and_Tissues_to_Pledge": "Please select atleast one organs or tissues"
 
 }

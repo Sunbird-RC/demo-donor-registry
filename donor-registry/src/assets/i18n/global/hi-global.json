@@ -189,7 +189,8 @@
   "TO_NOTE":"(i) अंगदान एक पारिवारिक निर्णय है। इसलिए, यह महत्वपूर्ण है कि आप अपनी चर्चा करें परिवार के सदस्यों और प्रियजनों के साथ निर्णय जिससे उनका पालन करना आसान हो जाएगा आपकी शुभकामनायें। (ii) प्रतिज्ञा करने वाले व्यक्ति के पास विकल्प होता है प्रतिज्ञा वापस लेना",
   "TO_LIVEDONOR_NOTE" : "I solemnly affirm and declare that: Sections 2, 9 and 19 of The Transplantation of Human Organs Act, 1994 have been explained to me and I confirm that: 1. I understand the nature of criminal offences referred to in the sections. 2. No payment as referred to in the sections of the Act has been made to me or will be made to me or any other person. 3. I am giving the consent and authorization to remove my kidney. (name of organ/tissue) of my own free will without  any undue pressure, inducement, influence or allurement.4. I have been given a full explanation of the nature of the medical procedure involved and the risks involved for me in the removal of my kidney. (name of organ)/tissue).That explanation was given by (name of registered medical practitioner).5. I understand the nature of that medical procedure and of the risks to me as explained by that practitioner.6. I understand that I may withdraw my consent to the removal of that organ at any time before the operation takes place.7. I state that particulars filled by me in the form are true and correct to the best of my knowledge and belief and nothing material has been  concealed by me.",
   "REVOKE":"रिवोक",
-    "VERIFIED": "Verified"
+  "VERIFIED": "Verified",
+  "Organs_and_Tissues_to_Pledge": "कृपया कम से कम एक अंग या ऊतक चुनें"
 
 
 }
