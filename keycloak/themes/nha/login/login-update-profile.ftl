@@ -5,7 +5,7 @@
     <#elseif section = "form">
         <div class="${properties.kcLabelWrapperClass!}">
             <h3 class="d-flex align-items-center"><a onclick="window.history.back()"><img
-                            src="${url.resourcesPath}/img/next-btn.svg" alt="" class="pr-3"></a> Update Profile</h3>
+                            src="${url.resourcesPath}/img/next-btn.svg" alt="" class="pe-3"></a> Update Profile</h3>
         </div>
         <form id="kc-update-profile-form" class="${properties.kcFormClass!} ndear-login-card-wrapper w-100"
               action="${url.loginAction}" method="post">
