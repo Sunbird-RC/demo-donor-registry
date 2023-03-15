@@ -110,7 +110,8 @@
                       "validation": {
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
-                      }
+                      },
+                      "required": true
                     },
                     {
                       "name": "dob",
@@ -512,7 +513,8 @@
                       "validation": {
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
-                      }
+                      },
+                      "required": true
                     },
                     {
                       "name": "dob",
