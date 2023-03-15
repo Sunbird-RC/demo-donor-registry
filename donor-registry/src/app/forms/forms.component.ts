@@ -2164,6 +2164,14 @@ export class FormsComponent implements OnInit {
     if ((this.form == 'signup' || this.form == 'pledge-setup') && this.entityName == "Pledge") {
       this.apiUrl = '/Pledge/';
 
+      if (this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['organs']) {
+        this.model['pledgeDetails']['organs'] = this.removeDuplicates(this.model['pledgeDetails']['organs']);
+      }
+
+      if (this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['tissues']) {
+        this.model['pledgeDetails']['tissues'] = this.removeDuplicates(this.model['pledgeDetails']['tissues']);
+      }
+      
       this.checkOtherVal();
       if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
         this.model['emergencyDetails'] = {}
