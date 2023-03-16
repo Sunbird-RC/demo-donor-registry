@@ -13,56 +13,27 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
   styleUrls: ['./verify-certificate.component.scss']
 })
 export class VerifyCertificateComponent implements OnInit {
-itemData:any;
-  constructor(public verifyService: VerifyService) { 
+  itemData: any;
+  constructor(public verifyService: VerifyService) {
 
   }
-
-  //  getImageData = async (src) => {
-  //   const img = await loadImage(src);
-  //   const canvas = createCanvas(img.width, img.height);
-  //   const ctx = canvas.getContext('2d');
-  //   ctx.drawImage(img, 0, 0);
-  //   return ctx.getImageData(0, 0, img.width, img.height);
-  // };
-
-  // main = async () => {
-  //   const img = await this.getImageData('/assets/images/vc.png');
-  //   const res = await scanImageData(img);
-  //   console.log(res[0].typeName); // ZBAR_QRCODE
-  //   console.log(res[0].decode()); // Hello World
-  // };
-
   ngOnInit(): void {
 
-    // this.main();
-
-      this.itemData =
-
-      {
-      
-      "scanNote":"To verify pledge certificate, simply scan the QR code thats on the document.",
-      
-      "verify_certificate": 'Verify Certificate',
-      
-      "scan_qrcode": 'Scan QR Code',
-      
-      "detecting_qrcode": 'Detecting QR code',
-      
-      "back": 'Back',
-      
-      "certificate_isverified": 'Certificate is verified',
-      
+    this.itemData =
+    {
+      "scanner_type": "ZBAR_QRCODE",
+      "showResult": [
+        { "path": "name", "title": "Name" },
+        {"path": "nottoId",  "title": "NOTTO ID" },
+        {"path": "dob", "title": "Date of birth"},
+        { "path": "gender",  "title": "Gender"}],
+      "scanNote": "To verify pledge certificate, simply scan the QR code thats on the document.",
+      "certificateTitle": 'Pledge Certificate',
       "verify_another_Certificate": 'Verify another Certificate',
-      
       "cetificate_not_valid": 'This Certificate is not valid',
-      
-      "scan_qrcode_again" : "Please scan QR code again"
-      
-      }
-   
+      "scan_qrcode_again": "Please scan QR code again"
+    }
 
-      
   }
 
 }
