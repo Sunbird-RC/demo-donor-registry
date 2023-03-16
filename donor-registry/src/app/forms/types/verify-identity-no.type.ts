@@ -14,9 +14,9 @@ import {
   <div>
   <span class="fw-bold p12">{{ to.label }} *</span> <br />
   <div class="d-flex">
-      <input
-          onkeypress='return !((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'
-          id="{{ field.key }}" maxlength="14" [formControl]="formControl" [formlyAttributes]="field"
+  <input
+           oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9]/g,'')"
+          id="{{ field.key }}" [maxlength]="14" [formControl]="formControl" [formlyAttributes]="field"
           pattern="[1-9]{1}[0-9]{1}[0-9]{12}" [ngClass]="isIdentityNo ? 'form-control' : 'form-control is-invalid'"
           required />
       <span class="fw-bold p14 pointer btn-holder btn-verify btn-verify-mobile" *ngIf="!isVerify"  data-toggle="modal"

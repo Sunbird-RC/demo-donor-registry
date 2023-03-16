@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
@@ -141,9 +141,21 @@ export class FormsComponent implements OnInit {
   flag: boolean = true;
   routeNew: string;
   tempUrl: string;
+  organCheckbox: boolean = true;
 
 
   ngAfterViewChecked() {
+    if (!this.organCheckbox) {
+      if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues']) {
+        this.removeElement("oterrormsg");
+        this.addElement('Organs_and_Tissues_to_Pledge', 'Please select atleast one organs or tissues', 'oterrormsg')
+      }
+    }
+    if (this.model['pledgeDetails']['organs'] || this.model['pledgeDetails']['tissues']) {
+      this.removeElement("oterrormsg");
+      this.organCheckbox = false;
+    }
+
     if (this.form == 'signup') {
       if (localStorage.getItem('isVerified')) {
         if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
@@ -194,10 +206,10 @@ export class FormsComponent implements OnInit {
       }
     }
 
-   if(this.model["consent"]){
-    document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
-   }
-  
+    if (this.model["consent"]) {
+      document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
+    }
+
 
     if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
       let notReadOnly = localStorage.getItem('notReadOnly');
@@ -439,7 +451,7 @@ export class FormsComponent implements OnInit {
   }
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
-    public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient, public formService: FormService,private el: ElementRef) { }
+    public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient, public formService: FormService, private el: ElementRef) { }
 
 
   ngOnInit(): void {
@@ -874,7 +886,7 @@ export class FormsComponent implements OnInit {
 
           if (field.element.hasOwnProperty('condition') && field.element.condition.type == 'disable') {
             if (this.form == 'signup' || this.form == 'pledge-setup') {
-              this.model['memberToBeNotified'] = false ;
+              this.model['memberToBeNotified'] = false;
               let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
               this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
                 'expressionProperties': {
@@ -998,7 +1010,7 @@ export class FormsComponent implements OnInit {
         }
 
         if (field.placeholder) {
-        let placeHolder = this.checkString(this.langKey, field.placeholder);       
+          let placeHolder = this.checkString(this.langKey, field.placeholder);
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = placeHolder;
         }
 
@@ -1293,14 +1305,14 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
             'expressionProperties': {
               "templateOptions.disabled": (model, formState, field1) => {
-                
+
                 if (this.model['pledgeDetails'].hasOwnProperty('organs') && this.model['pledgeDetails'].organs.length) {
                   return false;
                 } else if (this.model['pledgeDetails'].hasOwnProperty('tissues') && this.model['pledgeDetails'].tissues.length) {
                   return false;
                 } else {
                   this.model['pledgeDetails'] = { 'other': false }
-                
+
                   return true;
                 }
               }
@@ -1342,7 +1354,7 @@ export class FormsComponent implements OnInit {
           }
         }
       }
-      
+
       if (field.hasOwnProperty('onlyNumber') && field.onlyNumber) {
         setTimeout(() => {
           let mobileNumber = document.getElementsByClassName('onlyNumber');
@@ -1598,7 +1610,7 @@ export class FormsComponent implements OnInit {
     let isformVerity = true;
     if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues']) {
       this.removeElement("oterrormsg");
-     // document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
+      // document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
       this.addElement('Organs_and_Tissues_to_Pledge', 'Please select atleast one organs or tissues', 'oterrormsg')
       isformVerity = false;
     } else {
@@ -1606,7 +1618,7 @@ export class FormsComponent implements OnInit {
     }
 
 
- 
+
 
     if (!this.model['consent']) {
       document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.add('is-invalid')
@@ -1619,7 +1631,7 @@ export class FormsComponent implements OnInit {
       let dateSpan = document.getElementById('abhamessage');
       dateSpan.classList.add('text-danger');
       dateSpan.innerText = "Please verify abha number";
-     // document.getElementById('abha').focus();
+      // document.getElementById('abha').focus();
       document.getElementById('abha').classList.add('is-invalid');
       isformVerity = false;
     } else {
@@ -1628,14 +1640,14 @@ export class FormsComponent implements OnInit {
       dateSpan.innerText = "";
       document.getElementById('abha').classList.remove('is-invalid');
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues'] && this.model['personalDetails']['fatherName']) {
-       document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
+        document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
       }
 
       // if ((this.model['pledgeDetails']['organs'] ||  this.model['pledgeDetails']['tissues']) && this.model['personalDetails']['fatherName'] && this.model['emergencyDetails']) {
       //   document.getElementById("formly_72_checkbox_consent_13").focus();
       //  }
 
-       
+
 
       (this.myForm as any).submitted = true;
 
@@ -1651,18 +1663,18 @@ export class FormsComponent implements OnInit {
   submit(button = "") {
     this.isSubmitForm = true;
 
-    if(!this.form2.valid){
+    if (!this.form2.valid) {
       const firstInvalidControl: HTMLElement = this.el.nativeElement.querySelector(
         "form .ng-invalid"
       );
-      firstInvalidControl.focus(); 
+      firstInvalidControl.focus();
     }
 
     if (!this.checkValidation()) {
       return false
     }
 
-  
+
     if (this.form2.valid) {
       if (button === "") {
         this.modalSuccessPledge('confirmationModalPledge')
@@ -2163,6 +2175,14 @@ export class FormsComponent implements OnInit {
   async updateData() {
     if ((this.form == 'signup' || this.form == 'pledge-setup') && this.entityName == "Pledge") {
       this.apiUrl = '/Pledge/';
+
+      if (this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['organs']) {
+        this.model['pledgeDetails']['organs'] = this.removeDuplicates(this.model['pledgeDetails']['organs']);
+      }
+
+      if (this.model.hasOwnProperty('pledgeDetails') && this.model['pledgeDetails']['tissues']) {
+        this.model['pledgeDetails']['tissues'] = this.removeDuplicates(this.model['pledgeDetails']['tissues']);
+      }
 
       this.checkOtherVal();
       if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
