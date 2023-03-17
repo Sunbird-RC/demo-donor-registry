@@ -40,11 +40,8 @@ import {
       <div *ngIf="!canRegister" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
               <div class="modal-body text-center">
-                  <h3 class="fw-bold mb-3">Cannot register for Pledge</h3>
-                  <p class="p14">You are not eligible to pledge for donation.</p>
-                  <p class="p14">
-                      Only individuals of age 18 year or above can pledge.
-                  </p>
+                  <h3 class="fw-bold mb-3">Thank you for your enthusiasm. </h3>
+                  <p class="p14">Please come back and register with us when you are 18.</p>
                   <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf#page=52"
                       target="_blank">Click here for more information</a>
                   <br />
