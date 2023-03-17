@@ -75,7 +75,7 @@
     "rxjs": "^6.5.4",
     "tslib": "^2.0.0",
     "typescript": "3.9.5",
-    "vc-verification": "^0.0.6",
+    "vc-verification": "^0.0.8",
     "write-json-file": "^5.0.0",
     "z-schema": "^5.0.0",
     "zbar-angular.wasm": "^1.0.0",
