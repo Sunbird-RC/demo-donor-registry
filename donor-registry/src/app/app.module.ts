@@ -141,8 +141,11 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 // import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
-const configData = {
-  baseUrl: "https://demo-nha-donor-registry.xiv.in/registry/api/v1"
+
+let baseConfig = require('../assets/config/config.json')
+
+let configData = {
+  baseUrl: baseConfig['baseUrl']
   }   
 
 
