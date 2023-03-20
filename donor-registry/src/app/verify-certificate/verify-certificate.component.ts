@@ -23,12 +23,14 @@ export class VerifyCertificateComponent implements OnInit {
     {
       "scanner_type": "ZBAR_QRCODE",
       "showResult": [
-        { "path": "name", "title": "Name" },
-        { "path": "fatherName", "title": "Father Name" },
-        { "path": "nottoId",  "title": "NOTTO ID" },
-        { "path": "pledge.organs", "title": "Organs" },
-        { "path": "pledge.tissues", "title": "Tissues" },
-        { "path": "emergency.mobileNumber",  "title": "Emergency Contact Details" }
+        { "title": "Name", "path": "credentialSubject.name" },
+        { "title": "Father Name", "path": "credentialSubject.fatherName" },
+        { "title": "Date of Issuance", "path": "issuanceDate",  'type' : 'date' },
+        { "title": "ABHA Number", "path": "credentialSubject.id",  "removeStr" : "did:abha:" },
+        { "title": "NOTTO ID", "path": "credentialSubject.nottoId" },
+        { "title": "Organs", "path": "credentialSubject.pledge.organs" },
+        { "title": "Tissues", "path": "credentialSubject.pledge.tissues" },
+        {  "title": "Emergency Contact Details", "path": "credentialSubject.emergency.mobileNumber" }
       ],
       "scanNote": "To verify pledge certificate, simply scan the QR code thats on the document.",
       "certificateTitle": 'Pledge Certificate',
