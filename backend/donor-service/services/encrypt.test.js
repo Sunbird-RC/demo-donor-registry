@@ -19,16 +19,14 @@ describe('encryption service test', () => {
         mockedAxios = axios;
 
     });
-    test('should encrypt text with given certificate', async () => {
-
-        let encryptedText = encrypt("1234", publicCertificate);
-        console.log(encryptedText)
-        expect(encryptedText).toBeTruthy()
-    })
 
     test('should encrypt and decrypt', async () => {
-
-        let encryptedText = encrypt("1234", publicCertificate);
+        mockedAxios.get.mockImplementationOnce(() =>
+            Promise.resolve({
+                data: publicCertificate
+            })
+        );
+        let encryptedText = await encryptWithCertificate("1234");
         console.log(encryptedText)
         expect(encryptedText).toBeTruthy()
         const decryptedText = decrypt(encryptedText, privateCertificate)
