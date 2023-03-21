@@ -9,6 +9,7 @@
         "firstName",
         "lastName",
         "fatherName",
+        "motherName",
         "dob",
         "gender",
         "mobileNumber"
