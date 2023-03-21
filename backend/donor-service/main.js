@@ -127,7 +127,7 @@ app.post('/auth/sendOTP', async(req, res) => {
     //TODO:get method from frontend
     const method = 'MOBILE_OTP';
     try {
-        await checkUniqueAbha(abhaId);
+        await checkABHAIsUnique(abhaId);
         const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId},
             {headers: {Authorization: 'Bearer '+clientSecretToken}})).data;
         res.send(otpSendResponse);
@@ -541,28 +541,38 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
     try {
         const encryptedOtp = await encryptWithCertificate(otp);
 
-        const verifyOtp = (await axios.post(`${config.BASE_URL}/v2/registration/mobile/login/verifyOtp`, {
+        const verifyOtpResponse = (await axios.post(`${config.BASE_URL}/v2/registration/mobile/login/verifyOtp`, {
             "otp": encryptedOtp,
             "txnId": transactionId
         }, {headers: {Authorization: 'Bearer ' + clientSecretToken}})).data;
-        console.debug('OTP verified', verifyOtp);
-        res.send(verifyOtp);
+        console.debug('OTP verified', verifyOtpResponse);
+        if (R.pathOr([], ["mobileLinkedHid"], verifyOtpResponse).length > 0) {
+            for (const data of verifyOtpResponse.mobileLinkedHid) {
+                data["pledged"] = await isABHARegistered(data.healthIdNumber)
+            }
+        }
+        res.send(verifyOtpResponse);
     } catch(err) {
         let error = getErrorObject(err);
         res.status(error.status).send(error);
     }
 });
 
-async function checkUniqueAbha(abhaId) {
+async function isABHARegistered(abhaId) {
+    abhaId = abhaId.replaceAll("-", "");
     if (config.UNIQUE_ABHA_ENABLED) {
         const key = getKeyBasedOnEntityName("Pledge");
-        const isPresent = await redis.getKey(key + abhaId) !== null;
-        if (isPresent) {
-            throw {
-                status: 409,
-                message: 'Entered ABHA number is already registered as pledger. Please login to view and download pledge certificate'
-            };
-        }
+        return await redis.getKey(key + abhaId) !== null;
+    }
+    return false;
+}
+
+async function checkABHAIsUnique(abhaId) {
+    if (await isABHARegistered(abhaId)) {
+        throw {
+            status: 409,
+            message: 'Entered ABHA number is already registered as pledger. Please login to view and download pledge certificate'
+        };
     }
 }
 
@@ -590,7 +600,7 @@ app.post('/abha/profile', async(req, res) => {
     const profileToken = req.body.token;
     const clientSecretToken = await getClientSecretToken();
     try {
-        await checkUniqueAbha(healthId)
+        await checkABHAIsUnique(healthId)
         const userToken = (await getUserAuthorizedToken(healthId, transactionId, profileToken, clientSecretToken)).token;
         const profile = await getAndCacheEKYCProfile(clientSecretToken, userToken);
         res.send(profile);
