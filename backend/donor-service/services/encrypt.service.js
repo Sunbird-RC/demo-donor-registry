@@ -27,7 +27,6 @@ function decrypt(data, certificate) {
 }
 
 module.exports = {
-    encrypt,
     encryptWithCertificate,
     decrypt
 }
