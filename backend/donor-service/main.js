@@ -14,6 +14,7 @@ const SERVICE_ACCOUNT_TOKEN = "SERVICE_ACCOUNT_TOKEN";
 const R = require('ramda');
 const {sendNotification} = require("./services/notify.service");
 const {LOGIN_LINK, INVITE_TEMPLATE_ID, NOTIFY_TEMPLATE_ID} = require("./configs/config");
+const {encryptWithCertificate} = require("./services/encrypt.service");
 const app = express();
 
 (async() => {
@@ -43,7 +44,7 @@ const getClientSecretResponse = async() => {
         'clientId': config.CLIENT_ID,
         'clientSecret': config.CLIENT_SECRET
     }
-    return await axios.post('https://dev.abdm.gov.in/gateway/v0.5/sessions', data);
+    return await axios.post(config.ABHA_CLIENT_URL, data);
 }
 
 
@@ -87,6 +88,38 @@ const getClientSecretToken = async() => {
     return clientSecret;
 }
 
+function getErrorObject(err) {
+    let message = "";
+    let status = err?.response?.status || err?.status || 500
+    console.log(err?.response?.data?.code);
+    switch (R.pathOr("", ["response","data","details",0,"code"], err)) {
+        case 'HIS-1008':
+            message = "Please enter valid ABHA Number";
+            break;
+        case 'HIS-1023':
+            message = "Please wait for 30 minutes to try again with same ABHA number";
+            break;
+        case 'HIS-1039':
+            message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
+            status = 429;
+            break;
+        case 'HIS-1013':
+            message = 'Please enter correct OTP number';
+            status = 401;
+            break;
+        default:
+            message = err?.message || err?.response?.data || err;
+            break;
+    }
+    if(err?.response?.data?.code === 'HIS-500'){
+        message = "Please enter valid ABHA Number";
+    }
+    return {
+        status: status,
+        message: message
+    };
+}
+
 app.post('/auth/sendOTP', async(req, res) => {
     console.log('sending OTP');
     const clientSecretToken = await getClientSecretToken();
@@ -94,35 +127,13 @@ app.post('/auth/sendOTP', async(req, res) => {
     //TODO:get method from frontend
     const method = 'MOBILE_OTP';
     try {
-        if(config.UNIQUE_ABHA_ENABLED) {
-            const key = getKeyForBasedOnEntityName("Pledge");
-            const isPresent = await redis.getKey(key+abhaId) !== null ? true : false;
-            if(isPresent) {
-                throw {
-                    status: 409,
-                    message: 'Entered ABHA number is already registered as pledger. Please login to view and download pledge certificate'
-                };
-            }
-        }
+        await checkUniqueAbha(abhaId);
         const otpSendResponse = (await axios.post(`${config.BASE_URL}/v1/auth/init`, {"authMethod": method, "healthid": abhaId},
             {headers: {Authorization: 'Bearer '+clientSecretToken}})).data;
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
-        let message = "";
-        console.log(err?.response?.data?.code);
-        if(err?.response?.data?.code === 'HIS-500' || err?.response?.data?.details[0]?.code === 'HIS-1008') {
-            message = "Please enter valid ABHA Number";
-        }
-        else if(err?.response?.data?.details[0]?.code === 'HIS-1023'){
-            message = "Please wait for 30 minutes to try again with same ABHA number";
-        }
-        else {
-            message = err?.message || err?.response?.data || err;
-        }
-        let error = {
-            message: message
-        }
+        const error = getErrorObject(err);
         res.status(err.status || 500).send(error);
     }
 });
@@ -138,27 +149,13 @@ app.post('/auth/verifyOTP', async(req, res) => {
             "otp": otp,
             "txnId": transactionId
         }, {headers: {Authorization: 'Bearer ' + clientSecretToken}})).data;
-        console.log('OTP verified', verifyOtp);
+        console.debug('OTP verified', verifyOtp);
         const userToken = verifyOtp.token;
-        const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`, {headers: {Authorization: 'Bearer ' + clientSecretToken, "X-Token": 'Bearer ' + userToken}})).data;
-        redis.storeKeyWithExpiry(profile.healthIdNumber.replaceAll("-",""), JSON.stringify(profile), config.EXPIRE_PROFILE);
+        const profile = await getAndCacheEKYCProfile(clientSecretToken, userToken);
         res.send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {
-        let message = err?.message || err;
-        let status = err?.response?.status || err?.status || 500
-        if(err?.response?.data?.details[0]?.code === 'HIS-1039') {
-            message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
-            status = 429;
-        } else if(err?.response?.data?.details[0]?.code === 'HIS-1013') {
-            message = 'Please enter correct OTP number';
-            status = 401;
-        }
-        let error = {
-            status: status,
-            message: message
-        }
-        // res.status(err.response.status).send(err.response.data);
+        let error = getErrorObject(err)
         res.status(error.status).send(error);
     }
 });
@@ -169,7 +166,7 @@ const getRegisteredCount = async(key) => {
     return ((value === null ? 0 : parseInt(value)) + 1) + "";
 }
 
-function getKeyForBasedOnEntityName(entityName) {
+function getKeyBasedOnEntityName(entityName) {
     let category = null;
     switch(entityName) {
         case "Pledge":
@@ -204,6 +201,24 @@ app.get('/health', async(req, res) => {
     res.status(200).send({status: 'UP'});
 });
 
+async function generateNottoId(entityName) {
+    const year = new Date().getFullYear().toString().substring(2);
+    const registrationCategory = getKeyBasedOnEntityName(entityName);
+    if (registrationCategory === null) {
+        throw new Error(`Entity ${entityName} not supported`)
+    }
+    const registered = await getRegisteredCount(registrationCategory);
+    return registrationCategory + year + (registered + "").padStart(parseInt(config.NUMBER_OF_DIGITS), '0');
+}
+
+async function incrementNottoId(entityName) {
+    const registrationCategory = getKeyBasedOnEntityName(entityName);
+    if (registrationCategory === null) {
+        throw new Error(`Entity ${entityName} not supported`)
+    }
+    await redis.increment(registrationCategory);
+}
+
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
     //TODO : check duplicate
@@ -217,18 +232,11 @@ app.post('/register/:entityName', async(req, res) => {
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
-        const year = new Date().getFullYear().toString().substring(2);
-        const registrationCategory = getKeyForBasedOnEntityName(entityName);
-        if(registrationCategory === null) {
-            throw new Error({error: "Entity " + entityName + " not supported"})
-        }
-        const registered = await getRegisteredCount(registrationCategory);
-        const nottoId = registrationCategory + year + (registered + "").padStart(parseInt(config.NUMBER_OF_DIGITS),'0');
-        profile.identificationDetails.nottoId = nottoId;
+        profile.identificationDetails.nottoId = await generateNottoId(entityName);
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
-        redis.increment(registrationCategory);
+        await incrementNottoId(entityName);
         const abha = profileFromReq.identificationDetails.abha;
-        redis.storeKey(getKeyForBasedOnEntityName(entityName)+abha, "true");
+        await redis.storeKey(getKeyBasedOnEntityName(entityName) + abha, "true");
         const osid = inviteReponse.result[entityName].osid;
         const esignFileData = (await getESingDoc(abha)).data;
         const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
@@ -245,13 +253,26 @@ app.post('/register/:entityName', async(req, res) => {
     }
 });
 
+async function sendNotificationToEmergencyDetailsIfUpdated(profileFromReq, userData) {
+    if (checkIfEmergencyMobileNumberUpdated(profileFromReq, userData)) {
+        const notifyName = R.pathOr("", ["notificationDetails", "name"], profileFromReq);
+        const notifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], profileFromReq);
+        await sendNotification(notifyNumber, `Dear Mr/Ms ${notifyName},\\n` +
+            `This is to inform you that Mr/Ms ${profileFromReq.personalDetails.firstName} ${profileFromReq.personalDetails.middleName} ${profileFromReq.personalDetails.lastName} has pledged for Organ/Tissue donation.\\n` +
+            "\\n" +
+            "To know more about the NOTTO visit notto.gov.in.\\n" +
+            "\\n" +
+            "NOTTO, NHA", NOTIFY_TEMPLATE_ID);
+    }
+}
+
 app.put('/register/:entityName/:entityId', async(req, res) => {
     console.log('Inviting entity');
     let profileFromReq = req.body;
     profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
     const entityName = req.params.entityName;
     const entityId = req.params.entityId;
-    const userData = JSON.parse(await getUserData(getKeyForBasedOnEntityName(entityName) + entityId, req));
+    const userData = JSON.parse(await getUserData(getKeyBasedOnEntityName(entityName) + entityId, req));
     try {
         if(checkIfNonEditableFieldsPresent(profileFromReq, userData)) {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
@@ -260,18 +281,9 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
         const esignFileData = (await getESingDoc(profileFromReq.identificationDetails.abha)).data;
         const uploadESignFileRes = await uploadESignFile(entityId, esignFileData);
         console.log(uploadESignFileRes);
-        if(checkIfEmergencyMobileNumberUpdated(profileFromReq, userData)) {
-            const notifyName = R.pathOr("", ["notificationDetails", "name"], profileFromReq);
-            const notifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], profileFromReq);
-            await sendNotification(notifyNumber, `Dear Mr/Ms ${notifyName},\\n` +
-            `This is to inform you that Mr/Ms ${profileFromReq.personalDetails.firstName} ${profileFromReq.personalDetails.middleName} ${profileFromReq.personalDetails.lastName} has pledged for Organ/Tissue donation.\\n` +
-            "\\n" +
-            "To know more about the NOTTO visit notto.gov.in.\\n" +
-            "\\n" +
-            "NOTTO, NHA", NOTIFY_TEMPLATE_ID);
-        }
+        await sendNotificationToEmergencyDetailsIfUpdated(profileFromReq, userData);
+        await redis.deleteKey(getKeyBasedOnEntityName(entityName) + entityId);
         res.send(updateApiResponse);
-        redis.deleteKey(getKeyForBasedOnEntityName(entityName) + entityId);
     } catch(err) {
         err = {
             message: err?.response?.data || err?.message || err
@@ -371,20 +383,8 @@ const getEsignData = async(pledge) => {
         })
     });
     let xmlContent = apiResponse.data.espRequest;
-    // xmlContent = xmlContent.replace(config.ESIGN_FORM_REPLACE_URL, `${config.PORTAL_PLEDGE_REGISTER_URL}?data=${btoa(JSON.stringify(req.body))}`);
     await redis.storeKeyWithExpiry(getEsginKey(pledge.identificationDetails.abha), apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
-//         res.send(`
-//         <form action="${config.ESIGN_FORM_SIGN_URL}" method="post" id="formid">
-//             <input type="hidden" id="eSignRequest" name="eSignRequest" value='${xmlContent}'/>
-//             <input type="hidden" id="aspTxnID" name="aspTxnID" value='${apiResponse.data.aspTxnId}'/>
-//             <input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
-//         </form>
-//         <script>
-//
-//             document.getElementById("formid").submit();
-//         </script>
-        return {xmlContent: xmlContent, txnId: apiResponse.data.aspTxnId, espUrl: apiResponse.data.espUrl};
-// `);
+    return {xmlContent: xmlContent, txnId: apiResponse.data.aspTxnId, espUrl: apiResponse.data.espUrl};
 }
 
 const getUserData = async(key, req) => {
@@ -393,13 +393,13 @@ const getUserData = async(key, req) => {
         return userData;
     }
     userData = (await axios.get(`${config.REGISTRY_URL}/api/v1/${req.params.entityName}/${req.params.entityId}`, {headers: {...req.headers}})).data;
-    redis.storeKeyWithExpiry(key, JSON.stringify(userData), 2 * 24 * 60 * 60);
+    await redis.storeKeyWithExpiry(key, JSON.stringify(userData), 2 * 24 * 60 * 60);
     return JSON.stringify(userData);
 }
 
 app.put('/esign/init/:entityName/:entityId', async(req, res) => {
     try {
-        const userData = JSON.parse(await getUserData(getKeyForBasedOnEntityName(req.params.entityName) + req.params.entityId, req));
+        const userData = JSON.parse(await getUserData(getKeyBasedOnEntityName(req.params.entityName) + req.params.entityId, req));
         if(checkIfNonEditableFieldsPresent(req.body.data, userData)) {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
         }
@@ -515,6 +515,92 @@ app.get('/esign/:abha/status', async (req, res) => {
         res.status(404).send({message: "NOT GENERATED"})
     }
 });
+
+app.post('/auth/mobile/sendOTP', async(req, res) => {
+    console.log('sending OTP');
+    const clientSecretToken = await getClientSecretToken();
+    const mobile = req.body.mobile;
+    try {
+        const otpSendResponse = (await axios.post(`${config.BASE_URL}/v2/registration/mobile/login/generateOtp`,
+            {"mobile": mobile},
+            {headers: {Authorization: 'Bearer '+clientSecretToken}})).data;
+        res.send(otpSendResponse);
+        console.log('OTP sent');
+    } catch(err) {
+        let error = getErrorObject(err);
+        res.status(err.status).send(error);
+    }
+});
+
+
+app.post('/auth/mobile/verifyOTP', async(req, res) => {
+    console.log('Verifying OTP and sending Profile KYC');
+    const transactionId = req.body.transactionId;
+    const otp = req.body.otp;
+    const clientSecretToken = await getClientSecretToken();
+    try {
+        const encryptedOtp = await encryptWithCertificate(otp);
+
+        const verifyOtp = (await axios.post(`${config.BASE_URL}/v2/registration/mobile/login/verifyOtp`, {
+            "otp": encryptedOtp,
+            "txnId": transactionId
+        }, {headers: {Authorization: 'Bearer ' + clientSecretToken}})).data;
+        console.debug('OTP verified', verifyOtp);
+        res.send(verifyOtp);
+    } catch(err) {
+        let error = getErrorObject(err);
+        res.status(error.status).send(error);
+    }
+});
+
+async function checkUniqueAbha(abhaId) {
+    if (config.UNIQUE_ABHA_ENABLED) {
+        const key = getKeyBasedOnEntityName("Pledge");
+        const isPresent = await redis.getKey(key + abhaId) !== null;
+        if (isPresent) {
+            throw {
+                status: 409,
+                message: 'Entered ABHA number is already registered as pledger. Please login to view and download pledge certificate'
+            };
+        }
+    }
+}
+
+async function getUserAuthorizedToken(healthId, txnId, token, clientSecretToken) {
+    return (await axios.post(`${config.BASE_URL}/v2/registration/mobile/login/userAuthorizedToken`, {
+        healthId,
+        txnId
+    }, {headers: {Authorization: `Bearer ${clientSecretToken}`, 'T-Token': `Bearer ${token}`}})).data;
+}
+
+async function getAndCacheEKYCProfile(clientSecretToken, userToken) {
+    const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`,
+        {headers: {Authorization: 'Bearer ' + clientSecretToken, "X-Token": 'Bearer ' + userToken}})).data;
+    if (R.pathOr("", ["healthIdNumber"], profile) !== "") {
+        await redis.storeKeyWithExpiry(profile.healthIdNumber.replaceAll("-", ""), JSON.stringify(profile),
+            config.EXPIRE_PROFILE);
+    }
+    return profile;
+}
+
+app.post('/abha/profile', async(req, res) => {
+    console.log('Verifying OTP and sending Profile KYC');
+    const transactionId = req.body.transactionId;
+    const healthId = req.body.healthId;
+    const profileToken = req.body.token;
+    const clientSecretToken = await getClientSecretToken();
+    try {
+        await checkUniqueAbha(healthId)
+        const userToken = (await getUserAuthorizedToken(healthId, transactionId, profileToken, clientSecretToken)).token;
+        const profile = await getAndCacheEKYCProfile(clientSecretToken, userToken);
+        res.send(profile);
+        console.log('Sent Profile KYC');
+    } catch(err) {
+        const error = getErrorObject(err);
+        res.status(error.status).send(error);
+    }
+});
+
 
 app.use(function(err, req, res, next) {
     console.error("Error occurred for ")
