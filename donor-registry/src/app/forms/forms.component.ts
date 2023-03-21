@@ -1355,6 +1355,19 @@ export class FormsComponent implements OnInit {
         }
       }
 
+      if (field.hasOwnProperty('required') && field.required) {
+        setTimeout(() => {
+          let noSpace = document.getElementsByClassName('required');
+          for (var i = 0; i < noSpace.length; i++) {
+            noSpace[i].addEventListener("keydown", (e) => {
+              if (e['keyCode'] === 32) {
+                e.preventDefault();
+              }
+            });
+          }
+        }, 1000);
+      }
+
       if (field.hasOwnProperty('onlyNumber') && field.onlyNumber) {
         setTimeout(() => {
           let mobileNumber = document.getElementsByClassName('onlyNumber');
