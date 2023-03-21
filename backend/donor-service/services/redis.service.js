@@ -32,8 +32,8 @@ async function increment(key) {
   return await client.incr(key);
 }
 
-function deleteKey(key) {
-    client.del(key);
+async function deleteKey(key) {
+    await client.del(key);
 }
 
 module.exports = {
