@@ -1,5 +1,6 @@
 const REDIS_URL = process.env.REDIS_URL;
 const BASE_URL = process.env.BASE_URL;
+const ABHA_CLIENT_URL = process.env.ABHA_CLIENT_URL;
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REGISTRY_URL = process.env.REGISTRY_URL;
@@ -38,5 +39,6 @@ module.exports = {
     NOTIFICATION_SERVICE_URL,
     LOGIN_LINK,
     INVITE_TEMPLATE_ID,
-    NOTIFY_TEMPLATE_ID
+    NOTIFY_TEMPLATE_ID,
+    ABHA_CLIENT_URL
 }
