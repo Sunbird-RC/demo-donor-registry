@@ -1364,7 +1364,14 @@ export class FormsComponent implements OnInit {
                 e.preventDefault();
               }
             });
+
+            const labels = document.querySelectorAll('label > span');
+            labels.forEach(label => {
+              label.classList.add('red');
+            });
           }
+
+
         }, 1000);
       }
 

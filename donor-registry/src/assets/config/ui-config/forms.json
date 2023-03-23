@@ -233,7 +233,7 @@
                 "required": false,
                 "key": "pDetMsg",
                 "element": {
-                  "title": "Organs and Tissues to Pledge*",
+                  "title": "Organs and Tissues to Pledge",
                   "widget": {
                     "formlyConfig": {
                       "type": "template",
@@ -636,7 +636,7 @@
                 "required": false,
                 "key": "pDetMsg",
                 "element": {
-                  "title": "Organs and Tissues to Pledge*",
+                  "title": "Organs and Tissues to Pledge",
                   "widget": {
                     "formlyConfig": {
                       "type": "template",

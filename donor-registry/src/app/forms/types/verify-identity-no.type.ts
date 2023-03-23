@@ -12,7 +12,7 @@ import {
   styleUrls: ['../forms.component.scss'],
   template: `
   <div>
-  <span class="fw-bold p12">{{ to.label }} *</span> <br />
+  <span class="fw-bold p12">{{ to.label }} <span class="red">*</span></span> <br />
   <div class="d-flex">
   <input
            oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9]/g,'')"
