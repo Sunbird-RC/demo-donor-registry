@@ -632,6 +632,37 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
+  downloadPledgeCard(){
+    this.mode = this.getDeviceInfo();
+    this.orientation = (!this.mode) ? "_landscape" : '_portrait';
+    this.documentName = this.model[0]['addressDetails'].state + this.orientation;
+    let pdfName = this.model[0]['osid'];
+    let headerOptions = new HttpHeaders({
+      'template-key': this.documentName,
+      'Accept': 'application/pdf'
+    });
+
+    let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
+    // post or get depending on your requirement
+    this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + pdfName, requestOptions).pipe(map((data: any) => {   
+      let blob = new Blob([data], {
+        type: 'application/pdf' // must match the Accept type
+      });
+    
+      var link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = pdfName + '.pdf';
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+
+    })).subscribe((result: any) => {
+    });
+  }
+
+  getDeviceInfo() {
+    var r = new RegExp("Android|iPhone|iPad|iPod|BlackBerry|Mobile");
+    return r.test(navigator.userAgent);
+  }
 
   dowbloadCard() {
 
@@ -648,6 +679,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
       let blob = new Blob([data], {
         type: 'image/svg+xml' // must match the Accept type
       });
+     
 
 
 
