@@ -528,7 +528,7 @@ app.post('/auth/mobile/sendOTP', async(req, res) => {
         console.log('OTP sent');
     } catch(err) {
         let error = getErrorObject(err);
-        res.status(err.status).send(error);
+        res.status(error.status).send(error);
     }
 });
 
