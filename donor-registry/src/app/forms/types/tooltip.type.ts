@@ -34,7 +34,7 @@ import { FieldType } from '@ngx-formly/core';
 <!-- other organ and tissue modal end-->
      `
 })
-export class TooltipType extends FieldType {
+export class TooltipWrapper extends FieldType {
  
 }
 
