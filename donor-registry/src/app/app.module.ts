@@ -134,7 +134,7 @@ import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
 import { FormlyTemplateType } from './forms/types/template.type';
 import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbox.type';
 import { CertificateComponent } from './certificate/certificate.component';
-
+import { TooltipType } from './forms/types/tooltip.type';
 import { VerifyModule } from 'vc-verification';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
@@ -184,7 +184,8 @@ let configData = {
     FormlyTemplateType,
     FormlyFieldNgSelectAllCheckbox,
     CertificateComponent,
-    VerifyCertificateComponent
+    VerifyCertificateComponent,
+    TooltipType,
   ],
   imports: [
     BrowserModule,
@@ -212,7 +213,8 @@ let configData = {
     FormlyModule.forRoot({
       extras: { resetFieldOnHide: true },
       wrappers: [{ name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
-      { name: 'panel', component: PanelWrapperComponent }],
+      { name: 'panel', component: PanelWrapperComponent },
+      { name: 'tooltip', component: TooltipType }],
       validationMessages: [
         { name: 'required', message:  errValidatorMessage },
 

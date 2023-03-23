@@ -260,6 +260,7 @@
                       "name": "other",
                       "type": "multicheckbox",
                       "class": "mt-10 col-lg-4 col-sm-12",
+                      "wrapper": "tooltip",
                       "condition": {
                         "type": "disable",
                         "objectPath": "pledgeDetails.organs, pledgeDetails.tissues"
@@ -483,7 +484,7 @@
                       "validation": {
                         "message": "Enter a valid name"
                       },
-                      "enableField": true
+                      "enableField": true               
                     },
                     {
                       "name": "middleName",
@@ -663,6 +664,7 @@
                       "name": "other",
                       "type": "checkbox",
                       "class": "mt-10 col-lg-4 col-sm-12",
+                      "wrapper": "tooltip",
                       "condition": {
                         "type": "disable",
                         "objectPath": "pledgeDetails.organs, pledgeDetails.tissues"
