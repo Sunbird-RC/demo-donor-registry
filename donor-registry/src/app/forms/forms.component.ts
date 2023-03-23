@@ -1074,7 +1074,9 @@ export class FormsComponent implements OnInit {
             }
           }
         }
-
+        if(field.wrapper){
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['wrappers'] = [field.wrapper]
+        }
         if (field.validation) {
           if (field.validation.message) {
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['validation'] = {
