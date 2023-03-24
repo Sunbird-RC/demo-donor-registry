@@ -1221,7 +1221,7 @@ formly-multi-schema-type .card {
     min-width: 6rem !important;
 }
 
-.Organs_and_Tissues_to_Pledge::before {
+.Organs_and_Tissues_to_Pledge::after {
     content: "*";
     color: red;
     display: inline-block;
