@@ -632,11 +632,11 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
-  downloadPledgeCard(){
+  downloadPledgeCard(index:any){
     this.mode = this.getDeviceInfo();
     this.orientation = (!this.mode) ? "_landscape" : '_portrait';
-    this.documentName = this.model[0]['addressDetails'].state + this.orientation;
-    let pdfName = this.model[0]['osid'];
+    this.documentName = this.model[index]['addressDetails'].state + this.orientation;
+    let pdfName = this.model[index]['osid'];
     let headerOptions = new HttpHeaders({
       'template-key': this.documentName,
       'Accept': 'application/pdf'
