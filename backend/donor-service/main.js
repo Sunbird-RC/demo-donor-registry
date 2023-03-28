@@ -13,7 +13,7 @@ const constants = require('./configs/constants');
 const SERVICE_ACCOUNT_TOKEN = "SERVICE_ACCOUNT_TOKEN";
 const R = require('ramda');
 const {sendNotification} = require("./services/notify.service");
-const {LOGIN_LINK, INVITE_TEMPLATE_ID, NOTIFY_TEMPLATE_ID} = require("./configs/config");
+const {LOGIN_LINK, INVITE_TEMPLATE_ID, NOTIFY_TEMPLATE_ID, UPDATE_TEMPLATE_ID, UNPLEDGE_TEMPLATE_ID} = require("./configs/config");
 const {encryptWithCertificate} = require("./services/encrypt.service");
 const app = express();
 
@@ -155,6 +155,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         res.send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {
+        console.error(err);
         let error = getErrorObject(err)
         res.status(error.status).send(error);
     }
@@ -177,7 +178,7 @@ function getKeyBasedOnEntityName(entityName) {
     return category;
 }
 
-async function sendNotifications(profile) {
+async function sendRegisteredNotifications(profile) {
     if (R.pathOr("", ["personalDetails", "mobileNumber"], profile).length > 0) {
         await sendNotification(profile.personalDetails.mobileNumber, "Congratulations!\\n" +
             "You've successfully pledged for organs/tissues donation.\\n" +
@@ -241,11 +242,11 @@ app.post('/register/:entityName', async(req, res) => {
         const esignFileData = (await getESingDoc(abha)).data;
         const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
         console.log(uploadESignFileRes);
-        sendNotifications(profile);
+        await sendRegisteredNotifications(profile);
 
         res.send(inviteReponse);
     } catch(err) {
-        console.log(err);
+        console.error(err);
         err = {
             message: err?.response?.data || err?.message
         }
@@ -253,8 +254,16 @@ app.post('/register/:entityName', async(req, res) => {
     }
 });
 
+async function sendUpdatedNotification(userData) {
+    await sendNotification(userData.personalDetails.mobileNumber, `Dear Mr/Ms ${userData.personalDetails.firstName},\\n` +
+        `Congratulations!\\n`+
+        `You've successfully edited the pledge for organs/tissues donation.\\n` +
+        `You can login now to view and download pledge certificate ${LOGIN_LINK}.\\n` +
+        "NOTTO, NHA", UPDATE_TEMPLATE_ID);
+}
+
 async function sendNotificationToEmergencyDetailsIfUpdated(profileFromReq, userData) {
-    if (checkIfEmergencyMobileNumberUpdated(profileFromReq, userData)) {
+    if (validateEmergencyMobileNumberUpdated(profileFromReq, userData)) {
         const notifyName = R.pathOr("", ["notificationDetails", "name"], profileFromReq);
         const notifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], profileFromReq);
         await sendNotification(notifyNumber, `Dear Mr/Ms ${notifyName},\\n` +
@@ -274,26 +283,53 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
     const entityId = req.params.entityId;
     const userData = JSON.parse(await getUserData(getKeyBasedOnEntityName(entityName) + entityId, req));
     try {
-        if(checkIfNonEditableFieldsPresent(profileFromReq, userData)) {
+        if(validateIfNonEditableFieldsPresent(profileFromReq, userData)) {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
         }
         const updateApiResponse = (await axios.put(`${config.REGISTRY_URL}/api/v1/${entityName}/${entityId}`, profileFromReq, {headers: {...req.headers}})).data;
         const esignFileData = (await getESingDoc(profileFromReq.identificationDetails.abha)).data;
         const uploadESignFileRes = await uploadESignFile(entityId, esignFileData);
         console.log(uploadESignFileRes);
+        await sendUpdatedNotification(userData);
         await sendNotificationToEmergencyDetailsIfUpdated(profileFromReq, userData);
         await redis.deleteKey(getKeyBasedOnEntityName(entityName) + entityId);
         res.send(updateApiResponse);
     } catch(err) {
+        console.error(err);
         err = {
             message: err?.response?.data || err?.message || err
         }
-        console.log(err);
         res.status(500).json(err);
     }
 });
 
-function checkIfEmergencyMobileNumberUpdated(profileFromReq, userData) {
+async function sendUnpledgeNotification(userData) {
+    await sendNotification(userData.personalDetails.mobileNumber, `Dear Mr/Ms ${userData.personalDetails.firstName},\\n` +
+        `Congratulations!\\n`+
+        `You've successfully unpledged for organs/tissues donation.\\n` +
+        "NOTTO, NHA", UNPLEDGE_TEMPLATE_ID);
+}
+
+app.delete('/:entityName/:entityId/', async (req, res) => {
+    try {
+        const entityName = req.params.entityName;
+        const entityId = req.params.entityId;
+        let userData = JSON.parse(await getUserData(getKeyBasedOnEntityName(entityName) + entityId, req));
+        userData.pledgeDetails.organs = [];
+        userData.pledgeDetails.tissues = [];
+        console.log(userData)
+        const updateApiResponse = (await axios.put(`${config.REGISTRY_URL}/api/v1/${entityName}/${entityId}`,
+            userData,
+            {headers: {Authorization: req.headers.authorization}})).data;
+        await sendUnpledgeNotification(userData)
+        res.status(200).json(updateApiResponse);
+    } catch (e) {
+        console.error(e)
+        res.status(500).json(e);
+    }
+});
+
+function validateEmergencyMobileNumberUpdated(profileFromReq, userData) {
     const userNotifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], userData);
     const reqNotifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], profileFromReq);
     return userNotifyNumber !== reqNotifyNumber && reqNotifyNumber !== "";
@@ -400,7 +436,7 @@ const getUserData = async(key, req) => {
 app.put('/esign/init/:entityName/:entityId', async(req, res) => {
     try {
         const userData = JSON.parse(await getUserData(getKeyBasedOnEntityName(req.params.entityName) + req.params.entityId, req));
-        if(checkIfNonEditableFieldsPresent(req.body.data, userData)) {
+        if(validateIfNonEditableFieldsPresent(req.body.data, userData)) {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
         }
         const esignData = await getEsignData(req.body.data);
@@ -415,7 +451,7 @@ app.put('/esign/init/:entityName/:entityId', async(req, res) => {
     }
 });
 
-function checkIfNonEditableFieldsPresent(reqData, userData) {
+function validateIfNonEditableFieldsPresent(reqData, userData) {
     const partiallyEditablePersonalDetails = Object.keys(userData.personalDetails).filter(key => !(['motherName', 'middleName', 'bloodGroup', 'emailId', 'photo', 'osUpdatedAt', 'osUpdatedBy'].includes(key)));
     const partiallyEditableAddressDetails = Object.keys(userData.addressDetails).filter(key => !(['addressLine2', 'osUpdatedBy', 'osUpdatedAt'].includes(key)));
     let result = !(userData.identificationDetails.abha === reqData.identificationDetails.abha && userData.identificationDetails.nottoId === reqData.identificationDetails.nottoId);
@@ -507,7 +543,7 @@ app.get('/esign/:abha/status', async (req, res) => {
                 res.send({message: "SUCCESS"})
             })
             .catch(function (error) {
-                // console.error(error)
+                console.error(error)
                 res.status(404).send({message: "NOT GENERATED"})
             });
     } catch (e) {
@@ -527,6 +563,7 @@ app.post('/auth/mobile/sendOTP', async(req, res) => {
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
+        console.error(err);
         let error = getErrorObject(err);
         res.status(error.status).send(error);
     }
@@ -553,6 +590,7 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
         }
         res.send(verifyOtpResponse);
     } catch(err) {
+        console.error(err);
         let error = getErrorObject(err);
         res.status(error.status).send(error);
     }
@@ -606,6 +644,7 @@ app.post('/abha/profile', async(req, res) => {
         res.send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {
+        console.error(err);
         const error = getErrorObject(err);
         res.status(error.status).send(error);
     }
