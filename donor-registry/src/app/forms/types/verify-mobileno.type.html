@@ -30,7 +30,7 @@
           <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
           <br />
           <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
-          <button m type="button" (click)="submitOtp()" data-dismiss="modal" aria-label="Close"
+          <button m type="button" (click)="submitOtp()"
             class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
             Confirm
           </button>
@@ -65,9 +65,9 @@
                 <ul>
                   <li class="p12 d-flex my-4" *ngFor="let profile of linkedAbhaList?.mobileLinkedHid">
                     <div class="mr-3">
-                      <input [ngClass]="profile.pledged ? 'form-check-input' : 'form-check-input'"
+                      <input  class="form-check-input"
                         (change)="onItemChange(profile)" [disabled]="profile?.pledged? true : false" type="radio"
-                        name="{{profile.healthIdNumber}}" id="{{profile.healthIdNumber}}" value="{{profile}}">
+                        name="aprofile" id="{{profile.healthIdNumber}}" value="{{profile}}">
                     </div>
                     <div>
                       <p>
@@ -87,11 +87,11 @@
             <br />
          
             <div *ngIf="isAllAbhaRegister">
-              <button data-dismiss="modal" id="cancelBtn"
+              <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
                 class="btn btn-secondary-notto fw-bold btn-style mb-2">Cancel</button>
               <a class="mt-3">
                 <button type="btn" class="btn btn-primary-notto float-end fw-bold  mb-2" data-toggle="modal"
-                  data-target="#saveProfile" data-dismiss="modal" (click)="getProfile()">Next</button>
+                  data-target="#saveProfile" data-dismiss="modal" aria-label="Close" [disabled]="!selected" (click)="getProfile()">Next</button>
               </a>
             </div>
             <div *ngIf="!isAllAbhaRegister" class="text-center">
@@ -101,12 +101,18 @@
               </a>
             </div>
           </div>
-          <div *ngIf="!linkedAbhaList?.mobileLinkedHid.length">
+          <div *ngIf="!linkedAbhaList?.mobileLinkedHid.length || noLinkedAbha">
             <p class="p24 fw-bold text-center lh-32">No ABHA number found</p>
 
             <div class="text-center p14 lh-32 mb-2">
               <span>We didn’t find an ABHA number linked to this number. </span> <br />
               <span> Please enter another mobile number</span>
+            </div>
+            <div  class="text-center">
+              <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
+                class="btn btn-primary-notto fw-bold btn-style mb-2">Okay</button>
+              <a class="mt-3">
+              </a>
             </div>
           </div>
 

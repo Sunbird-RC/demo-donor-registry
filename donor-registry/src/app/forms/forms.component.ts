@@ -170,8 +170,8 @@ export class FormsComponent implements OnInit {
 
           if (this.tempData) {
             if (isAutoFill != "false") {
-              (<HTMLInputElement>document.getElementById("formly_18_radio_registrationBy_0_0")).disabled = true;  
-              (<HTMLInputElement>document.getElementById("formly_18_radio_registrationBy_0_1")).disabled = true;  
+              (<HTMLInputElement>document.getElementById("formly_19_radio_registrationBy_1_0")).disabled = true;  
+              (<HTMLInputElement>document.getElementById("formly_19_radio_registrationBy_1_1")).disabled = true;  
 
               this.model = {
                 ...this.model,
@@ -221,9 +221,13 @@ export class FormsComponent implements OnInit {
 
 
     if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
-      (<HTMLInputElement>document.getElementById("formly_107_radio_registrationBy_0_0")).disabled = true;  
-      (<HTMLInputElement>document.getElementById("formly_107_radio_registrationBy_0_1")).disabled = true;  
-      (<HTMLInputElement>document.getElementById("mobileno")).disabled = true;  
+      if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
+      {
+        (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
+        (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
+        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+      }
+    
 
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
@@ -1690,11 +1694,20 @@ export class FormsComponent implements OnInit {
       }
 
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues'] && this.model['personalDetails']['fatherName']) {
-        document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
+         if(document.getElementById("formly_42_selectall-checkbox_organs_0_0") != null) {
+          document.getElementById("formly_42_selectall-checkbox_organs_0_0").focus();
+        }else if(document.getElementById("formly_132_selectall-checkbox_organs_0_1") != null){
+          document.getElementById("formly_132_selectall-checkbox_organs_0_1").focus();
+        }
+
       }
 
       if (!this.model['personalDetails']['motherName'] && this.model['personalDetails']['fatherName']) {
-        document.getElementById("formly_27_string_motherName_4").focus();
+        if ( this.form == 'signup') {
+          document.getElementById("formly_30_string_motherName_4").focus();
+        }else{
+          document.getElementById("formly_120_string_motherName_4").focus();
+        }
       }
 
       // if ((this.model['pledgeDetails']['organs'] ||  this.model['pledgeDetails']['tissues']) && this.model['personalDetails']['fatherName'] && this.model['emergencyDetails']) {
