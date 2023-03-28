@@ -32,7 +32,7 @@ services:
       timeout: 5s
       retries: 5
   registry:
-    image: tejashjl/sunbird-rc-core:v0.0.13-6
+    image: tejashjl/sunbird-rc-core:v0.0.13-7
     volumes:
       - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/home/sunbirdrc/config/public/_schemas
     environment:
@@ -329,3 +329,5 @@ services:
       LOGIN_LINK: ${LOGIN_LINK}
       INVITE_TEMPLATE_ID: ${INVITE_TEMPLATE_ID}
       NOTIFY_TEMPLATE_ID: ${NOTIFY_TEMPLATE_ID}
+      UPDATE_TEMPLATE_ID: ${UPDATE_TEMPLATE_ID}
+      UNPLEDGE_TEMPLATE_ID: ${UNPLEDGE_TEMPLATE_ID}

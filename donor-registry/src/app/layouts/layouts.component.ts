@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
-import { GeneralService } from '../services/general/general.service';
+import {GeneralService, getDonorServiceHost} from '../services/general/general.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
@@ -644,7 +644,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
     let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
-    this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + pdfName, requestOptions).pipe(map((data: any) => {   
+    this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + pdfName, requestOptions).pipe(map((data: any) => {
       let blob = new Blob([data], {
         type: 'application/pdf' // must match the Accept type
       });
@@ -692,7 +692,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 {
   var modal =   document.getElementById("successDeleteModal")
   modal.classList.add("show");
-  modal.style.display = "block";  
+  modal.style.display = "block";
 }
 
   deleteData(model) {
@@ -708,7 +708,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
       "emergencyDetails": (model["emergencyDetails"]) ? model["emergencyDetails"] : {},
       "notificationDetails": (model["notificationDetails"]) ? model["notificationDetails"] : {},
     }
-    this.generalService.putData('/Pledge',  this.resItem.osid, model).subscribe((res) => {
+    this.http.delete<any>(`${getDonorServiceHost()}/Pledge/${this.resItem.osid}`).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL') {
         console.log(res);
         this.successDelete();
