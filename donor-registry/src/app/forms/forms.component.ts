@@ -151,19 +151,28 @@ export class FormsComponent implements OnInit {
         this.addElement('Organs_and_Tissues_to_Pledge', 'Please select atleast one organs or tissues', 'oterrormsg')
       }
     }
-    if (this.model['pledgeDetails']['organs'] || this.model['pledgeDetails']['tissues']) {
+    if ( this.model.hasOwnProperty('pledgeDetails') && ( this.model['pledgeDetails']['organs'] || this.model['pledgeDetails']['tissues'])) {
       this.removeElement("oterrormsg");
       this.organCheckbox = false;
     }
 
     if (this.form == 'signup') {
       if (localStorage.getItem('isVerified')) {
+        this.tempData = JSON.parse(localStorage.getItem("form_value"));
+
+        if(this.model['registrationBy'] == 'mobile' && this.tempData != null)
+        {
+          this.model["identificationDetails"]['abha'] =  this.tempData['healthIdNumber'].replace(/-/g, ""); 
+        }
         if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
-          this.tempData = JSON.parse(localStorage.getItem("form_value"));
+         
           const isAutoFill = localStorage.getItem('isAutoFill');
 
           if (this.tempData) {
             if (isAutoFill != "false") {
+              (<HTMLInputElement>document.getElementById("formly_18_radio_registrationBy_0_0")).disabled = true;  
+              (<HTMLInputElement>document.getElementById("formly_18_radio_registrationBy_0_1")).disabled = true;  
+
               this.model = {
                 ...this.model,
                 "personalDetails": {
@@ -212,6 +221,10 @@ export class FormsComponent implements OnInit {
 
 
     if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
+      (<HTMLInputElement>document.getElementById("formly_107_radio_registrationBy_0_0")).disabled = true;  
+      (<HTMLInputElement>document.getElementById("formly_107_radio_registrationBy_0_1")).disabled = true;  
+      (<HTMLInputElement>document.getElementById("mobileno")).disabled = true;  
+
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
         let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
@@ -232,6 +245,7 @@ export class FormsComponent implements OnInit {
     if (this.model["memberToBeNotified"] == true) {
       this.flag = false;
       this.model = {
+        ...this.model,
         "notificationDetails": {
           "name": this.model["emergencyDetails"]['name'],
           "relation": this.model["emergencyDetails"]['relation'],
@@ -1652,15 +1666,29 @@ export class FormsComponent implements OnInit {
     if (isVerify !== "true") {
       let dateSpan = document.getElementById('abhamessage');
       dateSpan.classList.add('text-danger');
-      dateSpan.innerText = "Please verify abha number";
-      // document.getElementById('abha').focus();
-      document.getElementById('abha').classList.add('is-invalid');
+
+      if(this.model['registrationBy'] == 'abha')
+      {
+        dateSpan.innerText = "Please verify abha number";
+        document.getElementById('abha').classList.add('is-invalid');
+       document.getElementById('abha').focus();
+      }else{
+        dateSpan.innerText = "Please verify mobile number";
+        document.getElementById('mobileno').classList.add('is-invalid');
+      }
+     
       isformVerity = false;
     } else {
       let dateSpan = document.getElementById('abhamessage');
       dateSpan.classList.remove('text-danger');
       dateSpan.innerText = "";
-      document.getElementById('abha').classList.remove('is-invalid');
+      if(this.model['registrationBy'] == 'abha')
+      {
+        document.getElementById('abha').classList.remove('is-invalid');
+      }else{
+        document.getElementById('mobileno').classList.remove('is-invalid');
+      }
+
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues'] && this.model['personalDetails']['fatherName']) {
         document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
       }

@@ -857,7 +857,9 @@ li {
 }
 
 .btn {
-    border-radius: 25px !important;
+    border-radius: 8px !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
     text-transform: capitalize !important;
     box-shadow: none !important;
 }
@@ -1202,7 +1204,7 @@ screen and (max-width:1400px) {
 .field-in-row .custom-control {
     display: initial !important;
     min-height: 1.5rem;
-    padding-left: 3.5rem !important;
+    padding-right: 3.5rem !important;
 }
 
 select.form-control {
@@ -1438,4 +1440,23 @@ formly-multi-schema-type .card {
 
 .checkbox-list-style {
     list-style: none !important;
+}
+
+.form-check-input[type=radio]:checked:after {
+    border-color: #3AB065;
+    background-color: #3AB065;
+}
+
+.form-check-input[type=radio]:checked {
+    content: "";
+    border-radius: 50%;
+    background-color: #b0b8b3;
+}
+
+.form-check-input:disabled  {
+    opacity: 0.2 !important;
+}
+
+.mlf-14{
+    margin-left: -14px !important;
 }

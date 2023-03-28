@@ -1,0 +1,123 @@
+<div>
+  <span class="fw-bold p12">{{ to.label }} *</span> <br />
+  <div class="d-flex">
+    <input oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9]/g,'')" id="{{ field.key }}"
+      [maxlength]="10" [formControl]="formControl" [formlyAttributes]="field" pattern="[1-9]{1}[0-9]{1}[0-9]{8}"
+      [ngClass]="isNumberValid ? 'form-control' : 'form-control is-invalid'" required />
+    <span class="fw-bold p14 pointer btn-holder btn-verify btn-verify-mobile" *ngIf="!isVerify"
+      (click)="verifyOtp(field.key)"> Verify </span>
+    <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerify">
+      <i class="fa fa-check-circle" aria-hidden="true"></i>
+    </span>
+  </div>
+  <div class="p12" id="abhamessage"></div>
+
+
+  <!-- Enter otp popup-->
+  <div class="modal fade" id="verifyOtpPopup" tabindex="-1" role="dialog" aria-labelledby="verifyOtpPopup"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="p-4 modal-content">
+        <div class="close float-end" data-dismiss="modal" aria-label="Close">
+          <span class=" float-end" aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body">
+          <h3 class="fw-bold mb-3">Confirm OTP</h3>
+          <p class="p14">
+            Please enter the OTP received on your mobile number
+          </p>
+          <span class="fw-bold p12"> Enter OTP</span> <br />
+          <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
+          <br />
+          <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
+          <button m type="button" (click)="submitOtp()" data-dismiss="modal" aria-label="Close"
+            class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="selectProfileModel" tabindex="-1" role="dialog" aria-labelledby="selectProfileModel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="p-4 modal-content">
+        <div class="close float-end" data-dismiss="modal" aria-label="Close">
+          <span class=" float-end" aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="linkedAbhaList?.mobileLinkedHid.length">
+            <p class="p24 fw-bold text-center lh-32">Select Profile</p>
+
+            <div *ngIf="isAllAbhaRegister" class="text-center p14 lh-32 mb-2">
+              <span>We found the following ABHA number linked to this number.</span> <br />
+              <span> Select the ABHA number for which you wish to you for Pledge Registration</span>
+            </div>
+            <div *ngIf="!isAllAbhaRegister" class="text-center p14 lh-32 mb-2">
+              <span>We found the following ABHA number linked to this number.</span> <br />
+              <span> All Profiles are already registered for Pledge.</span>
+            </div>
+
+
+            <div class="card">
+              <div class="card-body">
+                <ul>
+                  <li class="p12 d-flex my-4" *ngFor="let profile of linkedAbhaList?.mobileLinkedHid">
+                    <div class="mr-3">
+                      <input [ngClass]="profile.pledged ? 'form-check-input' : 'form-check-input'"
+                        (change)="onItemChange(profile)" [disabled]="profile?.pledged? true : false" type="radio"
+                        name="{{profile.healthIdNumber}}" id="{{profile.healthIdNumber}}" value="{{profile}}">
+                    </div>
+                    <div>
+                      <p>
+                        <span class="mr-2 text-grey-color">Name</span>
+                        <span class="fw-bold">{{profile.name}}</span>
+                      </p>
+                      <p>
+                        <span class="mr-2 text-grey-color">ABHA number</span>
+                        <span class="fw-bold">{{profile.healthIdNumber}}</span>
+                      </p>
+                      <p class="text-success" [hidden]="!profile?.pledged">Already Registered for Pledge</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <br />
+         
+            <div *ngIf="isAllAbhaRegister">
+              <button data-dismiss="modal" id="cancelBtn"
+                class="btn btn-secondary-notto fw-bold btn-style mb-2">Cancel</button>
+              <a class="mt-3">
+                <button type="btn" class="btn btn-primary-notto float-end fw-bold  mb-2" data-toggle="modal"
+                  data-target="#saveProfile" data-dismiss="modal" (click)="getProfile()">Next</button>
+              </a>
+            </div>
+            <div *ngIf="!isAllAbhaRegister" class="text-center">
+              <button data-dismiss="modal" id="cancelBtn"
+                class="btn btn-primary-notto fw-bold btn-style mb-2">Okay</button>
+              <a class="mt-3">
+              </a>
+            </div>
+          </div>
+          <div *ngIf="!linkedAbhaList?.mobileLinkedHid.length">
+            <p class="p24 fw-bold text-center lh-32">No ABHA number found</p>
+
+            <div class="text-center p14 lh-32 mb-2">
+              <span>We didn’t find an ABHA number linked to this number. </span> <br />
+              <span> Please enter another mobile number</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <button id="closeModalButton" [hidden]="true" data-toggle="modal" data-target="#verifyOtpPopup"
+    class="btn btn-default" data-dismiss="modal">
+    Close
+  </button>
+
+
+</div>

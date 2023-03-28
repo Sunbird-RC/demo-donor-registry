@@ -679,7 +679,6 @@ export class LayoutsComponent implements OnInit, OnChanges {
       let blob = new Blob([data], {
         type: 'image/svg+xml' // must match the Accept type
       });
-     
 
 
 

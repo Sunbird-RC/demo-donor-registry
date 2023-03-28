@@ -66,10 +66,8 @@ import {
                               number</span>
                           <br /> <br />
                           <span *ngIf="errorMessage" class="p14 mb-2 mt-2 mb-2">{{errorMessage}}</span>
-
                           <br /> <br />
                          
-
                       </div>
                       <div *ngIf="!isAbhaNoErr && canRegister">
                           <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid OTP number</span>
@@ -113,7 +111,7 @@ import {
               </div>
           </div>
       </div>
-      <button id="openModalButton" [hidden]="true" data-toggle="modal" data- target="#verifyOtp">
+      <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#verifyOtp">
           Open Modal
       </button>
       <button id="closeModalButton" [hidden]="true" data-toggle="modal" data-target="#verifyOtp"
