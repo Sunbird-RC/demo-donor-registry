@@ -18,11 +18,14 @@ export class VerifyMobileNo extends FieldType {
   linkedAbhaList: any;
   isAllAbhaRegister: boolean = false;
   selectedProfile: any;
+  selected : boolean = false;
   dataObj: any;
   isNumberValid: boolean = true;
   errorMessage: any;
   customErrCode: string;
   err401: boolean = false;
+  noLinkedAbha: boolean = false;
+  fieldKey: any;
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,) {
     super();
@@ -35,6 +38,7 @@ export class VerifyMobileNo extends FieldType {
     }
   }
   async verifyOtp(fieldKey) {
+    this.fieldKey = fieldKey;
 
     this.number = (<HTMLInputElement>document.getElementById(fieldKey)).value;
 
@@ -48,7 +52,7 @@ export class VerifyMobileNo extends FieldType {
       let param = {
         mobile: this.number,
       };
-      await this.http
+      this.http
         .post<any>(`${getDonorServiceHost()}/auth/mobile/sendOTP`, param)
         .subscribe({
           next: (data) => {
@@ -56,6 +60,9 @@ export class VerifyMobileNo extends FieldType {
             this.OtpPopup();
           },
           error: (error) => {
+          //  (<HTMLInputElement>document.getElementById(fieldKey)).value = "";
+            this.selectProfile();
+            this.noLinkedAbha = true;
             console.log(error);
           }
         });
@@ -70,6 +77,7 @@ export class VerifyMobileNo extends FieldType {
 
   onItemChange(data) {
     this.selectedProfile = data;
+    this.selected = true;
   }
 
   checkErrType(err) {
@@ -77,7 +85,7 @@ export class VerifyMobileNo extends FieldType {
     if (this.errorMessage.includes('30')) {
       this.customErrCode = '420';
     }
-    if (this.errorMessage.includes('enter valid ABHA')) {
+    if (this.errorMessage.includes('enter valid mobile')) {
       this.customErrCode = '427';
     }
   }
@@ -122,12 +130,20 @@ export class VerifyMobileNo extends FieldType {
             localStorage.setItem(healthIdNumber, JSON.stringify(this.dataObj));
             localStorage.setItem('form_value', JSON.stringify(this.dataObj));
             localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
+            document.getElementById('closeModalButton').click();
             setTimeout(() => {
                (document.getElementById('mobileno') as any).focus();
             }, 1000);
           }
         },
         error: (error) => {
+          this.errorMessage = error?.error['message'];
+          this.customErrCode = (error?.error['status'])? error?.error['status'] : "";
+          if( error?.error['status'] == '401')
+          {
+            this.err401 = true;
+          }
+
           document.getElementById('closeModalButton').click();
           console.error('There was an error!', error);
         },
@@ -158,10 +174,18 @@ export class VerifyMobileNo extends FieldType {
               }
             }
 
+            this.closePops("verifyOtpPopup");
             this.selectProfile();
 
           },
           error: (error) => {
+
+            this.errorMessage = error?.error['message'];
+            this.customErrCode = (error?.error['status'])? error?.error['status'] : "";
+            if( error?.error['status'] == '401')
+            {
+              this.err401 = true;
+            }
 
             console.error('There was an error!', error);
           },
@@ -191,5 +215,10 @@ export class VerifyMobileNo extends FieldType {
     let modal = document.getElementById(id);
     modal.style.display = 'none';
     modal.style.opacity = '0';
+  }
+
+  clearVal(){
+    this.isVerify = false;
+   (<HTMLInputElement>document.getElementById(this.fieldKey)).value = '';
   }
 }
