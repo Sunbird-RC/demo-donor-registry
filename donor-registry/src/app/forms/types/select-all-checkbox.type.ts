@@ -37,10 +37,12 @@ import { FieldType } from '@ngx-formly/core';
 })
 export class FormlyFieldNgSelectAllCheckbox extends FieldType {
   ngOnInit(): void { 
+    if(this.formControl.value){
     if(Object.keys(this.formControl.value).length == Object.keys(this.to.options).length)
     {
       this.setAll(true);
     }
+   }
   }
   allChecked: boolean = false;
   onChange(value: any, checked: boolean) {

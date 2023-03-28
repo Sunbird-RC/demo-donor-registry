@@ -38,11 +38,62 @@
             },
             "fields": [
               {
+                "name": "registrationBy",
+                "custom": true,
+                "key": "registrationBy",
+                "element": {
+                  "widget": {
+                    "expressionProperties" : {
+                      "templateOptions.disabled" :  true
+                    },
+                    "formlyConfig": {
+                      "type": "radio",
+                      "className": "field-in-row p14 mt-3",
+                      "templateOptions": {
+                        "placeholder": "XXXXXXXXXX",
+                        "required" :  true,
+                        "options": [
+                          {
+                            "value": "Mobile Number",
+                            "key": "mobile"
+                          },
+                          {
+                            "value": "ABHA Number",
+                            "key": "abha"
+                          }
+                        ]
+                      },
+                      "defaultValue": "mobile"
+                     
+                    }
+                  }
+                }
+              },
+              {
+                "name": "mobileno",
+                "custom": true,
+                "key": "mobileno",
+                "type": "verify-mobileno",
+                "element": {
+                  "title": "Mobile Number",
+                  "fieldGroupClassName": "row",
+                  "widget": {
+                    "formlyConfig": {
+                      "title": "Mobile Number",
+                      "placeholder": "Enter your name",
+                      "type": "verify-mobileno",
+                      "className": "col-lg-4 col-sm-12 mlf-14 mb-3",
+                      "hideExpression": "model.registrationBy != 'mobile'"
+                    }
+                  }
+                }
+              },
+              {
                 "name": "identificationDetails",
                 "children": {
                   "definition": "IdentificationDetails",
                   "title": "Identification Details",
-                  "formclass": "row",
+                  "formclass": "row mb-3",
                   "fields": [
                     {
                       "name": "abha",
@@ -53,6 +104,11 @@
                       "validation": {
                         "pattern": "[1-9]{1}[0-9]{1}[0-9]{12}",
                         "message": "ABHA Number must be 14 digits"
+                      },
+                      "condition": {
+                        "type": "hideShow",
+                        "isIt": "abha",
+                        "objectPath": "registrationBy"
                       }
                     }
                   ]
@@ -451,11 +507,61 @@
             "definition": "Pledge",
             "fields": [
               {
+                "name": "registrationBy",
+                "custom": true,
+                "key": "registrationBy",
+                "element": {
+                  "widget": {
+                    "expressionProperties" : {
+                      "templateOptions.disabled" :  true
+                    },
+                    "formlyConfig": {
+                      "type": "radio",
+                      "className": "field-in-row p14 mt-3",
+                      "templateOptions": {
+                        "placeholder": "XXXXXXXXXX",
+                        "required" :  true,
+                        "options": [
+                          {
+                            "value": "Mobile Number",
+                            "key": "mobile"
+                          },
+                          {
+                            "value": "ABHA Number",
+                            "key": "abha"
+                          }
+                        ]
+                      },
+                      "defaultValue": "mobile"
+                     
+                    }
+                  }
+                }
+              },
+              {
+                "name": "mobileno",
+                "custom": true,
+                "key": "mobileno",
+                "type": "input",
+                "element": {
+                  "title": "Mobile Number",
+                  "fieldGroupClassName": "row",
+                  "widget": {
+                    "formlyConfig": {
+                      "title": "Mobile Number",
+                      "type": "verify-mobileno",
+                      "className": "col-lg-4 col-sm-12 mlf-14 mb-3",
+                      "hideExpression": "model.registrationBy != 'mobile'"
+                    }
+                  }
+                }
+              },
+              {
                 "name": "identificationDetails",
                 "children": {
                   "definition": "IdentificationDetails",
                   "title": "Identification Details",
-                  "formclass": "row",
+                  "formclass": "row mb-3",
                   "fields": [
                     {
                       "name": "abha",
@@ -466,6 +572,11 @@
                       "validation": {
                         "pattern": "[1-9]{1}[0-9]{1}[0-9]{12}",
                         "message": "ABHA Number must be 14 digits"
+                      },
+                      "condition": {
+                        "type": "hideShow",
+                        "isIt": "abha",
+                        "objectPath": "registrationBy"
                       }
                     }
                   ]
