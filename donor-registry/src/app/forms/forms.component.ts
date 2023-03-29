@@ -1668,28 +1668,35 @@ export class FormsComponent implements OnInit {
     }
 
     if (isVerify !== "true") {
-      let dateSpan = document.getElementById('abhamessage');
-      dateSpan.classList.add('text-danger');
 
       if(this.model['registrationBy'] == 'abha')
       {
+        let dateSpan = document.getElementById('abhamessage');
+        dateSpan.classList.add('text-danger');
         dateSpan.innerText = "Please verify abha number";
         document.getElementById('abha').classList.add('is-invalid');
        document.getElementById('abha').focus();
       }else{
+        let dateSpan = document.getElementById('mobmessage');
+        dateSpan.classList.add('text-danger');
         dateSpan.innerText = "Please verify mobile number";
         document.getElementById('mobileno').classList.add('is-invalid');
       }
      
       isformVerity = false;
     } else {
-      let dateSpan = document.getElementById('abhamessage');
-      dateSpan.classList.remove('text-danger');
-      dateSpan.innerText = "";
+     
       if(this.model['registrationBy'] == 'abha')
       {
+        let dateSpan = document.getElementById('abhamessage');
+        dateSpan.classList.remove('text-danger');
+        dateSpan.innerText = "";
         document.getElementById('abha').classList.remove('is-invalid');
       }else{
+        let dateSpan = document.getElementById('abhamessage');
+        dateSpan.classList.add('text-danger');
+        dateSpan.innerText = "";
+
         document.getElementById('mobileno').classList.remove('is-invalid');
       }
 
