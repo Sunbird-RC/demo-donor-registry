@@ -30,7 +30,7 @@
           <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
           <br />
           <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
-          <button m type="button"  (click)="submitOtp()" 
+          <button  type="button"  (click)="submitOtp()" 
             class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
             Confirm
           </button>
@@ -55,7 +55,7 @@
           <br />
           <br />
           <div class="container-fluid mt-3">
-            <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+            <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal" (click)="clearVal()"
               data-dismiss="modal" aria-label="Close">OK</button>
           </div>
         </div>
@@ -126,7 +126,7 @@
               </a>
             </div>
           </div>
-          <div *ngIf="!linkedAbhaList?.mobileLinkedHid.length || noLinkedAbha">
+          <div *ngIf="!linkedAbhaList?.mobileLinkedHid.length && noLinkedAbha">
             <p class="p24 fw-bold text-center lh-32">No ABHA number found</p>
 
             <div class="text-center p14 lh-32 mb-2">

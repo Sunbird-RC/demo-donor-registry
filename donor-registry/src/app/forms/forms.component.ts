@@ -1681,6 +1681,7 @@ export class FormsComponent implements OnInit {
         dateSpan.classList.add('text-danger');
         dateSpan.innerText = "Please verify mobile number";
         document.getElementById('mobileno').classList.add('is-invalid');
+        document.getElementById('mobileno').focus();
       }
      
       isformVerity = false;
@@ -1693,10 +1694,9 @@ export class FormsComponent implements OnInit {
         dateSpan.innerText = "";
         document.getElementById('abha').classList.remove('is-invalid');
       }else{
-        let dateSpan = document.getElementById('abhamessage');
-        dateSpan.classList.add('text-danger');
+        let dateSpan = document.getElementById('mobmessage');
+        dateSpan.classList.remove('text-danger');
         dateSpan.innerText = "";
-
         document.getElementById('mobileno').classList.remove('is-invalid');
       }
 
