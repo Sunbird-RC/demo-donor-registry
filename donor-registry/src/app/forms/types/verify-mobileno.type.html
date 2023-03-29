@@ -1,5 +1,5 @@
 <div>
-  <span class="fw-bold p12">{{ to.label }} *</span> <br />
+  <span class="fw-bold p12">{{ to.label }} <span class="red">*</span></span> <br />
   <div class="d-flex">
     <input oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9]/g,'')" id="{{ field.key }}"
       [maxlength]="10" [formControl]="formControl" [formlyAttributes]="field" pattern="[1-9]{1}[0-9]{1}[0-9]{8}"
@@ -30,7 +30,7 @@
           <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
           <br />
           <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
-          <button m type="button" (click)="submitOtp()"
+          <button m type="button" data-dismiss="modal" (click)="submitOtp()"
             class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
             Confirm
           </button>
@@ -39,6 +39,31 @@
     </div>
   </div>
 
+  <!-- below 18 age err popup -->
+  <div class="modal fade" [hidden]="false" id="canRegister" tabindex="-1" role="dialog" aria-labelledby="canRegister"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="p-4 modal-content">
+        <div class="close float-end" data-dismiss="modal" aria-label="Close">
+          <span class=" float-end" aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body text-center">
+          <h3 class="fw-bold mb-3">Thank you for your enthusiasm. </h3>
+          <p class="p14">Please come back and register with us when you are 18.</p>
+          <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf#page=52"
+            target="_blank">Click here for more information</a>
+          <br />
+          <br />
+          <div class="container-fluid mt-3">
+            <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+              data-dismiss="modal" aria-label="Close">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Display profile list-->
   <div class="modal fade" id="selectProfileModel" tabindex="-1" role="dialog" aria-labelledby="selectProfileModel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -65,9 +90,9 @@
                 <ul>
                   <li class="p12 d-flex my-4" *ngFor="let profile of linkedAbhaList?.mobileLinkedHid">
                     <div class="mr-3">
-                      <input  class="form-check-input"
-                        (change)="onItemChange(profile)" [disabled]="profile?.pledged? true : false" type="radio"
-                        name="aprofile" id="{{profile.healthIdNumber}}" value="{{profile}}">
+                      <input class="form-check-input" (change)="onItemChange(profile)"
+                        [disabled]="profile?.pledged? true : false" type="radio" name="aprofile"
+                        id="{{profile.healthIdNumber}}" value="{{profile}}">
                     </div>
                     <div>
                       <p>
@@ -85,13 +110,14 @@
               </div>
             </div>
             <br />
-         
+
             <div *ngIf="isAllAbhaRegister">
-              <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
+              <button data-dismiss="modal" data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
                 class="btn btn-secondary-notto fw-bold btn-style mb-2">Cancel</button>
               <a class="mt-3">
                 <button type="btn" class="btn btn-primary-notto float-end fw-bold  mb-2" data-toggle="modal"
-                  data-target="#saveProfile" data-dismiss="modal" aria-label="Close" [disabled]="!selected" (click)="getProfile()">Next</button>
+                  data-target="#saveProfile" data-dismiss="modal" aria-label="Close" [disabled]="!selected"
+                  (click)="getProfile()">Next</button>
               </a>
             </div>
             <div *ngIf="!isAllAbhaRegister" class="text-center">
@@ -108,7 +134,7 @@
               <span>We didn’t find an ABHA number linked to this number. </span> <br />
               <span> Please enter another mobile number</span>
             </div>
-            <div  class="text-center">
+            <div class="text-center">
               <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
                 class="btn btn-primary-notto fw-bold btn-style mb-2">Okay</button>
               <a class="mt-3">

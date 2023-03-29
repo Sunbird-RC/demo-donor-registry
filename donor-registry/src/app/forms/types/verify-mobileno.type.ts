@@ -26,6 +26,8 @@ export class VerifyMobileNo extends FieldType {
   err401: boolean = false;
   noLinkedAbha: boolean = false;
   fieldKey: any;
+  canRegister: boolean = true;
+
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,) {
     super();
@@ -122,7 +124,8 @@ export class VerifyMobileNo extends FieldType {
           let age = Math.abs(year - 1970);
 
           if (age < 18) {
-
+            this.canRegister = false;
+            this.OtpPopup('canRegister');
             this.isVerify = false;
           } else {
 
