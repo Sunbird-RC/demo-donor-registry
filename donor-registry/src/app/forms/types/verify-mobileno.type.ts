@@ -26,6 +26,8 @@ export class VerifyMobileNo extends FieldType {
   err401: boolean = false;
   noLinkedAbha: boolean = false;
   fieldKey: any;
+  canRegister: boolean = true;
+
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,) {
     super();
@@ -44,7 +46,7 @@ export class VerifyMobileNo extends FieldType {
 
     if (this.number && this.number.length == 10) {
 
-      let dateSpan = document.getElementById('abhamessage');
+      let dateSpan = document.getElementById('mobmessage');
       dateSpan.classList.remove('text-danger');
       dateSpan.innerText = "";
       document.getElementById('mobileno').classList.remove('is-invalid');
@@ -68,7 +70,7 @@ export class VerifyMobileNo extends FieldType {
         });
     } else {
       this.isNumberValid = false;
-      let dateSpan = document.getElementById('abhamessage');
+      let dateSpan = document.getElementById('mobmessage');
       dateSpan.classList.add('text-danger');
       dateSpan.innerText = "Please enter valid mobile number";
       document.getElementById('mobileno').classList.add('is-invalid');
@@ -104,7 +106,7 @@ export class VerifyMobileNo extends FieldType {
         next: (data) => {
 
           console.log(data);
-          let dateSpan = document.getElementById('abhamessage');
+          let dateSpan = document.getElementById('mobmessage');
           dateSpan.classList.remove('text-danger');
           dateSpan.innerText = "";
           document.getElementById('mobileno').classList.remove('is-invalid');
@@ -122,7 +124,8 @@ export class VerifyMobileNo extends FieldType {
           let age = Math.abs(year - 1970);
 
           if (age < 18) {
-
+            this.canRegister = false;
+            this.OtpPopup('canRegister');
             this.isVerify = false;
           } else {
 
@@ -174,7 +177,7 @@ export class VerifyMobileNo extends FieldType {
               }
             }
 
-            this.closePops("verifyOtpPopup");
+            document.getElementById('closeModalButton').click();
             this.selectProfile();
 
           },

@@ -38,6 +38,21 @@
             },
             "fields": [
               {
+                "name": "titleIndeity",
+                "custom": true,
+                "required": false,
+                "key": "titleIndeity",
+                "element": {
+                  "title": "Identity Details",
+                  "widget": {
+                    "formlyConfig": {
+                      "type": "template",
+                      "className": "fw-bold p16"
+                    }
+                  }
+                }
+              },
+              {
                 "name": "registrationBy",
                 "custom": true,
                 "key": "registrationBy",
@@ -48,7 +63,7 @@
                     },
                     "formlyConfig": {
                       "type": "radio",
-                      "className": "field-in-row p14 mt-3",
+                      "className": "field-in-row p14 mt-2",
                       "templateOptions": {
                         "placeholder": "XXXXXXXXXX",
                         "required" :  true,
@@ -92,7 +107,6 @@
                 "name": "identificationDetails",
                 "children": {
                   "definition": "IdentificationDetails",
-                  "title": "Identification Details",
                   "formclass": "row mb-3",
                   "fields": [
                     {
@@ -507,6 +521,21 @@
             "definition": "Pledge",
             "fields": [
               {
+                "name": "titleIndeity",
+                "custom": true,
+                "required": false,
+                "key": "titleIndeity",
+                "element": {
+                  "title": "Identity Details",
+                  "widget": {
+                    "formlyConfig": {
+                      "type": "template",
+                      "className": "fw-bold p16"
+                    }
+                  }
+                }
+              },
+              {
                 "name": "registrationBy",
                 "custom": true,
                 "key": "registrationBy",
@@ -560,7 +589,6 @@
                 "name": "identificationDetails",
                 "children": {
                   "definition": "IdentificationDetails",
-                  "title": "Identification Details",
                   "formclass": "row mb-3",
                   "fields": [
                     {
