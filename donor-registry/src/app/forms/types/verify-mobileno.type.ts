@@ -39,6 +39,7 @@ export class VerifyMobileNo extends FieldType {
       this.isVerify = true;
     }
   }
+
   async verifyOtp(fieldKey) {
     this.fieldKey = fieldKey;
 
@@ -127,6 +128,7 @@ export class VerifyMobileNo extends FieldType {
             this.canRegister = false;
             this.OtpPopup('canRegister');
             this.isVerify = false;
+            (document.getElementById('mobileno') as any).disabled = false;
           } else {
 
             const healthIdNumber = this.dataObj.healthIdNumber.replaceAll('-','');
