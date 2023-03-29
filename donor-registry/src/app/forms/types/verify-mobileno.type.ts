@@ -177,7 +177,7 @@ export class VerifyMobileNo extends FieldType {
               }
             }
 
-            this.closePops("verifyOtpPopup");
+            document.getElementById('closeModalButton').click();
             this.selectProfile();
 
           },
