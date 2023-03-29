@@ -133,7 +133,8 @@ export class VerifyMobileNo extends FieldType {
             localStorage.setItem(healthIdNumber, JSON.stringify(this.dataObj));
             localStorage.setItem('form_value', JSON.stringify(this.dataObj));
             localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
-            document.getElementById('closeModalButton').click();
+          //  document.getElementById('closeModalButton').click();
+          this.closePops('verifyOtpPopup');
             setTimeout(() => {
                (document.getElementById('mobileno') as any).focus();
             }, 1000);
