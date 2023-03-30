@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-
+declare var $: any;
 import {
   GeneralService,
   getDonorServiceHost,
@@ -36,7 +36,7 @@ import {
 
   <br />
   <div class="modal fade" id="verifyOtp" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="true">
       <div *ngIf="!canRegister" class="modal-dialog" role="document">
           <div class="p-4 modal-content">
               <div class="modal-body text-center">
@@ -179,20 +179,15 @@ export class VerifyIndentityCode extends FieldType {
       this.isVerify = true;
     }
   }
-  // pledgeAgainCardModal() {
-  //   var modal = document.getElementById("verifyOtp")
-  //   modal.classList.add("show");
-  //   modal.style.display = "block";
 
-  // }
-  async verifyOtp(value) {
+ async verifyOtp(value) {
     this.isIdentityNo = true;
     this.canRegister = true;
     this.isGotErr = false;
     this.optVal = "";
     this.number = (<HTMLInputElement>document.getElementById(value)).value;
 
-    if (this.number) {
+    if (this.number && this.number.length == 14) {
       this.model1 = {
         healthId: this.number,
       };
@@ -211,7 +206,6 @@ export class VerifyIndentityCode extends FieldType {
           error: (error) => {
 
             this.checkErrType(error);
-           // this.errorMessage = error?.error['message'];
 
             if (
               localStorage.getItem('formtype') != 'recipient' &&
@@ -222,12 +216,19 @@ export class VerifyIndentityCode extends FieldType {
             this.isGotErr = true;
             this.isAbhaNoErr = true;
 
-            // this.isIdentityNo = true;
-            //  console.error('There was an error!', error);
+
           },
         });
     } else {
       this.isIdentityNo = false;
+      let dateSpan = document.getElementById('abhamessage');
+      dateSpan.classList.add('text-danger');
+      dateSpan.innerText = "Please enter valid abha number";
+      document.getElementById('abha').classList.add('is-invalid');
+      setTimeout(() => {
+        this.closePops('#verifyOtp');
+      }, 1000);
+     
     }
   }
 
@@ -300,7 +301,8 @@ export class VerifyIndentityCode extends FieldType {
               localStorage.setItem(healthIdNumber, JSON.stringify(this.data1));
               localStorage.setItem('form_value', JSON.stringify(this.data1));
               localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
-              document.getElementById('closeModalButton').click();
+            
+              this.closePops('#verifyOtp');
               setTimeout(() => {
                 (document.getElementById('abha') as any).focus();
               }, 1000);
@@ -332,5 +334,10 @@ export class VerifyIndentityCode extends FieldType {
           },
         });
     }
+  }
+
+  closePops(id) {
+  $(id).modal('hide');
+  Array.from(document.querySelectorAll('.modal-backdrop')).forEach((el) => el.classList.remove('modal-backdrop'));
   }
 }
