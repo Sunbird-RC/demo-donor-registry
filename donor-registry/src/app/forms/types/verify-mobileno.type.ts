@@ -150,7 +150,7 @@ export class VerifyMobileNo extends FieldType {
             this.err401 = true;
           }
 
-          document.getElementById('closeModalButton').click();
+          //document.getElementById('closeModalButton').click();
           console.error('There was an error!', error);
         },
       });
@@ -224,7 +224,8 @@ export class VerifyMobileNo extends FieldType {
   }
 
   clearVal(){
-    this.isVerify = false;
-   (<HTMLInputElement>document.getElementById(this.fieldKey)).value = '';
-  }
+    //  this.isVerify = false;
+      window.location.reload();
+    // (<HTMLInputElement>document.getElementById(this.fieldKey)).value = '';
+    }
 }
