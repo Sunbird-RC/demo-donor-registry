@@ -635,8 +635,13 @@ export class LayoutsComponent implements OnInit, OnChanges {
   downloadPledgeCard(index:any){
     this.mode = this.getDeviceInfo();
     this.orientation = (!this.mode) ? "_landscape" : '_portrait';
-    this.documentName = this.model[index]['addressDetails'].state + this.orientation;
+    let state = this.model[index]['addressDetails'].state;
+    state = state.replace(/ /g, "_");
+    this.documentName = state + this.orientation;
+
+
     let pdfName = this.model[index]['osid'];
+
     let headerOptions = new HttpHeaders({
       'template-key': this.documentName,
       'Accept': 'application/pdf'
