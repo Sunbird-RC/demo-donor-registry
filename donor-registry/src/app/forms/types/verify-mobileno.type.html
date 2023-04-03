@@ -15,7 +15,7 @@
 
   <!-- Enter otp popup-->
   <div class="modal fade" id="verifyOtpPopup" tabindex="-1" role="dialog" aria-labelledby="verifyOtpPopup"
-    aria-hidden="true">
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
       <div class="p-4 modal-content">
         <div class="close float-end" data-dismiss="modal" aria-label="Close">
@@ -41,7 +41,7 @@
 
   <!-- below 18 age err popup -->
   <div class="modal fade" [hidden]="false" id="canRegister" tabindex="-1" role="dialog" aria-labelledby="canRegister"
-    aria-hidden="true">
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
       <div class="p-4 modal-content">
         <div class="close float-end" data-dismiss="modal" aria-label="Close">
@@ -65,12 +65,12 @@
 
   <!-- Display profile list-->
   <div class="modal fade" id="selectProfileModel" tabindex="-1" role="dialog" aria-labelledby="selectProfileModel"
-    aria-hidden="true">
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
       <div class="p-4 modal-content">
-        <div class="close float-end" data-dismiss="modal" aria-label="Close">
+        <!-- <div class="close float-end" data-dismiss="modal" aria-label="Close">
           <span class=" float-end" aria-hidden="true">&times;</span>
-        </div>
+        </div> -->
         <div class="modal-body">
           <div *ngIf="linkedAbhaList?.mobileLinkedHid.length">
             <p class="p24 fw-bold text-center lh-32">Select Profile</p>
