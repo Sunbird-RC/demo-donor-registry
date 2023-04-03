@@ -250,6 +250,7 @@ export class FormsComponent implements OnInit {
       this.flag = false;
       this.model = {
         ...this.model,
+        "mobileno": this.model["mobileno"],
         "notificationDetails": {
           "name": this.model["emergencyDetails"]['name'],
           "relation": this.model["emergencyDetails"]['relation'],
@@ -291,7 +292,8 @@ export class FormsComponent implements OnInit {
               "memberToBeNotified": this.model["memberToBeNotified"],
               //"notificationDetails": {}? this.model["notificationDetails"],
               "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
-              "consent": this.model["consent"]
+              "consent": this.model["consent"],
+              "mobileno": this.model["mobileno"]
 
             }
           }
