@@ -18,7 +18,7 @@
     aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
       <div class="p-4 modal-content">
-        <div class="close float-end" data-dismiss="modal" aria-label="Close">
+        <div class="close float-end" data-dismiss="modal" aria-label="Close" (click)="clearVal()">
           <span class=" float-end" aria-hidden="true">&times;</span>
         </div>
         <div class="modal-body">
@@ -127,12 +127,22 @@
             </div>
           </div>
           <div *ngIf="!linkedAbhaList?.mobileLinkedHid.length && noLinkedAbha">
+            <div *ngIf="customErrCode == '427' || customErrCode == ''">
             <p class="p24 fw-bold text-center lh-32">No ABHA number found</p>
 
             <div class="text-center p14 lh-32 mb-2">
               <span>We didn’t find an ABHA number linked to this number. </span> <br />
               <span> Please enter another mobile number</span>
             </div>
+          </div>
+          <div *ngIf="customErrCode == '420'">
+            <p class="p24 fw-bold text-center lh-32">Mobile number entered multiple times</p>
+
+            <div class="text-center p14 lh-32 mb-2">
+              <span>You have reached the maximum verify attempts. </span> <br />
+              <span> Either exit or refresh your browser and try again</span>
+            </div>
+          </div>
             <div  class="text-center">
               <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
                 class="btn btn-primary-notto fw-bold btn-style mb-2">Ok</button>
