@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GeneralService, getDonorServiceHost } from '../../services/general/general.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'verify-mobileno',
@@ -22,14 +23,15 @@ export class VerifyMobileNo extends FieldType {
   dataObj: any;
   isNumberValid: boolean = true;
   errorMessage: any;
-  customErrCode: string;
+  customErrCode: string = '';
   err401: boolean = false;
   noLinkedAbha: boolean = false;
   fieldKey: any;
   canRegister: boolean = true;
 
 
-  constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,) {
+  constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,
+    public translate: TranslateService) {
     super();
   }
 
@@ -66,6 +68,8 @@ export class VerifyMobileNo extends FieldType {
           //  (<HTMLInputElement>document.getElementById(fieldKey)).value = "";
             this.selectProfile();
             this.noLinkedAbha = true;
+            this.checkErrType(error);
+
             console.log(error);
           }
         });
@@ -84,12 +88,15 @@ export class VerifyMobileNo extends FieldType {
   }
 
   checkErrType(err) {
+   
     this.errorMessage = err?.error['message'];
-    if (this.errorMessage.includes('30')) {
+    if (this.errorMessage != undefined && this.errorMessage.includes('30')) {
       this.customErrCode = '420';
-    }
-    if (this.errorMessage.includes('enter valid mobile')) {
+      this.errorMessage = "";
+    }else if (this.errorMessage != undefined && this.errorMessage.includes('enter valid mobile')) {
       this.customErrCode = '427';
+    }else{
+      this.customErrCode = '';
     }
   }
 
@@ -150,7 +157,6 @@ export class VerifyMobileNo extends FieldType {
             this.err401 = true;
           }
 
-          //document.getElementById('closeModalButton').click();
           console.error('There was an error!', error);
         },
       });
