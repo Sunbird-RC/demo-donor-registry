@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GeneralService, getDonorServiceHost } from '../../services/general/general.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'verify-mobileno',
@@ -29,7 +30,8 @@ export class VerifyMobileNo extends FieldType {
   canRegister: boolean = true;
 
 
-  constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,) {
+  constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,
+    public translate: TranslateService) {
     super();
   }
 

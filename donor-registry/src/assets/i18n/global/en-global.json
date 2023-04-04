@@ -193,6 +193,12 @@
     "LINK": "Click here to create ABHA Number",
     "UNPLEDGE":"Unpledge",
     "VERIFIED": "Verified",
-    "Organs_and_Tissues_to_Pledge": "Please select atleast one organs or tissues"
+    "Organs_and_Tissues_to_Pledge": "Please select atleast one organs or tissues",
+    "NO_ABHA_NO_FOUND": "No ABHA number found",
+    "DID_NOT_ABHA_LINKED_TO_MOBILE_NO":"We didn’t find an ABHA number linked to this number.",
+    "PLEASE_ENTER_ANOTHER_MOBILE_NUMBER":"Please enter another mobile number",
+    "MOBILE_ENTERED_MULTI_TIME":"Mobile number entered multiple times",
+    "REACHED_MAX_VERIFY_ATTEMT": "You have reached the maximum verify attempts.",
+    "REFRESH_BROWSER_TRY_AGAIN": " Either exit or refresh your browser and try again"
 
 }
