@@ -1738,10 +1738,11 @@ export class FormsComponent implements OnInit {
 
   submit(button = "") {
     this.isSubmitForm = true;
-
+    let dateSpan = document.getElementById('mobileno');
+    dateSpan.classList.remove('ng-invalid');
     if (!this.form2.valid) {
       const firstInvalidControl: HTMLElement = this.el.nativeElement.querySelector(
-        "form .ng-invalid"
+        "form .ng-invalid "
       );
       firstInvalidControl.focus();
     }
