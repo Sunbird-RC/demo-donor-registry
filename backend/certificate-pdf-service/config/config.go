@@ -1,4 +1,4 @@
-package main
+package config
 
 import "github.com/jinzhu/configor"
 
@@ -15,4 +15,8 @@ var Config = struct {
 	PrivateKeyPem         string `default:"" env:"CERTIFICATE_PRIVATE_KEY"`
 	PublicKeyPem          string `default:"" env:"CERTIFICATE_PUBLIC_KEY"`
 	AdditionalQueryParams string `default:"" env:"ADDITIONAL_QUERY_PARAMS"`
+	MODE                  string `default:"debug" env:"MODE"`
+	LogLevel              string `env:"LOG_LEVEL" yaml:"log_level" default:"info"`
+	Host                  string `env:"HOST" yaml:"host" default:"0.0.0.0"`
+	Port                  string `env:"PORT" yaml:"port" default:"8003"`
 }{}
