@@ -113,7 +113,7 @@ func downloadFile(url string, fileName string) ([]byte, error) {
 }
 
 func getTemplateFile(certificateUrl string, fileName string) ([]byte, error) {
-	certificateKey := []byte(certificateUrl)
+	certificateKey := certificateUrl
 	cachedCertificate, err := cache.GetCache(certificateKey)
 	if err != nil || cachedCertificate == nil {
 		pdfBytes, err := downloadFile(certificateUrl, fileName)
@@ -268,12 +268,13 @@ func renderPortraitPdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cert
 	certificateUrl := templateUrl + otherOrganCertificateType
 	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
 
-	_, err := getTemplateFile(certificateUrl, fileName)
+	templateBytes, err := getTemplateFile(certificateUrl, fileName)
 	if err != nil {
 		log.Printf("Error in certificate download : %v", err)
 		return nil, err
 	}
-	tpl1 := pdf.ImportPage(fileName, 1, "/MediaBox")
+	rs := io.ReadSeeker(bytes.NewReader(templateBytes))
+	tpl1 := pdf.ImportPageStream(&rs, 1, "/MediaBox")
 	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
 	if err := pdf.SetFont("dev", "", 18); err != nil {
 		log.Print(err.Error())

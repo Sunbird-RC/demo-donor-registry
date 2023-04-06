@@ -1,55 +1,34 @@
 package cache
 
 import (
-	"certificate-pdf/config"
-	"github.com/coocood/freecache"
+	"context"
+	"github.com/allegro/bigcache/v3"
+	log "github.com/sirupsen/logrus"
 )
 
-var cache *freecache.Cache
-
-var NoExpiry = -1
-
-type Stats struct {
-	EvacuateCount     int64
-	ExpiredCount      int64
-	EntryCount        int64
-	AverageAccessTime int64
-	HitCount          int64
-	MissCount         int64
-	LookupCount       int64
-	HitRate           float64
-	OverwriteCount    int64
-	TouchedCount      int64
-}
+var cache *bigcache.BigCache
 
 func Initialize() {
-	cacheSize := config.Config.CacheSize
-	cache = freecache.NewCache(cacheSize)
+	cache, _ = bigcache.New(context.Background(), bigcache.DefaultConfig(1<<63-1))
+
 }
 
-func SetCacheWithoutExpiry(key []byte, value []byte) error {
-	return cache.Set(key, value, NoExpiry)
+func SetCacheWithoutExpiry(key string, value []byte) error {
+	return cache.Set(key, value)
 }
 
-func GetCache(key []byte) ([]byte, error) {
+func GetCache(key string) ([]byte, error) {
 	return cache.Get(key)
 }
 
-func getStatus() Stats {
-	return Stats{
-		EvacuateCount:     cache.EvacuateCount(),
-		ExpiredCount:      cache.ExpiredCount(),
-		EntryCount:        cache.EntryCount(),
-		AverageAccessTime: cache.AverageAccessTime(),
-		HitCount:          cache.HitCount(),
-		MissCount:         cache.MissCount(),
-		LookupCount:       cache.LookupCount(),
-		HitRate:           cache.HitRate(),
-		OverwriteCount:    cache.OverwriteCount(),
-		TouchedCount:      cache.TouchedCount(),
-	}
+func getStatus() bigcache.Stats {
+	return cache.Stats()
 }
 
 func clearAll() {
-	cache.Clear()
+	err := cache.Reset()
+	if err != nil {
+		log.Error("Error while clearing cache", err)
+		return
+	}
 }
