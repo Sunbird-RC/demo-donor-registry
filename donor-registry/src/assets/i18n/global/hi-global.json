@@ -194,7 +194,7 @@
   "NO_ABHA_NO_FOUND": "कोई ABHA नंबर नहीं मिला",
   "DID_NOT_ABHA_LINKED_TO_MOBILE_NO":"हमें इस नंबर से जुड़ा कोई ABHA नंबर नहीं मिला।",
   "PLEASE_ENTER_ANOTHER_MOBILE_NUMBER":"कृपया कोई अन्य मोबाइल नंबर दर्ज करें",
-  "MOBILE_ENTERED_MULTI_TIME":"मोबाइल नंबर कई बार दर्ज किया गया",
+  "WAIT_FOR_30_SEC":"दूसरा ओटीपी अनुरोध भेजने से पहले कृपया 30 सेकंड तक प्रतीक्षा करें।",
   "REACHED_MAX_VERIFY_ATTEMT": "आप अधिकतम सत्यापन प्रयासों तक पहुंच गए हैं।",
   "REFRESH_BROWSER_TRY_AGAIN": "या तो बाहर निकलें या अपने ब्राउज़र को रीफ्रेश करें और पुनः प्रयास करें"
 
