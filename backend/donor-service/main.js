@@ -89,6 +89,7 @@ const getClientSecretToken = async() => {
 }
 
 function getErrorObject(err) {
+    conosle.debug(err);
     let message = "";
     let status = err?.response?.status || err?.status || 500
     console.log(err?.response?.data?.code);
@@ -116,7 +117,8 @@ function getErrorObject(err) {
     }
     return {
         status: status,
-        message: message
+        message: message,
+        code: R.pathOr("", ["response","data","details",0,"code"], err)
     };
 }
 
