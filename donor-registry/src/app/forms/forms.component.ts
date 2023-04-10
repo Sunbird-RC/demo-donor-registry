@@ -259,7 +259,6 @@ export class FormsComponent implements OnInit {
           "mobileNumber": this.model["emergencyDetails"]['mobileNumber'],
         },
         "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"]: "mobile",
-        // "mobileno": (this.model["mobileno"])? this.model["mobileno"] : {},
         "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
         "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
         "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
@@ -288,14 +287,12 @@ export class FormsComponent implements OnInit {
                 "mobileNumber": "",
               },
               "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"]: "mobile",
-              // "mobileno": (this.model["mobileno"])? this.model["mobileno"] : {},
               "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
               "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
               "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
               "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
               "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
               "memberToBeNotified": this.model["memberToBeNotified"],
-              //"notificationDetails": {}? this.model["notificationDetails"],
               "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
               "consent": this.model["consent"]
 
