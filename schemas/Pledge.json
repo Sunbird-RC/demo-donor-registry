@@ -105,7 +105,6 @@
         "emergency": {
           "type": "Emergency",
           "name": "{{emergencyDetails.name}}",
-          "mobileNumber": "{{emergencyDetails.mobileNumber}}",
           "otherRelation": "{{emergencyDetails.otherRelation}}",
           "relation": "{{emergencyDetails.relation}}"
         },
