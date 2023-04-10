@@ -89,6 +89,7 @@ const getClientSecretToken = async() => {
 }
 
 function getErrorObject(err) {
+    console.debug(err);
     let message = "";
     let status = err?.response?.status || err?.status || 500
     console.log(err?.response?.data?.code);
@@ -97,7 +98,7 @@ function getErrorObject(err) {
             message = "Please enter valid ABHA Number";
             break;
         case 'HIS-1023':
-            message = R.pathOr("Please wait for 30 minutes to try again with same ABHA number", ["response","data","details",0,"code"], err);
+            message = R.pathOr("Please wait for 30 minutes to try again with same ABHA number", ["response","data","details",0,"message"], err);
             break;
         case 'HIS-1039':
             message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
@@ -116,7 +117,8 @@ function getErrorObject(err) {
     }
     return {
         status: status,
-        message: message
+        message: message,
+        code: R.pathOr("", ["response","data","details",0,"code"], err)
     };
 }
 

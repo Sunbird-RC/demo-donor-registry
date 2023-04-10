@@ -157,6 +157,8 @@ export class FormsComponent implements OnInit {
     }
 
     if (this.form == 'signup') {
+      const mobilePlaceholder = document.getElementById('mobileno');
+      mobilePlaceholder['placeholder'] = "XXXXXXXXXX";
       if (localStorage.getItem('isVerified')) {
         this.tempData = JSON.parse(localStorage.getItem("form_value"));
 
@@ -221,11 +223,11 @@ export class FormsComponent implements OnInit {
 
 
     if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
+      (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
       if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
       {
         (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
         (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
-        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
       }
     
 
@@ -250,13 +252,13 @@ export class FormsComponent implements OnInit {
       this.flag = false;
       this.model = {
         ...this.model,
-        "mobileno": this.model["mobileno"],
         "notificationDetails": {
           "name": this.model["emergencyDetails"]['name'],
           "relation": this.model["emergencyDetails"]['relation'],
           "otherRelation": this.model["emergencyDetails"]['otherRelation'],
           "mobileNumber": this.model["emergencyDetails"]['mobileNumber'],
         },
+        "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"]: "mobile",
         "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
         "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
         "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
@@ -284,16 +286,15 @@ export class FormsComponent implements OnInit {
                 "otherRelation": "",
                 "mobileNumber": "",
               },
+              "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"]: "mobile",
               "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
               "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
               "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
               "pledgeDetails": (this.model["pledgeDetails"]) ? this.model["pledgeDetails"] : {},
               "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
               "memberToBeNotified": this.model["memberToBeNotified"],
-              //"notificationDetails": {}? this.model["notificationDetails"],
               "instituteReference": (this.model["instituteReference"]) ? this.model["instituteReference"] : "",
-              "consent": this.model["consent"],
-              "mobileno": this.model["mobileno"]
+              "consent": this.model["consent"]
 
             }
           }
