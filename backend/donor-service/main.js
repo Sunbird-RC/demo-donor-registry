@@ -89,7 +89,7 @@ const getClientSecretToken = async() => {
 }
 
 function getErrorObject(err) {
-    conosle.debug(err);
+    console.debug(err);
     let message = "";
     let status = err?.response?.status || err?.status || 500
     console.log(err?.response?.data?.code);
