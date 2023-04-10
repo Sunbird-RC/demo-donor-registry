@@ -97,7 +97,7 @@ function getErrorObject(err) {
             message = "Please enter valid ABHA Number";
             break;
         case 'HIS-1023':
-            message = "Please wait for 30 minutes to try again with same ABHA number";
+            message = R.pathOr("Please wait for 30 minutes to try again with same ABHA number", ["response","data","details",0,"code"], err);
             break;
         case 'HIS-1039':
             message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
