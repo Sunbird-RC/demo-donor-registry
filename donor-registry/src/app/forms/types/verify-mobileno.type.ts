@@ -19,7 +19,7 @@ export class VerifyMobileNo extends FieldType {
   linkedAbhaList: any;
   isAllAbhaRegister: boolean = false;
   selectedProfile: any;
-  selected : boolean = false;
+  selected: boolean = false;
   dataObj: any;
   isNumberValid: boolean = true;
   errorMessage: any;
@@ -28,6 +28,8 @@ export class VerifyMobileNo extends FieldType {
   noLinkedAbha: boolean = false;
   fieldKey: any;
   canRegister: boolean = true;
+  incorrectOtpMultipleTime: boolean = false;
+  isOpen: boolean = true;
 
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,
@@ -65,7 +67,7 @@ export class VerifyMobileNo extends FieldType {
             this.OtpPopup();
           },
           error: (error) => {
-          //  (<HTMLInputElement>document.getElementById(fieldKey)).value = "";
+            //  (<HTMLInputElement>document.getElementById(fieldKey)).value = "";
             this.selectProfile();
             this.noLinkedAbha = true;
             this.checkErrType(error);
@@ -88,14 +90,14 @@ export class VerifyMobileNo extends FieldType {
   }
 
   checkErrType(err) {
-   
+
     this.errorMessage = err?.error['message'];
     if (this.errorMessage != undefined && this.errorMessage.includes('30')) {
       this.customErrCode = '420';
       this.errorMessage = "";
-    }else if (this.errorMessage != undefined && this.errorMessage.includes('enter valid mobile')) {
+    } else if (this.errorMessage != undefined && this.errorMessage.includes('enter valid mobile')) {
       this.customErrCode = '427';
-    }else{
+    } else {
       this.customErrCode = '';
     }
   }
@@ -138,22 +140,21 @@ export class VerifyMobileNo extends FieldType {
             (document.getElementById('mobileno') as any).disabled = false;
           } else {
 
-            const healthIdNumber = this.dataObj.healthIdNumber.replaceAll('-','');
+            const healthIdNumber = this.dataObj.healthIdNumber.replaceAll('-', '');
             localStorage.setItem(healthIdNumber, JSON.stringify(this.dataObj));
             localStorage.setItem('form_value', JSON.stringify(this.dataObj));
             localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
-          //  document.getElementById('closeModalButton').click();
-          this.closePops('verifyOtpPopup');
+            //  document.getElementById('closeModalButton').click();
+            this.closePops('verifyOtpPopup');
             setTimeout(() => {
-               (document.getElementById('mobileno') as any).focus();
+              (document.getElementById('mobileno') as any).focus();
             }, 1000);
           }
         },
         error: (error) => {
           this.errorMessage = error?.error['message'];
-          this.customErrCode = (error?.error['status'])? error?.error['status'] : "";
-          if( error?.error['status'] == '401')
-          {
+          this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
+          if (error?.error['status'] == '401') {
             this.err401 = true;
           }
 
@@ -193,9 +194,8 @@ export class VerifyMobileNo extends FieldType {
           error: (error) => {
 
             this.errorMessage = error?.error['message'];
-            this.customErrCode = (error?.error['status'])? error?.error['status'] : "";
-            if( error?.error['status'] == '401')
-            {
+            this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
+            if (error?.error['status'] == '401') {
               this.err401 = true;
             }
 
@@ -203,8 +203,26 @@ export class VerifyMobileNo extends FieldType {
           },
         });
     }
+
+    let clickCount = 0;
+    const button = document.querySelector('#ifIncorrectOTP');
+    button.addEventListener('click', () => {
+      clickCount++;
+      if (clickCount === 2) {
+        this.incorrectOtpMultipleTime = true;
+        this.closePops('verifyOtpPopup');
+      }
+    });
   }
 
+  closeModal() {
+    this.isOpen = false;
+    const modalBackdrop = document.querySelector('.modal-backdrop.fade.show');
+    if (modalBackdrop) {
+      modalBackdrop.remove();
+    }
+  }
+  
   OtpPopup(id = "verifyOtpPopup") {
     var button = document.createElement("button");
     button.setAttribute('data-toggle', 'modal');
@@ -229,9 +247,9 @@ export class VerifyMobileNo extends FieldType {
     modal.style.opacity = '0';
   }
 
-  clearVal(){
+  clearVal() {
     //  this.isVerify = false;
-      window.location.reload();
+    window.location.reload();
     // (<HTMLInputElement>document.getElementById(this.fieldKey)).value = '';
-    }
+  }
 }
