@@ -208,7 +208,7 @@ export class VerifyMobileNo extends FieldType {
     const button = document.querySelector('#ifIncorrectOTP');
     button.addEventListener('click', () => {
       clickCount++;
-      if (clickCount === 2) {
+      if (clickCount === 3) {
         this.incorrectOtpMultipleTime = true;
         this.closePops('verifyOtpPopup');
       }
@@ -221,6 +221,7 @@ export class VerifyMobileNo extends FieldType {
     if (modalBackdrop) {
       modalBackdrop.remove();
     }
+    this.clearVal();
   }
   
   OtpPopup(id = "verifyOtpPopup") {
