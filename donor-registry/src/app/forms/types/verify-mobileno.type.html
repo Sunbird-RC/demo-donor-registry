@@ -19,7 +19,7 @@
     <div class="modal-dialog" role="document">
       <div class="p-4 modal-content">
         <div class="close float-end" data-dismiss="modal" aria-label="Close" (click)="clearVal()">
-          <span class=" float-end" aria-hidden="true">&times;</span>
+          <span type="button" class=" float-end" aria-hidden="true">&times;</span>
         </div>
         <div class="modal-body">
           <h3 class="fw-bold mb-3">Confirm OTP</h3>
@@ -160,9 +160,8 @@
                 <span>{{'PLEASE_ENTER_ANOTHER_MOBILE_NUMBER' | translate}} </span>
               </div>
             </div>
-            <div *ngIf="customErrCode == '420'">
-              <p class="p24 fw-bold text-center lh-32">Please wait for 30 seconds before sending another OTP request.</p>
-
+            <div *ngIf="customErrCode == '422'">
+              <p class="p24 fw-bold text-center lh-32">{{ errorMessage }}</p>
             </div>
             <div class="text-center">
               <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
