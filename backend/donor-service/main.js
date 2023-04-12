@@ -117,7 +117,7 @@ function getErrorObject(err) {
     }
     return {
         status: status,
-        message: message,
+        message: message.replaceAll("#", ""),
         code: R.pathOr("", ["response","data","details",0,"code"], err)
     };
 }
