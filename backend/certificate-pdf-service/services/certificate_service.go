@@ -3,6 +3,7 @@ package services
 import (
 	"archive/zip"
 	"bytes"
+	"certificate-pdf/cache"
 	"certificate-pdf/config"
 	"compress/flate"
 	"encoding/base64"
@@ -88,43 +89,46 @@ func getCertificateInPDF(templateUrl string, certificate string, entityName stri
 	return renderToPDFTemplate(templateUrl, certificate, []byte(qrData), []byte(personalDetailsMap["photo"].(string)))
 }
 
-func DownloadFile(url string, fileName string) error {
+func downloadFile(url string, fileName string) ([]byte, error) {
 	log.Printf("URL : %v", url)
 	response, err := http.Get(url)
 	if err != nil {
 		log.Printf("%v", err)
-		return err
+		return nil, err
 	}
 	defer response.Body.Close()
 
 	if response.StatusCode != 200 {
-		return errors.New("Received non 200 response code")
+		return nil, errors.New("Received non 200 response code")
 	}
 	if response.ContentLength == 0 {
 		log.Errorf("Invalid template URL %s, %s", url, fileName)
-		return errors.New("invalid template URL")
+		return nil, errors.New("invalid template URL")
 	}
-	//Create a empty file
-	file, err := os.Create(fileName)
+	pdfBytes, err := io.ReadAll(response.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	defer file.Close()
-
-	//Write the bytes to the fiel
-	_, err = io.Copy(file, response.Body)
-	if err != nil {
-		return err
-	}
-	return nil
+	return pdfBytes, nil
 }
 
-func getTemplateFile(certificateUrl string, fileName string) error {
-	_, err := os.Stat(fileName)
-	if os.IsNotExist(err) {
-		return DownloadFile(certificateUrl, fileName)
+func getTemplateFile(certificateUrl string, fileName string) ([]byte, error) {
+	certificateKey := certificateUrl
+	cachedCertificate, err := cache.GetCache(certificateKey)
+	if err != nil || cachedCertificate == nil {
+		pdfBytes, err := downloadFile(certificateUrl, fileName)
+		if err != nil {
+			log.Error("Error while downloading file", err)
+			return nil, err
+		}
+		err = cache.SetCacheWithoutExpiry(certificateKey, pdfBytes)
+		if err != nil {
+			log.Error("Error while saving cache", err)
+			return nil, err
+		}
+		return pdfBytes, nil
 	}
-	return nil
+	return cachedCertificate, nil
 }
 
 func getOtherOrganCertificateType(otherOrgans string) string {
@@ -159,12 +163,13 @@ func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cer
 	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
 	certificateUrl := templateUrl + otherOrganCertificateType
 	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
-	err := getTemplateFile(certificateUrl, fileName)
+	templateBytes, err := getTemplateFile(certificateUrl, fileName)
 	if err != nil {
 		log.Printf("Error in certificate download : %v", err)
 		return nil, err
 	}
-	tpl1 := pdf.ImportPage(fileName, 1, "/MediaBox")
+	rs := io.ReadSeeker(bytes.NewReader(templateBytes))
+	tpl1 := pdf.ImportPageStream(&rs, 1, "/MediaBox")
 	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
 	if err := pdf.SetFont("dev", "", 18); err != nil {
 		log.Print(err.Error())
@@ -263,12 +268,13 @@ func renderPortraitPdf(pdf gopdf.GoPdf, templateUrl string, certificateData Cert
 	certificateUrl := templateUrl + otherOrganCertificateType
 	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
 
-	err := getTemplateFile(certificateUrl, fileName)
+	templateBytes, err := getTemplateFile(certificateUrl, fileName)
 	if err != nil {
 		log.Printf("Error in certificate download : %v", err)
 		return nil, err
 	}
-	tpl1 := pdf.ImportPage(fileName, 1, "/MediaBox")
+	rs := io.ReadSeeker(bytes.NewReader(templateBytes))
+	tpl1 := pdf.ImportPageStream(&rs, 1, "/MediaBox")
 	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
 	if err := pdf.SetFont("dev", "", 18); err != nil {
 		log.Print(err.Error())

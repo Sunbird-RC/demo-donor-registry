@@ -19,4 +19,5 @@ var Config = struct {
 	LogLevel              string `env:"LOG_LEVEL" yaml:"log_level" default:"info"`
 	Host                  string `env:"HOST" yaml:"host" default:"0.0.0.0"`
 	Port                  string `env:"PORT" yaml:"port" default:"8003"`
+	CacheEviction         int    `env:"CACHE_EVICTION" yaml:"cache_eviction" default:"24*365"`
 }{}
