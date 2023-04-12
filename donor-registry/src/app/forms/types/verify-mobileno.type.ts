@@ -30,6 +30,7 @@ export class VerifyMobileNo extends FieldType {
   canRegister: boolean = true;
   incorrectOtpMultipleTime: boolean = false;
   isOpen: boolean = true;
+  err422: boolean;
 
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,
@@ -93,13 +94,13 @@ export class VerifyMobileNo extends FieldType {
 
     this.errorMessage = err?.error['message'];
     if (this.errorMessage != undefined && this.errorMessage.includes('30')) {
-      this.customErrCode = '420';
-      this.errorMessage = "";
+      this.customErrCode = '422';
     } else if (this.errorMessage != undefined && this.errorMessage.includes('enter valid mobile')) {
       this.customErrCode = '427';
     } else {
       this.customErrCode = '';
     }
+
   }
 
 
@@ -157,7 +158,6 @@ export class VerifyMobileNo extends FieldType {
           if (error?.error['status'] == '401') {
             this.err401 = true;
           }
-
           console.error('There was an error!', error);
         },
       });
@@ -208,7 +208,7 @@ export class VerifyMobileNo extends FieldType {
     const button = document.querySelector('#ifIncorrectOTP');
     button.addEventListener('click', () => {
       clickCount++;
-      if (clickCount === 2) {
+      if (clickCount === 3) {
         this.incorrectOtpMultipleTime = true;
         this.closePops('verifyOtpPopup');
       }
@@ -221,8 +221,9 @@ export class VerifyMobileNo extends FieldType {
     if (modalBackdrop) {
       modalBackdrop.remove();
     }
+    this.clearVal();
   }
-  
+
   OtpPopup(id = "verifyOtpPopup") {
     var button = document.createElement("button");
     button.setAttribute('data-toggle', 'modal');
