@@ -280,6 +280,7 @@ export class FormsComponent implements OnInit {
         if (JSON.stringify(this.model["notificationDetails"]) != '{}') {
           if (JSON.stringify(this.model["notificationDetails"]) != JSON.stringify(this.model["emergencyDetails"])) {
             this.model = {
+              ...this.model,
               "notificationDetails": {
                 "name": "",
                 "relation": "",
@@ -287,7 +288,6 @@ export class FormsComponent implements OnInit {
                 "mobileNumber": "",
               },
               "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"]: "mobile",
-              "mobileno": (this.model["mobileno"]) ? this.model["mobileno"] : {},
               "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
               "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
               "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
