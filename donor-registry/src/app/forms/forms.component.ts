@@ -287,6 +287,7 @@ export class FormsComponent implements OnInit {
                 "mobileNumber": "",
               },
               "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"]: "mobile",
+              "mobileno": (this.model["mobileno"]) ? this.model["mobileno"] : {},
               "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
               "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
               "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
