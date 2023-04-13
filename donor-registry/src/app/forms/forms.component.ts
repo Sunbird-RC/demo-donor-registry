@@ -280,6 +280,7 @@ export class FormsComponent implements OnInit {
         if (JSON.stringify(this.model["notificationDetails"]) != '{}') {
           if (JSON.stringify(this.model["notificationDetails"]) != JSON.stringify(this.model["emergencyDetails"])) {
             this.model = {
+              ...this.model,
               "notificationDetails": {
                 "name": "",
                 "relation": "",
