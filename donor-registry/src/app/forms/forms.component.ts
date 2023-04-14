@@ -229,7 +229,11 @@ export class FormsComponent implements OnInit {
         (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
         (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
       }
-    
+      if(document.getElementById("formly_105_radio_registrationBy_1_0") != null)
+      {
+      (document.getElementById("formly_105_radio_registrationBy_1_0") as any).disabled = true; 
+      (document.getElementById("formly_105_radio_registrationBy_1_1") as any).disabled = true; 
+      }
 
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
