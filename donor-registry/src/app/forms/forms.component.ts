@@ -1388,7 +1388,7 @@ export class FormsComponent implements OnInit {
           let noSpace = document.getElementsByClassName('required');
           for (var i = 0; i < noSpace.length; i++) {
             noSpace[i].addEventListener("keydown", (e) => {
-              if (e['keyCode'] === 32) {
+              if (e['keyCode'] === 32 && e.target['selectionStart'] === 0) {
                 e.preventDefault();
               }
             });
