@@ -98,8 +98,8 @@
         "bloodGroup": "{{personalDetails.bloodGroup}}",
         "pledge": {
           "type": "OrganPledge",
-          "organs": "{{pledgeDetails.organs}}",
-          "tissues": "{{pledgeDetails.tissues}}",
+          "organs": "{{#each pledgeDetails.organs}}{{#if @index}}, {{/if}}{{this}}{{/each}}",
+          "tissues": "{{#each pledgeDetails.tissues}}{{#if @index}}, {{/if}}{{this}}{{/each}}",
           "additionalOrgans": "{{pledgeDetails.other}}"
         },
         "emergency": {
