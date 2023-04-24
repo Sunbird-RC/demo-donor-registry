@@ -142,6 +142,7 @@ export class FormsComponent implements OnInit {
   routeNew: string;
   tempUrl: string;
   organCheckbox: boolean = true;
+  optionAdded: boolean = false;
 
 
   ngAfterViewChecked() {
@@ -217,6 +218,21 @@ export class FormsComponent implements OnInit {
       }
     }
 
+    if (!this.optionAdded) {
+      var relationPlaceholder1 = document.getElementById('formly_58_enum_relation_1');
+      var option1 = document.createElement('option');
+      option1.value = '';
+      option1.text = 'Select';
+      relationPlaceholder1.insertBefore(option1, relationPlaceholder1.firstChild);
+      
+      var relationPlaceholder2 = document.getElementById('formly_69_enum_relation_1');
+      var option2 = document.createElement('option');
+      option2.value = '';
+      option2.text = 'Select';
+      relationPlaceholder2.insertBefore(option2, relationPlaceholder2.firstChild);
+      this.optionAdded = true;
+    }
+    
     if (this.model["consent"]) {
       document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
     }
