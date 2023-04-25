@@ -218,18 +218,19 @@ export class FormsComponent implements OnInit {
       }
     }
 
+    const selectElementIds = ['formly_58_enum_relation_1', 'formly_69_enum_relation_1'];
+
     if (!this.optionAdded) {
-      var relationPlaceholder1 = document.getElementById('formly_58_enum_relation_1');
-      var option1 = document.createElement('option');
-      option1.value = '';
-      option1.text = 'Select';
-      relationPlaceholder1.insertBefore(option1, relationPlaceholder1.firstChild);
-      
-      var relationPlaceholder2 = document.getElementById('formly_69_enum_relation_1');
-      var option2 = document.createElement('option');
-      option2.value = '';
-      option2.text = 'Select';
-      relationPlaceholder2.insertBefore(option2, relationPlaceholder2.firstChild);
+      selectElementIds.forEach(selectElementId => {
+        const selectElement = document.getElementById(selectElementId) as HTMLSelectElement | null;
+        if (selectElement) {
+          const option = document.createElement('option');
+          option.value = '';
+          option.text = 'Select';
+          selectElement.insertBefore(option, selectElement.firstChild);
+        }
+      });
+    
       this.optionAdded = true;
     }
     
@@ -240,6 +241,11 @@ export class FormsComponent implements OnInit {
 
     if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
       (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+      const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
+      const option = document.createElement('option');
+          option.value = '';
+          option.text = 'Select';
+          relationPlaceholder3.insertBefore(option, relationPlaceholder3.firstChild); 
       if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
       {
         (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
