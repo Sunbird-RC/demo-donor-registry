@@ -31,7 +31,7 @@ export class VerifyMobileNo extends FieldType {
   incorrectOtpMultipleTime: boolean = false;
   isOpen: boolean = true;
   err422: boolean;
-
+  signupForm: boolean = false;
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,
     public translate: TranslateService) {
@@ -39,6 +39,9 @@ export class VerifyMobileNo extends FieldType {
   }
 
   ngOnInit(): void {
+    if(this.router.url == "/form/signup"){
+      this.signupForm = true;
+     }
     localStorage.removeItem('form_value');
     if (localStorage.getItem('isVerified') === 'true') {
       this.isVerify = true;
