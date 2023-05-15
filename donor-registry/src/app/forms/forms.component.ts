@@ -239,8 +239,9 @@ export class FormsComponent implements OnInit {
     }
 
 
-    if ((this.form == 'pledge-setup' || this.form == 'signup') && this.identifier) {
+    if ((this.form == 'pledge-setup' && this.identifier)){
       (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+     
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
       const option = document.createElement('option');
           option.value = '';
@@ -268,6 +269,36 @@ export class FormsComponent implements OnInit {
         localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
       }
     }
+    if(this.form == 'signup' && this.identifier){
+      (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+      let notReadOnly = localStorage.getItem('notReadOnly');
+      if (!notReadOnly || notReadOnly === "[]") {
+        let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
+        for (let propName in obj) {
+          if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+            delete obj[propName];
+          }
+        }
+        localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
+      }
+
+       if(this.model["personalDetails"]["middleName"]){  
+        (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
+     }
+      if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
+      {
+        (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
+        (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
+      }
+      if(document.getElementById("formly_105_radio_registrationBy_1_0") != null)
+      {
+      (document.getElementById("formly_105_radio_registrationBy_1_0") as any).disabled = true; 
+      (document.getElementById("formly_105_radio_registrationBy_1_1") as any).disabled = true; 
+      }
+       
+    }
+
+
   }
 
   ngAfterContentChecked(): void {
