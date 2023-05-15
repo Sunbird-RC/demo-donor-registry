@@ -271,18 +271,30 @@ export class FormsComponent implements OnInit {
     }
     if(this.form == 'signup' && this.identifier){
       (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
-      (<HTMLInputElement>document.getElementById("formly_120_string_firstName_0")as any).disabled = true;  
-      (<HTMLInputElement>document.getElementById("formly_120_string_fatherName_3")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_120_string_lastName_2")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_120_string_dob_5")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_120_enum_gender_6")as any ).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_126_string_addressLine1_0")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_126_string_country_2")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_126_enum_state_3")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_126_string_pincode_5")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_126_string_district_4")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_120_string_mobileNumber_9")as any).disabled = true;  
-       (<HTMLInputElement>document.getElementById("formly_120_string_motherName_4")as any).disabled = true;  
+      // (<HTMLInputElement>document.getElementById("formly_120_string_firstName_0")as any).disabled = true;  
+      // (<HTMLInputElement>document.getElementById("formly_120_string_fatherName_3")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_120_string_lastName_2")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_120_string_dob_5")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_120_enum_gender_6")as any ).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_126_string_addressLine1_0")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_126_string_country_2")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_126_enum_state_3")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_126_string_pincode_5")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_126_string_district_4")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_120_string_mobileNumber_9")as any).disabled = true;  
+      //  (<HTMLInputElement>document.getElementById("formly_120_string_motherName_4")as any).disabled = true;  
+
+     
+      let notReadOnly = localStorage.getItem('notReadOnly');
+      if (!notReadOnly || notReadOnly === "[]") {
+        let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
+        for (let propName in obj) {
+          if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+            delete obj[propName];
+          }
+        }
+        localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
+      }
 
        if(this.model["personalDetails"]["middleName"]){  
         (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
