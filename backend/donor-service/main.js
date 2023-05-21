@@ -8,6 +8,7 @@ const https = require('https');
 const qs = require('qs');
 const FormData = require('form-data');
 const redis = require('./services/redis.service');
+const {getClientSecretToken} = require('./services/sessions.service')
 const config = require('./configs/config');
 const constants = require('./configs/constants');
 const SERVICE_ACCOUNT_TOKEN = "SERVICE_ACCOUNT_TOKEN";
@@ -15,6 +16,8 @@ const R = require('ramda');
 const {sendNotification} = require("./services/notify.service");
 const {LOGIN_LINK, INVITE_TEMPLATE_ID, NOTIFY_TEMPLATE_ID, UPDATE_TEMPLATE_ID, UNPLEDGE_TEMPLATE_ID} = require("./configs/config");
 const {encryptWithCertificate} = require("./services/encrypt.service");
+const controllers = require('./service/createAbha.service');
+const utils = require('./utils/utils');
 const app = express();
 
 (async() => {
@@ -38,15 +41,6 @@ if (config.LOG_LEVEL === "DEBUG") {
         return response
     })
 }
-
-const getClientSecretResponse = async() => {
-    let data = {
-        'clientId': config.CLIENT_ID,
-        'clientSecret': config.CLIENT_SECRET
-    }
-    return await axios.post(config.ABHA_CLIENT_URL, data);
-}
-
 
 const toTitleCase = (str) => {
     return str.replace(
@@ -77,51 +71,6 @@ const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
     return profile;
 }
 
-
-const getClientSecretToken = async() => {
-    let clientSecret = await redis.getKey('clientSecret');
-    if(clientSecret === null) {
-        let clientSecretResponse = (await getClientSecretResponse()).data;
-        redis.storeKeyWithExpiry('clientSecret', clientSecretResponse.accessToken, parseInt(clientSecretResponse.expiresIn));
-        clientSecret = clientSecretResponse.accessToken;
-    }
-    return clientSecret;
-}
-
-function getErrorObject(err) {
-    console.debug(err);
-    let message = "";
-    let status = err?.response?.status || err?.status || 500
-    console.log(err?.response?.data?.code);
-    switch (R.pathOr("", ["response","data","details",0,"code"], err)) {
-        case 'HIS-1008':
-            message = "Please enter valid ABHA Number";
-            break;
-        case 'HIS-1023':
-            message = R.pathOr("Please wait for 30 minutes to try again with same ABHA number", ["response","data","details",0,"message"], err);
-            break;
-        case 'HIS-1039':
-            message = 'You have exceeded the maximum limit of failed attempts. Please try again in 12 hours';
-            status = 429;
-            break;
-        case 'HIS-1013':
-            message = 'Please enter correct OTP number';
-            status = 401;
-            break;
-        default:
-            message = err?.message || err?.response?.data || err;
-            break;
-    }
-    if(err?.response?.data?.code === 'HIS-500'){
-        message = "Please enter valid ABHA Number";
-    }
-    return {
-        status: status,
-        message: message.replaceAll("#", ""),
-        code: R.pathOr("", ["response","data","details",0,"code"], err)
-    };
-}
-
 app.post('/auth/sendOTP', async(req, res) => {
     console.log('sending OTP');
     const clientSecretToken = await getClientSecretToken();
@@ -135,11 +84,10 @@ app.post('/auth/sendOTP', async(req, res) => {
         res.send(otpSendResponse);
         console.log('OTP sent');
     } catch(err) {
-        const error = getErrorObject(err);
+        const error = utils.getErrorObject(err);
         res.status(err.status || 500).send(error);
     }
 });
-
 
 app.post('/auth/verifyOTP', async(req, res) => {
     console.log('Verifying OTP and sending Profile KYC');
@@ -158,7 +106,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         console.log('Sent Profile KYC');
     } catch(err) {
         console.error(err);
-        let error = getErrorObject(err)
+        let error = utils.getErrorObject(err)
         res.status(error.status).send(error);
     }
 });
@@ -566,7 +514,7 @@ app.post('/auth/mobile/sendOTP', async(req, res) => {
         console.log('OTP sent');
     } catch(err) {
         console.error(err);
-        let error = getErrorObject(err);
+        let error = utils.getErrorObject(err);
         res.status(error.status).send(error);
     }
 });
@@ -593,7 +541,7 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
         res.send(verifyOtpResponse);
     } catch(err) {
         console.error(err);
-        let error = getErrorObject(err);
+        let error = utils.getErrorObject(err);
         res.status(error.status).send(error);
     }
 });
@@ -647,11 +595,15 @@ app.post('/abha/profile', async(req, res) => {
         console.log('Sent Profile KYC');
     } catch(err) {
         console.error(err);
-        const error = getErrorObject(err);
+        const error = utils.getErrorObject(err);
         res.status(error.status).send(error);
     }
 });
 
+app.post('/create/abha/generateOtp', (req, res) => controllers.generateAadhaarOTP(req, res));
+app.post('/create/abha/verifyOtp', (req, res) => controllers.verifyAadhaarOTP(req, res));
+app.post('/create/abha/checkAndGenerateAbhaOrMobileOTP', (req, res) => controllers.checkAndGenerateAbhaOrMobileOTP(req, res));
+app.post('/create/abha/verifyMobileOTP', (req, res) => controllers.verifyMobileOTP(req, res));
 
 app.use(function(err, req, res, next) {
     console.error("Error occurred for ")
