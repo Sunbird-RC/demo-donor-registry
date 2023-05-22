@@ -3,8 +3,6 @@ function calculateAge(date) {
     var formattedDate = date.split("-")
     var birthdateTimeStamp = new Date(formattedDate[2], parseInt(formattedDate[1]) - 1, formattedDate[0])
     var currentDate = new Date();
-    // var difference = currentDate - birthdateTimeStamp;
-    // var currentAge = Math.floor(difference / 31557600000)
     var age = currentDate.getFullYear() - birthdateTimeStamp.getFullYear();
     var m = currentDate.getMonth() - birthdateTimeStamp.getMonth();
     if (m < 0 || (m === 0 && currentDate.getDate() < birthdateTimeStamp.getDate())) {
