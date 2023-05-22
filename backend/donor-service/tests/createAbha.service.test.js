@@ -9,8 +9,8 @@ describe('to create abha from aadhaar number', () => {
     const { AADHAAR_EXPIRY } = require('../configs/constants')
     const encryptService = require('../services/encrypt.service')
     const sessionService = require('../services/sessions.service')
-    const redis = require('../services/redis.service')
     const utils = require('../utils/utils')
+    const abhaProfile = require('../services/abhaProfile.service');
     
     const res = {
         send: function(){},
@@ -40,7 +40,7 @@ describe('to create abha from aadhaar number', () => {
     });
     jest.mock('../services/sessions.service', () => {
         return {
-            getClientSecretToken: () => {
+            getAbhaApisAccessToken: () => {
                 return "token";
             }
         }
@@ -56,12 +56,12 @@ describe('to create abha from aadhaar number', () => {
             AADHAAR_EXPIRY: 100
         }
     });
-    jest.mock('../services/redis.service', () => {
-        return {
-            storeKeyWithExpiry: (key, value, expiry) => jest.fn(),
-        }
-    })
     jest.mock("axios");
+    jest.mock('../services/abhaProfile.service', () => {
+        return {
+            getAndCacheEKYCProfile: jest.fn()
+        }
+    });
 
     const controller = require('../services/createAbha.service');
     
@@ -105,7 +105,7 @@ describe('to create abha from aadhaar number', () => {
             'healthId': 'dummy'
         }
         jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve({data: mockVerify}))
-        jest.spyOn(axios, 'get').mockReturnValue(Promise.resolve({data: mockAbhaProfile}))
+        jest.spyOn(abhaProfile, 'getAndCacheEKYCProfile').mockReturnValue(Promise.resolve(mockAbhaProfile))
         jest.spyOn(res, 'json')
         await controller.verifyAadhaarOTP(req, res)
         expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/verifyOTP', {
@@ -114,12 +114,6 @@ describe('to create abha from aadhaar number', () => {
         }, {
             headers: {
                 Authorization: 'Bearer token' 
-            }
-        });
-        expect(axios.get).toHaveBeenCalledWith('http://localhost:4000/v1/account/profile', {
-            headers: {
-                Authorization: 'Bearer token',
-                'X-Token': 'Bearer usertoken' 
             }
         });
         expect(res.json).toHaveBeenCalledWith(mockAbhaProfile)
@@ -196,15 +190,12 @@ describe('to create abha from aadhaar number', () => {
             }
         }
         const mockAbhaProfile = {
-            data: {
-                healthIdNumber: '919191919191',
-                name: 'Dummy dummy'
-            }
+            healthIdNumber: '919191919191',
+            name: 'Dummy dummy'
         }
         jest.spyOn(axios, 'post').mockReturnValueOnce(Promise.resolve(mockCheckAndGenerateRes)).mockReturnValueOnce(Promise.resolve(mockCreateAbhaRes));
-        jest.spyOn(axios, 'get').mockReturnValue(Promise.resolve(mockAbhaProfile));
+        jest.spyOn(abhaProfile, 'getAndCacheEKYCProfile').mockReturnValue(Promise.resolve(mockAbhaProfile));
         jest.spyOn(res, 'json');
-        jest.spyOn(redis, 'storeKeyWithExpiry')
         await controller.checkAndGenerateAbhaOrMobileOTP(req, res);
         expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/checkAndGenerateMobileOTP', {
             mobile: 'mobile',
@@ -214,15 +205,8 @@ describe('to create abha from aadhaar number', () => {
                 Authorization: 'Bearer token'
             }
         });
-        expect(redis.storeKeyWithExpiry).toHaveBeenCalledWith('919191919191', "{\"healthIdNumber\":\"919191919191\",\"name\":\"Dummy dummy\"}", 200);
         expect(res.json).toHaveBeenCalledWith({healthIdNumber: '919191919191',
         name: 'Dummy dummy'})
-        expect(axios.get).toHaveBeenCalledWith('http://localhost:4000/v1/account/profile', {
-            headers: {
-                Authorization: 'Bearer token',
-                'X-Token': 'Bearer abhaToken'
-            }
-        });
     });
 
     test('should verify mobile otp and create abha number', async() => {
@@ -247,7 +231,7 @@ describe('to create abha from aadhaar number', () => {
             }
         }
         jest.spyOn(axios, 'post').mockReturnValueOnce(Promise.resolve(mockVerifyOtpRes)).mockReturnValueOnce(Promise.resolve(mockCreateAbhaRes));
-        jest.spyOn(axios, 'get').mockReturnValue(Promise.resolve(mockAbhaProfile))
+        jest.spyOn(abhaProfile, 'getAndCacheEKYCProfile').mockReturnValue(Promise.resolve(mockAbhaProfile))
         jest.spyOn(res, 'json');
         await controller.verifyMobileOTP(req, res);
         expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/verifyMobileOTP', {
@@ -265,12 +249,6 @@ describe('to create abha from aadhaar number', () => {
                 Authorization: 'Bearer token'
             }
         });
-        expect(axios.get).toHaveBeenCalledWith('http://localhost:4000/v1/account/profile', {
-            headers: {
-                Authorization: 'Bearer token',
-                'X-Token': 'Bearer abhaToken'
-            }
-        })
         expect(res.json).toHaveBeenCalledWith({healthIdNumber: '919191919191',name: 'Dummy dummy'})
     });
 
@@ -309,7 +287,6 @@ describe('error flows to create abha from aadhaar', () => {
     const { AADHAAR_EXPIRY } = require('../configs/constants')
     const encryptService = require('../services/encrypt.service')
     const sessionService = require('../services/sessions.service')
-    const redis = require('../services/redis.service')
     const utils = require('../utils/utils')
 
     const res = {
@@ -340,7 +317,7 @@ describe('error flows to create abha from aadhaar', () => {
     });
     jest.mock('../services/sessions.service', () => {
         return {
-            getClientSecretToken: () => {
+            getAbhaApisAccessToken: () => {
                 return "token";
             }
         }
@@ -356,11 +333,6 @@ describe('error flows to create abha from aadhaar', () => {
             AADHAAR_EXPIRY: 100
         }
     });
-    jest.mock('../services/redis.service', () => {
-        return {
-            storeKeyWithExpiry: (key, value, expiry) => jest.fn(),
-        }
-    })
     jest.mock("axios");
 
     const controller = require('../services/createAbha.service');

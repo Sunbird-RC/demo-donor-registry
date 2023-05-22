@@ -1,14 +1,13 @@
 const { default: axios } = require('axios');
 const config = require('../configs/config');
 const { encryptWithCertificate } = require('./encrypt.service');
-const {getClientSecretToken} = require('./sessions.service')
-const redis = require('./redis.service');
+const {getAbhaApisAccessToken} = require('./sessions.service')
+const profileService = require('./abhaProfile.service');
 const utils = require('../utils/utils')
-const R = require('ramda');
 
 async function generateAadhaarOTP(req, res) {
     const generateOtpUrl = config.BASE_URL + '/v2/registration/aadhaar/generateOtp';
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     const encryptedAadhaar = await encryptWithCertificate(req.body.aadhaar);
     try {
         const generateOtpResponse = (await axios.post(generateOtpUrl, {
@@ -29,7 +28,7 @@ async function generateAadhaarOTP(req, res) {
 async function verifyAadhaarOTP(req, res) {
     const verifyOtpUrl = config.BASE_URL + '/v2/registration/aadhaar/verifyOTP';
     const txnId = req.body.txnId;
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     const encryptedOtp = await encryptWithCertificate(req.body.otp)
     try {
         const verifyAadhaarOTPResponse = (await axios.post(verifyOtpUrl, {
@@ -49,7 +48,7 @@ async function verifyAadhaarOTP(req, res) {
             res.json({new: verifyAadhaarOTPResponse.new, txnId: verifyAadhaarOTPResponse.txnId})
             return;
         }
-        const createAbhaNumberResponse = await getAndCacheEKYCProfile(clientSecretToken, verifyAadhaarOTPResponse.jwtResponse.token);
+        const createAbhaNumberResponse = await profileService.getAndCacheEKYCProfile(clientSecretToken, verifyAadhaarOTPResponse.jwtResponse.token);
         res.json(createAbhaNumberResponse);
         return;
     } catch(err) {
@@ -62,7 +61,7 @@ async function checkAndGenerateAbhaOrMobileOTP(req, res) {
     const checkAndGenerateMobileOTPUrl = config.BASE_URL + '/v2/registration/aadhaar/checkAndGenerateMobileOTP';
     const txnId = req.body.txnId;
     const mobile = req.body.mobile;
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     try {
         const checkAndGenerateMobileOTPResponse = (await axios.post(checkAndGenerateMobileOTPUrl, {
             mobile: mobile,
@@ -89,7 +88,7 @@ async function verifyMobileOTP(req, res) {
     const verifyMobileOTPUrl = config.BASE_URL + '/v2/registration/aadhaar/verifyMobileOTP';
     const txnId = req.body.txnId;
     const encryptedOtp = await encryptWithCertificate(req.body.otp)
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     try {
         const verifyMobileOTPResponse = (await axios.post(verifyMobileOTPUrl, {
             txnId,
@@ -114,7 +113,7 @@ async function verifyMobileOTP(req, res) {
 
 async function createABHANumber(txnId) {
     const createABHAUrl = config.BASE_URL + '/v2/registration/aadhaar/createHealthIdByAdhaar';
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     const createAbhaResponse = (await axios.post(createABHAUrl, {
         txnId: txnId
     }, {
@@ -123,17 +122,7 @@ async function createABHANumber(txnId) {
         }
     })).data;
     console.debug('createAbhaResponse : ', createAbhaResponse);
-    const profile = await getAndCacheEKYCProfile(clientSecretToken, createAbhaResponse.token)
-    return profile;
-}
-
-async function getAndCacheEKYCProfile(clientSecretToken, userToken) {
-    const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`,
-        {headers: {Authorization: 'Bearer ' + clientSecretToken, "X-Token": 'Bearer ' + userToken}})).data;
-    if (R.pathOr("", ["healthIdNumber"], profile) !== "") {
-        await redis.storeKeyWithExpiry(profile.healthIdNumber.replaceAll("-", ""), JSON.stringify(profile),
-            config.EXPIRE_PROFILE);
-    }
+    const profile = await profileService.getAndCacheEKYCProfile(clientSecretToken, createAbhaResponse.token)
     return profile;
 }
 

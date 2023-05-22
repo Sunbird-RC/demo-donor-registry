@@ -1,7 +1,8 @@
 const axios = require('axios').default;
 const redis = require('./redis.service');
 const config = require('../configs/config')
-const getClientSecretResponse = async() => {
+
+const getAccessTokenResponse = async() => {
     let data = {
         'clientId': config.CLIENT_ID,
         'clientSecret': config.CLIENT_SECRET
@@ -9,16 +10,16 @@ const getClientSecretResponse = async() => {
     return await axios.post(config.ABHA_CLIENT_URL, data);
 }
 
-const getClientSecretToken = async() => {
+const getAbhaApisAccessToken = async() => {
     let clientSecret = await redis.getKey('clientSecret');
     if(clientSecret === null) {
-        let clientSecretResponse = (await getClientSecretResponse()).data;
-        redis.storeKeyWithExpiry('clientSecret', clientSecretResponse.accessToken, parseInt(clientSecretResponse.expiresIn));
-        clientSecret = clientSecretResponse.accessToken;
+        let accessTokenResponse = (await getAccessTokenResponse()).data;
+        redis.storeKeyWithExpiry('clientSecret', accessTokenResponse.accessToken, parseInt(accessTokenResponse.expiresIn));
+        clientSecret = accessTokenResponse.accessToken;
     }
     return clientSecret;
 }
 
 module.exports = {
-    getClientSecretToken
+    getAbhaApisAccessToken
 }

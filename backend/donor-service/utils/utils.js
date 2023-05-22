@@ -4,8 +4,8 @@ function calculateAge(date) {
     var birthdateTimeStamp = new Date(formattedDate[2], parseInt(formattedDate[1]) - 1, formattedDate[0])
     var currentDate = new Date();
     var age = currentDate.getFullYear() - birthdateTimeStamp.getFullYear();
-    var m = currentDate.getMonth() - birthdateTimeStamp.getMonth();
-    if (m < 0 || (m === 0 && currentDate.getDate() < birthdateTimeStamp.getDate())) {
+    var monthDifference = currentDate.getMonth() - birthdateTimeStamp.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < birthdateTimeStamp.getDate())) {
         age--;
     }
     return age;

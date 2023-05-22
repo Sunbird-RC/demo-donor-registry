@@ -8,7 +8,7 @@ const https = require('https');
 const qs = require('qs');
 const FormData = require('form-data');
 const redis = require('./services/redis.service');
-const {getClientSecretToken} = require('./services/sessions.service')
+const {getAbhaApisAccessToken} = require('./services/sessions.service')
 const config = require('./configs/config');
 const constants = require('./configs/constants');
 const SERVICE_ACCOUNT_TOKEN = "SERVICE_ACCOUNT_TOKEN";
@@ -17,6 +17,7 @@ const {sendNotification} = require("./services/notify.service");
 const {LOGIN_LINK, INVITE_TEMPLATE_ID, NOTIFY_TEMPLATE_ID, UPDATE_TEMPLATE_ID, UNPLEDGE_TEMPLATE_ID} = require("./configs/config");
 const {encryptWithCertificate} = require("./services/encrypt.service");
 const services = require('./services/createAbha.service');
+const profileService = require('./services/abhaProfile.service');
 const utils = require('./utils/utils');
 const app = express();
 
@@ -73,7 +74,7 @@ const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
 
 app.post('/auth/sendOTP', async(req, res) => {
     console.log('sending OTP');
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     const abhaId = req.body.healthId;
     //TODO:get method from frontend
     const method = 'MOBILE_OTP';
@@ -93,7 +94,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
     console.log('Verifying OTP and sending Profile KYC');
     const transactionId = req.body.transactionId;
     const otp = req.body.otp;
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     try {
         const verifyOtp = (await axios.post(`${config.BASE_URL}/v1/auth/confirmWithMobileOTP`, {
             "otp": otp,
@@ -101,7 +102,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
         }, {headers: {Authorization: 'Bearer ' + clientSecretToken}})).data;
         console.debug('OTP verified', verifyOtp);
         const userToken = verifyOtp.token;
-        const profile = await getAndCacheEKYCProfile(clientSecretToken, userToken);
+        const profile = await profileService.getAndCacheEKYCProfile(clientSecretToken, userToken);
         res.send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {
@@ -504,7 +505,7 @@ app.get('/esign/:abha/status', async (req, res) => {
 
 app.post('/auth/mobile/sendOTP', async(req, res) => {
     console.log('sending OTP');
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     const mobile = req.body.mobile;
     try {
         const otpSendResponse = (await axios.post(`${config.BASE_URL}/v2/registration/mobile/login/generateOtp`,
@@ -524,7 +525,7 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
     console.log('Verifying OTP and sending Profile KYC');
     const transactionId = req.body.transactionId;
     const otp = req.body.otp;
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     try {
         const encryptedOtp = await encryptWithCertificate(otp);
 
@@ -571,26 +572,16 @@ async function getUserAuthorizedToken(healthId, txnId, token, clientSecretToken)
     }, {headers: {Authorization: `Bearer ${clientSecretToken}`, 'T-Token': `Bearer ${token}`}})).data;
 }
 
-async function getAndCacheEKYCProfile(clientSecretToken, userToken) {
-    const profile = (await axios.get(`${config.BASE_URL}/v1/account/profile`,
-        {headers: {Authorization: 'Bearer ' + clientSecretToken, "X-Token": 'Bearer ' + userToken}})).data;
-    if (R.pathOr("", ["healthIdNumber"], profile) !== "") {
-        await redis.storeKeyWithExpiry(profile.healthIdNumber.replaceAll("-", ""), JSON.stringify(profile),
-            config.EXPIRE_PROFILE);
-    }
-    return profile;
-}
-
 app.post('/abha/profile', async(req, res) => {
     console.log('Verifying OTP and sending Profile KYC');
     const transactionId = req.body.transactionId;
     const healthId = req.body.healthId;
     const profileToken = req.body.token;
-    const clientSecretToken = await getClientSecretToken();
+    const clientSecretToken = await getAbhaApisAccessToken();
     try {
         await checkABHAIsUnique(healthId)
         const userToken = (await getUserAuthorizedToken(healthId, transactionId, profileToken, clientSecretToken)).token;
-        const profile = await getAndCacheEKYCProfile(clientSecretToken, userToken);
+        const profile = await profileService.getAndCacheEKYCProfile(clientSecretToken, userToken);
         res.send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {

@@ -24,7 +24,7 @@ describe('should retrieve client secret and cache it', () => {
         const expectedClientSecret = 'token';
         jest.spyOn(redis, 'getKey').mockReturnValue(Promise.resolve(expectedClientSecret))
         
-        const actualClientSecret = await sessionsService.getClientSecretToken();
+        const actualClientSecret = await sessionsService.getAbhaApisAccessToken();
 
         expect(actualClientSecret).toEqual(expectedClientSecret);
     });
@@ -40,7 +40,7 @@ describe('should retrieve client secret and cache it', () => {
         jest.spyOn(redis, 'getKey').mockReturnValue(Promise.resolve(null))
         jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve(tokenResponse));
         
-        const actualClientSecret = await sessionsService.getClientSecretToken();
+        const actualClientSecret = await sessionsService.getAbhaApisAccessToken();
 
         expect(actualClientSecret).toEqual(expectedClientSecret);
         expect(axios.post).toHaveBeenCalledWith('http://abha-client-url', {
