@@ -1,8 +1,8 @@
 const { default: axios } = require('axios');
 const config = require('../configs/config');
-const { encryptWithCertificate } = require('../services/encrypt.service');
-const {getClientSecretToken} = require('../services/sessions.service')
-const redis = require('../services/redis.service');
+const { encryptWithCertificate } = require('./encrypt.service');
+const {getClientSecretToken} = require('./sessions.service')
+const redis = require('./redis.service');
 const utils = require('../utils/utils')
 const R = require('ramda');
 

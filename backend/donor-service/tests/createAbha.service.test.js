@@ -63,7 +63,7 @@ describe('to create abha from aadhaar number', () => {
     })
     jest.mock("axios");
 
-    const controller = require('../service/createAbha.service');
+    const controller = require('../services/createAbha.service');
     
     test('should generate and send otp to phone number linked to aadhaar', async() => {
         const req = {
@@ -363,7 +363,7 @@ describe('error flows to create abha from aadhaar', () => {
     })
     jest.mock("axios");
 
-    const controller = require('../service/createAbha.service');
+    const controller = require('../services/createAbha.service');
 
     test('should return error when error in generating otp for aadhaar linked mobile number', async() => {
         const req = {

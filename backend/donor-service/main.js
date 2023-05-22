@@ -16,7 +16,7 @@ const R = require('ramda');
 const {sendNotification} = require("./services/notify.service");
 const {LOGIN_LINK, INVITE_TEMPLATE_ID, NOTIFY_TEMPLATE_ID, UPDATE_TEMPLATE_ID, UNPLEDGE_TEMPLATE_ID} = require("./configs/config");
 const {encryptWithCertificate} = require("./services/encrypt.service");
-const services = require('./service/createAbha.service');
+const services = require('./services/createAbha.service');
 const utils = require('./utils/utils');
 const app = express();
 
