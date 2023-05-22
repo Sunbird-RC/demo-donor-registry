@@ -1,6 +1,5 @@
 const { default: axios } = require('axios');
 const config = require('../configs/config');
-const { AADHAAR_EXPIRY } = require('../configs/constants');
 const { encryptWithCertificate } = require('../services/encrypt.service');
 const {getClientSecretToken} = require('../services/sessions.service')
 const redis = require('../services/redis.service');
@@ -47,7 +46,6 @@ async function verifyAadhaarOTP(req, res) {
             if(age < 18) {
                 throw {status: 403, message: 'Please check back and registry with us when you are 18.'}
             }
-            redis.storeKeyWithExpiry(txnId, JSON.stringify(getCacheableAadhaarDetails(verifyAadhaarOTPResponse)), AADHAAR_EXPIRY);
             res.json({new: verifyAadhaarOTPResponse.new, txnId: verifyAadhaarOTPResponse.txnId})
             return;
         }
@@ -76,12 +74,6 @@ async function checkAndGenerateAbhaOrMobileOTP(req, res) {
         })).data;
         console.debug('checkAndGenerateMobileOTPResponse : ', checkAndGenerateMobileOTPResponse);
         if(checkAndGenerateMobileOTPResponse.mobileLinked) {
-            const userAadhaarData = JSON.parse(await redis.getKey(txnId));
-            const profile = {
-                ...userAadhaarData,
-                mobile: mobile
-            }
-            await redis.storeKeyWithExpiry(txnId, JSON.stringify(profile), AADHAAR_EXPIRY)
             const abhaResponse = await createABHANumber(txnId);
             res.json(abhaResponse);
             return
@@ -121,19 +113,15 @@ async function verifyMobileOTP(req, res) {
 }
 
 async function createABHANumber(txnId) {
-    const createABHAUrl = config.BASE_URL + '/v1/registration/aadhaar/createHealthIdWithPreVerified';
-    const promise = await redis.getKey(txnId);
-    const userAadhaarData = JSON.parse(promise);
+    const createABHAUrl = config.BASE_URL + '/v2/registration/aadhaar/createHealthIdByAdhaar';
     const clientSecretToken = await getClientSecretToken();
     const createAbhaResponse = (await axios.post(createABHAUrl, {
-        ...userAadhaarData,
         txnId: txnId
     }, {
         headers: {
             Authorization: 'Bearer ' + clientSecretToken
         }
     })).data;
-    await redis.deleteKey(txnId);
     console.debug('createAbhaResponse : ', createAbhaResponse);
     const profile = await getAndCacheEKYCProfile(clientSecretToken, createAbhaResponse.token)
     return profile;
@@ -147,22 +135,6 @@ async function getAndCacheEKYCProfile(clientSecretToken, userToken) {
             config.EXPIRE_PROFILE);
     }
     return profile;
-}
-
-function getCacheableAadhaarDetails(aadhaarDetails) {
-    const name = aadhaarDetails.name.split(' ')
-    const firstName = name[0];
-    const lastName = name[name.length - 1];
-    const middleName = name.slice(1, name.length - 1).join(' ')
-    console.debug(firstName, "\n", middleName, "\n", lastName)
-    const profileDetails = {
-        firstName,
-        middleName,
-        lastName,
-        email: aadhaarDetails.email,
-        profile: aadhaarDetails.profilePhoto
-    }
-    return profileDetails;
 }
 
 module.exports = {

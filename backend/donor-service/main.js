@@ -16,7 +16,7 @@ const R = require('ramda');
 const {sendNotification} = require("./services/notify.service");
 const {LOGIN_LINK, INVITE_TEMPLATE_ID, NOTIFY_TEMPLATE_ID, UPDATE_TEMPLATE_ID, UNPLEDGE_TEMPLATE_ID} = require("./configs/config");
 const {encryptWithCertificate} = require("./services/encrypt.service");
-const controllers = require('./service/createAbha.service');
+const services = require('./service/createAbha.service');
 const utils = require('./utils/utils');
 const app = express();
 
@@ -600,10 +600,10 @@ app.post('/abha/profile', async(req, res) => {
     }
 });
 
-app.post('/create/abha/generateOtp', (req, res) => controllers.generateAadhaarOTP(req, res));
-app.post('/create/abha/verifyOtp', (req, res) => controllers.verifyAadhaarOTP(req, res));
-app.post('/create/abha/checkAndGenerateAbhaOrMobileOTP', (req, res) => controllers.checkAndGenerateAbhaOrMobileOTP(req, res));
-app.post('/create/abha/verifyMobileOTP', (req, res) => controllers.verifyMobileOTP(req, res));
+app.post('/create/abha/generateOtp', (req, res) => services.generateAadhaarOTP(req, res));
+app.post('/create/abha/verifyOtp', (req, res) => services.verifyAadhaarOTP(req, res));
+app.post('/create/abha/checkAndGenerateAbhaOrMobileOTP', (req, res) => services.checkAndGenerateAbhaOrMobileOTP(req, res));
+app.post('/create/abha/verifyMobileOTP', (req, res) => services.verifyMobileOTP(req, res));
 
 app.use(function(err, req, res, next) {
     console.error("Error occurred for ")

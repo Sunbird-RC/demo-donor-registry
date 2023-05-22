@@ -59,8 +59,6 @@ describe('to create abha from aadhaar number', () => {
     jest.mock('../services/redis.service', () => {
         return {
             storeKeyWithExpiry: (key, value, expiry) => jest.fn(),
-            getKey: (key) => jest.fn(),
-            deleteKey: (key) => jest.fn()
         }
     })
     jest.mock("axios");
@@ -141,7 +139,6 @@ describe('to create abha from aadhaar number', () => {
             name: 'dummy dummy'
         }
         jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve({data: mockVerify}))
-        jest.spyOn(redis, 'storeKeyWithExpiry')
         jest.spyOn(res, 'json')
         await controller.verifyAadhaarOTP(req, res)
         expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/verifyOTP', {
@@ -152,7 +149,6 @@ describe('to create abha from aadhaar number', () => {
                 Authorization: 'Bearer token' 
             }
         });
-        expect(redis.storeKeyWithExpiry).toHaveBeenCalledWith('txnId', "{\"firstName\":\"dummy\",\"middleName\":\"\",\"lastName\":\"dummy\"}", 100)
         expect(res.json).toHaveBeenCalledWith({new: true, txnId: 'txnId'})
     });
 
@@ -194,7 +190,6 @@ describe('to create abha from aadhaar number', () => {
                 mobileLinked: true
             }
         };
-        const mockAadhaarProfile = "{\"name\": \"Dummy dummy\"}"
         const mockCreateAbhaRes = {
             data: {
                 'token': 'abhaToken'
@@ -206,13 +201,10 @@ describe('to create abha from aadhaar number', () => {
                 name: 'Dummy dummy'
             }
         }
-        const mockAadhaarProfileWithMobile = "{\"name\": \"Dummy dummy\", \"mobile\": \"mobile\"}"
         jest.spyOn(axios, 'post').mockReturnValueOnce(Promise.resolve(mockCheckAndGenerateRes)).mockReturnValueOnce(Promise.resolve(mockCreateAbhaRes));
         jest.spyOn(axios, 'get').mockReturnValue(Promise.resolve(mockAbhaProfile));
         jest.spyOn(res, 'json');
-        jest.spyOn(redis, 'getKey').mockReturnValueOnce(Promise.resolve(mockAadhaarProfile)).mockReturnValueOnce(mockAadhaarProfileWithMobile);
         jest.spyOn(redis, 'storeKeyWithExpiry')
-        jest.spyOn(redis, 'deleteKey')
         await controller.checkAndGenerateAbhaOrMobileOTP(req, res);
         expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/checkAndGenerateMobileOTP', {
             mobile: 'mobile',
@@ -223,7 +215,6 @@ describe('to create abha from aadhaar number', () => {
             }
         });
         expect(redis.storeKeyWithExpiry).toHaveBeenCalledWith('919191919191', "{\"healthIdNumber\":\"919191919191\",\"name\":\"Dummy dummy\"}", 200);
-        expect(redis.storeKeyWithExpiry).toHaveBeenCalledWith('txnId', "{\"name\":\"Dummy dummy\",\"mobile\":\"mobile\"}", 100)
         expect(res.json).toHaveBeenCalledWith({healthIdNumber: '919191919191',
         name: 'Dummy dummy'})
         expect(axios.get).toHaveBeenCalledWith('http://localhost:4000/v1/account/profile', {
@@ -232,7 +223,6 @@ describe('to create abha from aadhaar number', () => {
                 'X-Token': 'Bearer abhaToken'
             }
         });
-        expect(redis.deleteKey).toHaveBeenCalledWith('txnId')
     });
 
     test('should verify mobile otp and create abha number', async() => {
@@ -256,8 +246,6 @@ describe('to create abha from aadhaar number', () => {
                 name: 'Dummy dummy'
             }
         }
-        const mockAadhaarProfileWithMobile = "{\"name\": \"Dummy dummy\", \"mobile\": \"mobile\"}"
-        jest.spyOn(redis, 'getKey').mockReturnValueOnce(mockAadhaarProfileWithMobile);
         jest.spyOn(axios, 'post').mockReturnValueOnce(Promise.resolve(mockVerifyOtpRes)).mockReturnValueOnce(Promise.resolve(mockCreateAbhaRes));
         jest.spyOn(axios, 'get').mockReturnValue(Promise.resolve(mockAbhaProfile))
         jest.spyOn(res, 'json');
@@ -270,9 +258,7 @@ describe('to create abha from aadhaar number', () => {
                 Authorization: 'Bearer token'
             }
         });
-        expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v1/registration/aadhaar/createHealthIdWithPreVerified', {
-            name: 'Dummy dummy',
-            mobile: 'mobile',
+        expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/createHealthIdByAdhaar', {
             txnId: 'txnId'
         }, {
             headers: {
@@ -373,8 +359,6 @@ describe('error flows to create abha from aadhaar', () => {
     jest.mock('../services/redis.service', () => {
         return {
             storeKeyWithExpiry: (key, value, expiry) => jest.fn(),
-            getKey: (key) => jest.fn(),
-            deleteKey: (key) => jest.fn()
         }
     })
     jest.mock("axios");
@@ -531,7 +515,6 @@ describe('error flows to create abha from aadhaar', () => {
             name: 'dummy dummy'
         }
         jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve({data: mockVerify}))
-        jest.spyOn(redis, 'storeKeyWithExpiry')
         jest.spyOn(res, 'status')
         jest.spyOn(res, 'send')
         jest.spyOn(utils, 'getErrorObject').mockReturnValue({
