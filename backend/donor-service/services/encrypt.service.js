@@ -4,7 +4,7 @@ const crypto = require('crypto');
 
 
 async function getPublicCertificate() {
-    const axiosResponse = await axios.get(`${config.BASE_URL}/v1/auth/cert`);
+    const axiosResponse = await axios.get(`${config.BASE_URL}/v2/auth/cert`);
     return axiosResponse.data;
 }
 
