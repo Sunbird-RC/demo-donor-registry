@@ -591,10 +591,10 @@ app.post('/abha/profile', async(req, res) => {
     }
 });
 
-app.post('/v1/registration/aadhaar/generateOtp', (req, res) => services.generateAadhaarOTP(req, res));
-app.post('/v1/registration/aadhaar/verifyOtp', (req, res) => services.verifyAadhaarOTP(req, res));
-app.post('/v1/registration/aadhaar/checkAndGenerateAbhaOrMobileOTP', (req, res) => services.checkAndGenerateAbhaOrMobileOTP(req, res));
-app.post('/v1/registration/aadhaar/verifyMobileOTP', (req, res) => services.verifyMobileOTP(req, res));
+app.post('/abha/registration/aadhaar/generateOtp', (req, res) => services.generateAadhaarOTP(req, res));
+app.post('/abha/registration/aadhaar/verifyOtp', (req, res) => services.verifyAadhaarOTP(req, res));
+app.post('/abha/registration/aadhaar/checkAndGenerateAbhaOrMobileOTP', (req, res) => services.checkAndGenerateAbhaOrMobileOTP(req, res));
+app.post('/abha/registration/aadhaar/verifyMobileOTP', (req, res) => services.verifyMobileOTP(req, res));
 
 app.use(function(err, req, res, next) {
     console.error("Error occurred for ")
