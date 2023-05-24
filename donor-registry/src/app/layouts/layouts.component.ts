@@ -48,7 +48,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   tcUser: any;
   propertyName: any;
   isUnPledge = false;
-  selectLang = ["Assamese", "Bengali", "Gujarati", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
+  selectLang = ["Assamese", "Bengali", "Gujarati","Hindi", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
 
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
