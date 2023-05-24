@@ -36,11 +36,22 @@ async function deleteKey(key) {
     await client.del(key);
 }
 
+async function storeHashWithExpiry(key, field, value, expiry) {
+  await client.hSet(key, field, value)
+  await client.expire(key, expiry)
+}
+
+async function getHash(key) {
+  return await client.hGetAll(key);
+}
+
 module.exports = {
   storeKeyWithExpiry,
   initRedis,
   getKey,
   deleteKey,
   increment,
-  storeKey
+  storeKey,
+  storeHashWithExpiry,
+  getHash
 };
