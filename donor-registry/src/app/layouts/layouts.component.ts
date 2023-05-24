@@ -48,6 +48,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   tcUser: any;
   propertyName: any;
   isUnPledge = false;
+  selectLang = ["Assamese", "Bengali", "Gujarati", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
 
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
@@ -631,19 +632,22 @@ export class LayoutsComponent implements OnInit, OnChanges {
     })).subscribe((result: any) => {
     });
   }
-
-  downloadPledgeCard(index:any){
+ 
+  downloadPledgeCard(language: string,index:any){
     this.mode = this.getDeviceInfo();
     this.orientation = (!this.mode) ? "_landscape" : '_portrait';
-    let state = this.model[index]['addressDetails'].state;
-    state = state.replace(/ /g, "_");
-    this.documentName = state + this.orientation;
-
+    // let state = this.model[index]['addressDetails'].state;
+    // state = state.replace(/ /g, "_");
+    // this.documentName = state + this.orientation;
+    
+    this.selectedLanguageIndex = this.selectLang.indexOf(language);
+    this.selectedLanguage = this.selectLang[this.selectedLanguageIndex];
+    this.languageKey = this.selectedLanguage.toLowerCase() + '_portrait';
 
     let pdfName = this.model[index]['osid'];
 
     let headerOptions = new HttpHeaders({
-      'template-key': this.documentName,
+      'template-key': this.languageKey,
       'Accept': 'application/pdf'
     });
 
