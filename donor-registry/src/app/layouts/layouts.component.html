@@ -54,9 +54,13 @@
                 <div class="pledge-btn">
                     <div  *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
                         <!-- <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}" target="_blank"> -->
-                            <button type="button" class="fs-14 fw-bold btn btn-primary-green submit-button " data-mdb-toggle="tooltip" (click)="downloadPledgeCard(i)">
-                            <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
-                            </button>                           
+                        <!-- <button type="button"  data-mdb-toggle="tooltip" class="fs-14 fw-bold btn btn-primary-green submit-button ">
+                            <i aria-hidden="true" class="fa fa-download"></i> {{'Select the Langauge to Download Certificate'}}
+                            </button>  -->
+                            <select (change)="downloadPledgeCard($event.target.value, i)" class="fs-14 fw-bold btn btn-primary-green submit-button ">
+                                <option value="" selected>{{"SELECT_LANG_TO_DOWNLD_CERTIFICATE" | translate}}</option>
+                                <option *ngFor="let lang of selectLang" >{{ lang }}</option>
+                            </select>                            
                             <!-- </a> -->
                             <p class="mt-1 fs-10 ml-3 fw-bold">{{item?.pledgeDetails.osUpdatedAt | date : 'dd-MM-y : H:mm'}}</p>
                           
