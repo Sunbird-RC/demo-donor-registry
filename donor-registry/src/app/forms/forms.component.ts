@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
@@ -143,6 +143,7 @@ export class FormsComponent implements OnInit {
   tempUrl: string;
   organCheckbox: boolean = true;
   optionAdded: boolean = false;
+  isVerified: string;
 
 
   ngAfterViewChecked() {
@@ -159,7 +160,9 @@ export class FormsComponent implements OnInit {
 
     if (this.form == 'signup') {
       const mobilePlaceholder = document.getElementById('mobileno');
-      mobilePlaceholder['placeholder'] = "XXXXXXXXXX";
+      if(mobilePlaceholder){
+        mobilePlaceholder['placeholder'] = "XXXXXXXXXX";
+      }
       if (localStorage.getItem('isVerified')) {
         this.tempData = JSON.parse(localStorage.getItem("form_value"));
 
@@ -234,6 +237,11 @@ export class FormsComponent implements OnInit {
       this.optionAdded = true;
     }
     
+    setTimeout(() => {
+      this.isVerified = localStorage.getItem('isVerified');
+      this.cdr.detectChanges();
+     });
+
     if (this.model["consent"]) {
       document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
     }
@@ -529,7 +537,7 @@ export class FormsComponent implements OnInit {
 
   }
   constructor(private route: ActivatedRoute,
-    public translate: TranslateService,
+    public translate: TranslateService, private cdr: ChangeDetectorRef,
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient, public formService: FormService, private el: ElementRef) { }
 
 
@@ -665,11 +673,10 @@ export class FormsComponent implements OnInit {
           this.property[fieldset.definition] = {}
 
           this.property = this.definations[fieldset.definition].properties;
-
+          if (!this.schema.hasOwnProperty('widget')) {
+            this.schema['widget'] = {};
+          }
           if (fieldset.formclass) {
-            if (!this.schema.hasOwnProperty('widget')) {
-              this.schema['widget'] = {};
-            }
             this.schema['widget']['formlyConfig'] = { fieldGroupClassName: fieldset.formclass }
           }
 
@@ -971,18 +978,45 @@ export class FormsComponent implements OnInit {
                 'expressionProperties': {
                   "templateOptions.disabled": (model, formState, field1) => {
 
+                 if(this.model.hasOwnProperty('emergencyDetails')){
                     if (this.model['emergencyDetails']['mobileNumber'] || this.model['emergencyDetails']['name'] || this.model['emergencyDetails']['relation']) {
                       return false;
                     }
                     else {
                       return true;
                     }
-
+                   } 
                   }
                 }
               }
             }
           }
+
+          if (field.hasOwnProperty('condition') && field.condition['type']  == 'checkLocalVarVal' ) {
+            let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+  
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+              'hideExpression': (model, formState, field1) => {
+  
+                if(field.condition.variableType == 'global')
+                {
+                  var val = this['field.condition.objectPath']
+  
+                }else{
+                  var val = localStorage.getItem(field.condition.objectPath);
+                }
+              
+  
+                return (val != field.condition.isIt) ? true : false;
+              }
+            }
+            if (tempObj != undefined) {
+              tempObj['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
+              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
+            }
+  
+          }
+  
 
         } else {
           this.addWidget(fieldset, field, '')
@@ -1319,8 +1353,6 @@ export class FormsComponent implements OnInit {
 
       if (field.hasOwnProperty('hideExpression') && field.hideExpression) {
         this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'] = true;
-
-
       }
 
       if (field.hasOwnProperty('condition') && field.condition) {
@@ -1372,6 +1404,31 @@ export class FormsComponent implements OnInit {
             temp['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = temp;
           }
+        }
+
+        if (field.condition.type == 'checkLocalVarVal' && !field.condition.hasOwnProperty['isIt']) {
+          let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+            'hideExpression': (model, formState, field1) => {
+
+              if(field.condition.variableType == 'global')
+              {
+                var val = this['field.condition.objectPath']
+
+              }else{
+                var val = localStorage.getItem(field.condition.objectPath);
+              }
+            
+
+              return (val != field.condition.isIt) ? true : false;
+            }
+          }
+          if (tempObj != undefined) {
+            tempObj['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
+          }
+
         }
 
         if (field.condition.type == 'disable') {
