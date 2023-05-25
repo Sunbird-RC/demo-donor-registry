@@ -66,9 +66,8 @@
             </span>
 
             <div class="d-flex justify-content-between">
-              
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="submit" class="btn-holder btn-size size-bts btn-centre">
-                  <div *ngIf="form == 'pledge-setup'">{{'SUBMIT' | translate}}</div>
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && isVerified"  type="submit" class="btn-holder btn-size size-bts btn-centre">
+                  <div *ngIf="form == 'pledge-setup'">{{'SUBMIT' | translate}} </div>
                   <div *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && form != 'pledge-setup'" >{{'REGISTER' | translate}}</div>
                   </button>
                 <!-- <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button> -->
