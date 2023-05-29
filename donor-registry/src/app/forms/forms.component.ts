@@ -171,7 +171,7 @@ export class FormsComponent implements OnInit {
       if (localStorage.getItem('isVerified')) {
         this.tempData = JSON.parse(localStorage.getItem("form_value"));
 
-        if(this.model['registrationBy'] == 'mobile' && this.tempData != null)
+        if((this.model['registrationBy'] == 'aadhaar' || this.model['registrationBy'] == 'mobile') && this.tempData != null)
         {
           this.model["identificationDetails"]['abha'] =  this.tempData['healthIdNumber'].replace(/-/g, ""); 
         }

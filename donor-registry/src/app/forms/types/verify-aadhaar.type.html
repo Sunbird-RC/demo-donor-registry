@@ -1,0 +1,128 @@
+<div class="col-lg-4 col-sm-12 mlf-14 mb-3">
+    <span class="fw-bold p12">{{ to.label }} <span class="red">*</span></span> <br />
+    <div class="d-flex">
+     <input class="form-control" placeholder="XXXXXXXXXXXX" maxlength="12" oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9]/g,'')" id="{{ field.key }}"
+    [formControl]="formControl" [formlyAttributes]="field" pattern="[1-9]{1}[0-9]{1}[0-9]{10}"
+     [ngClass]="isNumberValid ? 'form-control' : 'form-control is-invalid'" required >
+     <button class="fw-bold p14 pointer btn-holder btn-verify border-0"  data-toggle="modal" data-target="#exampleModal" 
+     (click)="verifyOtp(field.key)"> Verify </button>
+    </div>
+   
+  </div>
+  
+    <div class="btn-sec-bg mt-2 p-2 col-lg-12">
+   <input type="checkbox" (change)="checkValue($event);" checked>&nbsp;<span class="p14 lh-32">I agree</span>
+   <p class="p14 lh-32">I, hereby declare that I am voluntarily sharing my Aadhaar Number and demographic information issued by UIDAI, with National Health Authority (NHA) for the sole purpose of creation of ABHA number . I understand that my ABHA number can be used and shared for purposes as may be notified by ABDM from time to time including provision of healthcare services. Further, I am aware that my personal identifiable information (Name, Address, Age, Date of Birth, Gender and Photograph) may be made available to the entities working in the National Digital Health Ecosystem (NDHE) which inter alia includes stakeholders and entities such as healthcare professionals (e.g. doctors), facilities (e.g. hospitals, laboratories) and data fiduciaries (e.g. health programmes), which are registered with or linked to the Ayushman Bharat Digital Mission (ABDM), and various processes there under. I authorize NHA to use my Aadhaar number for performing Aadhaar based authentication with UIDAI as per the provisions of the Aadhaar (Targeted Delivery of Financial and other Subsidies, Benefits and Services) Act, 2016 for the aforesaid purpose. I understand that UIDAI will share my e-KYC details, or response of “Yes” with NHA upon successful authentication. I have been duly informed about the option of using other IDs apart from Aadhaar; however, I consciously choose to use Aadhaar number for the purpose of availing benefits across the NDHE. I am aware that my personal identifiable information excluding Aadhaar number / VID number can be used and shared for purposes as mentioned above. I reserve the right to revoke the given consent at any point of time as per provisions of Aadhaar Act and Regulations.</p>
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Confirm OTP</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <h3 class="fw-bold mb-3">Confirm OTP</h3> -->
+      <p class="p14">
+        Please enter the OTP received on your mobile number
+      </p>
+      <span class="fw-bold p12"> Enter OTP</span> <br />
+      <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
+      <br />
+      <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
+      <button type="button" (click)="submitOtp()" id="ifIncorrectOTP"
+        class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+        data-target="#incorrectOTPModal">
+        Confirm
+      </button>
+      </div>
+    
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="verifyOtpPopup" tabindex="-1" role="dialog" aria-labelledby="verifyOtpPopup"
+aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<div class="modal-dialog" role="document">
+  <div class="p-4 modal-content">
+    <div class="close float-end" data-dismiss="modal" aria-label="Close" (click)="clearVal()">
+      <button class="border-0 bg-transparent float-end" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+      <h3 class="fw-bold mb-3">Confirm OTP</h3>
+      <p class="p14">
+        Please enter the OTP received on your mobile number
+      </p>
+      <span class="fw-bold p12"> Enter OTP</span> <br />
+      <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
+      <br />
+      <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
+      <button type="button" (click)="submitOtp()" id="ifIncorrectOTP"
+        class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+        data-target="#incorrectOTPModal">
+        Confirm
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="mobilePopup" tabindex="-1" role="dialog" aria-labelledby="mobilePopup"
+aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<div class="modal-dialog" role="document">
+  <div class="p-4 modal-content">
+    <div class="close float-end" data-dismiss="modal" aria-label="Close" (click)="clearVal()">
+      <button class="border-0 bg-transparent float-end" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+      <h3 class="fw-bold mb-3">Mobile Number</h3>
+      <p class="p14">
+       
+      </p>
+      <span class="fw-bold p12">It is recommended that you use the mobile number linked with Aadhaar</span> <br />
+      <span class="fw-bold p12">Enter Mobile Number</span> <br />
+      <input maxLength="10" type="input" [(ngModel)]="mobileNo" name="mobileNo" class="form-control" />
+      <br />
+      <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
+      <button type="button" (click)="submitOtpMobile()" id="ifIncorrectOTP"
+        class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+        data-target="#incorrectOTPModal">
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="verifymobilPopup" tabindex="-1" role="dialog" aria-labelledby="verifymobilPopup"
+aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<div class="modal-dialog" role="document">
+  <div class="p-4 modal-content">
+    <div class="close float-end" data-dismiss="modal" aria-label="Close" (click)="clearVal()">
+      <button class="border-0 bg-transparent float-end" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+      <h3 class="fw-bold mb-3">Confirm OTP</h3>
+      <p class="p14">
+        Please enter the OTP received on your mobile number
+      </p>
+      <span class="fw-bold p12"> Enter OTP</span> <br />
+      <input maxLength="6" type="input" [(ngModel)]="verifyoptVal" name="verifyoptVal" class="form-control" />
+      <br />
+      <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
+      <button type="button" (click)="verifyMobilesubmitOtp()" id="ifIncorrectOTP"
+        class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+        data-target="#incorrectOTPModal">
+        Confirm
+      </button>
+    </div>
+  </div>
+</div>
+</div>
