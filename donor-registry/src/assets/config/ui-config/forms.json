@@ -56,17 +56,23 @@
                 "name": "registrationBy",
                 "custom": true,
                 "key": "registrationBy",
+                "condition": {
+                  "type": "disable",
+                  "variableType" : "local",
+                  "objectPath": "isVerified",
+                  "isIt": "true"
+                },
                 "element": {
                   "widget": {
-                    "expressionProperties" : {
-                      "templateOptions.disabled" :  true
+                    "expressionProperties": {
+                      "templateOptions.disabled": true
                     },
                     "formlyConfig": {
                       "type": "radio",
                       "className": "field-in-row p14 mt-2",
                       "templateOptions": {
                         "placeholder": "XXXXXXXXXX",
-                        "required" :  true,
+                        "required": true,
                         "options": [
                           {
                             "value": "Mobile Number",
@@ -79,7 +85,6 @@
                         ]
                       },
                       "defaultValue": "mobile"
-                     
                     }
                   }
                 }
@@ -130,6 +135,12 @@
               },
               {
                 "name": "personalDetails",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "children": {
                   "definition": "PersonalDetails",
                   "title": "Personal Details",
@@ -221,13 +232,19 @@
                       },
                       "class": "col-lg-4 col-sm-12 required",
                       "enableField": true,
-                      "required":true
+                      "required": true
                     }
                   ]
                 }
               },
               {
                 "name": "addressDetails",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "children": {
                   "definition": "AddressDetails",
                   "formclass": "row",
@@ -251,14 +268,14 @@
                         "message": "Enter a valid country"
                       },
                       "enableField": true,
-                      "required":true
+                      "required": true
                     },
                     {
                       "name": "state",
                       "class": "col-lg-4 col-sm-12 required",
                       "enableField": true,
                       "placeholder": "Select",
-                      "required":true
+                      "required": true
                     },
                     {
                       "name": "district",
@@ -268,7 +285,7 @@
                         "message": "Enter a valid district"
                       },
                       "enableField": true,
-                      "required":true
+                      "required": true
                     },
                     {
                       "name": "pincode",
@@ -278,7 +295,7 @@
                         "message": "Enter a valid pincode"
                       },
                       "enableField": true,
-                      "required":true
+                      "required": true
                     }
                   ]
                 }
@@ -286,6 +303,12 @@
               {
                 "name": "pledgeDeets",
                 "custom": true,
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "required": false,
                 "key": "pDet",
                 "element": {
@@ -303,6 +326,12 @@
                 "custom": true,
                 "required": false,
                 "key": "pDetMsg",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "element": {
                   "title": "Organs and Tissues to Pledge",
                   "widget": {
@@ -315,6 +344,12 @@
               },
               {
                 "name": "pledgeDetails",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "children": {
                   "definition": "PledgeDetails",
                   "formclass": "row",
@@ -351,6 +386,12 @@
               },
               {
                 "name": "emergencyDetails",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "children": {
                   "definition": "EmergencyDetails",
                   "formclass": "row",
@@ -363,7 +404,7 @@
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
                       },
-                      "required":true
+                      "required": true
                     },
                     {
                       "name": "relation",
@@ -395,6 +436,12 @@
                 "custom": true,
                 "required": false,
                 "key": "note",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "element": {
                   "title": "Members to be Notified",
                   "widget": {
@@ -410,6 +457,12 @@
                 "title": "Members to be notified (optional)",
                 "custom": true,
                 "key": "a",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "element": {
                   "title": "Same as emergency contact",
                   "type": "checkbox",
@@ -428,6 +481,12 @@
               },
               {
                 "name": "notificationDetails",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "children": {
                   "definition": "NotificationDetails",
                   "formclass": "row",
@@ -438,7 +497,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12"                    
+                      "class": "col-lg-4 col-sm-12"
                     },
                     {
                       "name": "otherRelation",
@@ -459,13 +518,25 @@
               },
               {
                 "name": "instituteReference",
-                "class": "m-0 p-0 col-lg-4 col-sm-12"
+                "class": "m-0 p-0 col-lg-4 col-sm-12",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                }
               },
               {
                 "name": "consent",
                 "custom": true,
                 "required": true,
                 "key": "consent",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "element": {
                   "title": "CONSENT",
                   "required": true,
@@ -490,6 +561,12 @@
                 "custom": true,
                 "required": false,
                 "key": "note",
+                "condition": {
+                  "type": "checkLocalVarVal",
+                  "objectPath": "isVerified",
+                  "isIt": "true",
+                  "variableType": "local"
+                },
                 "element": {
                   "title": "TO_NOTE",
                   "widget": {
@@ -541,15 +618,15 @@
                 "key": "registrationBy",
                 "element": {
                   "widget": {
-                    "expressionProperties" : {
-                      "templateOptions.disabled" :  true
+                    "expressionProperties": {
+                      "templateOptions.disabled": true
                     },
                     "formlyConfig": {
                       "type": "radio",
                       "className": "field-in-row p14 mt-3",
                       "templateOptions": {
                         "placeholder": "XXXXXXXXXX",
-                        "required" :  true,
+                        "required": true,
                         "options": [
                           {
                             "value": "Mobile Number",
@@ -562,7 +639,6 @@
                         ]
                       },
                       "defaultValue": "mobile"
-                     
                     }
                   }
                 }
@@ -624,7 +700,7 @@
                       "validation": {
                         "message": "Enter a valid name"
                       },
-                      "enableField": true               
+                      "enableField": true
                     },
                     {
                       "name": "middleName",
@@ -837,11 +913,11 @@
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
                       },
-                      "required":true
+                      "required": true
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12"                    
+                      "class": "col-lg-4 col-sm-12"
                     },
                     {
                       "name": "otherRelation",
@@ -912,7 +988,7 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12"                    
+                      "class": "col-lg-4 col-sm-12"
                     },
                     {
                       "name": "otherRelation",
