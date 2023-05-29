@@ -49,7 +49,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
   propertyName: any;
   isUnPledge = false;
   selectLang = ["Assamese", "Bengali", "Gujarati","Hindi", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
-
+  languageNotSelected:boolean = false;
+  isLanguageSelected : boolean = false;
+  @ViewChild('modalRef') modalRef: any;
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
     private http: HttpClient,
@@ -632,15 +634,39 @@ export class LayoutsComponent implements OnInit, OnChanges {
     })).subscribe((result: any) => {
     });
   }
- 
-  downloadPledgeCard(language: string,index:any){
+
+  onSelectLanguage(language: any){
+    this.selectedLanguageIndex = this.selectLang.indexOf(language);
+    this.isLanguageSelected = this.selectedLanguageIndex !== -1 || undefined;
+    if(this.isLanguageSelected){
+      this.languageNotSelected = false;
+    }
+  }
+  
+  checkIndex(i) {
+    this.index = i
+  }
+
+  downloadPledgeCard(){
+    if (!this.isLanguageSelected) {
+      this.languageNotSelected = true;
+    }
+    if(this.isLanguageSelected){
+    this.languageNotSelected = false;
+    if (this.modalRef) {
+      this.modalRef.nativeElement.classList.remove('show');
+      this.modalRef.nativeElement.style.display = 'none';
+      const modalBackdrop = document.querySelector('.modal-backdrop.fade.show');
+      if (modalBackdrop) {
+        modalBackdrop.remove();
+      }
+    }
     this.mode = this.getDeviceInfo();
     this.orientation = (!this.mode) ? "_landscape" : '_portrait';    
-    this.selectedLanguageIndex = this.selectLang.indexOf(language);
     this.selectedLanguage = this.selectLang[this.selectedLanguageIndex];
     this.languageKey = this.selectedLanguage.toLowerCase() + '_portrait';
 
-    let pdfName = this.model[index]['osid'];
+    let pdfName = this.model[this.index].osid;
 
     let headerOptions = new HttpHeaders({
       'template-key': this.languageKey,
@@ -662,6 +688,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
     })).subscribe((result: any) => {
     });
+  }
   }
 
   getDeviceInfo() {
