@@ -163,6 +163,11 @@ export class FormsComponent implements OnInit {
       if(mobilePlaceholder){
         mobilePlaceholder['placeholder'] = "XXXXXXXXXX";
       }
+
+ const aadhaarPlaceHolder = document.getElementById('aadhaar');
+ if(aadhaarPlaceHolder){
+      aadhaarPlaceHolder['placeholder'] = "XXXXXXXXXXXX";
+}
       if (localStorage.getItem('isVerified')) {
         this.tempData = JSON.parse(localStorage.getItem("form_value"));
 
@@ -176,8 +181,9 @@ export class FormsComponent implements OnInit {
 
           if (this.tempData) {
             if (isAutoFill != "false") {
-              (<HTMLInputElement>document.getElementById("formly_19_radio_registrationBy_1_0")).disabled = true;  
-              (<HTMLInputElement>document.getElementById("formly_19_radio_registrationBy_1_1")).disabled = true;  
+              // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_0")).disabled = true;  
+              // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_1")).disabled = true;  
+              // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_2")).disabled = true;  
 
               this.model = {
                 ...this.model,
@@ -221,7 +227,7 @@ export class FormsComponent implements OnInit {
       }
     }
 
-    const selectElementIds = ['formly_58_enum_relation_1', 'formly_69_enum_relation_1'];
+    const selectElementIds = ['formly_59_enum_relation_1', 'formly_70_enum_relation_1'];
 
     if (!this.optionAdded) {
       selectElementIds.forEach(selectElementId => {
@@ -992,7 +998,8 @@ export class FormsComponent implements OnInit {
             }
           }
 
-          if (field.hasOwnProperty('condition') && field.condition['type']  == 'checkLocalVarVal' ) {
+          if (field.hasOwnProperty('condition')) {
+          if(field.condition['type']  == 'checkLocalVarVal' ) {
             let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
   
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
@@ -1016,6 +1023,32 @@ export class FormsComponent implements OnInit {
             }
   
           }
+
+          if(field.condition['type']  == 'disable' ) {
+            let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+  
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+              "expressionProperties" : {
+                 "templateOptions.disabled": (model, formState, field1) => {
+  
+                if(field.condition.variableType == 'global')
+                {
+                  var val = this['field.condition.objectPath']
+  
+                }else{
+                  var val = localStorage.getItem(field.condition.objectPath);
+                }
+              
+                return (val == field.condition.isIt) ? true : false;
+              }
+            }
+          }
+            if (tempObj != undefined) {
+              tempObj['expressionProperties'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['expressionProperties'];
+              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
+            }
+          }
+        }
   
 
         } else {
@@ -1433,7 +1466,6 @@ export class FormsComponent implements OnInit {
 
         if (field.condition.type == 'disable') {
 
-
           if (this.form == 'signup' || this.form == 'pledge-setup') {
             this.model['pledgeDetails'] = { 'other': false }
           }
@@ -1461,6 +1493,34 @@ export class FormsComponent implements OnInit {
             temp['expressionProperties'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['expressionProperties'];
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = temp;
           }
+
+
+          if(field.condition.hasOwnProperty('objectPath') && field.condition.hasOwnProperty('variableType')) {
+            let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+  
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+              "expressionProperties" : {
+                 "templateOptions.disabled": (model, formState, field1) => {
+  
+                if(field.condition.variableType == 'global')
+                {
+                  var val = this['field.condition.objectPath']
+  
+                }else{
+                  var val = localStorage.getItem(field.condition.objectPath);
+                }
+              
+                return (val == field.condition.isIt) ? true : false;
+              }
+            }
+          }
+            if (tempObj != undefined) {
+              tempObj['expressionProperties'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['expressionProperties'];
+              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
+            }
+          }
+
+
         }
 
         if (field.condition.isBoolean) {
@@ -1768,7 +1828,6 @@ export class FormsComponent implements OnInit {
     let isformVerity = true;
     if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues']) {
       this.removeElement("oterrormsg");
-      // document.getElementById("formly_39_selectall-checkbox_organs_0_0").focus();
       this.addElement('Organs_and_Tissues_to_Pledge', 'Please select atleast one organs or tissues', 'oterrormsg')
       isformVerity = false;
     } else {
@@ -1819,8 +1878,8 @@ export class FormsComponent implements OnInit {
       }
 
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues'] && this.model['personalDetails']['fatherName']) {
-         if(document.getElementById("formly_42_selectall-checkbox_organs_0_0") != null) {
-          document.getElementById("formly_42_selectall-checkbox_organs_0_0").focus();
+         if(document.getElementById("formly_43_selectall-checkbox_organs_0_0") != null) {
+          document.getElementById("formly_43_selectall-checkbox_organs_0_0").focus();
         }else if(document.getElementById("formly_132_selectall-checkbox_organs_0_1") != null){
           document.getElementById("formly_132_selectall-checkbox_organs_0_1").focus();
         }
@@ -1829,17 +1888,11 @@ export class FormsComponent implements OnInit {
 
       if (!this.model['personalDetails']['motherName'] && this.model['personalDetails']['fatherName']) {
         if ( this.form == 'signup') {
-          document.getElementById("formly_30_string_motherName_4").focus();
+          document.getElementById("formly_31_string_motherName_4").focus();
         }else{
-          document.getElementById("formly_120_string_motherName_4").focus();
+          document.getElementById("formly_121_string_motherName_4").focus();
         }
       }
-
-      // if ((this.model['pledgeDetails']['organs'] ||  this.model['pledgeDetails']['tissues']) && this.model['personalDetails']['fatherName'] && this.model['emergencyDetails']) {
-      //   document.getElementById("formly_72_checkbox_consent_13").focus();
-      //  }
-
-
 
       (this.myForm as any).submitted = true;
 
