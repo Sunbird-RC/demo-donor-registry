@@ -18,7 +18,7 @@ WORKDIR /
 
 # Copy our static executable.
 COPY --from=builder /go/main /go/main
-COPY NotoSansDevanagari.ttf /go/
+COPY fonts /go/
 ENV PORT 8003
 ENV GIN_MODE release
 EXPOSE 8003
