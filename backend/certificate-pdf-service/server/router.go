@@ -21,7 +21,7 @@ func NewRouter() *gin.Engine {
 	v1 := router.Group("/api/v1/")
 	{
 		certificateAPI := controllers.CertificateAPI{}
-		v1.POST("certificatePDF", certificateAPI.GetCertificateHandler)
+		v1.POST("certificatePDF", certificateAPI.CreatePDFCertificateHandler)
 	}
 	return router
 
