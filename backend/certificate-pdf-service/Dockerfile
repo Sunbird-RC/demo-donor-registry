@@ -18,7 +18,7 @@ WORKDIR /
 
 # Copy our static executable.
 COPY --from=builder /go/main /go/main
-COPY fonts /go/
+COPY fonts /go/fonts
 ENV PORT 8003
 ENV GIN_MODE release
 EXPOSE 8003
