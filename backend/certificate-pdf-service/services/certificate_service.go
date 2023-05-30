@@ -9,12 +9,12 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
-	"flag"
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"strings"
+	"text/template"
 	"time"
 
 	"github.com/coderhaoxin/handlebars"
@@ -23,443 +23,8 @@ import (
 	"github.com/skip2/go-qrcode"
 )
 
-var addr = flag.String("listen-address", ":8003", "The address to listen on for HTTP requests.")
-
 const URL = "URL"
-const URL_W3C_VC = "URL_W3C_VC"
-
-type ErrorResponse struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
-}
-
-func GetCertificate(c *gin.Context) {
-	accept := c.GetHeader("Accept")
-	var body map[string]interface{}
-	if err := json.NewDecoder(c.Request.Body).Decode(&body); err != nil {
-		c.JSON(http.StatusBadRequest, err)
-		return
-	}
-	bodyKeyUrl := []string{"templateUrl", "certificate", "entityName", "entityId", "entityName"}
-	for i := range bodyKeyUrl {
-		if _, ok := body[bodyKeyUrl[i]]; !ok {
-			c.JSON(http.StatusBadRequest, "Required parameters missing")
-		}
-	}
-	templateUrl := body["templateUrl"].(string)
-	certificate := body["certificate"]
-	entityName := body["entityName"]
-	entityId := body["entityId"]
-	entity := body["entity"].(map[string]interface{})
-
-	if accept == "application/pdf" {
-		if pdfBytes, err := getCertificateInPDF(templateUrl, certificate.(string), entityName.(string), entityId.(string), entity); err != nil {
-			log.Errorf("Error in creating certificate pdf")
-			c.JSON(500, getErrorResponseObject(err))
-		} else {
-			c.Data(200, accept, pdfBytes)
-			return
-		}
-	} else if accept == "image/svg+xml" || accept == "text/html" {
-		if certificate, err := getCertificateInImage(templateUrl, certificate.(string), entityName.(string), entityId.(string)); err != nil {
-			log.Errorf("Error %v", err)
-			c.JSON(500, getErrorResponseObject(err))
-		} else {
-			c.Data(200, accept, []byte(certificate.(string)))
-		}
-
-	}
-}
-
-func getErrorResponseObject(err error) ErrorResponse {
-	var errorResponse ErrorResponse
-	errorResponse.Message = err.Error()
-	errorResponse.Status = "500"
-	return errorResponse
-}
-
-func getCertificateInPDF(templateUrl string, certificate string, entityName string, entityId string, entity map[string]interface{}) ([]byte, error) {
-	var qrData string
-	if qrCodeType := config.Config.QrType; strings.ToUpper(qrCodeType) == URL {
-		qrData = config.Config.CertDomainUrl + "/certs/" + entityId + "?t=" + qrCodeType + "&entity=" + entityName + config.Config.AdditionalQueryParams
-	} else {
-		qrData, _ = getQRCodeImageBytes(certificate)
-	}
-	personalDetailsMap := entity["personalDetails"].(map[string]interface{})
-	return renderToPDFTemplate(templateUrl, certificate, []byte(qrData), []byte(personalDetailsMap["photo"].(string)))
-}
-
-func downloadFile(url string, fileName string) ([]byte, error) {
-	log.Printf("URL : %v", url)
-	response, err := http.Get(url)
-	if err != nil {
-		log.Printf("%v", err)
-		return nil, err
-	}
-	defer response.Body.Close()
-
-	if response.StatusCode != 200 {
-		return nil, errors.New("Received non 200 response code")
-	}
-	if response.ContentLength == 0 {
-		log.Errorf("Invalid template URL %s, %s", url, fileName)
-		return nil, errors.New("invalid template URL")
-	}
-	pdfBytes, err := io.ReadAll(response.Body)
-	if err != nil {
-		return nil, err
-	}
-	return pdfBytes, nil
-}
-
-func getTemplateFile(certificateUrl string, fileName string) ([]byte, error) {
-	certificateKey := certificateUrl
-	cachedCertificate, err := cache.GetCache(certificateKey)
-	if err != nil || cachedCertificate == nil {
-		pdfBytes, err := downloadFile(certificateUrl, fileName)
-		if err != nil {
-			log.Error("Error while downloading file", err)
-			return nil, err
-		}
-		err = cache.SetCacheWithoutExpiry(certificateKey, pdfBytes)
-		if err != nil {
-			log.Error("Error while saving cache", err)
-			return nil, err
-		}
-		return pdfBytes, nil
-	}
-	return cachedCertificate, nil
-}
-
-func getOtherOrganCertificateType(otherOrgans string) string {
-	withOtherOrgans := "otherOrgans.pdf"
-	withoutOtherOrgans := "withoutOtherOrgans.pdf"
-	if otherOrgans != "" {
-		return withOtherOrgans
-	}
-	return withoutOtherOrgans
-}
-
-func renderToPDFTemplate(templateUrl string, certificate string, qrData []byte, photo []byte) ([]byte, error) {
-	var certificateData Certificate
-	if err := json.Unmarshal([]byte(certificate), &certificateData); err != nil {
-		log.Printf("%v", err)
-		return nil, err
-	}
-	pdf := gopdf.GoPdf{}
-	if strings.Contains(templateUrl, "portrait") {
-		return renderPortraitPdf(pdf, templateUrl, certificateData, qrData, photo)
-	}
-	return renderLandscapePdf(pdf, templateUrl, certificateData, qrData, photo)
-}
-
-func renderLandscapePdf(pdf gopdf.GoPdf, templateUrl string, certificateData Certificate, qrData []byte, photo []byte) ([]byte, error) {
-	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4Landscape})
-	pdf.AddPage()
-	if err := pdf.AddTTFFont("dev", "NotoSansDevanagari.ttf"); err != nil {
-		log.Printf(err.Error())
-		return nil, err
-	}
-	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
-	certificateUrl := templateUrl + otherOrganCertificateType
-	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
-	templateBytes, err := getTemplateFile(certificateUrl, fileName)
-	if err != nil {
-		log.Printf("Error in certificate download : %v", err)
-		return nil, err
-	}
-	rs := io.ReadSeeker(bytes.NewReader(templateBytes))
-	tpl1 := pdf.ImportPageStream(&rs, 1, "/MediaBox")
-	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
-	if err := pdf.SetFont("dev", "", 18); err != nil {
-		log.Print(err.Error())
-		return nil, err
-	}
-	offsetX := 165.0
-	offsetY := 160.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.Name)
-
-	if err := pdf.SetFont("dev", "", 10); err != nil {
-		log.Print(err.Error())
-		return nil, err
-	}
-	offsetX = 185.0
-	offsetY = 288.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	date, err := time.Parse(time.RFC3339, certificateData.IssuanceDate)
-	if err != nil {
-		log.Printf("Error : %v", err.Error())
-		return nil, err
-	}
-	_ = pdf.Cell(nil, date.Format("02-01-2006"))
-
-	offsetX = 185.0
-	offsetY = 323.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.Evidence[0].RefId)
-
-	offsetX = 185.0
-	offsetY = 356.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.NottoId)
-
-	offsetX = 185.0
-	offsetY = 391.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Organs)
-
-	offsetX = 185.0
-	offsetY = 425.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Tissues)
-
-	offsetX = 464.0
-	offsetY = 288.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.FatherName)
-
-	offsetX = 464.0
-	offsetY = 323.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.BloodGroup)
-
-	offsetX = 464.0
-	offsetY = 356.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.Emergency.MobileNumber)
-
-	holder, err := gopdf.ImageHolderByBytes(qrData)
-	if err = pdf.ImageByHolder(holder, 577, 300, &gopdf.Rect{W: 220, H: 220}); err != nil {
-		log.Errorf("Error creating QR Code")
-	}
-	photoStr, err := base64.StdEncoding.DecodeString(string(photo))
-	if err != nil {
-		return nil, err
-	}
-	holder, err = gopdf.ImageHolderByBytes(photoStr)
-	if err = pdf.ImageByHolder(holder, 46, 161, &gopdf.Rect{W: 100, H: 100}); err != nil {
-		log.Errorf("Error creating Profile photo")
-	}
-
-	var b bytes.Buffer
-	_ = pdf.Write(&b)
-	return b.Bytes(), nil
-}
-
-func renderPortraitPdf(pdf gopdf.GoPdf, templateUrl string, certificateData Certificate, qrData []byte, photo []byte) ([]byte, error) {
-	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
-	pdf.AddPage()
-	if err := pdf.AddTTFFont("dev", "NotoSansDevanagari.ttf"); err != nil {
-		log.Printf(err.Error())
-		return nil, err
-	}
-
-	otherOrganCertificateType := getOtherOrganCertificateType(certificateData.CredentialSubject.Pledge.AdditionalOrgans)
-	certificateUrl := templateUrl + otherOrganCertificateType
-	fileName := strings.Split(certificateUrl, "/")[len(strings.Split(certificateUrl, "/"))-1]
-
-	templateBytes, err := getTemplateFile(certificateUrl, fileName)
-	if err != nil {
-		log.Printf("Error in certificate download : %v", err)
-		return nil, err
-	}
-	rs := io.ReadSeeker(bytes.NewReader(templateBytes))
-	tpl1 := pdf.ImportPageStream(&rs, 1, "/MediaBox")
-	pdf.UseImportedTemplate(tpl1, 0, 0, 0, 0)
-	if err := pdf.SetFont("dev", "", 18); err != nil {
-		log.Print(err.Error())
-		return nil, err
-	}
-	offsetX := 193.0
-	offsetY := 190.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.Name)
-	if err := pdf.SetFont("dev", "", 10); err != nil {
-		log.Print(err.Error())
-		return nil, err
-	}
-	offsetX = 193.0
-	offsetY = 350.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	date, err := time.Parse(time.RFC3339, certificateData.IssuanceDate)
-	if err != nil {
-		return nil, err
-	}
-	_ = pdf.Cell(nil, date.Format("02-01-2006"))
-	offsetX = 432.0
-	offsetY = 350.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.FatherName)
-	offsetX = 193.0
-	offsetY = 387.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.Evidence[0].RefId)
-	offsetX = 432.0
-	offsetY = 387.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.BloodGroup)
-	offsetX = 193.0
-	offsetY = 424.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.NottoId)
-	offsetX = 432.0
-	offsetY = 424.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.Emergency.MobileNumber)
-	offsetX = 193.0
-	offsetY = 461.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Organs)
-	offsetX = 193.0
-	offsetY = 498.0
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, certificateData.CredentialSubject.Pledge.Tissues)
-	holder, err := gopdf.ImageHolderByBytes(qrData)
-	if err = pdf.ImageByHolder(holder, 44, 576, &gopdf.Rect{W: 210, H: 210}); err != nil {
-		log.Errorf("Error creating QR Code")
-	}
-	photoStr, err := base64.StdEncoding.DecodeString(string(photo))
-	if err != nil {
-		return nil, err
-	}
-	holder, err = gopdf.ImageHolderByBytes(photoStr)
-	if err = pdf.ImageByHolder(holder, 50, 191, &gopdf.Rect{W: 120, H: 120}); err != nil {
-		log.Errorf("Error creating Profile photo")
-	}
-	var b bytes.Buffer
-	_ = pdf.Write(&b)
-	return b.Bytes(), nil
-}
-
-func setValueAtOffsets(pdf gopdf.GoPdf, offsetX float64, offsetY float64, data string) {
-	pdf.SetX(offsetX)
-	pdf.SetY(offsetY)
-	_ = pdf.Cell(nil, data)
-}
-
-func getCertificateInImage(templateUrl string, certificate string, entityName string, entityId string) (interface{}, error) {
-	var qrData string
-	if qrCodeType := config.Config.QrType; strings.ToUpper(qrCodeType) == URL {
-		qrData = config.Config.CertDomainUrl + "/certs/" + entityId + "?t=" + qrCodeType + "&entity=" + entityName + config.Config.AdditionalQueryParams
-	} else {
-		qrData, _ = getQRCodeImageBytes(certificate)
-	}
-	var certificateData map[string]interface{}
-	err := json.Unmarshal([]byte(certificate), &certificateData)
-	if err != nil {
-		return nil, err
-	}
-	certificateData["qrCode"] = qrData
-	// content, err := ioutil.ReadFile("./certificate.svg")
-	// if err != nil {
-	// 	return nil, err
-	// }
-	tpl := handlebars.RenderFile("./certificate.svg", certificateData)
-	return tpl, nil
-	// data, err := tpl.Exec(certificateData)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// return data, nil
-}
-
-func prepareDataForCertificateWithQRCode(certificate string, qrcode interface{}) (map[string]interface{}, error) {
-	var certificateMap map[string]interface{}
-	if err := json.Unmarshal([]byte(certificate), &certificateMap); err != nil {
-		return nil, err
-	}
-	certificateMap["qrCode"] = qrcode
-	return certificateMap, nil
-}
-
-func pasteQrCodeOnPage(certificateText string, pdf *gopdf.GoPdf) error {
-	imageBytes, e := getQRCodeImageBytes(certificateText)
-	if e != nil {
-		return e
-	}
-	holder, err := gopdf.ImageHolderByBytes([]byte(imageBytes))
-	err = pdf.ImageByHolder(holder, 290, 30, nil)
-	if err != nil {
-		log.Errorf("Error while creating QR code")
-	}
-	return nil
-}
-
-func getQRCodeImageBytes(certificateText string) (string, error) {
-	buf, err := compress(certificateText)
-	if err != nil {
-		log.Error("Error compressing certificate data", err)
-		return "", err
-	}
-	qrCode, err := qrcode.New(buf.String(), qrcode.Medium)
-	if err != nil {
-		return "", err
-	}
-	imageBytes, err := qrCode.PNG(380)
-	if err != nil {
-		log.Printf("%v", err.Error())
-	}
-	return string(imageBytes[:]), err
-}
-
-func decompress(buf *bytes.Buffer, err error) {
-	r, err := zip.NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
-	if err != nil {
-		log.Error(err)
-	}
-	for _, f := range r.File {
-		log.Infof("Contents of %s:\n", f.Name)
-		rc, err := f.Open()
-		if err != nil {
-			log.Error(err)
-		}
-		_, err = io.CopyN(os.Stdout, rc, int64(buf.Len()))
-		if err != nil {
-			log.Fatal(err)
-		}
-		rc.Close()
-	}
-}
-
-func compress(certificateText string) (*bytes.Buffer, error) {
-	buf := new(bytes.Buffer)
-	w := zip.NewWriter(buf)
-	w.RegisterCompressor(zip.Deflate, func(out io.Writer) (io.WriteCloser, error) {
-		return flate.NewWriter(out, flate.BestCompression)
-	})
-	f, err := w.Create("certificate.json")
-	if err != nil {
-		log.Error(err)
-	}
-	_, err = f.Write([]byte(certificateText))
-	if err != nil {
-		log.Error(err)
-	}
-	err = w.Close()
-	if err != nil {
-		log.Error(err)
-	}
-	return buf, err
-}
+const URLW3CVC = "URL_W3C_VC"
 
 type Certificate struct {
 	Context         []string `json:"@context"`
@@ -512,4 +77,419 @@ type Certificate struct {
 		Type             []string `json:"type"`
 		Verifier         string   `json:"verifier"`
 	} `json:"evidence"`
+	QrCode string
+	Photo  string
+}
+
+type entityMap map[string]interface{}
+
+func (e entityMap) getMap(key string) entityMap {
+	return e[key].(map[string]interface{})
+}
+
+func (e entityMap) getValue(key string) string {
+	return e[key].(string)
+}
+
+type CreateCertificateRequest struct {
+	Certificate string    `json:"certificate"`
+	Entity      entityMap `json:"entity"`
+	EntityId    string    `json:"entityId"`
+	EntityName  string    `json:"entityName"`
+	TemplateUrl string    `json:"templateUrl"`
+}
+
+type StringTemplate string
+
+func (s StringTemplate) render(data any) (string, error) {
+	tmpl, err := template.New("template").Parse(string(s))
+	if err != nil {
+		log.Error("Error while reading the template string,", err)
+		return "", err
+	}
+	buf := bytes.Buffer{}
+	err = tmpl.Execute(&buf, data)
+	if err != nil {
+		log.Error("Error while executing template string,", err)
+		return "", err
+	}
+	return buf.String(), nil
+}
+
+type ConfigType string
+
+var TextConfigType ConfigType = "Text"
+var ImageConfigType ConfigType = "Image"
+
+type CertificateDataConfig struct {
+	x          float64
+	y          float64
+	fontSize   float64
+	width      float64
+	height     float64
+	template   StringTemplate
+	image      []byte
+	formatter  func(string) (string, error)
+	configType ConfigType
+}
+
+func (c CertificateDataConfig) getConfigType() ConfigType {
+	if c.configType == "" {
+		return TextConfigType
+	} else {
+		return c.configType
+	}
+}
+
+var landscapeDataList []CertificateDataConfig
+var portraitDataList = []CertificateDataConfig{
+	{
+		x:        206,
+		y:        183,
+		fontSize: 18,
+		template: "{{.CredentialSubject.Name}}",
+		width:    0,
+	},
+	{
+		x:        205,
+		y:        354,
+		fontSize: 11,
+		template: "{{.CredentialSubject.FatherName}}",
+		width:    112,
+	},
+	{
+		x:        487.21,
+		y:        354,
+		fontSize: 11,
+		template: "{{.IssuanceDate}}",
+		width:    0,
+		formatter: func(text string) (string, error) {
+			date, err := time.Parse(time.RFC3339, text)
+			if err != nil {
+				log.Error("Error while parsing time", err)
+				return "", err
+			}
+			return date.Format("02 Jan 2006"), nil
+		},
+	},
+	{
+		x:        205,
+		y:        392,
+		fontSize: 11,
+		template: "{{ (index .Evidence 0).RefId}}",
+		width:    0,
+	},
+	{
+		x:        487.21,
+		y:        392,
+		fontSize: 11,
+		template: "{{.CredentialSubject.BloodGroup}}",
+		width:    0,
+	},
+	{
+		x:        205,
+		y:        429,
+		fontSize: 11,
+		template: "{{.CredentialSubject.NottoId}}",
+		width:    0,
+	},
+	{
+		x:        487.21,
+		y:        429,
+		fontSize: 11,
+		template: "{{.CredentialSubject.Emergency.MobileNumber}}",
+		width:    0,
+	},
+	{
+		x:        205,
+		y:        471,
+		fontSize: 11,
+		template: "{{.CredentialSubject.Pledge.Organs}}",
+		width:    0,
+	},
+	{
+		x:        205,
+		y:        509,
+		fontSize: 11,
+		template: "{{.CredentialSubject.Pledge.Tissues}}",
+		width:    0,
+	},
+	{
+		x:          44,
+		y:          576,
+		fontSize:   0,
+		width:      220,
+		height:     220,
+		template:   "{{.QrCode}}",
+		formatter:  nil,
+		configType: ImageConfigType,
+	},
+	{
+		x:          50,
+		y:          184,
+		fontSize:   0,
+		width:      132,
+		height:     140,
+		template:   "{{.Photo}}",
+		formatter:  nil,
+		configType: ImageConfigType,
+	},
+}
+
+func CreatePDFCertificate(certificateRequest CreateCertificateRequest, acceptType string) ([]byte, error) {
+	qrCodeBytes, err := createQRCodeImage(certificateRequest)
+	if err != nil {
+		log.Error("Error create qr code", err)
+		return nil, err
+	}
+	if acceptType == "application/pdf" {
+		var certificateData Certificate
+		if err := json.Unmarshal([]byte(certificateRequest.Certificate), &certificateData); err != nil {
+			log.Error("%v", err)
+			return nil, err
+		}
+		templateBytes, err := getPDFTemplate(certificateRequest.TemplateUrl, certificateData)
+		if err != nil {
+			log.Error("Error while fetching certificate template, ", err)
+			return nil, err
+		}
+		certificateData.QrCode = string(qrCodeBytes)
+		photoStr, err := base64.StdEncoding.DecodeString(
+			certificateRequest.Entity.getMap("personalDetails").getValue("photo"))
+		if err != nil {
+			return nil, err
+		}
+		certificateData.Photo = string(photoStr)
+
+		if strings.Contains(certificateRequest.TemplateUrl, "portrait") {
+			return renderDataToPDFTemplate(certificateData, portraitDataList, gopdf.PageSizeA4, templateBytes)
+		} else {
+			return renderDataToPDFTemplate(certificateData, landscapeDataList, gopdf.PageSizeA4Landscape, templateBytes)
+		}
+	} else if acceptType == "image/svg+xml" || acceptType == "text/html" {
+		//TODO: logic not yet added
+		return getCertificateInImage(certificateRequest, qrCodeBytes)
+	}
+	return nil, nil
+}
+
+func createQRCodeImage(certificateRequest CreateCertificateRequest) ([]byte, error) {
+	qrData, err := getQRCodeData(certificateRequest)
+	if err != nil {
+		log.Error("Error getting qr code data", err)
+		return nil, err
+	}
+	qrCode, err := qrcode.New(qrData, qrcode.Medium)
+	if err != nil {
+		log.Error("Error creating qr code object", err)
+		return nil, err
+	}
+	imageBytes, err := qrCode.PNG(380)
+	if err != nil {
+		log.Error("Error creating qr code png image", err)
+		return nil, err
+	}
+	return imageBytes, err
+}
+
+func getQRCodeData(certificateRequest CreateCertificateRequest) (string, error) {
+	var qrData string
+	if qrCodeType := config.Config.QrType; strings.ToUpper(qrCodeType) == URL {
+		qrData = fmt.Sprintf("%s/certs/%s?t=%s&entity=%s%s", config.Config.CertDomainUrl,
+			certificateRequest.EntityId, qrCodeType, certificateRequest.EntityName,
+			config.Config.AdditionalQueryParams)
+		qrData = config.Config.CertDomainUrl + "/certs/" + certificateRequest.EntityId + "?t=" + qrCodeType +
+			"&entity=" + certificateRequest.EntityName + config.Config.AdditionalQueryParams
+	} else {
+		compressedBuffer, err := compress(certificateRequest.Certificate)
+		if err != nil {
+			log.Error("Error compressing certificate data", err)
+			return "", err
+		}
+		if strings.ToUpper(qrCodeType) == URLW3CVC {
+			qrData = fmt.Sprintf("%s/certs/%s?t=%s&data=%s&entity=%s%s", config.Config.CertDomainUrl,
+				certificateRequest.EntityId, qrCodeType, compressedBuffer.String(), certificateRequest.EntityName,
+				config.Config.AdditionalQueryParams)
+		} else {
+			qrData = compressedBuffer.String()
+		}
+	}
+	return qrData, nil
+}
+
+func downloadFile(url string) ([]byte, error) {
+	log.Infof("Downloading URL : %v", url)
+	response, err := http.Get(url)
+	if err != nil {
+		log.Error("Error while downloading certificate template", err)
+		return nil, err
+	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.Error("Error closing request body", err)
+		}
+	}(response.Body)
+
+	if response.StatusCode != 200 {
+		err := errors.New(fmt.Sprintf("received non 200 response code for URL %s", URL))
+		log.Error("Error: ", err)
+		return nil, err
+	}
+	if response.ContentLength == 0 {
+		err := errors.New(fmt.Sprintf("Invalid template URL %s, received empty content", url))
+		log.Error("Error", err)
+		return nil, err
+	}
+	pdfBytes, err := io.ReadAll(response.Body)
+	if err != nil {
+		log.Error("Error while reading certificate template", err)
+		return nil, err
+	}
+	return pdfBytes, nil
+}
+
+func getTemplateFile(certificateUrl string) ([]byte, error) {
+	cachedCertificate, err := cache.GetCache(certificateUrl)
+	if err != nil {
+		log.Error("Error while getting value from cache, ", err)
+	}
+	if err != nil || cachedCertificate == nil {
+		pdfBytes, err := downloadFile(certificateUrl)
+		if err != nil {
+			log.Error("Error while downloading file", err)
+			return nil, err
+		}
+		err = cache.SetCacheWithoutExpiry(certificateUrl, pdfBytes)
+		if err != nil {
+			log.Error("Error while saving cache", err)
+			return nil, err
+		}
+		return pdfBytes, nil
+	}
+	return cachedCertificate, nil
+}
+
+func renderDataToPDFTemplate(certificateData Certificate, dataConfigs []CertificateDataConfig, pageSize *gopdf.Rect,
+	templateBytes []byte) ([]byte, error) {
+	pdfService := NewPdfService(pageSize, templateBytes)
+	err := pdfService.loadFonts()
+	if err != nil {
+		return nil, err
+	}
+	pdf := &pdfService.pdf
+
+	for _, dataConfig := range dataConfigs {
+		err := pdfService.setData(dataConfig, certificateData)
+		if err != nil {
+			log.Error("Error while setting data ", err)
+			continue
+		}
+	}
+
+	var b bytes.Buffer
+	_ = pdf.Write(&b)
+	return b.Bytes(), nil
+}
+
+func getPDFTemplate(templateUrl string, certificate Certificate) ([]byte, error) {
+	templateUrl = modifyURLIfDataPresent(templateUrl, certificate)
+	templateBytes, err := getTemplateFile(templateUrl)
+
+	if err != nil {
+		log.Error("Error while downloading certificate template", err)
+		return nil, err
+	}
+	return templateBytes, nil
+}
+
+func modifyURLIfDataPresent(templateUrl string, certificate Certificate) string {
+	withOtherOrgansSuffix := "with_other_organs.pdf"
+	withoutOtherOrgansSuffix := "without_other_organs.pdf"
+	if certificate.CredentialSubject.Pledge.AdditionalOrgans != "" {
+		return fmt.Sprintf("%s%s", templateUrl, withOtherOrgansSuffix)
+	} else {
+		return fmt.Sprintf("%s%s", templateUrl, withoutOtherOrgansSuffix)
+	}
+}
+
+func getCertificateInImage(certificateRequest CreateCertificateRequest, qrCode []byte) ([]byte, error) {
+	var qrData string
+	if qrCodeType := config.Config.QrType; strings.ToUpper(qrCodeType) == URL {
+		qrData = config.Config.CertDomainUrl + "/certs/" + certificateRequest.EntityId + "?t=" + qrCodeType + "&entity=" +
+			certificateRequest.EntityName + config.Config.AdditionalQueryParams
+	} else {
+		qrData, _ = getQRCodeImageBytes(certificateRequest.Certificate)
+	}
+	var certificateData map[string]interface{}
+	err := json.Unmarshal([]byte(certificateRequest.Certificate), &certificateData)
+	if err != nil {
+		return nil, err
+	}
+	certificateData["qrCode"] = qrData
+	// content, err := ioutil.ReadFile("./certificate.svg")
+	// if err != nil {
+	// 	return nil, err
+	// }
+	tpl := handlebars.RenderFile("./certificate.svg", certificateData)
+	return []byte(tpl), nil
+	// data, err := tpl.Exec(certificateData)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// return data, nil
+}
+
+func getQRCodeImageBytes(certificateText string) (string, error) {
+	buf, err := compress(certificateText)
+
+	qrCode, err := qrcode.New(buf.String(), qrcode.Medium)
+	if err != nil {
+		return "", err
+	}
+	imageBytes, err := qrCode.PNG(380)
+	if err != nil {
+		log.Printf("%v", err.Error())
+	}
+	return string(imageBytes[:]), err
+}
+
+func decompress(buf *bytes.Buffer, err error) {
+	r, err := zip.NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+	if err != nil {
+		log.Error(err)
+	}
+	for _, f := range r.File {
+		log.Infof("Contents of %s:\n", f.Name)
+		rc, err := f.Open()
+		if err != nil {
+			log.Error(err)
+		}
+		_, err = io.CopyN(os.Stdout, rc, int64(buf.Len()))
+		if err != nil {
+			log.Fatal(err)
+		}
+		rc.Close()
+	}
+}
+
+func compress(certificateText string) (*bytes.Buffer, error) {
+	buf := new(bytes.Buffer)
+	w := zip.NewWriter(buf)
+	w.RegisterCompressor(zip.Deflate, func(out io.Writer) (io.WriteCloser, error) {
+		return flate.NewWriter(out, flate.BestCompression)
+	})
+	f, err := w.Create("certificate.json")
+	if err != nil {
+		log.Error(err)
+	}
+	_, err = f.Write([]byte(certificateText))
+	if err != nil {
+		log.Error(err)
+	}
+	err = w.Close()
+	if err != nil {
+		log.Error(err)
+	}
+	return buf, err
 }
