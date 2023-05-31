@@ -11,7 +11,11 @@ describe('to create abha from aadhaar number', () => {
     const sessionService = require('../services/sessions.service')
     const utils = require('../utils/utils')
     const abhaProfile = require('../services/abhaProfile.service');
-    
+    beforeEach(() => {
+        jest.resetModules();
+        jest.resetAllMocks();
+
+    });
     const res = {
         send: function(){},
         json: function(d) {
@@ -21,15 +25,6 @@ describe('to create abha from aadhaar number', () => {
             return this;
         }
     }
-
-    jest.mock('../utils/utils', () => {
-        return {
-            calculateAge: (date) => {
-                return '19'
-            },
-            getErrorObject: (err) => jest.fn()
-        }
-    })
 
     jest.mock('../services/encrypt.service', () => {
         return {
@@ -59,12 +54,13 @@ describe('to create abha from aadhaar number', () => {
     jest.mock("axios");
     jest.mock('../services/abhaProfile.service', () => {
         return {
-            getAndCacheEKYCProfile: jest.fn()
+            getAndCacheEKYCProfile: jest.fn(),
+            isABHARegistered: jest.fn()
         }
     });
 
     const controller = require('../services/createAbha.service');
-    
+
     test('should generate and send otp to phone number linked to aadhaar', async() => {
         const req = {
             body: {
@@ -81,7 +77,7 @@ describe('to create abha from aadhaar number', () => {
             aadhaar: 'mockaadhaarNumber'
         }, {
             headers: {
-                Authorization: 'Bearer token' 
+                Authorization: 'Bearer token'
             }
         });
         expect(res.json).toHaveBeenCalledWith(mockRes)
@@ -113,7 +109,7 @@ describe('to create abha from aadhaar number', () => {
             otp: 'mockotp'
         }, {
             headers: {
-                Authorization: 'Bearer token' 
+                Authorization: 'Bearer token'
             }
         });
         expect(res.json).toHaveBeenCalledWith(mockAbhaProfile)
@@ -140,7 +136,7 @@ describe('to create abha from aadhaar number', () => {
             otp: 'mockotp'
         }, {
             headers: {
-                Authorization: 'Bearer token' 
+                Authorization: 'Bearer token'
             }
         });
         expect(res.json).toHaveBeenCalledWith({new: true, txnId: 'txnId'})
@@ -150,7 +146,7 @@ describe('to create abha from aadhaar number', () => {
         const req = {
             body: {
                 txnId: 'txnId',
-                mobile: 'mobile'   
+                mobile: 'mobile'
             }
         }
         const mockCheckAndGenerateRes = {
@@ -176,7 +172,7 @@ describe('to create abha from aadhaar number', () => {
         const req = {
             body: {
                 txnId: 'txnId',
-                mobile: 'mobile'   
+                mobile: 'mobile'
             }
         }
         const mockCheckAndGenerateRes = {
@@ -249,7 +245,7 @@ describe('to create abha from aadhaar number', () => {
                 Authorization: 'Bearer token'
             }
         });
-        expect(res.json).toHaveBeenCalledWith({healthIdNumber: '919191919191',name: 'Dummy dummy'})
+        expect(res.json).toHaveBeenCalledWith(mockAbhaProfile)
     });
 
     test('should return the mobile verification response if it is not success', async() => {
@@ -278,9 +274,52 @@ describe('to create abha from aadhaar number', () => {
         });
         expect(res.json).toHaveBeenCalledWith({message: 'Invalid OTP Entered'})
     });
+
+    test('should return error message if abha is already registered', async () => {
+        const req = {
+            body: {
+                otp: 'otp',
+                txnId: 'txnId'
+            }
+        }
+        const mockVerify = {
+            new: false,
+            jwtResponse: {
+                token: 'usertoken'
+            }
+        }
+        const mockAbhaProfile = {
+            'name': 'Dummy',
+            'healthId': 'dummy'
+        }
+        jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve({data: mockVerify}))
+        jest.spyOn(abhaProfile, 'getAndCacheEKYCProfile').mockReturnValue(Promise.resolve(mockAbhaProfile))
+        jest.spyOn(abhaProfile, 'isABHARegistered').mockReturnValue(Promise.resolve(true))
+        jest.spyOn(res, 'send')
+        await controller.verifyAadhaarOTP(req, res)
+        expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/verifyOTP', {
+            txnId: 'txnId',
+            otp: 'mockotp'
+        }, {
+            headers: {
+                Authorization: 'Bearer token'
+            }
+        });
+        expect(abhaProfile.isABHARegistered).toBeCalled()
+        expect(res.send).toHaveBeenCalledWith({
+            "code": "",
+            "message": "You have already registered as a pledger. Please login to view and download pledge certificate",
+            "status": 409,
+        })
+    })
 });
 
 describe('error flows to create abha from aadhaar', () => {
+    beforeEach(() => {
+        jest.resetModules();
+        jest.resetAllMocks();
+
+    });
     jest.resetModules();
     const axios = require('axios').default
     const config = require('../configs/config');
@@ -290,7 +329,7 @@ describe('error flows to create abha from aadhaar', () => {
     const utils = require('../utils/utils')
 
     const res = {
-        send: function(){},
+        send: function(d){},
         json: function(d) {
         },
         status: function(s) {
@@ -298,15 +337,6 @@ describe('error flows to create abha from aadhaar', () => {
             return this;
         }
     }
-
-    jest.mock('../utils/utils', () => {
-        return {
-            calculateAge: (date) => {
-                return '17'
-            },
-            getErrorObject: (err) => jest.fn()
-        }
-    })
 
     jest.mock('../services/encrypt.service', () => {
         return {
@@ -370,7 +400,7 @@ describe('error flows to create abha from aadhaar', () => {
             aadhaar: 'mockaadhaarNumber'
         }, {
             headers: {
-                Authorization: 'Bearer token' 
+                Authorization: 'Bearer token'
             }
         });
         expect(res.status).toHaveBeenCalledWith(422)
@@ -416,7 +446,7 @@ describe('error flows to create abha from aadhaar', () => {
             otp: 'mockotp'
         }, {
             headers: {
-                Authorization: 'Bearer token' 
+                Authorization: 'Bearer token'
             }
         });
         expect(res.status).toHaveBeenCalledWith(422)
@@ -462,7 +492,7 @@ describe('error flows to create abha from aadhaar', () => {
             otp: 'mockotp'
         }, {
             headers: {
-                Authorization: 'Bearer token' 
+                Authorization: 'Bearer token'
             }
         });
         expect(res.status).toHaveBeenCalledWith(400)
@@ -482,25 +512,20 @@ describe('error flows to create abha from aadhaar', () => {
         }
         const mockVerify = {
             new: true,
-            birthdate: '19-05-1998',
+            birthdate: '19-05-2008',
             txnId: 'txnId',
             name: 'dummy dummy'
         }
         jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve({data: mockVerify}))
         jest.spyOn(res, 'status')
         jest.spyOn(res, 'send')
-        jest.spyOn(utils, 'getErrorObject').mockReturnValue({
-            status: 403,
-            message: 'Please check back and registry with us when you are 18.',
-            code: ''
-        });
         await controller.verifyAadhaarOTP(req, res)
         expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/verifyOTP', {
             txnId: 'txnId',
             otp: 'mockotp'
         }, {
             headers: {
-                Authorization: 'Bearer token' 
+                Authorization: 'Bearer token'
             }
         });
         expect(res.status).toHaveBeenCalledWith(403);
@@ -515,7 +540,7 @@ describe('error flows to create abha from aadhaar', () => {
         const req = {
             body: {
                 txnId: 'txnId',
-                mobile: 'mobile'   
+                mobile: 'mobile'
             }
         }
         const mockCheckAndGenerateRes = {
@@ -563,7 +588,7 @@ describe('error flows to create abha from aadhaar', () => {
         const req = {
             body: {
                 txnId: 'txnId',
-                mobile: 'mobile'   
+                mobile: 'mobile'
             }
         }
         const mockCheckAndGenerateRes = {
@@ -609,7 +634,7 @@ describe('error flows to create abha from aadhaar', () => {
         const req = {
             body: {
                 txnId: 'txnId',
-                mobile: 'mobile'   
+                mobile: 'mobile'
             }
         }
         const mockCheckAndGenerateRes = {
