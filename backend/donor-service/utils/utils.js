@@ -1,10 +1,10 @@
 const R = require('ramda')
 function calculateAge(date) {
-    var formattedDate = date.split("-")
-    var birthdateTimeStamp = new Date(formattedDate[2], parseInt(formattedDate[1]) - 1, formattedDate[0])
-    var currentDate = new Date();
-    var age = currentDate.getFullYear() - birthdateTimeStamp.getFullYear();
-    var monthDifference = currentDate.getMonth() - birthdateTimeStamp.getMonth();
+    const formattedDate = date.split("-");
+    const birthdateTimeStamp = new Date(formattedDate[2], parseInt(formattedDate[1]) - 1, formattedDate[0]);
+    const currentDate = new Date();
+    let age = currentDate.getFullYear() - birthdateTimeStamp.getFullYear();
+    const monthDifference = currentDate.getMonth() - birthdateTimeStamp.getMonth();
     if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < birthdateTimeStamp.getDate())) {
         age--;
     }
@@ -13,7 +13,7 @@ function calculateAge(date) {
 
 function getErrorObject(err) {
     console.debug(err);
-    let message = "";
+    let message;
     let status = err?.response?.status || err?.status || 500
     console.error(R.pathOr("", ["response","data"], err));
     switch (R.pathOr("", ["response","data","details",0,"code"], err)) {

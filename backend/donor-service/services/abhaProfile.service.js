@@ -13,6 +13,28 @@ async function getAndCacheEKYCProfile(clientSecretToken, userToken) {
     return profile;
 }
 
+async function isABHARegistered(abhaId, force=false) {
+    abhaId = abhaId.replaceAll("-", "");
+    if (config.UNIQUE_ABHA_ENABLED || force) {
+        const key = getKeyBasedOnEntityName("Pledge");
+        return await redis.getKey(key + abhaId) !== null;
+    }
+    return false;
+}
+
+function getKeyBasedOnEntityName(entityName) {
+    let category = null;
+    switch(entityName) {
+        case "Pledge":
+            category = "D";
+            break;
+
+    }
+    return category;
+}
+
 module.exports = {
-    getAndCacheEKYCProfile
+    getAndCacheEKYCProfile,
+    isABHARegistered,
+    getKeyBasedOnEntityName
 }
