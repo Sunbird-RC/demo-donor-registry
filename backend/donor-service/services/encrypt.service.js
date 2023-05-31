@@ -1,11 +1,23 @@
 const config = require("../configs/config");
 const axios = require('axios').default;
 const crypto = require('crypto');
+const redis = require("./redis.service");
 
+const PUBLIC_CERTIFICATE_KEY = 'auth_certificate';
 
 async function getPublicCertificate() {
-    const axiosResponse = await axios.get(`${config.BASE_URL}/v2/auth/cert`);
-    return axiosResponse.data;
+    let certificate = await redis.getKey(PUBLIC_CERTIFICATE_KEY);
+    if(certificate === null) {
+        console.debug("Certificate not found in cache")
+        const certificateResponse = (await axios.get(`${config.BASE_URL}/v2/auth/cert`)).data;
+        await redis.storeKeyWithExpiry(PUBLIC_CERTIFICATE_KEY, certificateResponse, 24*60*60);
+        console.debug("Certificate cached")
+        certificate = certificateResponse;
+    } else {
+        console.debug("Certificate retrieved from cache")
+    }
+    return certificate;
+
 }
 
 function encrypt(data, certificate) {
