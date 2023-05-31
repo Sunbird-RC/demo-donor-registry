@@ -1,5 +1,6 @@
-const {encrypt, encryptWithCertificate, decrypt} = require("./encrypt.service");
+const {encrypt, encryptWithCertificate, decrypt} = require("../services/encrypt.service");
 const axios = require('axios').default;
+const redis = require('../services/redis.service')
 
 jest.mock('axios');
 
@@ -13,10 +14,12 @@ MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJ8ijUTQmxPdUgr9uLFEPviGhpTP7ya/
 
 describe('encryption service test', () => {
     let mockedAxios;
-    beforeAll(() => {
+    beforeEach(() => {
         jest.resetModules();
         jest.resetAllMocks();
         mockedAxios = axios;
+        jest.spyOn(redis, 'getKey').mockReturnValue(null)
+        jest.spyOn(redis, 'storeKeyWithExpiry').mockReturnValue(Promise.resolve(""))
 
     });
 
@@ -44,4 +47,27 @@ describe('encryption service test', () => {
         expect(encryptedText).toBeTruthy()
     })
 
+    test('should encrypt text with certificate fetched from cache', async () => {
+        jest.spyOn(redis, 'getKey').mockReturnValue(publicCertificate)
+        jest.spyOn(axios, 'get')
+        let encryptedText = await encryptWithCertificate("1234");
+        expect(encryptedText).toBeTruthy()
+        expect(axios.get).toHaveBeenCalledTimes(0)
+    })
+
+    test('should encrypt text with certificate fetched from api and cache it, if certificate not found in cache', async () => {
+
+        mockedAxios.get.mockImplementationOnce(() =>
+            Promise.resolve({
+                data: publicCertificate
+            })
+        );
+        jest.spyOn(redis, 'getKey').mockReturnValue(null)
+        jest.spyOn(redis, 'storeKeyWithExpiry')
+        jest.spyOn(axios, 'get')
+        let encryptedText = await encryptWithCertificate("1234");
+        expect(encryptedText).toBeTruthy()
+        expect(redis.storeKeyWithExpiry).toBeCalledWith("auth_certificate", publicCertificate, 86400)
+        expect(axios.get).toBeCalled()
+    })
 })

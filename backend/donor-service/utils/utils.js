@@ -38,6 +38,7 @@ function getErrorObject(err) {
         case 'HIS-1011':
         case 'HIS-2022':
         case 'HIS-2017':
+        case 'HIS-1041':
             message = R.pathOr("", ["response","data","details",0,"message"], err)
             break;
         default:
