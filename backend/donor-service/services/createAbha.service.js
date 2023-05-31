@@ -4,6 +4,7 @@ const { encryptWithCertificate } = require('./encrypt.service');
 const {getAbhaApisAccessToken} = require('./sessions.service')
 const profileService = require('./abhaProfile.service');
 const utils = require('../utils/utils')
+const {isABHARegistered} = require("./abhaProfile.service");
 
 async function generateAadhaarOTP(req, res) {
     const generateOtpUrl = config.BASE_URL + '/v2/registration/aadhaar/generateOtp';
@@ -36,21 +37,26 @@ async function verifyAadhaarOTP(req, res) {
             otp: encryptedOtp
         }, {
             headers: {
-                Authorization: 'Bearer ' + clientSecretToken 
+                Authorization: 'Bearer ' + clientSecretToken
             }
         })).data;
         console.debug('verifyAadhaarOTPResponse : ', verifyAadhaarOTPResponse);
         if(verifyAadhaarOTPResponse.new) {
-            var age = parseInt(utils.calculateAge(verifyAadhaarOTPResponse.birthdate))
+            const age = parseInt(utils.calculateAge(verifyAadhaarOTPResponse.birthdate));
             if(age < 18) {
                 throw {status: 403, message: 'Please check back and registry with us when you are 18.'}
             }
             res.json({new: verifyAadhaarOTPResponse.new, txnId: verifyAadhaarOTPResponse.txnId})
             return;
         }
+        if (await isABHARegistered(verifyAadhaarOTPResponse.healthIdNumber, true)) {
+            throw {
+                status: 409,
+                message: 'You have already registered as a pledger. Please login to view and download pledge certificate'
+            }
+        }
         const createAbhaNumberResponse = await profileService.getAndCacheEKYCProfile(clientSecretToken, verifyAadhaarOTPResponse.jwtResponse.token);
         res.json(createAbhaNumberResponse);
-        return;
     } catch(err) {
         const error = utils.getErrorObject(err)
         res.status(error.status).send(error)
@@ -122,8 +128,7 @@ async function createABHANumber(txnId) {
         }
     })).data;
     console.debug('createAbhaResponse : ', createAbhaResponse);
-    const profile = await profileService.getAndCacheEKYCProfile(clientSecretToken, createAbhaResponse.token)
-    return profile;
+    return await profileService.getAndCacheEKYCProfile(clientSecretToken, createAbhaResponse.token);
 }
 
 module.exports = {

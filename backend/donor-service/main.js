@@ -19,6 +19,7 @@ const {encryptWithCertificate} = require("./services/encrypt.service");
 const services = require('./services/createAbha.service');
 const profileService = require('./services/abhaProfile.service');
 const utils = require('./utils/utils');
+const {isABHARegistered, getKeyBasedOnEntityName} = require("./services/abhaProfile.service");
 const app = express();
 
 (async() => {
@@ -116,17 +117,6 @@ app.post('/auth/verifyOTP', async(req, res) => {
 const getRegisteredCount = async(key) => {
     const value = await redis.getKey(key);
     return ((value === null ? 0 : parseInt(value)) + 1) + "";
-}
-
-function getKeyBasedOnEntityName(entityName) {
-    let category = null;
-    switch(entityName) {
-        case "Pledge":
-            category = "D";
-            break;
-
-    }
-    return category;
 }
 
 async function sendRegisteredNotifications(profile) {
@@ -547,14 +537,6 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
     }
 });
 
-async function isABHARegistered(abhaId) {
-    abhaId = abhaId.replaceAll("-", "");
-    if (config.UNIQUE_ABHA_ENABLED) {
-        const key = getKeyBasedOnEntityName("Pledge");
-        return await redis.getKey(key + abhaId) !== null;
-    }
-    return false;
-}
 
 async function checkABHAIsUnique(abhaId) {
     if (await isABHARegistered(abhaId)) {

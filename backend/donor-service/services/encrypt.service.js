@@ -2,7 +2,7 @@ const config = require("../configs/config");
 const axios = require('axios').default;
 const crypto = require('crypto');
 
-
+//TODO: cache certificate
 async function getPublicCertificate() {
     const axiosResponse = await axios.get(`${config.BASE_URL}/v2/auth/cert`);
     return axiosResponse.data;
