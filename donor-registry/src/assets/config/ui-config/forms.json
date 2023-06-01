@@ -123,7 +123,7 @@
                   "widget": {
                     "formlyConfig": {
                       "title": "Aadhaar Number",
-                      "placeholder": "Enter your aadhar",
+                      "placeholder": "Enter your aadhaar",
                       "type": "verify-aadhaar",
                       "className": "col-lg-12 col-sm-12 mlf-14 mb-3",
                       "hideExpression": "model.registrationBy != 'aadhaar'"
@@ -638,6 +638,12 @@
               {
                 "name": "registrationBy",
                 "custom": true,
+                "condition": {
+                  "type": "disable",
+                  "variableType" : "local",
+                  "objectPath": "isVerified",
+                  "isIt": "true"
+                },
                 "key": "registrationBy",
                 "element": {
                   "widget": {
@@ -658,6 +664,10 @@
                           {
                             "value": "ABHA Number",
                             "key": "abha"
+                          },
+                          {
+                            "value": "Aadhaar Number",
+                            "key": "aadhaar"
                           }
                         ]
                       },
@@ -680,6 +690,25 @@
                       "type": "verify-mobileno",
                       "className": "col-lg-4 col-sm-12 mlf-14 mb-3",
                       "hideExpression": "model.registrationBy != 'mobile'"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "aadhaar",
+                "custom": true,
+                "key": "aadhaar",
+                "type": "verify-aadhaar",
+                "element": {
+                  "title": "Aadhaar Number",
+                  "fieldGroupClassName": "row",
+                  "widget": {
+                    "formlyConfig": {
+                      "title": "Aadhaar Number",
+                      "placeholder": "Enter your aadhaar",
+                      "type": "verify-aadhaar",
+                      "className": "col-lg-12 col-sm-12 mlf-14 mb-3",
+                      "hideExpression": "model.registrationBy != 'aadhaar'"
                     }
                   }
                 }
