@@ -131,7 +131,9 @@ import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-v
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { initTheme } from './theme.config';
 import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
-import { VerifyMobileNo } from './forms/types/verify-mobileno.type'
+import { VerifyMobileNo } from './forms/types/verify-mobileno.type';
+import { VerifyAadhaar } from './forms/types/verify-aadhaar.type';
+
 import { FormlyTemplateType } from './forms/types/template.type';
 import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbox.type';
 import { CertificateComponent } from './certificate/certificate.component';
@@ -166,6 +168,7 @@ let configData = {
     AutocompleteTypeComponent,
     VerifyIndentityCode,
     VerifyMobileNo,
+    VerifyAadhaar,
     FormlyColorInput,
     FormlyFieldStepper,
     HeaderComponent,
@@ -257,6 +260,8 @@ let configData = {
         { name: 'color', component: FormlyColorInput },
         { name: 'verify-code', component: VerifyIndentityCode },
         { name: 'verify-mobileno', component: VerifyMobileNo },
+        { name: 'verify-aadhaar', component: VerifyAadhaar },
+
         { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
         { name: 'template', component: FormlyTemplateType }
       ],
