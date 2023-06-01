@@ -40,6 +40,8 @@ export class VerifyAadhaar extends FieldType {
   verifyoptVal: any;
   verifymobileTxnId: any;
   mobileNo: any;
+  correctAadhar: boolean;
+  err409: boolean = false;;
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,
     public translate: TranslateService) {
@@ -73,7 +75,7 @@ export class VerifyAadhaar extends FieldType {
     this.aadharnumber = (<HTMLInputElement>document.getElementById(fieldKey)).value;
 
     if (this.aadharnumber && this.aadharnumber.length == 12) {
-        
+        this.correctAadhar =true;
       let param = {
         aadhaar: this.aadharnumber,
       };
@@ -92,11 +94,12 @@ export class VerifyAadhaar extends FieldType {
           }
         });
     } else {
-      // this.isNumberValid = false;
-      // let dateSpan = document.getElementById('mobmessage');
-      // dateSpan.classList.add('text-danger');
-      // dateSpan.innerText = "Please enter valid mobile number";
-      // document.getElementById('mobileno').classList.add('is-invalid');
+      this.isNumberValid = false;
+      let dateSpan = document.getElementById('aadhaarmsg');
+      dateSpan.classList.add('text-danger');
+      dateSpan.innerText = "Please enter valid aadhaar number";
+      document.getElementById('mobileno').classList.add('is-invalid');
+        
     }
   }
 
@@ -146,6 +149,7 @@ export class VerifyAadhaar extends FieldType {
 
 
   submitOtp() {
+    
     if (this.optVal) {
       let param = {
         txnId: this.transactionId,
@@ -162,11 +166,15 @@ export class VerifyAadhaar extends FieldType {
             if(data?.txnId){
               this.mobileTxnId =data.txnId;
               console.log('call mobile pop up');
+              this.closePops('exampleModal');
+             
               this.mobilPopup();
 
             }else{
-              console.log('auto populate');
-              alert('auto populate');
+              //console.log('auto populate');
+              this.closePops('exampleModal');
+             
+             // alert('auto populate');
               this.setValues(data);
             }
            
@@ -174,26 +182,29 @@ export class VerifyAadhaar extends FieldType {
           },
           error: (error) => {
 
-            // this.errorMessage = error?.error['message'];
-            // this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
-            // if (error?.error['status'] == '401') {
-            //   this.err401 = true;
-            // }
-
+            this.errorMessage = error?.error['message'];
+            this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
+            if (error?.error['status'] == '401') {
+              this.err401 = true;
+            }
+            if (error?.error['status'] == '409') {
+              this.err409 = true;
+            }
+          // this.incorrectOTP('incorrectOTP')
             console.error('There was an error!', error);
           },
         });
     }
 
-    let clickCount = 0;
-    const button = document.querySelector('#ifIncorrectOTP');
-    button.addEventListener('click', () => {
-      clickCount++;
-      if (clickCount === 3) {
-        this.incorrectOtpMultipleTime = true;
-        this.closePops('verifyOtpPopup');
-      }
-    });
+    // let clickCount = 0;
+    // const button = document.querySelector('#ifIncorrectOTP');
+    // button.addEventListener('click', () => {
+    //   clickCount++;
+    //   if (clickCount === 3) {
+    //     this.incorrectOtpMultipleTime = true;
+    //     this.closePops('verifyOtpPopup');
+    //   }
+    // });
   }
     setValues(data) {
         console.log(data);
@@ -227,7 +238,7 @@ export class VerifyAadhaar extends FieldType {
           this.isVerify = true;
           localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
           //  document.getElementById('closeModalButton').click();
-          this.closePops('verifyOtpPopup');
+         // this.closePops('verifyOtpPopup');
           setTimeout(() => {
             (document.getElementById('aadhaar') as any).focus();
           }, 1000);
@@ -259,7 +270,13 @@ export class VerifyAadhaar extends FieldType {
 
       },
       error: (error) => {
+        this.errorMessage = error?.error['message'];
+        this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
+        if (error?.error['status'] == '401') {
+          this.err401 = true;
+        }
         console.error('There was an error!', error);
+        
       },
     });
     }
@@ -281,6 +298,12 @@ verifyMobilesubmitOtp(){
 
     },
     error: (error) => {
+      this.errorMessage = error?.error['message'];
+      this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
+      if (error?.error['status'] == '401') {
+        this.err401 = true;
+      }
+      
       console.error('There was an error!', error);
     },
   });
@@ -306,6 +329,32 @@ verifyMobilesubmitOtp(){
     button.remove();
   }
 
+  incorrectAadhaar(id = "incorrectAadhaar") {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
+  }
+
+  incorrectMobile(id = "incorrectMobile") {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
+  }
+
+  incorrectOTP(id = "incorrectOTP") {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
+  }
   verifymobilPopup(id = "verifymobilPopup") {
     var button = document.createElement("button");
     button.setAttribute('data-toggle', 'modal');
@@ -333,9 +382,20 @@ verifyMobilesubmitOtp(){
   }
 
   closePops(id) {
-    let modal = document.getElementById(id);
-    modal.style.display = 'none';
-    modal.style.opacity = '0';
+    // let modal = document.getElementById(id);
+    
+    // modal.style.display = 'none';
+    // modal.style.opacity = '0';
+
+
+     // get modal
+     const modal = document.getElementById(id);
+
+     // change state like in hidden modal
+     modal.classList.remove('show');
+     modal.setAttribute('aria-hidden', 'true');
+     modal.setAttribute('style', 'display: none');
+ 
   }
 
   clearVal() {
