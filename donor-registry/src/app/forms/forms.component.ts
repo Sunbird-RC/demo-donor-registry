@@ -278,10 +278,6 @@ export class FormsComponent implements OnInit {
           option.value = '';
           option.text = 'Select';
           relationPlaceholder3.insertBefore(option, relationPlaceholder3.firstChild); 
-      if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
-      {
-        (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
-        (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
       }
 
       // if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
