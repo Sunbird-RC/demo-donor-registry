@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class VerifyAadhaar extends FieldType {
   isVerify: boolean = false;
-  aadhaarnumbernumber: string;
+  aadhaarnumber: string;
   transactionId: any;
   optVal: any;
   mobileNumber:number;
