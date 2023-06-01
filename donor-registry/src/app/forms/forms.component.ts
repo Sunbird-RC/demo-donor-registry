@@ -147,6 +147,7 @@ export class FormsComponent implements OnInit {
 
 
   ngAfterViewChecked() {
+    this.cdr.detectChanges();
     if (!this.organCheckbox) {
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues']) {
         this.removeElement("oterrormsg");
@@ -227,7 +228,7 @@ export class FormsComponent implements OnInit {
       }
     }
 
-    const selectElementIds = ['formly_59_enum_relation_1', 'formly_70_enum_relation_1'];
+    const selectElementIds = ['formly_58_enum_relation_1', 'formly_62_enum_relation_1'];
 
     if (!this.optionAdded) {
       selectElementIds.forEach(selectElementId => {
@@ -253,10 +254,26 @@ export class FormsComponent implements OnInit {
     }
 
 
+  
     if ((this.form == 'pledge-setup' && this.identifier)){
-      (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+
+      if(document.getElementById("mobileno"))
+      {
+        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+
+      }
+
+      if(document.getElementById("aadhaar"))
+      {
+        (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true; 
+
+      }
+
+      (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
+
      
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
+      if(relationPlaceholder3){
       const option = document.createElement('option');
           option.value = '';
           option.text = 'Select';
@@ -266,11 +283,17 @@ export class FormsComponent implements OnInit {
         (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
         (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
       }
-      if(document.getElementById("formly_105_radio_registrationBy_1_0") != null)
-      {
-      (document.getElementById("formly_105_radio_registrationBy_1_0") as any).disabled = true; 
-      (document.getElementById("formly_105_radio_registrationBy_1_1") as any).disabled = true; 
-      }
+
+      // if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
+      // {
+      //   (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
+      //   (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
+      // }
+      // if(document.getElementById("formly_105_radio_registrationBy_1_0") != null)
+      // {
+      // (document.getElementById("formly_105_radio_registrationBy_1_0") as any).disabled = true; 
+      // (document.getElementById("formly_105_radio_registrationBy_1_1") as any).disabled = true; 
+      // }
 
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
@@ -284,7 +307,20 @@ export class FormsComponent implements OnInit {
       }
     }
     if(this.form == 'signup' && this.identifier){
-      (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+      if(document.getElementById("mobileno"))
+      {
+        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+
+      }
+
+      if(document.getElementById("aadhaar"))
+      {
+        (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true; 
+
+      }
+
+      (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
+
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
         let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
@@ -720,6 +756,9 @@ export class FormsComponent implements OnInit {
         if (this.property.hasOwnProperty('notificationDetails') && this.property['notificationDetails']['properties'].hasOwnProperty('relation')) {
           this.property['notificationDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "";
         }
+
+        delete this.property['emergencyDetails']['oneOf'];
+        delete this.property['notificationDetails']['oneOf'];
 
         this.ordering = this.formSchema.order;
         this.schema["type"] = "object";
@@ -1880,8 +1919,8 @@ export class FormsComponent implements OnInit {
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues'] && this.model['personalDetails']['fatherName']) {
          if(document.getElementById("formly_43_selectall-checkbox_organs_0_0") != null) {
           document.getElementById("formly_43_selectall-checkbox_organs_0_0").focus();
-        }else if(document.getElementById("formly_132_selectall-checkbox_organs_0_1") != null){
-          document.getElementById("formly_132_selectall-checkbox_organs_0_1").focus();
+        }else if(document.getElementById("formly_236_selectall-checkbox_organs_0_1") != null){
+          document.getElementById("formly_236_selectall-checkbox_organs_0_1").focus();
         }
 
       }
@@ -1890,7 +1929,7 @@ export class FormsComponent implements OnInit {
         if ( this.form == 'signup') {
           document.getElementById("formly_31_string_motherName_4").focus();
         }else{
-          document.getElementById("formly_121_string_motherName_4").focus();
+          document.getElementById("formly_224_string_motherName_4").focus();
         }
       }
 
@@ -1909,6 +1948,10 @@ export class FormsComponent implements OnInit {
     this.isSubmitForm = true;
     let dateSpan = document.getElementById('mobileno');
     dateSpan.classList.remove('ng-invalid');
+
+    let aadhaardiv = document.getElementById('aadhaar');
+    aadhaardiv.classList.remove('ng-invalid');
+
     if (!this.form2.valid) {
       const firstInvalidControl: HTMLElement = this.el.nativeElement.querySelector(
         "form .ng-invalid "

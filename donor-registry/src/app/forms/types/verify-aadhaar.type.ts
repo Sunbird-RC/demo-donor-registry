@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class VerifyAadhaar extends FieldType {
   isVerify: boolean = false;
-  aadharnumbernumber: string;
+  aadhaarnumber: string;
   transactionId: any;
   optVal: any;
   mobileNumber:number;
@@ -33,8 +33,7 @@ export class VerifyAadhaar extends FieldType {
   isOpen: boolean = true;
   err422: boolean;
   signupForm: boolean = false;
-  consentGiven: boolean = false;
-  aadharnumber: string;
+  consentGiven: boolean = true;
   btnenable: boolean;
   mobileTxnId: any;
   verifyoptVal: any;
@@ -60,24 +59,18 @@ export class VerifyAadhaar extends FieldType {
 
   //Check whether consent is provided or not
   checkValue(event:any){
-    if(event.target.checked==true){
-      this.consentGiven == true;
-      this.btnenable ==true;
-    }
-    else{
-      this.consentGiven == false;
-    }
+    this.consentGiven = event.target.checked;
   }
 
   async verifyOtp(fieldKey) {
     this.fieldKey = fieldKey;
 
-    this.aadharnumber = (<HTMLInputElement>document.getElementById(fieldKey)).value;
+    this.aadhaarnumber = (<HTMLInputElement>document.getElementById(fieldKey)).value;
 
-    if (this.aadharnumber && this.aadharnumber.length == 12) {
-        this.correctAadhar =true;
+    if (this.aadhaarnumber && this.aadhaarnumber.length == 12) {
+        
       let param = {
-        aadhaar: this.aadharnumber,
+        aadhaar: this.aadhaarnumber,
       };
       this.http
         .post<any>(`${getDonorServiceHost()}/abha/registration/aadhaar/generateOtp`, param)
@@ -149,7 +142,7 @@ export class VerifyAadhaar extends FieldType {
 
 
   submitOtp() {
-    
+    this.closePops('exampleModal');
     if (this.optVal) {
       let param = {
         txnId: this.transactionId,
@@ -196,15 +189,15 @@ export class VerifyAadhaar extends FieldType {
         });
     }
 
-    // let clickCount = 0;
-    // const button = document.querySelector('#ifIncorrectOTP');
-    // button.addEventListener('click', () => {
-    //   clickCount++;
-    //   if (clickCount === 3) {
-    //     this.incorrectOtpMultipleTime = true;
-    //     this.closePops('verifyOtpPopup');
-    //   }
-    // });
+    let clickCount = 0;
+    const button = document.querySelector('#ifIncorrectOTP');
+    button.addEventListener('click', () => {
+      clickCount++;
+      if (clickCount === 3) {
+        this.incorrectOtpMultipleTime = true;
+        this.closePops('verifyOtpPopup');
+      }
+    });
   }
     setValues(data) {
         console.log(data);
@@ -227,7 +220,7 @@ export class VerifyAadhaar extends FieldType {
 
         if (age < 18) {
           this.canRegister = false;
-          this.OtpPopup('canRegister');
+          this.canRegisterPopup('registerAge');
           this.isVerify = false;
           (document.getElementById('aadhaar') as any).disabled = false;
         } else {
@@ -238,7 +231,7 @@ export class VerifyAadhaar extends FieldType {
           this.isVerify = true;
           localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
           //  document.getElementById('closeModalButton').click();
-         // this.closePops('verifyOtpPopup');
+          this.closePops('verifyOtpPopup');
           setTimeout(() => {
             (document.getElementById('aadhaar') as any).focus();
           }, 1000);
@@ -246,6 +239,7 @@ export class VerifyAadhaar extends FieldType {
     }
 
   submitOtpMobile() {
+    this.closePops('mobilePopup');
     if (this.mobileNo) {
       let param = {
         txnId: this.mobileTxnId,
@@ -259,6 +253,7 @@ export class VerifyAadhaar extends FieldType {
         console.log(data);
         if(data?.txnId){
           this.verifymobileTxnId = data.txnId;
+       
         this.verifymobilPopup();
 
         }else{
@@ -276,7 +271,6 @@ export class VerifyAadhaar extends FieldType {
           this.err401 = true;
         }
         console.error('There was an error!', error);
-        
       },
     });
     }
@@ -295,6 +289,8 @@ verifyMobilesubmitOtp(){
   .subscribe({
     next: (data) => {
       console.log(data);
+      this.closePops('verifymobilPopup');
+      this.setValues(data);
 
     },
     error: (error) => {
@@ -329,7 +325,23 @@ verifyMobilesubmitOtp(){
     button.remove();
   }
 
-  incorrectAadhaar(id = "incorrectAadhaar") {
+  verifymobilPopup(id = "verifymobilPopup") {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
+  }
+  canRegisterPopup(id = "registerAge") {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
+  }
+ incorrectAadhaar(id = "incorrectAadhaar") {
     var button = document.createElement("button");
     button.setAttribute('data-toggle', 'modal');
     button.setAttribute('data-target', `#${id}`);
@@ -355,14 +367,7 @@ verifyMobilesubmitOtp(){
     button.click();
     button.remove();
   }
-  verifymobilPopup(id = "verifymobilPopup") {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
+ 
 
   mobilPopup(id = "mobilePopup") {
     var button = document.createElement("button");
