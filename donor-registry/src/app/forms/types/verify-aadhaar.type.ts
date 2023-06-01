@@ -34,7 +34,6 @@ export class VerifyAadhaar extends FieldType {
   err422: boolean;
   signupForm: boolean = false;
   consentGiven: boolean = true;
-  aadhaarnumber: string;
   btnenable: boolean;
   mobileTxnId: any;
   verifyoptVal: any;
