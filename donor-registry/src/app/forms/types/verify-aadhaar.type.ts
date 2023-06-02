@@ -77,12 +77,17 @@ export class VerifyAadhaar extends FieldType {
         .subscribe({
           next: (data) => {
             this.transactionId = data.txnId;
+            this.OtpPopup('exampleModal');
            // this.OtpPopup();
            
           },
           error: (error) => {
             //  (<HTMLInputElement>document.getElementById(fieldKey)).value = "";
-           
+            this.isNumberValid = false;
+      let dateSpan = document.getElementById('aadhaarmsg');
+      dateSpan.classList.add('text-danger');
+      dateSpan.innerText = "Please enter valid aadhaar number";
+      document.getElementById('mobileno').classList.add('is-invalid');
             console.log(error);
           }
         });
@@ -160,7 +165,7 @@ export class VerifyAadhaar extends FieldType {
               this.mobileTxnId =data.txnId;
               console.log('call mobile pop up');
               this.closePops('exampleModal');
-             
+              this.isVerify = true;
               this.mobilPopup();
 
             }else{

@@ -2,10 +2,13 @@
     <span class="fw-bold p12">{{ to.label }} <span class="red">*</span></span> <br />
     <div class="d-flex">
      <input class="form-control" placeholder="XXXXXXXXXXXX" maxlength="12" oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9]/g,'')" id="{{ field.key }}"
-    [formControl]="formControl" [formlyAttributes]="field" pattern="[1-9]{1}[0-9]{1}[0-9]{10}"
+    [formControl]="formControl" [formlyAttributes]="field" pattern="[0-9]{12}"
      [ngClass]="isNumberValid ? 'form-control' : 'form-control is-invalid'" required >
-     <button id="verifybtn" class="fw-bold p14 pointer btn-holder btn-verify border-0"  data-toggle="modal" data-target="#exampleModal" 
-     (click)="verifyOtp(field.key)"  [disabled]="!consentGiven"> Verify</button>
+     <button id="verifybtn" class="fw-bold p14 pointer btn-holder btn-verify border-0" 
+     (click)="verifyOtp(field.key)" *ngIf="!isVerify" [disabled]="!consentGiven"> Verify</button>
+     <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerify">
+      <i class="fa fa-check-circle" aria-hidden="true"></i>
+    </span>
     </div>
     <div class="p12" id="aadhaarmsg"></div>
   </div>
