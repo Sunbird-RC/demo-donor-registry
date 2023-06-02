@@ -232,7 +232,7 @@ export class FormsComponent implements OnInit {
 
     const selectElementIds = ['formly_58_enum_relation_1', 'formly_62_enum_relation_1'];
 
-    if (!this.optionAdded) {
+    if (!this.optionAdded && this.isVerified) {
       selectElementIds.forEach(selectElementId => {
         const selectElement = document.getElementById(selectElementId) as HTMLSelectElement | null;
         if (selectElement) {
