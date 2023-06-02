@@ -226,7 +226,6 @@ export class FormsComponent implements OnInit {
           }
         }
 
-      (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
 
       }
     }
@@ -272,7 +271,6 @@ export class FormsComponent implements OnInit {
 
       }
 
-      (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
 
      
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
@@ -318,7 +316,6 @@ export class FormsComponent implements OnInit {
 
       }
 
-      (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
 
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
