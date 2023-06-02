@@ -20,17 +20,17 @@
 
 
 <!-- Modal -->
-<div *ngIf="this.correctAadhar" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLabel">Confirm OTP</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- <h3 class="fw-bold mb-3">Confirm OTP</h3> -->
+
+
+<div class="modal fade" id="verifyOtpModal" tabindex="-1" role="dialog" aria-labelledby="verifyOtpModal"
+aria-hidden="true" data-keyboard="false" data-backdrop="static">
+<div class="modal-dialog" role="document">
+  <div class="p-4 modal-content">
+    <div class="close float-end" data-dismiss="modal" aria-label="Close" (click)="clearVal()">
+      <button class="border-0 bg-transparent float-end" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+      <h3 class="fw-bold mb-3">Confirm OTP</h3>
       <p class="p14">
         Please enter the OTP received on your mobile number
       </p>
@@ -38,16 +38,15 @@
       <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
       <br />
       <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
-      <button type="button" (click)="submitOtp()" id="ifIncorrectOTP" data-dismiss="modal"
-        class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
+      <button type="button" (click)="submitOtp()" id="ifIncorrectOTP"
+        class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+        data-target="#incorrectOTPModal">
         Confirm
       </button>
-      </div>
-    
     </div>
   </div>
 </div>
-
+</div>
 
 
 
@@ -67,6 +66,7 @@ aria-hidden="true" data-keyboard="false" data-backdrop="static">
       <span class="fw-bold p12">Enter Mobile Number</span> <br />
       <input maxLength="10" type="input" [(ngModel)]="mobileNo" name="mobileNo" class="form-control" />
       <br />
+      <div class="p12" id="mobmessage"></div>
       <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
       <button type="button" (click)="submitOtpMobile()" id="ifIncorrectOTP"
         class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
@@ -150,4 +150,25 @@ aria-hidden="true" data-keyboard="false" data-backdrop="static">
     </div>
   </div>
 </div>
+</div>
+
+ <!-- Error message handled -->
+ <div  class="modal fade hide" id="errorMessagePop" tabindex="-1" role="dialog"
+ aria-labelledby="errorMessagePop" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+ <div class="modal-dialog" role="document">
+   <div class="p-4 modal-content">
+     <div class="modal-body">
+      <!-- ------------------------ -->
+      <span  class="p24 mb-2 mt-2 mb-2 fw-bold">{{errHeading}}</span>
+      <span  class="p12 red lh-32">{{errorMessage}}</span>
+      <!-- ----------------------- -->
+       <div class="d-flex justify-content-center">
+         <button type="button"  data-dismiss="modal" 
+           class="btn btn-primary-notto btn-style w-50 submit-button mb-2">
+           OK
+         </button>
+       </div>
+     </div>
+   </div>
+ </div>
 </div>
