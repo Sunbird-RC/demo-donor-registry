@@ -142,7 +142,6 @@
     </div>
   </div>
 </div>
-
 <!--Download card  Modal -->
 
 
@@ -160,6 +159,34 @@
         <button data-dismiss="modal"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
         <a class="mt-3">
           <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2 confirm-btn"  (click)="submit('Proceed')" data-dismiss="modal">Confirm & Proceed</button>
+
+       <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
+       <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
+
+        </a>
+      </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--confirmation Modal Pledge-->
+
+
+<!--confirmation Deatils Modal on Edit -->
+<div id="confirmationDetailsEdit" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationDetailsEdit" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">   
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
+        <div class="p24 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> Confirm Details</div>
+        <div class="p14 mb-2 mt-2 fw-bold">Your certificate will be updated</div>
+        <div class="container-fluid mt-3">
+        <button data-dismiss="modal"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
+        <a class="mt-3">
+          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2 confirm-btn"  (click)="submit('Proceed')" data-dismiss="modal">Proceed</button>
 
        <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
        <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>

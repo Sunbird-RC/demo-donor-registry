@@ -1962,7 +1962,13 @@ export class FormsComponent implements OnInit {
 
     if (this.form2.valid) {
       if (button === "") {
+        if(this.form == "signup"){
         this.modalSuccessPledge('confirmationModalPledge')
+        }
+        if(this.form == "pledge-setup"){
+          this.modalSuccessPledge('confirmationDetailsEdit')      
+        }
+       
         return false;
       }
       // if (this.model.hasOwnProperty('pledgeDetails')) {
@@ -2589,6 +2595,13 @@ export class FormsComponent implements OnInit {
 
   modalConfirmationPledge() {
     var modal = document.getElementById("confirmationModalPledge")
+    modal.classList.add("show");
+    modal.style.display = "block";
+
+  }
+
+  confirmationDetailsEdit() {
+    var modal = document.getElementById("confirmationDetailsEdit")
     modal.classList.add("show");
     modal.style.display = "block";
 
