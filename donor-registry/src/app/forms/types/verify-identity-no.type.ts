@@ -19,7 +19,7 @@ import {
           id="{{ field.key }}" [maxlength]="14" [formControl]="formControl" [formlyAttributes]="field"
           pattern="[1-9]{1}[0-9]{1}[0-9]{12}" [ngClass]="isIdentityNo ? 'form-control' : 'form-control is-invalid'"
           required />
-      <span class="fw-bold p14 pointer btn-holder btn-verify btn-verify-mobile" *ngIf="!isVerify"  data-toggle="modal"
+      <span id="verifybtn" class="fw-bold p14 pointer btn-holder btn-verify btn-verify-mobile" *ngIf="!isVerify"  data-toggle="modal"
       data-target="#verifyOtp"
           (click)="verifyOtp(field.key)"> Verify </span>
       <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerify">
