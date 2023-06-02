@@ -225,6 +225,9 @@ export class FormsComponent implements OnInit {
             }
           }
         }
+
+      (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
+
       }
     }
 
