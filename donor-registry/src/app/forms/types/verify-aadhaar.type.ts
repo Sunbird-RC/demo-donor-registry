@@ -50,6 +50,7 @@ errHeading: string;
   }
 
   ngOnInit(): void {
+  
     if(this.router.url == "/form/signup"){
       this.signupForm = true;
      }
@@ -65,6 +66,7 @@ errHeading: string;
   }
 
   async verifyOtp(fieldKey) {
+   
     this.fieldKey = fieldKey;
 
     this.aadhaarnumber = (<HTMLInputElement>document.getElementById(fieldKey)).value;
@@ -187,11 +189,14 @@ errHeading: string;
             if (error?.error['status'] == '409') {
               this.err409 = true;
               this.errHeading = 'Already Pledged';
+              this.errorMessage = 'To download the pledge certificate, please login with ABHA number or mobile number';
               this.closePops('verifyOtpModal');
-              this.errorMessage = 'To download the pledge certificate, please login with ABHA number or mobile number'
+              this.closeAllModal();
+              this.openPopup('errorMessagePop');
             }else  if (this.customErrCode == '422') {
               this.errHeading = 'Aadhaar number entered multiple times';
               this.closePops('verifyOtpModal');
+              this.closeAllModal();
               this.openPopup('errorMessagePop');
             }
 

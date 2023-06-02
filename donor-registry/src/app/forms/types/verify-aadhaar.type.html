@@ -62,8 +62,8 @@ aria-hidden="true" data-keyboard="false" data-backdrop="static">
       <p class="p14">
        
       </p>
-      <span class="fw-bold p12">It is recommended that you use the mobile number linked with Aadhaar</span> <br />
-      <span class="fw-bold p12">Enter Mobile Number</span> <br />
+      <span class="p14 mb-5 lh-lg">It is recommended that you use the mobile number linked with Aadhaar</span> <br />
+      <span class="fw-bold p14 mt-5">Enter Mobile Number</span> <br />
       <input maxLength="10" type="input" [(ngModel)]="mobileNo" name="mobileNo" class="form-control" />
       <br />
       <div class="p12" id="mobmessage"></div>
@@ -156,17 +156,21 @@ aria-hidden="true" data-keyboard="false" data-backdrop="static">
  <div  class="modal fade hide" id="errorMessagePop" tabindex="-1" role="dialog"
  aria-labelledby="errorMessagePop" aria-hidden="true" data-keyboard="false" data-backdrop="static">
  <div class="modal-dialog" role="document">
-   <div class="p-4 modal-content">
+   <div class="p-4 modal-content text-center">
      <div class="modal-body">
       <!-- ------------------------ -->
       <span  class="p24 mb-2 mt-2 mb-2 fw-bold">{{errHeading}}</span>
-      <span  class="p12 red lh-32">{{errorMessage}}</span>
-      <!-- ----------------------- -->
+      <br /><br />
+      <span  class="p12 lh-32">{{errorMessage}}</span> <br /><br />
        <div class="d-flex justify-content-center">
-         <button type="button"  data-dismiss="modal" 
+         <button [hidden]="err409" type="button"  data-dismiss="modal" 
            class="btn btn-primary-notto btn-style w-50 submit-button mb-2">
            OK
          </button>
+         <a [hidden]="!err409" href="/login"> <button type="button" 
+         class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
+         Login
+       </button></a>
        </div>
      </div>
    </div>
