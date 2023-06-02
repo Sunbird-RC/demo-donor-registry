@@ -197,7 +197,7 @@
   "WAIT_FOR_30_SEC":"दूसरा ओटीपी अनुरोध भेजने से पहले कृपया 30 सेकंड तक प्रतीक्षा करें।",
   "REACHED_MAX_VERIFY_ATTEMT": "आप अधिकतम सत्यापन प्रयासों तक पहुंच गए हैं।",
   "REFRESH_BROWSER_TRY_AGAIN": "या तो बाहर निकलें या अपने ब्राउज़र को रीफ्रेश करें और पुनः प्रयास करें",
-  "SELECT_LANG_TO_DOWNLD_CERTIFICATE": "प्रतिज्ञा प्रमाणपत्र के लिए कृपया दूसरी भाषा चुनें",
+  "SELECT_LANG_TO_DOWNLD_CERTIFICATE": "प्रतिज्ञा प्रमाणपत्र की भाषा चुनें",
   "DOWNLOAD_CERTIFICATE" : "प्रमाणपत्र डाउनलोड करें",
   "SELECT_LANGUAGE":"भाषा चुने",
   "PLZ_SELECT_LANG":"कृपया एक भाषा चुनें",

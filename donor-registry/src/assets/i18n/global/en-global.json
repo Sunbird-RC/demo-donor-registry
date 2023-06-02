@@ -200,7 +200,7 @@
     "WAIT_FOR_30_SEC":"Please wait for 30 seconds before sending another OTP request.",
     "REACHED_MAX_VERIFY_ATTEMT": "You have reached the maximum verify attempts.",
     "REFRESH_BROWSER_TRY_AGAIN": " Either exit or refresh your browser and try again",
-    "SELECT_LANG_TO_DOWNLD_CERTIFICATE": "Please select the second language fo Pledge Certificate",
+    "SELECT_LANG_TO_DOWNLD_CERTIFICATE": "Select Language of Pledge Certificate",
     "DOWNLOAD_CERTIFICATE":"Download Certificate",
     "SELECT_LANGUAGE":"Select Language",
     "PLZ_SELECT_LANG":"Please select a language",
