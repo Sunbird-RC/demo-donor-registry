@@ -118,7 +118,7 @@ aria-hidden="true" data-keyboard="false" data-backdrop="static">
             <span>{{'REFRESH_BROWSER_TRY_AGAIN' | translate}} </span>
           </div>
           <div class="d-flex justify-content-center">
-            <button type="button"  data-dismiss="modal" 
+            <button type="button" (click)="closeModal()"  data-dismiss="modal" 
               class="btn btn-primary-notto btn-style w-50 submit-button mb-2">
               OK
             </button>
