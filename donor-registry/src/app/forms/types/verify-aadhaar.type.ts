@@ -218,6 +218,8 @@ export class VerifyAadhaar extends FieldType {
                this.customErrCode = '422';
                this.errHeading = 'Incorrect OTP entered multiple times';
                this.errorMessage = 'You have reached the maximum verify attempts. Either exit or refresh your browser and try again';
+                  this.closePops('verifyOtpModal');
+                this.closeAllModal();
                this.openPopup('errorMessagePop');
 
                }else if (this.errorMessage != undefined && this.errorMessage.includes('Invalid OTP ')) {
