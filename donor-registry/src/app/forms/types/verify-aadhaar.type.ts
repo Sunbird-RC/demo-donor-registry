@@ -16,7 +16,7 @@ export class VerifyAadhaar extends FieldType {
   aadhaarnumber: string;
   transactionId: any;
   optVal: any;
-  mobileNumber:number;
+  mobileNumber: number;
   linkedAbhaList: any;
   isAllAbhaRegister: boolean = false;
   selectedProfile: any;
@@ -41,7 +41,7 @@ export class VerifyAadhaar extends FieldType {
   mobileNo: any;
   correctAadhar: boolean = false;
   err409: boolean = false;
-errHeading: string;
+  errHeading: string;
 
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,
@@ -50,10 +50,10 @@ errHeading: string;
   }
 
   ngOnInit(): void {
-  
-    if(this.router.url == "/form/signup"){
+
+    if (this.router.url == "/form/signup") {
       this.signupForm = true;
-     }
+    }
     localStorage.removeItem('form_value');
     if (localStorage.getItem('isVerified') === 'true') {
       this.isVerify = true;
@@ -61,17 +61,17 @@ errHeading: string;
   }
 
   //Check whether consent is provided or not
-  checkValue(event:any){
+  checkValue(event: any) {
     this.consentGiven = event.target.checked;
   }
 
   async verifyOtp(fieldKey) {
-   
+
     this.fieldKey = fieldKey;
 
     this.aadhaarnumber = (<HTMLInputElement>document.getElementById(fieldKey)).value;
 
-    if (this.aadhaarnumber && this.aadhaarnumber.length == 12) {   
+    if (this.aadhaarnumber && this.aadhaarnumber.length == 12) {
       let param = {
         aadhaar: this.aadhaarnumber,
       };
@@ -80,18 +80,19 @@ errHeading: string;
         .subscribe({
           next: (data) => {
             this.transactionId = data.txnId;
-            this.OtpPopup('verifyOtpModal');
-           // this.OtpPopup();
-           
+            this.openPopup('verifyOtpModal');
+
           },
           error: (error) => {
-            //  (<HTMLInputElement>document.getElementById(fieldKey)).value = "";
-            this.isNumberValid = false;
-      let dateSpan = document.getElementById('aadhaarmsg');
-      dateSpan.classList.add('text-danger');
-      dateSpan.innerText = "Please enter valid aadhaar number";
-      document.getElementById('mobileno').classList.add('is-invalid');
-            console.log(error);
+
+            this.checkErrType(error);
+
+            // this.isNumberValid = false;
+            // let dateSpan = document.getElementById('aadhaarmsg');
+            // dateSpan.classList.add('text-danger');
+            // dateSpan.innerText = "Please enter valid aadhaar number";
+            // document.getElementById('mobileno').classList.add('is-invalid');
+            // console.log(error);
           }
         });
     } else {
@@ -100,7 +101,7 @@ errHeading: string;
       dateSpan.classList.add('text-danger');
       dateSpan.innerText = "Please enter valid aadhaar number";
       document.getElementById('mobileno').classList.add('is-invalid');
-        
+
     }
   }
 
@@ -114,11 +115,20 @@ errHeading: string;
     this.errorMessage = err?.error['message'];
     if (this.errorMessage != undefined && this.errorMessage.includes('30')) {
       this.customErrCode = '422';
-    } else if (this.errorMessage != undefined && this.errorMessage.includes('enter valid mobile')) {
+      this.errHeading = 'Aadhaar number entered multiple times';
+      this.errorMessage = 'Please wait for 30 minutes to try again with same Aadhaar number';
+      this.openPopup('errorMessagePop');
+
+    } else if (this.errorMessage != undefined && this.errorMessage.includes('enter valid ')) {
       this.customErrCode = '427';
+      this.errHeading = 'Invalid Aadhaar number';
+      this.errorMessage = 'Please enter valid Aadhaar number';
+      this.openPopup('errorMessagePop');
+
     } else {
       this.customErrCode = '';
     }
+
 
   }
 
@@ -134,7 +144,7 @@ errHeading: string;
       .post<any>(`${getDonorServiceHost()}/abha/profile`, param)
       .subscribe({
         next: (data) => {
-                this.setValues(data);
+          this.setValues(data);
 
         },
         error: (error) => {
@@ -150,7 +160,7 @@ errHeading: string;
 
 
   submitOtp() {
-   
+
     if (this.optVal) {
       let param = {
         txnId: this.transactionId,
@@ -164,25 +174,25 @@ errHeading: string;
         .subscribe({
           next: (data) => {
             console.log(data);
-            if(data?.txnId){
-              this.mobileTxnId =data.txnId;
+            if (data?.txnId) {
+              this.mobileTxnId = data.txnId;
               this.closePops('verifyOtpModal');
               this.isVerify = true;
               this.openPopup('mobilePopup');
 
-            }else{
+            } else {
               this.closePops('verifyOtpModal');
               this.closeAllModal();
               this.setValues(data);
             }
-           
+
 
           },
           error: (error) => {
 
             this.errorMessage = error?.error['message'];
             this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
-         
+
             if (error?.error['status'] == '401') {
               this.err401 = true;
             }
@@ -193,11 +203,20 @@ errHeading: string;
               this.closePops('verifyOtpModal');
               this.closeAllModal();
               this.openPopup('errorMessagePop');
-            }else  if (this.customErrCode == '422') {
-              this.errHeading = 'Aadhaar number entered multiple times';
-              this.closePops('verifyOtpModal');
-              this.closeAllModal();
+            } else if (this.customErrCode == '422') {
+              if (this.errorMessage != undefined && this.errorMessage.includes('30')) {
+                this.customErrCode = '422';
+                this.errHeading = 'OTP number entered multiple times';
+                this.errorMessage = 'Please wait for 30 minutes to try again with same Aadhaar number';
+                this.closePops('verifyOtpModal');
+                this.closeAllModal();
               this.openPopup('errorMessagePop');
+          
+              } else if (this.errorMessage != undefined && this.errorMessage.includes('Invalid OTP ')) {
+                this.err401 = true;
+              }
+           
+            
             }
 
             console.error('There was an error!', error);
@@ -215,127 +234,128 @@ errHeading: string;
       }
     });
   }
-    setValues(data) {
-        console.log(data);
-        let dateSpan = document.getElementById('mobmessage');
-        dateSpan.classList.remove('text-danger');
-        dateSpan.innerText = "";
-        document.getElementById('aadhaar').classList.remove('is-invalid');
-        (document.getElementById('aadhaar') as any).disabled = true;
 
-        this.dataObj = data;
-        let dayOfBirth = data?.dayOfBirth;
-        let monthOfBirth = data?.monthOfBirth;
-        let yearOfBirth = data?.yearOfBirth;
-        let dateFull = `${monthOfBirth}/${dayOfBirth}/${yearOfBirth}`;
-        let dob = new Date(dateFull);
-        let month_diff = Date.now() - dob.getTime();
-        let age_dt = new Date(month_diff);
-        let year = age_dt.getUTCFullYear();
-        let age = Math.abs(year - 1970);
+  setValues(data) {
+    console.log(data);
+    let dateSpan = document.getElementById('mobmessage');
+    dateSpan.classList.remove('text-danger');
+    dateSpan.innerText = "";
+    document.getElementById('aadhaar').classList.remove('is-invalid');
+    (document.getElementById('aadhaar') as any).disabled = true;
 
-        if (age < 18) {
-          this.canRegister = false;
-          this.canRegisterPopup('registerAge');
-          this.isVerify = false;
-          (document.getElementById('aadhaar') as any).disabled = false;
-        } else {
+    this.dataObj = data;
+    let dayOfBirth = data?.dayOfBirth;
+    let monthOfBirth = data?.monthOfBirth;
+    let yearOfBirth = data?.yearOfBirth;
+    let dateFull = `${monthOfBirth}/${dayOfBirth}/${yearOfBirth}`;
+    let dob = new Date(dateFull);
+    let month_diff = Date.now() - dob.getTime();
+    let age_dt = new Date(month_diff);
+    let year = age_dt.getUTCFullYear();
+    let age = Math.abs(year - 1970);
 
-          const healthIdNumber = this.dataObj.healthIdNumber.replaceAll('-', '');
-          localStorage.setItem(healthIdNumber, JSON.stringify(this.dataObj));
-          localStorage.setItem('form_value', JSON.stringify(this.dataObj));
-          this.isVerify = true;
-          localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
-          //  document.getElementById('closeModalButton').click();
-          setTimeout(() => {
-            (document.getElementById('aadhaar') as any).focus();
-          }, 1000);
-        }
+    if (age < 18) {
+      this.canRegister = false;
+      this.openPopup('registerAge');
+      this.isVerify = false;
+      (document.getElementById('aadhaar') as any).disabled = false;
+    } else {
+
+      const healthIdNumber = this.dataObj.healthIdNumber.replaceAll('-', '');
+      localStorage.setItem(healthIdNumber, JSON.stringify(this.dataObj));
+      localStorage.setItem('form_value', JSON.stringify(this.dataObj));
+      this.isVerify = true;
+      localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
+      //  document.getElementById('closeModalButton').click();
+      setTimeout(() => {
+        (document.getElementById('aadhaar') as any).focus();
+      }, 1000);
     }
+  }
 
-  submitOtpMobile() {   
+  submitOtpMobile() {
 
-      if (this.mobileNo && this.mobileNo.length == 10) {
+    if (this.mobileNo && this.mobileNo.length == 10) {
 
-        let dateSpan = document.getElementById('mobmessage');
-        dateSpan.classList.remove('text-danger');
-        dateSpan.innerText = "";
-        document.getElementById('mobileno').classList.remove('is-invalid');
-      
+      let dateSpan = document.getElementById('mobmessage');
+      dateSpan.classList.remove('text-danger');
+      dateSpan.innerText = "";
+      document.getElementById('mobileno').classList.remove('is-invalid');
+
       let param = {
         txnId: this.mobileTxnId,
         mobile: this.mobileNo,
       };
 
       this.http
-    .post<any>(`${getDonorServiceHost()}/abha/registration/aadhaar/checkAndGenerateAbhaOrMobileOTP`, param)
-    .subscribe({
-      next: (data) => {
-        console.log(data);
-        if(data?.txnId){
-          this.verifymobileTxnId = data.txnId;
-          this.closePops('mobilePopup');
-          this.closeAllModal();
-        this.openPopup('verifymobilPopup');
+        .post<any>(`${getDonorServiceHost()}/abha/registration/aadhaar/checkAndGenerateAbhaOrMobileOTP`, param)
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+            if (data?.txnId) {
+              this.verifymobileTxnId = data.txnId;
+              this.closePops('mobilePopup');
+              this.closeAllModal();
+              this.openPopup('verifymobilPopup');
 
-        }else{
-       
-        this.closePops('mobilePopup');
-          this.closeAllModal();
-          this.setValues(data);
-        }
-       
+            } else {
 
-      },
-      error: (error) => {
-        this.errorMessage = error?.error['message'];
-        this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
-        if (error?.error['status'] == '401') {
-          this.err401 = true;
-        }
-        console.error('There was an error!', error);
-      },
-    });
-    }else{
+              this.closePops('mobilePopup');
+              this.closeAllModal();
+              this.setValues(data);
+            }
+
+
+          },
+          error: (error) => {
+            this.errorMessage = error?.error['message'];
+            this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
+            if (error?.error['status'] == '401') {
+              this.err401 = true;
+            }
+            console.error('There was an error!', error);
+          },
+        });
+    } else {
       this.isNumberValid = false;
       let dateSpan = document.getElementById('mobmessage');
       dateSpan.classList.add('text-danger');
       dateSpan.innerText = "Please enter valid mobile number";
       document.getElementById('mobileno').classList.add('is-invalid');
     }
-   
-}
- 
-verifyMobilesubmitOtp(){
-  if (this.verifyoptVal) {
-    let param = {
-      txnId: this.verifymobileTxnId,
-      otp: this.verifyoptVal,
-    };
 
-    this.http
-  .post<any>(`${getDonorServiceHost()}/abha/registration/aadhaar/verifyMobileOTP`, param)
-  .subscribe({
-    next: (data) => {
-      console.log(data);
-      this.closePops('verifymobilPopup');
-      this.closeAllModal();
-      this.setValues(data);
+  }
 
-    },
-    error: (error) => {
-      this.errorMessage = error?.error['message'];
-      this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
-      if (error?.error['status'] == '401') {
-        this.err401 = true;
-      }
-      
-      console.error('There was an error!', error);
-    },
-  });
+  verifyMobilesubmitOtp() {
+    if (this.verifyoptVal) {
+      let param = {
+        txnId: this.verifymobileTxnId,
+        otp: this.verifyoptVal,
+      };
 
-}
-}
+      this.http
+        .post<any>(`${getDonorServiceHost()}/abha/registration/aadhaar/verifyMobileOTP`, param)
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+            this.closePops('verifymobilPopup');
+            this.closeAllModal();
+            this.setValues(data);
+
+          },
+          error: (error) => {
+            this.errorMessage = error?.error['message'];
+            this.customErrCode = (error?.error['status']) ? error?.error['status'] : "";
+            if (error?.error['status'] == '401') {
+              this.err401 = true;
+            }
+
+            console.error('There was an error!', error);
+          },
+        });
+
+    }
+  }
 
   closeModal() {
     this.isOpen = false;
@@ -347,7 +367,7 @@ verifyMobilesubmitOtp(){
   }
 
   closeAllModal() {
-  
+
     const modalBackdrop = document.querySelectorAll('.modal-backdrop.fade.show');
     const modalopen = document.querySelector('.modal-open');
     if (modalBackdrop) {
@@ -355,15 +375,14 @@ verifyMobilesubmitOtp(){
         element.classList.remove('modal-backdrop', 'fade', 'show');
       });
     }
-    
-    if(modalopen){
-    document.body.classList.remove('modal-open');
+
+    if (modalopen) {
+      document.body.classList.remove('modal-open');
     }
 
   }
 
-  openPopup(id)
-  {
+  openPopup(id) {
     var button = document.createElement("button");
     button.setAttribute('data-toggle', 'modal');
     button.setAttribute('data-target', `#${id}`);
@@ -372,97 +391,16 @@ verifyMobilesubmitOtp(){
     button.remove();
   }
 
-  OtpPopup(id = "verifyOtpModal") {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
-
-  verifymobilPopup(id = "verifymobilPopup") {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
-  canRegisterPopup(id = "registerAge") {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
- incorrectAadhaar(id = "incorrectAadhaar") {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
-
-  incorrectMobile(id = "incorrectMobile") {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
-
-  incorrectOTP(id = "incorrectOTP") {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
- 
-
-  mobilPopup(id = "mobilePopup") {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
-  selectProfile(id = 'selectProfileModel') {
-    var button = document.createElement("button");
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', `#${id}`);
-    document.body.appendChild(button)
-    button.click();
-    button.remove();
-  }
 
   closePops(id) {
-    // let modal = document.getElementById(id);
-    
-    // modal.style.display = 'none';
-    // modal.style.opacity = '0';
-
-
-     // get modal
-     const modal = document.getElementById(id);
-
-     // change state like in hidden modal
-     modal.classList.remove('show');
-     modal.setAttribute('aria-hidden', 'true');
-     modal.setAttribute('style', 'display: none');
- 
+    const modal = document.getElementById(id);
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.setAttribute('style', 'display: none');
   }
 
   clearVal() {
-    //  this.isVerify = false;
     window.location.reload();
-    // (<HTMLInputElement>document.getElementById(this.fieldKey)).value = '';
   }
- 
+
 }
