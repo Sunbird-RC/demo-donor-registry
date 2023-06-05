@@ -125,12 +125,6 @@ export class VerifyAadhaar extends FieldType {
       this.errorMessage = 'Please enter valid Aadhaar number';
       this.openPopup('errorMessagePop');
 
-    }else if (this.errorMessage != undefined && this.errorMessage.includes('maximum verify attempts')) {
-      this.customErrCode = '422';
-      this.errHeading = 'Incorrect OTP entered multiple times';
-      this.errorMessage = 'You have reached the maximum verify attempts. Either exit or refresh your browser and try again';
-      this.openPopup('errorMessagePop');
-
     } else {
       this.customErrCode = '';
     }
@@ -217,8 +211,16 @@ export class VerifyAadhaar extends FieldType {
                 this.closePops('verifyOtpModal');
                 this.closeAllModal();
               this.openPopup('errorMessagePop');
+              
           
-              } else if (this.errorMessage != undefined && this.errorMessage.includes('Invalid OTP ')) {
+              } 
+              else if (this.errorMessage != undefined && this.errorMessage.includes('maximum verify attempts')) {
+               this.customErrCode = '422';
+               this.errHeading = 'Incorrect OTP entered multiple times';
+               this.errorMessage = 'You have reached the maximum verify attempts. Either exit or refresh your browser and try again';
+               this.openPopup('errorMessagePop');
+
+               }else if (this.errorMessage != undefined && this.errorMessage.includes('Invalid OTP ')) {
                 this.err401 = true;
               }
            
