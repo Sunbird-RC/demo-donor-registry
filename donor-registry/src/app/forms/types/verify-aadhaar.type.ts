@@ -121,7 +121,7 @@ export class VerifyAadhaar extends FieldType {
 
     } else if (this.errorMessage != undefined && this.errorMessage.includes('enter valid ')) {
       this.customErrCode = '427';
-      this.errHeading = 'Invalid ABHA number';
+      this.errHeading = 'Invalid Aadhaar number';
       this.errorMessage = 'Please enter valid Aadhaar number';
       this.openPopup('errorMessagePop');
 
