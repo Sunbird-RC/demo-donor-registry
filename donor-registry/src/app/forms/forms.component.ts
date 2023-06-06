@@ -226,6 +226,7 @@ export class FormsComponent implements OnInit {
           }
         }
 
+      // (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
 
       }
     }
@@ -271,6 +272,7 @@ export class FormsComponent implements OnInit {
 
       }
 
+      // (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
 
      
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
@@ -316,6 +318,7 @@ export class FormsComponent implements OnInit {
 
       }
 
+      // (<HTMLInputElement>document.getElementById("verifybtn")).disabled = true; 
 
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
@@ -327,7 +330,7 @@ export class FormsComponent implements OnInit {
         }
         localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
       }
-
+      localStorage.setItem('isVerified', 'true')
     //    if(this.model["personalDetails"]["middleName"]){  
     //     (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
     //  }
