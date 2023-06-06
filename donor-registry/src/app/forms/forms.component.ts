@@ -327,7 +327,7 @@ export class FormsComponent implements OnInit {
         }
         localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
       }
-
+      localStorage.setItem('isVerified', 'true')
     //    if(this.model["personalDetails"]["middleName"]){  
     //     (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
     //  }
