@@ -328,9 +328,10 @@ export class FormsComponent implements OnInit {
         localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
       }
 
-       if(this.model["personalDetails"]["middleName"]){  
-        (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
-     }
+    //    if(this.model["personalDetails"]["middleName"]){  
+    //     (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
+    //  }
+     
       if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
       {
         (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
