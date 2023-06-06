@@ -310,6 +310,8 @@ export class FormsComponent implements OnInit {
 
       }
 
+      localStorage.setItem('isVerified', 'true')
+
       if(document.getElementById("aadhaar"))
       {
         (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true; 
