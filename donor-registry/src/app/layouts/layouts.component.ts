@@ -722,12 +722,12 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
   successDelete()
 {
-  var button = document.createElement("button");
-  button.setAttribute('data-toggle', 'modal');
-  button.setAttribute('data-target', `#successDeleteModal`);
-  document.body.appendChild(button)
-  button.click();
-  button.remove();
+    var button = document.createElement("button");
+      button.setAttribute('data-toggle', 'modal');
+      button.setAttribute('data-target', `#successDeleteModal`);
+      document.body.appendChild(button)
+      button.click();
+      button.remove();
 }
 
   deleteData(model) {
@@ -762,5 +762,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
   actionData(res)
   {
       this.resItem = res;
+  }
+
+  refreshPage() {
+    window.location.reload();
   }
 }
