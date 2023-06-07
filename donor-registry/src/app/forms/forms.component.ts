@@ -2560,7 +2560,7 @@ export class FormsComponent implements OnInit {
       setTimeout(() => {
         localStorage.removeItem(this.model['identificationDetails']['abha']);
         localStorage.removeItem('isVerified'); 
-      }, 2000);
+      }, 3000);
 
     });
   }
