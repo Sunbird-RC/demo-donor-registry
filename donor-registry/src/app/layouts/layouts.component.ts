@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
-import {GeneralService, getDonorServiceHost} from '../services/general/general.service';
+import { GeneralService, getDonorServiceHost } from '../services/general/general.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
@@ -48,9 +48,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
   tcUser: any;
   propertyName: any;
   isUnPledge = false;
-  selectLang = ["Assamese", "Bengali", "Gujarati","Hindi", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
-  languageNotSelected:boolean = false;
-  isLanguageSelected : boolean = false;
+  selectLang = ["Assamese", "Bengali", "Gujarati", "Hindi", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
+  languageNotSelected: boolean = false;
+  isLanguageSelected: boolean = false;
   @ViewChild('modalRef') modalRef: any;
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
@@ -133,50 +133,38 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
   addData() {
-    if(this.layoutSchema.blocks.length){
-    this.layoutSchema.blocks.forEach(block => {
-      this.property = [];
-      block['items'] = [];
-      var temp_object;
+    if (this.layoutSchema.blocks.length) {
+      this.layoutSchema.blocks.forEach(block => {
+        this.property = [];
+        block['items'] = [];
+        var temp_object;
 
-      if (this.layoutSchema.hasOwnProperty('langKey')) {
-        this.langKey = this.layoutSchema.langKey;
-      }
+        if (this.layoutSchema.hasOwnProperty('langKey')) {
+          this.langKey = this.layoutSchema.langKey;
+        }
 
-      if (block.fields.includes && block.fields.includes.length > 0) {
-        if (block.fields.includes == "*") {
-          for (var element in this.model) {
-            this.tcUser = this.model["name"];
-            localStorage.setItem('tcUserName', this.tcUser);
-            if (!Array.isArray(this.model[element])) {
-              if (typeof this.model[element] == 'string') {
-                temp_object = this.responseData['definitions'][block.definition]['properties'][element]
-                if (temp_object != undefined) {
+        if (block.fields.includes && block.fields.includes.length > 0) {
+          if (block.fields.includes == "*") {
+            for (var element in this.model) {
+              this.tcUser = this.model["name"];
+              localStorage.setItem('tcUserName', this.tcUser);
+              if (!Array.isArray(this.model[element])) {
+                if (typeof this.model[element] == 'string') {
+                  temp_object = this.responseData['definitions'][block.definition]['properties'][element]
+                  if (temp_object != undefined) {
 
-                  temp_object.property = element;
-                  temp_object.title = this.check(element, temp_object.title);
-                  temp_object['value'] = this.model[element];
-                  this.property.push(temp_object)
+                    temp_object.property = element;
+                    temp_object.title = this.check(element, temp_object.title);
+                    temp_object['value'] = this.model[element];
+                    this.property.push(temp_object)
+                  }
                 }
-              }
-              else {
-                for (const [key, value] of Object.entries(this.model[element])) {
-                  if (this.responseData['definitions'][block.definition]['properties'][element]) {
-                    if ('$ref' in this.responseData['definitions'][block.definition]['properties'][element]) {
-                      var ref_defination = (this.responseData['definitions'][block.definition]['properties'][element]['$ref']).split('/').pop()
-                      temp_object = this.responseData['definitions'][ref_defination]['properties'][key]
-
-                      if (temp_object != undefined && typeof value != 'object') {
-
-                        temp_object.property = key;
-                        temp_object.title = this.check(key, temp_object.title);
-                        temp_object['value'] = value
-                        this.property.push(temp_object)
-                      }
-                    }
-                    else {
-                      if (this.responseData['definitions'][block.definition]['properties'][element]['properties'] != undefined) {
-                        temp_object = this.responseData['definitions'][block.definition]['properties'][element]['properties'][key]
+                else {
+                  for (const [key, value] of Object.entries(this.model[element])) {
+                    if (this.responseData['definitions'][block.definition]['properties'][element]) {
+                      if ('$ref' in this.responseData['definitions'][block.definition]['properties'][element]) {
+                        var ref_defination = (this.responseData['definitions'][block.definition]['properties'][element]['$ref']).split('/').pop()
+                        temp_object = this.responseData['definitions'][ref_defination]['properties'][key]
 
                         if (temp_object != undefined && typeof value != 'object') {
 
@@ -187,243 +175,255 @@ export class LayoutsComponent implements OnInit, OnChanges {
                         }
                       }
                       else {
-                        temp_object = this.responseData['definitions'][block.definition]['properties'][element]
-                        if (temp_object != undefined) {
+                        if (this.responseData['definitions'][block.definition]['properties'][element]['properties'] != undefined) {
+                          temp_object = this.responseData['definitions'][block.definition]['properties'][element]['properties'][key]
 
-                          temp_object.property = element;
-                          temp_object.title = this.check(element, temp_object.title);
-                          temp_object['value'] = this.model[element]
-                          this.property.push(temp_object)
+                          if (temp_object != undefined && typeof value != 'object') {
+
+                            temp_object.property = key;
+                            temp_object.title = this.check(key, temp_object.title);
+                            temp_object['value'] = value
+                            this.property.push(temp_object)
+                          }
+                        }
+                        else {
+                          temp_object = this.responseData['definitions'][block.definition]['properties'][element]
+                          if (temp_object != undefined) {
+
+                            temp_object.property = element;
+                            temp_object.title = this.check(element, temp_object.title);
+                            temp_object['value'] = this.model[element]
+                            this.property.push(temp_object)
+                          }
                         }
                       }
                     }
                   }
                 }
               }
-            }
-            else {
-              if (block.fields.excludes && block.fields.excludes.length > 0 && !block.fields.excludes.includes(element)) {
-                this.model[element].forEach(objects => {
-                  for (const [key, value] of Object.entries(objects)) {
-                    if (this.responseData['definitions'][block.definition]['properties'][element]) {
-                      if ('$ref' in this.responseData['definitions'][block.definition]['properties'][element]) {
-                        var ref_defination = (this.responseData['definitions'][block.definition]['properties'][element]['$ref']).split('/').pop()
-                        temp_object = this.responseData['definitions'][ref_defination]['properties'][key]
-                        if (temp_object != undefined && typeof value != 'object') {
+              else {
+                if (block.fields.excludes && block.fields.excludes.length > 0 && !block.fields.excludes.includes(element)) {
+                  this.model[element].forEach(objects => {
+                    for (const [key, value] of Object.entries(objects)) {
+                      if (this.responseData['definitions'][block.definition]['properties'][element]) {
+                        if ('$ref' in this.responseData['definitions'][block.definition]['properties'][element]) {
+                          var ref_defination = (this.responseData['definitions'][block.definition]['properties'][element]['$ref']).split('/').pop()
+                          temp_object = this.responseData['definitions'][ref_defination]['properties'][key]
+                          if (temp_object != undefined && typeof value != 'object') {
 
-                          temp_object.property = key;
-                          temp_object.title = this.check(key, temp_object.title);
-                          temp_object['value'] = value;
-                          this.property.push(temp_object);
+                            temp_object.property = key;
+                            temp_object.title = this.check(key, temp_object.title);
+                            temp_object['value'] = value;
+                            this.property.push(temp_object);
+                          }
                         }
-                      }
-                      else {
-                        temp_object = this.responseData['definitions'][block.definition]['properties'][element]['items']['properties'][key];
-                        if (temp_object != undefined && typeof value != 'object') {
+                        else {
+                          temp_object = this.responseData['definitions'][block.definition]['properties'][element]['items']['properties'][key];
+                          if (temp_object != undefined && typeof value != 'object') {
 
-                          temp_object.property = key;
-                          temp_object.title = this.check(key, temp_object.title);
-                          temp_object['value'] = value;
-                          this.property.push(temp_object);
+                            temp_object.property = key;
+                            temp_object.title = this.check(key, temp_object.title);
+                            temp_object['value'] = value;
+                            this.property.push(temp_object);
+                          }
                         }
                       }
                     }
-                  }
-                });
+                  });
+                }
               }
             }
+
+            /* let tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
+                       if (this.model.hasOwnProperty(tempName)) {
+                         let objects1;
+     
+                         for (let j = 0; j < this.model[tempName].length; j++) {
+                           objects1 = this.model[tempName][j];
+                         }
+     
+                           this.model[element].sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
+     
+                       }*/
           }
-
-          /* let tempName = "pledgeAffiliation"; //(localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student' ) ? 'studentInstituteAttest' : tempName;
-                     if (this.model.hasOwnProperty(tempName)) {
-                       let objects1;
-   
-                       for (let j = 0; j < this.model[tempName].length; j++) {
-                         objects1 = this.model[tempName][j];
-                       }
-   
-                         this.model[element].sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
-   
-                     }*/
-        }
-        else {
-          block.fields.includes.forEach(element => {
-            if (this.model[element] && !Array.isArray(this.model[element])) {
-              for (const [key, value] of Object.entries(this.model[element])) {
-                if (this.responseData['definitions'][block.definition]['properties'][element]) {
-                  if ('$ref' in this.responseData['definitions'][block.definition]['properties'][element]) {
-                    var ref_defination = (this.responseData['definitions'][block.definition]['properties'][element]['$ref']).split('/').pop()
-                    temp_object = this.responseData['definitions'][ref_defination]['properties'][key]
-                    if (temp_object != undefined && typeof value != 'object') {
-                      if (element.osid) {
-                        temp_object['osid'] = element.osid
-                      }
-                      if (element.osid) {
-                        temp_object['_osState'] = element._osState;
-                        // if(element.hasOwnProperty("_osClaimNotes")){
-                        //   temp_object['_osClaimNotes'] = element._osClaimNotes;
-                        // }
-                      }
-
-                      temp_object.property = key;
-                      temp_object.title = this.check(key, temp_object.title);
-                      temp_object['value'] = value
-                      this.property.push(temp_object)
-                    }
-
-
-                  }
-                  else {
-                    temp_object = this.responseData['definitions'][block.definition]['properties'][element]['properties'][key];
-                    if (temp_object !== undefined && (Array.isArray(value) || typeof value !== 'object')) {
-                      if (element.osid) {
-                        temp_object['osid'] = element.osid;
-                      }
-                      if (element.osid) {
-                        temp_object['_osState'] = element._osState;
-                      }
-
-                      temp_object.property = key;
-                      temp_object.title = this.check(key, temp_object.title);
-                      temp_object['value'] = value;
-                      this.property.push(temp_object);
-                    }
-
-                  }
-                }
-              }
-            }
-            else {
-              if (this.model[element]) {
-                // this.model[element].forEach((objects, i) => {
-                for (let i = 0; i < this.model[element].length; i++) {
-                  let objects = this.model[element][i];
-                  var osid;
-                  var osState;
-                  var temp_array = [];
-
-
-                  // alert(i + ' ----1--- ' + objects.osid);
-
-                  let tempName = localStorage.getItem('entity').toLowerCase() + element.charAt(0).toUpperCase() + element.slice(1);
-                  tempName = (localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student') ? 'studentInstituteAttest' : tempName;
-                  if (this.model.hasOwnProperty(tempName)) {
-                    let objects1;
-                    var tempObj = []
-                    //this.model[tempName].forEach((objects1, j) => {
-                    for (let j = 0; j < this.model[tempName].length; j++) {
-                      objects1 = this.model[tempName][j];
-                      console.log(objects.osid + '  ' + objects1.propertiesOSID[element][0]);
-                      if (objects.osid == objects1.propertiesOSID[element][0]) {
-                        objects1.propertiesOSID.F = new Date(objects1.propertiesOSID.osUpdatedAt);
-                        tempObj.push(objects1)
-                      }
-
-                    }
-
-                    if (tempObj.length) {
-
-                      tempObj.sort((a, b) => (b.propertiesOSID.osUpdatedAt) - (a.propertiesOSID.osUpdatedAt));
-                      this.model[element][i]['_osState'] = tempObj[0]._osState;
-                      console.log({ tempObj });
-                    }
-
-
-                  }
-
-
-                  for (const [index, [key, value]] of Object.entries(Object.entries(objects))) {
+          else {
+            block.fields.includes.forEach(element => {
+              if (this.model[element] && !Array.isArray(this.model[element])) {
+                for (const [key, value] of Object.entries(this.model[element])) {
+                  if (this.responseData['definitions'][block.definition]['properties'][element]) {
                     if ('$ref' in this.responseData['definitions'][block.definition]['properties'][element]) {
                       var ref_defination = (this.responseData['definitions'][block.definition]['properties'][element]['$ref']).split('/').pop()
                       temp_object = this.responseData['definitions'][ref_defination]['properties'][key]
                       if (temp_object != undefined && typeof value != 'object') {
-                        if (objects.osid) {
-                          temp_object['osid'] = objects.osid;
+                        if (element.osid) {
+                          temp_object['osid'] = element.osid
                         }
-                        if (objects.osid) {
-                          temp_object['_osState'] = objects._osState;
+                        if (element.osid) {
+                          temp_object['_osState'] = element._osState;
+                          // if(element.hasOwnProperty("_osClaimNotes")){
+                          //   temp_object['_osClaimNotes'] = element._osClaimNotes;
+                          // }
                         }
 
                         temp_object.property = key;
                         temp_object.title = this.check(key, temp_object.title);
-                        temp_object['value'] = value;
-                        temp_array.push(this.pushData(temp_object))
+                        temp_object['value'] = value
+                        this.property.push(temp_object)
                       }
+
+
                     }
                     else {
-                      temp_object = this.responseData['definitions'][block.definition]['properties'][element]['items']['properties'][key];
-
-                      if (temp_object != undefined && temp_object.hasOwnProperty('title')) {
-                        temp_object.property = key;
-                        temp_object.title = this.check(key, temp_object.title);
-                      }
-
-                      if (temp_object != undefined && typeof value != 'object') {
-                        if (objects.osid) {
-                          temp_object['osid'] = objects.osid;
+                      temp_object = this.responseData['definitions'][block.definition]['properties'][element]['properties'][key];
+                      if (temp_object !== undefined && (Array.isArray(value) || typeof value !== 'object')) {
+                        if (element.osid) {
+                          temp_object['osid'] = element.osid;
                         }
-                        if (objects.osid) {
-                          temp_object['_osState'] = objects._osState;
+                        if (element.osid) {
+                          temp_object['_osState'] = element._osState;
                         }
 
                         temp_object.property = key;
                         temp_object.title = this.check(key, temp_object.title);
                         temp_object['value'] = value;
-                        temp_array.push(this.pushData(temp_object));
+                        this.property.push(temp_object);
                       }
-                      // }
-
 
                     }
                   }
-                  this.property.push(temp_array);
-                };
+                }
               }
+              else {
+                if (this.model[element]) {
+                  // this.model[element].forEach((objects, i) => {
+                  for (let i = 0; i < this.model[element].length; i++) {
+                    let objects = this.model[element][i];
+                    var osid;
+                    var osState;
+                    var temp_array = [];
+
+
+                    // alert(i + ' ----1--- ' + objects.osid);
+
+                    let tempName = localStorage.getItem('entity').toLowerCase() + element.charAt(0).toUpperCase() + element.slice(1);
+                    tempName = (localStorage.getItem('entity') == 'student' || localStorage.getItem('entity') == 'Student') ? 'studentInstituteAttest' : tempName;
+                    if (this.model.hasOwnProperty(tempName)) {
+                      let objects1;
+                      var tempObj = []
+                      //this.model[tempName].forEach((objects1, j) => {
+                      for (let j = 0; j < this.model[tempName].length; j++) {
+                        objects1 = this.model[tempName][j];
+                        console.log(objects.osid + '  ' + objects1.propertiesOSID[element][0]);
+                        if (objects.osid == objects1.propertiesOSID[element][0]) {
+                          objects1.propertiesOSID.F = new Date(objects1.propertiesOSID.osUpdatedAt);
+                          tempObj.push(objects1)
+                        }
+
+                      }
+
+                      if (tempObj.length) {
+
+                        tempObj.sort((a, b) => (b.propertiesOSID.osUpdatedAt) - (a.propertiesOSID.osUpdatedAt));
+                        this.model[element][i]['_osState'] = tempObj[0]._osState;
+                        console.log({ tempObj });
+                      }
+
+
+                    }
+
+
+                    for (const [index, [key, value]] of Object.entries(Object.entries(objects))) {
+                      if ('$ref' in this.responseData['definitions'][block.definition]['properties'][element]) {
+                        var ref_defination = (this.responseData['definitions'][block.definition]['properties'][element]['$ref']).split('/').pop()
+                        temp_object = this.responseData['definitions'][ref_defination]['properties'][key]
+                        if (temp_object != undefined && typeof value != 'object') {
+                          if (objects.osid) {
+                            temp_object['osid'] = objects.osid;
+                          }
+                          if (objects.osid) {
+                            temp_object['_osState'] = objects._osState;
+                          }
+
+                          temp_object.property = key;
+                          temp_object.title = this.check(key, temp_object.title);
+                          temp_object['value'] = value;
+                          temp_array.push(this.pushData(temp_object))
+                        }
+                      }
+                      else {
+                        temp_object = this.responseData['definitions'][block.definition]['properties'][element]['items']['properties'][key];
+
+                        if (temp_object != undefined && temp_object.hasOwnProperty('title')) {
+                          temp_object.property = key;
+                          temp_object.title = this.check(key, temp_object.title);
+                        }
+
+                        if (temp_object != undefined && typeof value != 'object') {
+                          if (objects.osid) {
+                            temp_object['osid'] = objects.osid;
+                          }
+                          if (objects.osid) {
+                            temp_object['_osState'] = objects._osState;
+                          }
+
+                          temp_object.property = key;
+                          temp_object.title = this.check(key, temp_object.title);
+                          temp_object['value'] = value;
+                          temp_array.push(this.pushData(temp_object));
+                        }
+                        // }
+
+
+                      }
+                    }
+                    this.property.push(temp_array);
+                  };
+                }
+              }
+            });
+          }
+        }
+        if (block.fields.excludes && block.fields.excludes.length > 0) {
+          block.fields.excludes.forEach(element => {
+            if (this.property.hasOwnProperty(element)) {
+              delete this.property[element];
             }
           });
         }
-      }
-      if (block.fields.excludes && block.fields.excludes.length > 0) {
-        block.fields.excludes.forEach(element => {
-          if (this.property.hasOwnProperty(element)) {
-            delete this.property[element];
-          }
-        });
-      }
 
-      if (block.hasOwnProperty('propertyShowFirst') && this.property.length) {
-        let fieldsArray = (this.property[0].length) ? this.property[0] : this.property;
-        for (let i = 0; i < this.property.length; i++) {
-          this.propertyName = this.property[i]
-          if (this.propertyName["property"] == 'firstName') {
-            this.userName = this.propertyName["value"];
-          }
-        }
-        localStorage.setItem('loggedInUserName', this.userName);
-
-        let fieldsArrayTemp = [];
-
-        for (let i = 0; i < block.propertyShowFirst.length; i++) {
-          fieldsArray = fieldsArray.filter(function (obj) {
-            if (obj.property === block.propertyShowFirst[i]) {
-              fieldsArrayTemp.push(obj);
+        if (block.hasOwnProperty('propertyShowFirst') && this.property.length) {
+          let fieldsArray = (this.property[0].length) ? this.property[0] : this.property;
+          for (let i = 0; i < this.property.length; i++) {
+            this.propertyName = this.property[i]
+            if (this.propertyName["property"] == 'firstName') {
+              this.userName = this.propertyName["value"];
             }
-            return obj.property !== block.propertyShowFirst[i];
-          });
+          }
+          localStorage.setItem('loggedInUserName', this.userName);
+
+          let fieldsArrayTemp = [];
+
+          for (let i = 0; i < block.propertyShowFirst.length; i++) {
+            fieldsArray = fieldsArray.filter(function (obj) {
+              if (obj.property === block.propertyShowFirst[i]) {
+                fieldsArrayTemp.push(obj);
+              }
+              return obj.property !== block.propertyShowFirst[i];
+            });
+
+          }
+
+          this.property = (this.property[0].length) ? [fieldsArrayTemp.concat(fieldsArray)] : fieldsArrayTemp.concat(fieldsArray);
 
         }
 
-        this.property = (this.property[0].length) ? [fieldsArrayTemp.concat(fieldsArray)] : fieldsArrayTemp.concat(fieldsArray);
-
-      }
-
-      block.items.push(this.property)
-      this.Data.push(block)
+        block.items.push(this.property)
+        this.Data.push(block)
+        this.schemaloaded = true;
+      });
+    } else {
       this.schemaloaded = true;
-    });
-  }else{
-    this.schemaloaded = true;
-  }
+    }
   }
 
   pushData(data) {
@@ -436,7 +436,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
   async getData() {
-  
+
     var get_url;
     if (this.identifier) {
       get_url = this.apiUrl + '/' + this.identifier
@@ -448,32 +448,31 @@ export class LayoutsComponent implements OnInit, OnChanges {
         this.model = res
       }
       else {
-        if(this.layout === 'pledge')
-        {
+        if (this.layout === 'pledge') {
           this.model = res;
-        }else{
-
-        
-        if (res.length > 1) {
-          this.model = res[res.length - 1];
-        
-          this.identifier = res[res.length - 1].osid;
         } else {
-          this.model = res[0];
-          this.identifier = res[0].osid;
+
+
+          if (res.length > 1) {
+            this.model = res[res.length - 1];
+
+            this.identifier = res[res.length - 1].osid;
+          } else {
+            this.model = res[0];
+            this.identifier = res[0].osid;
+          }
         }
       }
-      }
 
 
-     /* if (this.layout === 'pledge') {
-        if ('photo' in this.model['personalDetails']) {
-          delete this.model['personalDetails']['photo'];
-        }
-
-       this.isUnPledge = (!this.model['pledgeDetails'].organs.length && !this.model['pledgeDetails'].tissues.length) ? true : false;
-       
-      }*/
+      /* if (this.layout === 'pledge') {
+         if ('photo' in this.model['personalDetails']) {
+           delete this.model['personalDetails']['photo'];
+         }
+ 
+        this.isUnPledge = (!this.model['pledgeDetails'].organs.length && !this.model['pledgeDetails'].tissues.length) ? true : false;
+        
+       }*/
       this.getHeadingTitle(this.model);
 
       this.Data = [];
@@ -492,11 +491,11 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
   }
 
-  pledgeAgain(id){
-    console.log(typeof(id));
+  pledgeAgain(id) {
+    console.log(typeof (id));
     var a = document.getElementById('myId'); //or grab it by tagname etc
     var c = "form/signup/" + id;
-    a.setAttribute("href",c);
+    a.setAttribute("href", c);
     this.modalSuccessPledge('confirmationModalPledgeAgain');
   }
 
@@ -635,60 +634,60 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
-  onSelectLanguage(language: any){
+  onSelectLanguage(language: any) {
     this.selectedLanguageIndex = this.selectLang.indexOf(language);
     this.isLanguageSelected = this.selectedLanguageIndex !== -1 || undefined;
-    if(this.isLanguageSelected){
+    if (this.isLanguageSelected) {
       this.languageNotSelected = false;
     }
   }
-  
+
   checkIndex(i) {
     this.index = i
   }
 
-  downloadPledgeCard(){
+  downloadPledgeCard() {
     if (!this.isLanguageSelected) {
       this.languageNotSelected = true;
     }
-    if(this.isLanguageSelected){
-    this.languageNotSelected = false;
-    if (this.modalRef) {
-      this.modalRef.nativeElement.classList.remove('show');
-      this.modalRef.nativeElement.style.display = 'none';
-      const modalBackdrop = document.querySelector('.modal-backdrop.fade.show');
-      if (modalBackdrop) {
-        modalBackdrop.remove();
+    if (this.isLanguageSelected) {
+      this.languageNotSelected = false;
+      if (this.modalRef) {
+        this.modalRef.nativeElement.classList.remove('show');
+        this.modalRef.nativeElement.style.display = 'none';
+        const modalBackdrop = document.querySelector('.modal-backdrop.fade.show');
+        if (modalBackdrop) {
+          modalBackdrop.remove();
+        }
       }
-    }
-    this.mode = this.getDeviceInfo();
-    this.orientation = (!this.mode) ? "_landscape" : '_portrait';    
-    this.selectedLanguage = this.selectLang[this.selectedLanguageIndex];
-    this.languageKey = this.selectedLanguage.toLowerCase() + '_portrait';
+      this.mode = this.getDeviceInfo();
+      this.orientation = (!this.mode) ? "_landscape" : '_portrait';
+      this.selectedLanguage = this.selectLang[this.selectedLanguageIndex];
+      this.languageKey = this.selectedLanguage.toLowerCase() + '_portrait';
 
-    let pdfName = this.model[this.index].osid;
+      let pdfName = this.model[this.index].osid;
 
-    let headerOptions = new HttpHeaders({
-      'template-key': this.languageKey,
-      'Accept': 'application/pdf'
-    });
-
-    let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
-    // post or get depending on your requirement
-    this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + pdfName, requestOptions).pipe(map((data: any) => {
-      let blob = new Blob([data], {
-        type: 'application/pdf' // must match the Accept type
+      let headerOptions = new HttpHeaders({
+        'template-key': this.languageKey,
+        'Accept': 'application/pdf'
       });
-    
-      var link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = pdfName + '.pdf';
-      link.click();
-      window.URL.revokeObjectURL(link.href);
 
-    })).subscribe((result: any) => {
-    });
-  }
+      let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
+      // post or get depending on your requirement
+      this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + pdfName, requestOptions).pipe(map((data: any) => {
+        let blob = new Blob([data], {
+          type: 'application/pdf' // must match the Accept type
+        });
+
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = pdfName + '.pdf';
+        link.click();
+        window.URL.revokeObjectURL(link.href);
+
+      })).subscribe((result: any) => {
+      });
+    }
   }
 
   getDeviceInfo() {
@@ -720,12 +719,14 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
-  successDelete()
-{
-  var modal =   document.getElementById("successDeleteModal")
-  modal.classList.add("show");
-  modal.style.display = "block";
-}
+  successDelete() {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#successDeleteModal`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
+  }
 
   deleteData(model) {
     model = {
@@ -744,7 +745,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
       if (res.params.status == 'SUCCESSFUL') {
         console.log(res);
         this.successDelete();
-        this.isUnPledge  = true;
+        this.isUnPledge = true;
         //this.router.navigate(['/profile/Pledge'])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
@@ -756,8 +757,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
-  actionData(res)
-  {
-      this.resItem = res;
+  actionData(res) {
+    this.resItem = res;
   }
 }

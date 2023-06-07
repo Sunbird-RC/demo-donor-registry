@@ -2589,10 +2589,12 @@ export class FormsComponent implements OnInit {
   }
 
   editCardModal() {
-    var modal = document.getElementById("editCardModal")
-    modal.classList.add("show");
-    modal.style.display = "block";
-
+    var button = document.createElement("button");
+      button.setAttribute('data-toggle', 'modal');
+      button.setAttribute('data-target', `#editCardModal`);
+      document.body.appendChild(button)
+      button.click();
+      button.remove();
   }
 
   modalConfirmationPledge() {
@@ -2623,10 +2625,12 @@ export class FormsComponent implements OnInit {
   }
 
   pledgeAgainCardModal() {
-    var modal = document.getElementById("pledgeAgainCardModal")
-    modal.classList.add("show");
-    modal.style.display = "block";
-
+      var button = document.createElement("button");
+      button.setAttribute('data-toggle', 'modal');
+      button.setAttribute('data-target', `#pledgeAgainCardModal`);
+      document.body.appendChild(button)
+      button.click();
+      button.remove();
   }
   modalSuccess() {
 
