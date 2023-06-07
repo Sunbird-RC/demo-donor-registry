@@ -186,17 +186,10 @@
                                 id="lastName">{{resItem?.personalDetails?.lastName}}</span>
                             <div>has successfully unpledged</div>
                         </h3>
-                        <div class="container-fluid mt-3 d-flex w-100 justify-content-between align-items-center">
-                            <div> <button type="button" class="btn btn-secondary-notto btn-style"
-                                    data-dismiss="modal">Close</button></div>
-
-                            <div> <a class="mt-3" href="profile/Pledge/">
-                                    <button type="button" class="btn btn-primary-notto btn-style"
+                           <div (click)="refreshPage()"> 
+                                    <button type="button" class="btn btn-primary-notto btn-style mt-3"
                                         data-dismiss="modal">OK</button>
-                                    <!-- <button id=""type="button" data-dismiss="modal"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2"   data-dismiss="modal">OK</button> -->
-                                </a>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
