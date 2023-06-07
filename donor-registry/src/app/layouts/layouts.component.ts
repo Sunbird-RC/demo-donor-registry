@@ -722,9 +722,12 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
   successDelete()
 {
-  var modal =   document.getElementById("successDeleteModal")
-  modal.classList.add("show");
-  modal.style.display = "block";
+  var button = document.createElement("button");
+  button.setAttribute('data-toggle', 'modal');
+  button.setAttribute('data-target', `#successDeleteModal`);
+  document.body.appendChild(button)
+  button.click();
+  button.remove();
 }
 
   deleteData(model) {

@@ -580,9 +580,9 @@ export class FormsComponent implements OnInit {
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient, public formService: FormService, private el: ElementRef) { }
 
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+   
     localStorage.removeItem('notReadOnly');
-    //this.modalErrorPledge();
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
 
@@ -1832,19 +1832,7 @@ export class FormsComponent implements OnInit {
     }
   };
 
-  // submit2()
-  // {
-  //   if(this.form == 'signup')
-  //   {
-  //     if(!this.form2.valid)
-  //     { 
-  //       this.modalInvalidForm()
-  //     }
-  //     else{
-  //       this.modalConfirmationPledge()
-  //     }
-  //   }
-  // }
+
 
   addElement(className: string, message: string, spanClassName: string) {
     let ele = document.getElementsByClassName(className)[0];
@@ -2538,13 +2526,13 @@ export class FormsComponent implements OnInit {
       await this.http.put<any>(this.tempUrl, this.model).subscribe((res) => {
         if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
           if (this.form == 'signup' && this.identifier) {
-            this.pledgeAgainCardModal();
+            this.openModal('pledgeAgainCardModal');
           }
           if (this.form == 'pledge-setup' && this.identifier) {
 
 
 
-            this.editCardModal();
+            this.openModal('editCardModal');
           }
 
         }
@@ -2557,6 +2545,7 @@ export class FormsComponent implements OnInit {
         this.isSubmitForm = false;
 
       });
+
       setTimeout(() => {
         localStorage.removeItem(this.model['identificationDetails']['abha']);
         localStorage.removeItem('isVerified'); 
@@ -2585,54 +2574,21 @@ export class FormsComponent implements OnInit {
     document.body.appendChild(button)
     button.click();
     button.remove();
-
   }
 
-  editCardModal() {
-    var modal = document.getElementById("editCardModal")
-    modal.classList.add("show");
-    modal.style.display = "block";
 
+  openModal(id)
+  {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
   }
 
-  modalConfirmationPledge() {
-    var modal = document.getElementById("confirmationModalPledge")
-    modal.classList.add("show");
-    modal.style.display = "block";
-
-  }
-
-  confirmationDetailsEdit() {
-    var modal = document.getElementById("confirmationDetailsEdit")
-    modal.classList.add("show");
-    modal.style.display = "block";
-
-  }
-  modalErrorPledge() {
-    var modal = document.getElementById("errorCardModal")
-    modal.classList.add("show");
-    modal.style.display = "block";
-
-  }
-
-  modalInvalidForm() {
-    var modal = document.getElementById("formInvalidModal")
-    modal.classList.add("show");
-    modal.style.display = "block";
-
-  }
-
-  pledgeAgainCardModal() {
-    var modal = document.getElementById("pledgeAgainCardModal")
-    modal.classList.add("show");
-    modal.style.display = "block";
-
-  }
   modalSuccess() {
-
     var modal = document.getElementById("confirmationModal");
-    //  var btn = document.getElementById("submitBtn");
-
     modal.style.display = "block";
     window.onclick = function (event) {
       if (event.target == modal) {
