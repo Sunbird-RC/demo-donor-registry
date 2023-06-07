@@ -2535,12 +2535,9 @@ export class FormsComponent implements OnInit {
 
       this.tempUrl = `${getDonorServiceHost()}/register/Pledge` + "/" + this.identifier;
       // this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
-        console.log("model1", this.model);
       await this.http.put<any>(this.tempUrl, this.model).subscribe((res) => {
-        console.log("model2", this.model);
         if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
           if (this.form == 'signup' && this.identifier) {
-            console.log("model3", this.model);
             this.pledgeAgainCardModal();
           }
           if (this.form == 'pledge-setup' && this.identifier) {
@@ -2563,7 +2560,7 @@ export class FormsComponent implements OnInit {
       setTimeout(() => {
         localStorage.removeItem(this.model['identificationDetails']['abha']);
         localStorage.removeItem('isVerified'); 
-      }, 2000);
+      }, 3000);
 
     });
   }

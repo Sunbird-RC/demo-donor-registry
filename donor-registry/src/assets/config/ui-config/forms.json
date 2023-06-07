@@ -402,7 +402,8 @@
                         "type": "hideShow",
                         "isBoolean": true,
                         "objectPath": "pledgeDetails.other"
-                      }
+                      },
+                      "required": true
                     }
                   ]
                 }
@@ -946,7 +947,8 @@
                         "type": "hideShow",
                         "isBoolean": true,
                         "objectPath": "pledgeDetails.other"
-                      }
+                      },
+                      "required": true
                     }
                   ]
                 }
