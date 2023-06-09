@@ -77,8 +77,9 @@ type Certificate struct {
 		Type             []string `json:"type"`
 		Verifier         string   `json:"verifier"`
 	} `json:"evidence"`
-	QrCode string
-	Photo  string
+	QrCode           string
+	Photo            string
+	EmergencyContact string
 }
 
 type entityMap map[string]interface{}
@@ -197,7 +198,7 @@ var portraitDataList = []CertificateDataConfig{
 		x:        487.21,
 		y:        429,
 		fontSize: 11,
-		template: "{{.CredentialSubject.Emergency.MobileNumber}}",
+		template: "{{.EmergencyContact}}",
 		width:    0,
 	},
 	{
@@ -260,6 +261,7 @@ func CreatePDFCertificate(certificateRequest CreateCertificateRequest, acceptTyp
 			return nil, err
 		}
 		certificateData.Photo = string(photoStr)
+		certificateData.EmergencyContact = certificateRequest.Entity.getMap("emergencyDetails").getValue("mobileNumber")
 
 		if strings.Contains(certificateRequest.TemplateUrl, "portrait") {
 			return renderDataToPDFTemplate(certificateData, portraitDataList, gopdf.PageSizeA4, templateBytes)

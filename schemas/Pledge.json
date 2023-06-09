@@ -62,7 +62,6 @@
       "$.identificationDetails.abha",
       "$.addressDetails",
       "$.pledgeDetails",
-      "$.emergencyDetails",
       "$.notificationDetails",
       "$.instituteReference"
     ],
