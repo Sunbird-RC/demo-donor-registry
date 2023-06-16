@@ -22,6 +22,7 @@ import { PagesComponent } from './pages/pages.component';
 import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-view.component';
 import { CertificateComponent } from './certificate/certificate.component';
 import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
+import { ShareStatusComponent } from './share-status/share-status.component';
 
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
@@ -95,6 +96,7 @@ const routes: Routes = [
 { path: 'certificate', component: CertificateComponent },
 { path: 'certificate/:stateVal/:identifier', component: CertificateComponent, canActivate: [AuthGuard] },
 { path: 'verify-certificate', component: VerifyCertificateComponent },
+{ path: 'profile/:layout/share-status/:id', component: ShareStatusComponent },
 
 
 // { path: 'template', component: CreateCertificateComponent },

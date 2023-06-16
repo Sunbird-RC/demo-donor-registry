@@ -204,5 +204,7 @@
     "DOWNLOAD_CERTIFICATE":"Download Certificate",
     "SELECT_LANGUAGE":"Select Language",
     "PLZ_SELECT_LANG":"Please select a language",
-    "DOWNLOAD":"Download"
+    "DOWNLOAD":"Download",
+    "SHARE": "Share",
+    "SHARE_YOUR_STATUS": "Share Your Pledge Status"
 }
