@@ -65,6 +65,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
+    //share button social media
     this.subHeadername = [];
     if (this.publicData) {
       this.model = this.publicData;
