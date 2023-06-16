@@ -61,7 +61,11 @@
                             data-target="#selectLanguage" (click)="checkIndex(i)">
                             <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
                         </button>
-                        <!-- </a> -->
+                       <a [routerLink]='["share-status", item?.osid]'> 
+                           <button type="button" class="fs-14 ml-2 fw-bold btn btn-primary-green submit-button" >
+                        <i aria-hidden="true" class="fa fa-share"></i> {{'SHARE_YOUR_STATUS' | translate}}
+                    </button>
+                    </a>
                         <p class="mt-1 fs-10 ml-3 fw-bold">{{item?.pledgeDetails.osUpdatedAt | date : 'dd-MM-y : H:mm'}}
                         </p>
                        
