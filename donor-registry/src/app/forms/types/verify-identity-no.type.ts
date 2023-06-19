@@ -10,7 +10,7 @@ import {
 @Component({
   selector: 'verify-identity-code',
   styleUrls: ['../forms.component.scss'],
-  template: './verify-identity-no.type.html'
+  templateUrl: './verify-identity-no.type.html', 
 })
 export class VerifyIndentityCode extends FieldType {
   data: any;

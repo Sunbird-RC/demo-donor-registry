@@ -233,7 +233,8 @@
     "ABHA_MULTIPLE_ENTRY":"ABHA number entered multiple times",
     "INVALID_ABHA":"Invalid ABHA number",
     "OTP_MULTIPLE":"OTP entered multiple times",
-    "ENTER_CODE":"Enter the code sent to mobile number associated with your ABHA number"
+    "ENTER_CODE":"Enter the code sent to mobile number associated with your ABHA number",
+    "OPEN_MODAL":"Open modal"
 
 
 }
