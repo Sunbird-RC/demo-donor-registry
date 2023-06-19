@@ -221,6 +221,15 @@
     "OK":"OK",
     "THANK_YOU_MSG":"Thank you for your enthusiasm.",
     "REGISTER_AGE":"Please come back and register with us when you are 18.",
-    "FOR_MORE_INFO":"Click here for more information"
+    "FOR_MORE_INFO":"Click here for more information",
+    "INCORRECT_OTP_MULTIPLE":"Incorrect OTP entered multiple times",
+    "SELECT_PROFILE":"Select Profile",
+    "FOUND_ABHA":"We found the following ABHA number linked to this number.",
+    "SELECT_ABHA":"Select the ABHA number for which you wish to pledge.",
+    "ALL_REGISTERED":"All Profiles are already registered for Pledge.",
+    "ABHA_NUMBER":"ABHA Number",
+    "ALREADY_REGISTERED":"Already Registered for Pledge",
+    "CLOSE":"Close"
+
 
 }
