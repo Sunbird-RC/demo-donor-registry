@@ -206,5 +206,21 @@
     "PLZ_SELECT_LANG":"Please select a language",
     "DOWNLOAD":"Download",
     "SHARE": "Share",
-    "SHARE_YOUR_STATUS": "Share Your Pledge Status"
+    "SHARE_YOUR_STATUS": "Share Your Pledge Status",
+    "VERIFY":"Verify",
+    "I_AGREE":"I agree",
+    "AADHAAR_CONSENT":"I, hereby declare that I am voluntarily sharing my Aadhaar Number and demographic information issued by UIDAI, with National Health Authority (NHA) for the sole purpose of creation of ABHA number . I understand that my ABHA number can be used and shared for purposes as may be notified by ABDM from time to time including provision of healthcare services. Further, I am aware that my personal identifiable information (Name, Address, Age, Date of Birth, Gender and Photograph) may be made available to the entities working in the National Digital Health Ecosystem (NDHE) which inter alia includes stakeholders and entities such as healthcare professionals (e.g. doctors), facilities (e.g. hospitals, laboratories) and data fiduciaries (e.g. health programmes), which are registered with or linked to the Ayushman Bharat Digital Mission (ABDM), and various processes there under. I authorize NHA to use my Aadhaar number for performing Aadhaar based authentication with UIDAI as per the provisions of the Aadhaar (Targeted Delivery of Financial and other Subsidies, Benefits and Services) Act, 2016 for the aforesaid purpose. I understand that UIDAI will share my e-KYC details, or response of “Yes” with NHA upon successful authentication. I have been duly informed about the option of using other IDs apart from Aadhaar; however, I consciously choose to use Aadhaar number for the purpose of availing benefits across the NDHE. I am aware that my personal identifiable information excluding Aadhaar number / VID number can be used and shared for purposes as mentioned above. I reserve the right to revoke the given consent at any point of time as per provisions of Aadhaar Act and Regulations.",
+    "CONFIRM_OTP":"Confirm OTP",
+    "ENTER_OTP_MG":"Please enter the OTP received on your mobile number",
+    "ENTER_OTP":"Enter OTP",
+    "CONFIRM":"Confirm",
+    "MOBILE_NUMBER":"Mobile Number",
+    "MOBILE_LINK_AADHAAR":"It is recommended that you use the mobile number linked with Aadhaar",
+    "ENTER_MOBILE_NUMBER":"Enter Mobile Number",
+    "INCORRECT_OTP":"Incorrect OTP entered",
+    "OK":"OK",
+    "THANK_YOU_MSG":"Thank you for your enthusiasm.",
+    "REGISTER_AGE":"Please come back and register with us when you are 18.",
+    "FOR_MORE_INFO":"Click here for more information"
+
 }
