@@ -224,7 +224,13 @@
   "ALL_REGISTERED": "सभी प्रोफ़ाइल प्रतिज्ञा के लिए पहले ही पंजीकृत हैं।",
   "ABHA_NUMBER": "ABHA नंबर",
   "ALREADY_REGISTERED": "प्रतिज्ञा के लिए पहले से पंजीकृत",
-  "CLOSE":"बंद करें"
+  "CLOSE":"बंद करें",
+  "ABHA_MULTIPLE_ENTRY": "ABHA संख्या कई बार दर्ज की गई",
+  "INVALID_ABHA": "अमान्य ABHA नंबर",
+  "OTP_MULTIPLE": "OTP कई बार दर्ज किया गया",
+  "ENTER_CODE": "आपके ABHA नंबर से संबद्ध मोबाइल नंबर पर भेजा गया कोड दर्ज करें",
+  "OPEN_MODAL":"ओपन मोडल"
+
 
 
 
