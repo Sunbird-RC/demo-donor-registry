@@ -1,8 +1,11 @@
 const axios = require('axios');
-const {NOTIFICATION_SERVICE_URL} = require("../configs/config");
+const {NOTIFICATION_SERVICE_URL, MOCK_ENABLED} = require("../configs/config");
 
 
 const sendNotification = (to, message, templateId) => {
+    if(MOCK_ENABLED) {
+        return Promise.resolve({})
+    }
     const data = JSON.stringify({
         "recipient": `tel:${to}`,
         "message": `{\n  \"message\": \"${message}\",\n  \"templateId\": \"${templateId}\"\n}`

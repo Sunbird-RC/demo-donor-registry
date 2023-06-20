@@ -19,7 +19,7 @@ const {encryptWithCertificate} = require("./services/encrypt.service");
 const services = require('./services/createAbha.service');
 const profileService = require('./services/abhaProfile.service');
 const utils = require('./utils/utils');
-const {isABHARegistered, getKeyBasedOnEntityName} = require("./services/abhaProfile.service");
+const {isABHARegistered, getKeyBasedOnEntityName, getMockProfile} = require("./services/abhaProfile.service");
 const app = express();
 
 (async() => {
@@ -74,6 +74,10 @@ const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
 }
 
 app.post('/auth/sendOTP', async(req, res) => {
+    if(config.MOCK_ENABLED) {
+        res.status(200).json({});
+        return;
+    }
     console.log('sending OTP');
     const clientSecretToken = await getAbhaApisAccessToken();
     const abhaId = req.body.healthId;
@@ -92,6 +96,11 @@ app.post('/auth/sendOTP', async(req, res) => {
 });
 
 app.post('/auth/verifyOTP', async(req, res) => {
+    if(config.MOCK_ENABLED) {
+        const mockProfile = getMockProfile();
+        res.status(200).json(mockProfile);
+        return;
+    }
     console.log('Verifying OTP and sending Profile KYC');
     const transactionId = req.body.transactionId;
     const otp = req.body.otp;
@@ -163,15 +172,22 @@ async function incrementNottoId(entityName) {
 
 app.post('/register/:entityName', async(req, res) => {
     console.log('Inviting entity');
-    //TODO : check duplicate
-    const profileFromRedis = JSON.parse(await redis.getKey(req.body.identificationDetails.abha));
-    if(profileFromRedis === null) {
-        res.status(401).send({message: 'Abha number verification expired. Please refresh the page and restart registration'});
-        return;
-    }
+    let profile;
     let profileFromReq = req.body;
-    profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
-    const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
+    //TODO : check duplicate
+    if(!config.MOCK_ENABLED) {
+        const profileFromRedis = JSON.parse(await redis.getKey(req.body.identificationDetails.abha));
+        if(profileFromRedis === null) {
+            res.status(401).send({message: 'Abha number verification expired. Please refresh the page and restart registration'});
+            return;
+        }
+        profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
+        profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
+    }
+    else {
+        profile = profileFromReq;
+        profile.personalDetails.photo = getMockProfile().profilePhoto;
+    }
     const entityName = req.params.entityName;
     try {
         profile.identificationDetails.nottoId = await generateNottoId(entityName);
@@ -180,9 +196,11 @@ app.post('/register/:entityName', async(req, res) => {
         const abha = profileFromReq.identificationDetails.abha;
         await redis.storeKey(getKeyBasedOnEntityName(entityName) + abha, "true");
         const osid = inviteReponse.result[entityName].osid;
-        const esignFileData = (await getESingDoc(abha)).data;
-        const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
-        console.log(uploadESignFileRes);
+        if(!config.MOCK_ENABLED) {
+            const esignFileData = (await getESingDoc(abha)).data;
+            const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
+            console.log(uploadESignFileRes);
+        }
         await sendRegisteredNotifications(profile);
 
         res.send(inviteReponse);
@@ -228,9 +246,11 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
         }
         const updateApiResponse = (await axios.put(`${config.REGISTRY_URL}/api/v1/${entityName}/${entityId}`, profileFromReq, {headers: {...req.headers}})).data;
-        const esignFileData = (await getESingDoc(profileFromReq.identificationDetails.abha)).data;
-        const uploadESignFileRes = await uploadESignFile(entityId, esignFileData);
-        console.log(uploadESignFileRes);
+        if(!config.MOCK_ENABLED) {
+            const esignFileData = (await getESingDoc(profileFromReq.identificationDetails.abha)).data;
+            const uploadESignFileRes = await uploadESignFile(entityId, esignFileData);
+            console.log(uploadESignFileRes);
+        }
         await sendUpdatedNotification(userData);
         await sendNotificationToEmergencyDetailsIfUpdated(profileFromReq, userData);
         await redis.deleteKey(getKeyBasedOnEntityName(entityName) + entityId);
@@ -277,6 +297,13 @@ function validateEmergencyMobileNumberUpdated(profileFromReq, userData) {
 }
 
 app.post('/esign/init', async (req, res) => {
+    if(config.MOCK_ENABLED) {
+        res.send({
+            signUrl: 'http://localhost:3000/mock/esign',
+            aspTxnId: 'mockAspTxnId'
+        });
+        return;
+    }
     try {
         // if (!'data' in req.query) {
         //     res.status(400).send(new Error('Pledge data not available'));
@@ -374,7 +401,23 @@ const getUserData = async(key, req) => {
     return JSON.stringify(userData);
 }
 
+app.post('/mock/esign', (req, res) => {
+    const html = `<html><head><title>Mock ESign</title></head><body><h3>This is Mock ESIGN Portal</h3><a href="http://localhost:3000/mock/esign/submit">Submit</a></body></html>`
+    res.send(html);
+})
+
+app.get('/mock/esign/submit', async(req, res) => {
+    await redis.storeKeyWithExpiry('mockAspTxnId', "true", config.EXPIRE_PROFILE);
+    res.sendStatus(200)
+})
+
 app.put('/esign/init/:entityName/:entityId', async(req, res) => {
+    if(config.MOCK_ENABLED) {
+        res.send({
+            signUrl: 'http://localhost:3000/mock/esign',
+            aspTxnId: 'mockAspTxnId'
+        });
+    }
     try {
         const userData = JSON.parse(await getUserData(getKeyBasedOnEntityName(req.params.entityName) + req.params.entityId, req));
         if(validateIfNonEditableFieldsPresent(req.body.data, userData)) {
@@ -462,6 +505,13 @@ async function getServiceAccountToken() {
 }
 
 async function getESingDoc(abha) {
+    if(config.MOCK_ENABLED) {
+        if((await redis.getKey('mockAspTxnId')) === "true") {
+            await redis.deleteKey('mockAspTxnId');
+            return Promise.resolve({message: "SUCCESS"})
+        }
+        return Promise.reject({message: "NOT GENERATED"});
+    }
     let eSingTransactionId = await redis.getKey(getEsginKey(abha));
     console.log("Get status api called" + eSingTransactionId)
     return axios({
@@ -494,6 +544,10 @@ app.get('/esign/:abha/status', async (req, res) => {
 });
 
 app.post('/auth/mobile/sendOTP', async(req, res) => {
+    if(config.MOCK_ENABLED) {
+        res.status(200).json({txnId: "123"});
+        return;
+    }
     console.log('sending OTP');
     const clientSecretToken = await getAbhaApisAccessToken();
     const mobile = req.body.mobile;
@@ -512,6 +566,20 @@ app.post('/auth/mobile/sendOTP', async(req, res) => {
 
 
 app.post('/auth/mobile/verifyOTP', async(req, res) => {
+    if(config.MOCK_ENABLED) {
+        res.status(200).json({
+            mobileLinkedHid: [
+              {
+                healthIdNumber: '91-3075-5157-3552',
+                healthId: '',
+                name: 'John Doe',
+                profilePhoto: null,
+                phrAddress: null
+              }
+            ]
+          });
+        return;
+    }
     console.log('Verifying OTP and sending Profile KYC');
     const transactionId = req.body.transactionId;
     const otp = req.body.otp;
@@ -556,6 +624,10 @@ async function getUserAuthorizedToken(healthId, txnId, token, clientSecretToken)
 
 app.post('/abha/profile', async(req, res) => {
     console.log('Verifying OTP and sending Profile KYC');
+    if(config.MOCK_ENABLED) {
+        res.send(getMockProfile());
+        return;
+    }
     const transactionId = req.body.transactionId;
     const healthId = req.body.healthId;
     const profileToken = req.body.token;

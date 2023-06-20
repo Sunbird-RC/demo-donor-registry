@@ -7,6 +7,10 @@ const utils = require('../utils/utils')
 const {isABHARegistered} = require("./abhaProfile.service");
 
 async function generateAadhaarOTP(req, res) {
+    if(config.MOCK_ENABLED) {
+        res.status(200).json({});
+        return;
+    }
     const generateOtpUrl = config.BASE_URL + '/v2/registration/aadhaar/generateOtp';
     const clientSecretToken = await getAbhaApisAccessToken();
     const encryptedAadhaar = await encryptWithCertificate(req.body.aadhaar);
@@ -27,6 +31,10 @@ async function generateAadhaarOTP(req, res) {
 }
 
 async function verifyAadhaarOTP(req, res) {
+    if(config.MOCK_ENABLED) {
+        res.send(profileService.getMockProfile());
+        return;
+    }
     const verifyOtpUrl = config.BASE_URL + '/v2/registration/aadhaar/verifyOTP';
     const txnId = req.body.txnId;
     const clientSecretToken = await getAbhaApisAccessToken();
