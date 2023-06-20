@@ -6,11 +6,7 @@ const SOCIAL_SHARE_PROPERTY_PATHS_MAP = {
         ["personalDetails", "lastName"],
     ]
 }
-const SOCIAL_SHARE_TEMPLATE_MAP = {
-    Pledge: {
-        '1': "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/social_templates/1.svg"
-    }
-}
+const SOCIAL_SHARE_TEMPLATE_MAP = require("./social-media.json");
 module.exports = {
     GENDER_MAP,
     SOCIAL_SHARE_PROPERTY_PATHS_MAP,

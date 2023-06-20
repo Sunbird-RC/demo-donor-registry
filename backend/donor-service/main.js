@@ -20,8 +20,9 @@ const services = require('./services/createAbha.service');
 const profileService = require('./services/abhaProfile.service');
 const utils = require('./utils/utils');
 const {isABHARegistered, getKeyBasedOnEntityName} = require("./services/abhaProfile.service");
-const {SOCIAL_SHARE_PROPERTY_PATHS_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require("./configs/constants");
+const {SOCIAL_SHARE_TEMPLATE_MAP} = require("./configs/constants");
 const app = express();
+const {convertToSocialShareResponse} = require("./utils/utils");
 
 (async() => {
     await redis.initRedis({REDIS_URL: config.REDIS_URL})
@@ -286,13 +287,7 @@ app.get('/share/:entityName/:entityId/:templateId', async(req, res) => {
             }
         });
         const userData = JSON.parse(userDataString);
-        if(R.path([entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP) === undefined) {
-            res.status(500).json({ message: "Social shareable property path not found" })
-        }
-        const responseData = R.paths(R.path([entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP), userData)
-            .reduce((res, value, i) => {
-                return R.assocPath(R.path([entityName, i], SOCIAL_SHARE_PROPERTY_PATHS_MAP), value, res);
-            }, {});
+        const responseData = convertToSocialShareResponse(entityName, userData);
         responseData.templateUrl = R.path([entityName, templateId], SOCIAL_SHARE_TEMPLATE_MAP);
         res.json(responseData);
     } catch(err) {
