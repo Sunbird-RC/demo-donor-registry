@@ -20,6 +20,7 @@ const services = require('./services/createAbha.service');
 const profileService = require('./services/abhaProfile.service');
 const utils = require('./utils/utils');
 const {isABHARegistered, getKeyBasedOnEntityName} = require("./services/abhaProfile.service");
+const {SOCIAL_SHARE_PROPERTY_PATHS_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require("./configs/constants");
 const app = express();
 
 (async() => {
@@ -269,6 +270,40 @@ app.delete('/:entityName/:entityId/', async (req, res) => {
         res.status(500).json(e);
     }
 });
+
+app.get('/share/:entityName/:entityId/:templateId', async(req, res) => {
+    const entityName = req.params.entityName;
+    const entityId = req.params.entityId;
+    const templateId = req.params.templateId;
+    try {
+        const token = await getServiceAccountToken();
+        const userDataString = await getUserData(getKeyBasedOnEntityName(entityName) + entityId, {
+            ...req,
+            headers: {
+                ...req.headers,
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        const userData = JSON.parse(userDataString);
+        if(R.path([entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP) === undefined) {
+            res.status(500).json({ message: "Social shareable property path not found" })
+        }
+        const responseData = R.paths(R.path([entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP), userData)
+            .reduce((res, value, i) => {
+                return R.assocPath(R.path([entityName, i], SOCIAL_SHARE_PROPERTY_PATHS_MAP), value, res);
+            }, {});
+        responseData.templateUrl = R.path([entityName, templateId], SOCIAL_SHARE_TEMPLATE_MAP);
+        res.json(responseData);
+    } catch(err) {
+        console.error(err);
+        err = {
+            message: err?.response?.data || err?.message || err
+        }
+        res.status(500).json(err);
+    }
+});
+
 
 function validateEmergencyMobileNumberUpdated(profileFromReq, userData) {
     const userNotifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], userData);
