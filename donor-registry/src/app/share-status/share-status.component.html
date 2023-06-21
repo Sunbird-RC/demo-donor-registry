@@ -3,44 +3,57 @@
 
 <div class="mt-190 pb-3 m-3">
 
-    <button  class="gobackBtn d-flex fw-bold my-2" onClick="history.go(-1); return false;">
-        <i class="fa fa-angle-left primary-text backIcon"></i>  &nbsp; &nbsp;
-          <span class="fs-24 fw-bold mt-2"> Share Pledge Status </span> 
-       
+    <button class="gobackBtn d-flex fw-bold my-2" onClick="history.go(-1); return false;">
+        <i class="fa fa-angle-left primary-text backIcon"></i> &nbsp; &nbsp;
+        <span class="fs-24 fw-bold mt-2"> {{ 'SHARE_PLEDGE_STATUS' | translate}} </span>
+
     </button>
 
     <div class="card">
         <div class="card-body">
-            <p class="fs-24 fw-bold"> Venkata Narasimha Rajuvaripet</p>
-            <p class="p16  mt-2 mb-4">Thanks for pledging your organs. You can now, share your pledge status on social
-                media to
-                spread the word. </p>
+            <div class="row">
+              
 
-                <div class="input-group inputCp w-50 mb-3">
-                    <input type="text" class="form-control inputCp" placeholder="" aria-label="Recipient's username"
-                        aria-describedby="basic-addon2">
-                    <div class="input-group-append1">
-                        <button class="btn copyBtn mt-1 fw-bold btn-small" type="button">Copy Link</button>
-                    </div>
+                <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12 my-3">
+                    <img [src]="templateContent" alt="Status Image" class="rounded float-left svgTemplate">
+                    <!-- <div id="result"  class="rounded float-left svgTemplate"> </div> -->
                 </div>
+                <div class="col-xl-9 col-lg-8 col-md-7 col-sm-6 col-12 my-3">
 
-                <p class="fw-bold p16 mb-1">Share on social media</p>
-                <a class="fa fa-facebook" target="_blank"
-                    href="https://www.facebook.com/sharer/sharer.php?u={{url}}&amp;src=sdkpreparse"></a>
-                <a class="fa fa-twitter" target="_blank"
-                    href="https://twitter.com/intent/tweet?text=text goes here {{url}}&hashtags=hashtag1,hashtag2"></a>
+                    <p class="fs-24 fw-bold"> {{plederInfo?.personalDetails?.firstName}} {{plederInfo?.personalDetails?.middleName}} {{plederInfo?.personalDetails?.lastName}}</p>
+                    <p class="p16  mt-2 mb-4">{{ 'THANKS_FOR_PLEDGE_YOUR_ORGANS' | translate}} </p>
 
-                <a class="fa fa-whatsapp" target="_blank" href="https://web.whatsapp.com/send?text=www.google.com"
-                    data-text="Take a look at this awesome website:"></a>
-                <!-- <a href="whatsapp://send?text=www.google.com" data-text="Take a look at this awesome website:" class="wa_btn wa_btn_s" style="display:none">Share1</a> -->
+                    <div class="input-group inputCp mb-3">
+                        <div class="copyLinkBox w-75 ">
+                            <span id="copyLink" class="ml-2">{{url}}</span>
+                        </div>
+                        <div>
+                            <button (click)="copyShareLink()" class="btn copyBtn mt-1 fw-bold btn-small"
+                                type="button">{{ 'COPY_LINK' | translate}}</button>
+                        </div>
+                    </div>
 
-                <a class="fa fa-linkedin" target="_blank"
-                    href="https://www.linkedin.com/sharing/share-offsite/?url={{url}}"></a>
+                    <p class="fw-bold p16 mb-1">{{ 'SHARE_ON_SOCIAL_MEDIA' | translate}}</p>
+                    <a class="fa fa-facebook" target="_blank"
+                        href="https://www.facebook.com/sharer/sharer.php?u={{url}}&amp;src=sdkpreparse"></a>
+                    <a class="fa fa-twitter" target="_blank"
+                        href="https://twitter.com/intent/tweet?text={{url}}&hashtags=hashtag1,hashtag2"></a>
 
-                <a class="fa fa-envelope" target="_blank"
-                    href="mailto:recipient@example.com?subject=Image%20Sharing&body=Please%20find%20the%20attached%20{{url}}"></a>
+                        <a class="fa fa-whatsapp" target="_blank"
+                        [href]="shareOnWhatsapp()"></a>
+                    <!-- <a class="fa fa-whatsapp" target="_blank"
+                        href="https://web.whatsapp.com/send?text={{url}}"
+                        data-text="Take a look at this awesome website:"></a> -->
+                    <!-- <a href="whatsapp://send?text=www.google.com" data-text="Take a look at this awesome website:" class="wa_btn wa_btn_s" style="display:none">Share1</a> -->
 
-                <a class="fa fa-instagram" target="_blank" href="instagram://library?AssetPath={{url}}"></a>
+                    <a class="fa fa-linkedin" target="_blank"
+                        href="https://www.linkedin.com/sharing/share-offsite/?url={{url}}"></a>
+
+                    <a class="fa fa-envelope" target="_blank"
+                    [href]="generateMailtoLink()"></a>
+                    <p class="p14 text-mute mb-1"> {{ 'FOR_INSTAGRAM_UPLOAD_MANUALLY' | translate}}</p>
+                </div>
+            </div>
         </div>
     </div>
 
