@@ -59,13 +59,11 @@ function getErrorObject(err) {
 const convertToSocialShareResponse = (entityName, userData) => {
     if(R.path([entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP) === undefined) {
         throw new Error("Social shareable property path not found");
-        // res.status(500).json({ message: "Social shareable property path not found" })
     }
-    const responseData = R.paths(R.pathOr([], [entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP), userData)
+    return R.paths(R.pathOr([], [entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP), userData)
         .reduce((res, value, i) => {
             return R.assocPath(R.path([entityName, i], SOCIAL_SHARE_PROPERTY_PATHS_MAP), value, res);
         }, {});
-    return responseData;
 }
 
 module.exports = {
