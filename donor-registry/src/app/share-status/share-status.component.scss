@@ -12,6 +12,10 @@
   .fa:hover {
       opacity: 0.7;
   }
+
+  .btn:hover {
+    opacity: 0.8;
+}
   
   .fa-facebook {
     background: #3B5998;
@@ -73,4 +77,19 @@
     top: 0px;
     border-radius: 4px;
   }
-  
+
+  .svgTemplate{
+    height: 282px;
+    width: 282px;
+    left: 71px;
+    top: 195px;
+    border: 1px solid #EFEFEF;
+  }
+
+  .copyLinkBox{
+    border: 1px solid #EFEFEF;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+  }
+

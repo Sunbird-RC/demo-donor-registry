@@ -234,7 +234,11 @@
     "INVALID_ABHA":"Invalid ABHA number",
     "OTP_MULTIPLE":"OTP entered multiple times",
     "ENTER_CODE":"Enter the code sent to mobile number associated with your ABHA number",
-    "OPEN_MODAL":"Open modal"
-
+    "OPEN_MODAL":"Open modal",
+    "SHARE_PLEDGE_STATUS":"Share Pledge Status",
+    "THANKS_FOR_PLEDGE_YOUR_ORGANS":"Thanks for pledging your organs. You can now, share your pledge status on social media to spread the word.",
+    "COPY_LINK":"Copy Link",
+    "SHARE_ON_SOCIAL_MEDIA":"Share on social media",
+    "FOR_INSTAGRAM_UPLOAD_MANUALLY":"For Instagram, Download The Image And Upload Manually"
 
 }

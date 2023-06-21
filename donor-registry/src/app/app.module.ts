@@ -193,6 +193,7 @@ let configData = {
     VerifyCertificateComponent,
     TooltipWrapper,
     ShareStatusComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
