@@ -36,7 +36,7 @@
 
         
           <form [formGroup]="form2" (ngSubmit)="submit()" *ngIf="fields" #myForm="ngForm">
-            <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form2"></formly-form>
+            <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form2" (modelChange)="onFormChange()"></formly-form>
 
             <span *ngIf="form == 'livedonor'">
               <span class="p14 fw-bold">I solemnly affirm and declare that:</span> <br>
@@ -66,7 +66,7 @@
             </span>
 
             <div class="d-flex justify-content-between">
-                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && isVerified"  type="submit" class="btn-holder btn-size size-bts btn-centre">
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && isVerified"  [disabled]="!isFormEdited" type="submit" class="btn-holder btn-size size-bts btn-centre">
                   <div *ngIf="form == 'pledge-setup'">{{'SUBMIT' | translate}} </div>
                   <div *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && form != 'pledge-setup'" >{{'REGISTER' | translate}}</div>
                   </button>

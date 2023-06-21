@@ -144,7 +144,7 @@ export class FormsComponent implements OnInit {
   organCheckbox: boolean = true;
   optionAdded: boolean = false;
   isVerified: string;
-
+  isFormEdited: boolean = false;
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -776,6 +776,10 @@ export class FormsComponent implements OnInit {
 
 
 
+  }
+
+  onFormChange() {
+    this.isFormEdited = true;
   }
 
   loadSchema() {
