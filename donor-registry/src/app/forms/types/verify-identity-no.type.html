@@ -27,15 +27,15 @@
         <div *ngIf="!canRegister" class="modal-dialog" role="document">
             <div class="p-4 modal-content">
                 <div class="modal-body text-center">
-                    <h3 class="fw-bold mb-3">{{'THANK_YOU_MSG' | translate}} </h3>
-                    <p class="p14">{{'REGISTER_AGE' | translate}}</p>
+                    <h3 class="fw-bold mb-3">Thank you for your enthusiasm. </h3>
+                    <p class="p14">Please come back and register with us when you are 18.</p>
                     <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf#page=52"
-                        target="_blank">{{'FOR_MORE_INFO' | translate}}</a>
+                        target="_blank">Click here for more information</a>
                     <br />
                     <br />
                     <div class="container-fluid mt-3">
                     <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
-                    data-toggle="modal"  data-dismiss="modal" aria-label="Close">{{'OK' | translate}}</button>
+                    data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
                 </div>
                 </div>
             </div>
@@ -47,16 +47,19 @@
                         <div *ngIf="isAbhaNoErr">
                             <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold"></span>
                             <br>
-                            <span *ngIf="customErrCode == '420'" class="p24 mb-2 mt-2 mb-2 fw-bold">{{'ABHA_MULTIPLE_ENTRY' | translate}}</span>
-                            <span *ngIf="customErrCode == '427'" class="p24 mb-2 mt-2 mb-2 fw-bold">{{'INVALID_ABHA' | translate}}</span>
+                            <span *ngIf="customErrCode == '420'" class="p24 mb-2 mt-2 mb-2 fw-bold">ABHA number entered
+                                multiple times</span>
+                            <span *ngIf="customErrCode == '427'" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid ABHA
+                                number</span>
                             <br /> <br />
                             <span *ngIf="errorMessage" class="p14 mb-2 mt-2 mb-2">{{errorMessage}}</span>
                             <br /> <br />
                            
                         </div>
                         <div *ngIf="!isAbhaNoErr && canRegister">
-                            <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold">{{'INCORRECT_OTP' | translate}}</span>
-                            <span *ngIf="customErrCode == '429'" class="p24 mb-2 mt-2 mb-2 fw-bold">{{'OTP_MULTIPLE' | translate}}</span>
+                            <span *ngIf="!errorMessage" class="p24 mb-2 mt-2 mb-2 fw-bold">Invalid OTP number</span>
+                            <span *ngIf="customErrCode == '429'" class="p24 mb-2 mt-2 mb-2 fw-bold">OTP entered multiple
+                                times</span>
                             <br>
   
                             <br>
@@ -67,7 +70,7 @@
                         </div>
                         <div class="container-fluid mt-3">
                         <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2"
-                        data-toggle="modal"  data-dismiss="modal" aria-label="Close">{{'OK' | translate}}</button>
+                        data-toggle="modal"  data-dismiss="modal" aria-label="Close">OK</button>
                     </div>
                     </div>
                 </div>
@@ -80,9 +83,9 @@
                     <span class=" float-end" aria-hidden="true">&times;</span>
                 </div>
                 <div class="modal-body">
-                    <h3 class="fw-bold mb-3">{{'CONFIRM_OTP' | translate}}</h3>
+                    <h3 class="fw-bold mb-3">Confirm OTP</h3>
                     <p class="p14">
-                        {{'ENTER_CODE' | translate}}
+                        Enter the code sent to mobile number associated with your ABHA number
                     </p>
                     <span class="fw-bold p12"> Enter OTP</span> <br />
                     <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
@@ -90,19 +93,38 @@
                     <br />
                     <button m type="button" (click)="submitOtp()"
                         class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
-                        {{'CONFIRM_OTP' | translate}}
+                        Confirm
                     </button>
                 </div>
             </div>
         </div>
         <button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#verifyOtp">
-            {{'OPEN_MODAL' | translate}}
+            Open Modal
         </button>
         <button id="closeModalButton" [hidden]="true" data-toggle="modal" data-target="#verifyOtp"
             class="btn btn-default" data-dismiss="modal">
-            {{'CLOSE' | translate}}
+            Close
         </button>
     
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   
