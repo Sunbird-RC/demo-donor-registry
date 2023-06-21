@@ -239,6 +239,29 @@
     "THANKS_FOR_PLEDGE_YOUR_ORGANS":"Thanks for pledging your organs. You can now, share your pledge status on social media to spread the word.",
     "COPY_LINK":"Copy Link",
     "SHARE_ON_SOCIAL_MEDIA":"Share on social media",
-    "FOR_INSTAGRAM_UPLOAD_MANUALLY":"For Instagram, Download The Image And Upload Manually"
+    "FOR_INSTAGRAM_UPLOAD_MANUALLY":"For Instagram, Download The Image And Upload Manually",
+    "PLEDGER_DETAILS":"Pledger Details",
+    "DO_YOU_UNPLEDGE":"Do you want to unpledge?",
+    "YES_UNPLEDGE":"Yes, Unpledge",
+    "DO_PLEDGE_AGAIN":"Do you want to pledge again?",
+    "YES_PLEDGE":"Yes, Pledge",
+    "HAS_SUCCESSFULLY_UNPLEDGED":"has successfully unpledged",
+    "DOWNLOAD_VC":"Download Verifiable Credentials",
+    "DONOR":"Donor",
+    "RECEPIENT":"Recepient",
+    "REGISTER_TO_PLEDGE":"Register to Pledge",
+    "I_AFFIRM":"I solemnly affirm and declare that:",
+    "SECTION_TWO":"Sections 2, 9 and 19 of The Transplantation of Human Organs Act, 1994 have been explained to me and I confirm that:",
+    "POINT_ONE":"1. I understand the nature of criminal offences referred to in the sections.",
+    "POINT_TWO":"2. No payment as referred to in the sections of the Act has been made to me or will be made to me or any other person.",
+    "POINT_THREE":"3. I am giving the consent and authorization to remove my KIDNEY of my own free will without any undue pressure, inducement, influence or allurement.",
+    "POINT_FOUR":"4. I have been given a full explanation of the nature of the medical procedure involved and the risks involved for me in the removal of my KIDNEY. That explanation was given by (name of registered medical practitioner).",
+    "POINT_FIVE":"5. I understand the nature of that medical procedure and of the risks to me as explained by that practitioner.",
+    "POINT_SIX":"6. I understand that I may withdraw my consent to the removal of that organ at any time before the operation takes place.",
+    "POINT_SEVEN":"7. I state that particulars filled by me in the form are true and correct to the best of my knowledge and belief and nothing material has been concealed by me.",
+    "SAVE_AS_DRAFT":"Save as draft",
+    "CONFIRM_PLEDGE_REGISTRATION":"Confirm Pledge Registration",
+    "PLEASE_CONFIRM":"Please confirm to submit details"
+
 
 }

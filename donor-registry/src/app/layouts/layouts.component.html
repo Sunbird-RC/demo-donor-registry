@@ -27,7 +27,7 @@
     <br />
 
     <div *ngIf="layout == 'pledge'" class="mx-5">
-        <span class="fs-24 fw-bold pl-3">Pledger Details </span>
+        <span class="fs-24 fw-bold pl-3"> {{'PLEDGER_DETAILS' | translate}}</span>
 
 
 
@@ -130,14 +130,14 @@
 
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
-                        <div class="p24 mb-2 mt-2 fw-bold"> Do you want to unpledge? </div>
+                        <div class="p24 mb-2 mt-2 fw-bold"> {{'DO_YOU_UNPLEDGE' | translate}} </div>
 
                         <div class="container-fluid mt-3">
-                            <button data-dismiss="modal" class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
+                            <button data-dismiss="modal" class="btn btn-secondary-notto btn-style mb-2">{{'CANCEL' | translate}}</button>
                             <a class="mt-3">
                                 <button id="" type="submit"
                                     class="btn btn-primary-notto btn-stle float-end submit-button mb-2"
-                                    (click)="deleteData(resItem)" data-dismiss="modal">Yes, Unpledge</button>
+                                    (click)="deleteData(resItem)" data-dismiss="modal">{{'YES_UNPLEDGE' | translate}}</button>
                             </a>
                         </div>
                     </div>
@@ -156,15 +156,15 @@
                 <div class="modal-body">
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
-                        <div class="p24 mb-2 mt-2 fw-bold"> Do you want to pledge again?</div>
+                        <div class="p24 mb-2 mt-2 fw-bold"> {{'DO_PLEDGE_AGAIN' | translate}}</div>
 
                         <div class="container-fluid mt-3">
 
                             <button data-dismiss="modal" id="cancelBtn"
-                                class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
+                                class="btn btn-secondary-notto btn-style mb-2">{{'CANCEL' | translate}}</button>
 
                             <a class="mt-3" id="myId"
-                                class="btn btn-primary-notto btn-stle float-end submit-button mb-2">Yes, Pledge
+                                class="btn btn-primary-notto btn-stle float-end submit-button mb-2">{{'YES_PLEDGE' | translate}}
                             </a>
                         </div>
                     </div>
@@ -188,11 +188,11 @@
 
                             <span id="firstName"> {{resItem?.personalDetails?.firstName}}</span> &nbsp;<span
                                 id="lastName">{{resItem?.personalDetails?.lastName}}</span>
-                            <div>has successfully unpledged</div>
+                            <div>{{'HAS_SUCCESSFULLY_UNPLEDGED' | translate}}</div>
                         </h3>
                            <div (click)="refreshPage()"> 
                                     <button type="button" class="btn btn-primary-notto btn-style mt-3"
-                                        data-dismiss="modal">OK</button>
+                                        data-dismiss="modal">{{'OK' | translate}}</button>
                             </div>
                     </div>
                 </div>
@@ -415,14 +415,14 @@
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <h6 class="modal-title">Download Verifiable Credentials</h6>
+                            <h6 class="modal-title">{{'DOWNLOAD_VC'| translate}}</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
                             <iframe width="100%" height="100%" [src]="url"></iframe>
                             <span class="badge font-weight-bold badge-info p-2" data-mdb-toggle="tooltip"
-                                (click)="dowbloadCard1()">Download</span>
+                                (click)="dowbloadCard1()">{{'DOWNLOAD'| translate}}</span>
 
                             <!-- <app-layouts layout={{layout}} identifier={{identifier}} public="true"></app-layouts> -->
                         </div>
