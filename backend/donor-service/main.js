@@ -272,7 +272,7 @@ app.delete('/:entityName/:entityId/', async (req, res) => {
     }
 });
 
-app.get('/share/:entityName/:entityId/:templateId', async(req, res) => {
+app.get('/certs/share/:entityName/:entityId/template/:templateId', async(req, res) => {
     const entityName = req.params.entityName;
     const entityId = req.params.entityId;
     const templateId = req.params.templateId;
@@ -283,13 +283,27 @@ app.get('/share/:entityName/:entityId/:templateId', async(req, res) => {
             headers: {
                 ...req.headers,
                 'Content-Type': "application/json",
+                'Accept': "*/*",
                 'Authorization': `Bearer ${token}`,
             }
         });
         const userData = JSON.parse(userDataString);
         const responseData = convertToSocialShareResponse(entityName, userData);
-        responseData.templateUrl = R.path([entityName, templateId], SOCIAL_SHARE_TEMPLATE_MAP);
-        res.json(responseData);
+        const templateUrl = R.path([entityName, templateId], SOCIAL_SHARE_TEMPLATE_MAP);
+        if(!templateUrl) {
+            throw new Error(`template for '${entityName}' with id '${templateId}' not found`);
+        }
+        const responseImage = (await axios.post(`${config.CERTIFICATE_API_URL}/api/v1/certificate`, {
+            entityId: `share/${entityName}/${entityId}/template/${templateId}`,
+            entityName,
+            templateUrl,
+            certificate: JSON.stringify(responseData)
+        },{
+            headers: {
+            Accept: "image/svg+xml",
+            "Content-Type": "application/json"
+        }})).data;
+        res.send(responseImage);
     } catch(err) {
         console.error(err);
         err = {

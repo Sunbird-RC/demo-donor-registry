@@ -171,6 +171,8 @@ services:
     image: tejashjl/sunbird-rc-certificate-api:v0.0.13-1
     environment:
       - PORT=8078
+      - QR_TYPE=URL
+      - CERTIFICATE_DOMAIN_URL=http://localhost:3000
     ports:
       - "8078:8078"
     healthcheck:
