@@ -18,7 +18,7 @@
 
   <button *ngIf="(form == 'pledge-setup' || form == 'signup') && identifier" class="gobackBtn d-flex fw-bold my-3" onClick="history.go(-1); return false;">
     <i class="fa fa-angle-left primary-text backIcon"></i>  &nbsp; &nbsp;
-    <span class="fs-24 fw-bold" *ngIf="form == 'pledge-setup' && identifier"> {{'EDIT_DETAILS' | translate} </span> 
+    <span class="fs-24 fw-bold" *ngIf="form == 'pledge-setup' && identifier"> {{'EDIT_DETAILS' | translate}} </span> 
     <span class="fs-24 fw-bold" *ngIf="form == 'signup' && identifier"> {{'REGISTER_TO_PLEDGE' | translate}}</span> 
  
 </button>
