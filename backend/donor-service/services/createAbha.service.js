@@ -4,7 +4,8 @@ const { encryptWithCertificate } = require('./encrypt.service');
 const {getAbhaApisAccessToken} = require('./sessions.service')
 const profileService = require('./abhaProfile.service');
 const utils = require('../utils/utils')
-const {isABHARegistered} = require("./abhaProfile.service");
+const {isABHARegistered, getPledgeStatus} = require("./abhaProfile.service");
+const { PLEDGE_STATUS } = require('../configs/constants');
 
 async function generateAadhaarOTP(req, res) {
     const generateOtpUrl = config.BASE_URL + '/v2/registration/aadhaar/generateOtp';
@@ -49,11 +50,31 @@ async function verifyAadhaarOTP(req, res) {
             res.json({new: verifyAadhaarOTPResponse.new, txnId: verifyAadhaarOTPResponse.txnId})
             return;
         }
-        if (await isABHARegistered(verifyAadhaarOTPResponse.healthIdNumber, true)) {
-            throw {
-                status: 409,
-                message: 'You have already registered as a pledger. Please login to view and download pledge certificate'
-            }
+        let abhaRegistered = await isABHARegistered(verifyAadhaarOTPResponse.healthIdNumber, true)
+        if (abhaRegistered) {
+            let pledgeStatus = await getPledgeStatus(verifyAadhaarOTPResponse.healthIdNumber);
+            switch(pledgeStatus) {
+                case PLEDGE_STATUS.PLEDGED : 
+                    throw {
+                        status: 409,
+                        message: 'You have already registered as a pledger. Please login to view and download pledge certificate',
+                        response :{
+                            data:{ 
+                                details:[{"code": pledgeStatus}]
+                            }
+                        }
+                    }
+                case PLEDGE_STATUS.UNPLEDGED : 
+                    throw {
+                        status: 409,
+                        message: 'You have unpledged your exisitng pledge. Please login to update the pledge',
+                        response :{
+                            data:{ 
+                                details:[{"code": pledgeStatus}]
+                            }
+                        }
+                    }
+            } 
         }
         const createAbhaNumberResponse = await profileService.getAndCacheEKYCProfile(clientSecretToken, verifyAadhaarOTPResponse.jwtResponse.token);
         res.json(createAbhaNumberResponse);

@@ -1,5 +1,5 @@
 const redis = require("../services/redis.service");
-const {isABHARegistered, getAndCacheEKYCProfile, getKeyBasedOnEntityName} = require("../services/abhaProfile.service");
+const {isABHARegistered, getAndCacheEKYCProfile, getKeyBasedOnEntityName, getPledgeStatus} = require("../services/abhaProfile.service");
 const config = require("../configs/config");
 const axios = require('axios').default
 
@@ -31,6 +31,20 @@ describe('get and cache kyc profile', () => {
         expect(redis.storeKeyWithExpiry).toHaveBeenCalledWith('919191919191', "{\"healthIdNumber\":\"919191919191\",\"name\":\"Dummy dummy\"}", 100)
         expect(actualProfile).toEqual(expectedProfile);
     });
+
+    test('should return 0 as status when abha no is alredy registered and Pledged', async () => {
+        jest.spyOn(redis, 'getKey').mockReturnValue("0")
+        const isRegistered = await getPledgeStatus("a12341234");
+        expect(redis.getKey).toBeCalledWith("Da12341234")
+        expect(isRegistered).toEqual("0")
+    })
+    
+    test('should return 1 as status when abha no is alredy registered and UnPledged', async () => {
+        jest.spyOn(redis, 'getKey').mockReturnValue("1")
+        const isRegistered = await getPledgeStatus("a12341234");
+        expect(redis.getKey).toBeCalledWith("Da12341234")
+        expect(isRegistered).toEqual("1")
+    })
 
     test('should check if abha is registered if force is enabled', async () => {
         jest.spyOn(redis, 'getKey').mockReturnValue(true)
