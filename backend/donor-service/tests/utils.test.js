@@ -20,6 +20,113 @@ describe('test utils package',  () => {
         expect(actualAge).toEqual(expectedAge);
     });
 
+    describe("Social Share response conversion", () => {
+        const socialMediaShareTests = [
+            {
+                "scenario": "Only requested fields are selected in response",
+                "entityName": "Pledge",
+                "userData": {
+                    "personalDetails": {
+                        "firstName": "John",
+                        "middleName": "mark",
+                        "lastName": "clark",
+                        "age": 19
+                    },
+                    "IdentificationDetails": {
+                        "abha": "123123123123",
+                        "nottoId": "234234134"
+                    }
+                },
+                "expected": {
+                    "personalDetails": {
+                        "firstName": "John",
+                        "middleName": "mark",
+                        "lastName": "clark"
+                    }
+                }
+            },
+            {
+                "scenario": "Entity name is not present in the user data",
+                "entityName": "Pledge1",
+                "userData": {
+                },
+                "errorMessage": "Social shareable property path not found",
+                "expectError": true
+            },
+            {
+                "scenario": "Personal details key is present in the user data",
+                "entityName": "Pledge",
+                "userData": {
+                    "IdentificationDetails": {
+                        "abha": "123123123123",
+                        "nottoId": "234234134"
+                    }
+                },
+                "expected": {
+                    "personalDetails": {
+                        "firstName": undefined,
+                        "middleName": undefined,
+                        "lastName": undefined
+                    }
+                }
+            },
+            {
+                "scenario": "No key is present in the user data",
+                "entityName": "Pledge",
+                "userData": {
+                    "personalDetails": {
+                        "age": 19
+                    },
+                    "IdentificationDetails": {
+                        "abha": "123123123123",
+                        "nottoId": "234234134"
+                    }
+                },
+                "expected": {
+                    "personalDetails": {
+                        "firstName": undefined,
+                        "middleName": undefined,
+                        "lastName": undefined
+                    }
+                }
+            },
+            {
+                "scenario": "First name is not present in the user data",
+                "entityName": "Pledge",
+                "userData": {
+                    "personalDetails": {
+                        "middleName": "mark",
+                        "lastName": "clark",
+                        "age": 19
+                    },
+                    "IdentificationDetails": {
+                        "abha": "123123123123",
+                        "nottoId": "234234134"
+                    }
+                },
+                "expected": {
+                    "personalDetails": {
+                        "firstName": undefined,
+                        "middleName": "mark",
+                        "lastName": "clark",
+                    }
+                }
+            }
+        ]
+        for (let i in socialMediaShareTests) {
+            const { scenario, entityName, userData, expected, expectError, errorMessage } = socialMediaShareTests[i];
+            test(scenario, () => {
+                if (expectError) {
+                    expect(() => utils.convertToSocialShareResponse(entityName, userData))
+                        .toThrow(errorMessage);
+                } else {
+                    const actualResponse = utils.convertToSocialShareResponse(entityName, userData);
+                    expect(actualResponse).toEqual(expected);
+                }
+            });
+        }
+    })
+
     test('get appropriate error object for multiple OTPs requested', () => {
         const err = {
             status: 422,
