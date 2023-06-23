@@ -768,4 +768,10 @@ export class LayoutsComponent implements OnInit, OnChanges {
   refreshPage() {
     window.location.reload();
   }
+
+  navSharePage(osid)
+  {
+    this.router.navigate(["profile/certs/share/Pledge", osid]);
+  }
+  
 }

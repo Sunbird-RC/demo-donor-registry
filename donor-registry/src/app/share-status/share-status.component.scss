@@ -93,3 +93,44 @@
     align-items: center;
   }
 
+  .copyLinkSpan{
+    overflow: hidden;
+    max-width: 250px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .span-wrap {
+    white-space: nowrap; /* Default: No wrapping */
+  }
+
+  @media (max-width: 575px) {
+    .copyLinkSpan{
+      max-width: 100px;
+    }
+  }
+
+  @media (min-width: 574px) and (max-width: 774px) {
+    .copyLinkSpan{
+      max-width: 100px;
+    }
+  }
+
+  @media (min-width: 775px) and (max-width: 954px) {
+    .copyLinkSpan{
+      max-width: 176px;
+    }
+  }
+
+    @media (min-width: 955px) and (max-width: 1169px) {
+    .copyLinkSpan{
+      max-width: 322px;
+    }
+  }
+
+  @media (min-width: 1170px) {
+    .copyLinkSpan{
+      max-width: 400px;
+    }
+  }
+  

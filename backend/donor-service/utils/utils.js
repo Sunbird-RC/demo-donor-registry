@@ -1,4 +1,5 @@
 const R = require('ramda')
+const {SOCIAL_SHARE_PROPERTY_PATHS_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require("../configs/constants");
 function calculateAge(date) {
     const formattedDate = date.split("-");
     const birthdateTimeStamp = new Date(formattedDate[2], parseInt(formattedDate[1]) - 1, formattedDate[0]);
@@ -55,7 +56,18 @@ function getErrorObject(err) {
     };
 }
 
+const convertToSocialShareResponse = (entityName, userData) => {
+    if(R.path([entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP) === undefined) {
+        throw new Error("Social shareable property path not found");
+    }
+    return R.paths(R.pathOr([], [entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP), userData)
+        .reduce((res, value, i) => {
+            return R.assocPath(R.path([entityName, i], SOCIAL_SHARE_PROPERTY_PATHS_MAP), value, res);
+        }, {});
+}
+
 module.exports = {
     calculateAge,
-    getErrorObject
+    getErrorObject,
+    convertToSocialShareResponse,
 }
