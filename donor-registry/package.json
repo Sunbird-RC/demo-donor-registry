@@ -80,9 +80,7 @@
     "write-json-file": "^5.0.0",
     "z-schema": "^5.0.0",
     "zbar-angular.wasm": "^1.0.0",
-    "zone.js": "~0.10.3",
-    "handlebars": "^4.7.7",
-    "qrcode": "^1.5.3"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1000.0",
