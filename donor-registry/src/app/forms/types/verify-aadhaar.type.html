@@ -14,7 +14,7 @@
   </div>
   
     <div class="btn-sec-bg mt-2 p-2 col-lg-12" style="height: 250px; overflow-y: scroll;">
-   <input type="checkbox" (change)="checkValue($event);" checked>&nbsp;<span class="p14 lh-32">{{'I_AGREE' | translate}}</span>
+   <input type="checkbox" (change)="checkValue($event);"  [disabled]="isVerify" checked>&nbsp;<span class="p14 lh-32">{{'I_AGREE' | translate}}</span>
    <p class="p14 lh-32">{{'AADHAAR_CONSENT' | translate}}</p>
   </div>
 
