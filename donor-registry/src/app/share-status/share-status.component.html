@@ -1,15 +1,15 @@
-<app-header *ngIf="!public" [headerFor]="public" [tab]='tab'></app-header>
+<app-header [headerFor]='layout'></app-header>
 
 
-<div class="mt-190 pb-3 m-3">
+<div class="mt-190 pb-3">
 
-    <button class="gobackBtn d-flex fw-bold my-2" onClick="history.go(-1); return false;">
+    <button class="gobackBtn d-flex fw-bold m-2" onClick="history.go(-1); return false;">
         <i class="fa fa-angle-left primary-text backIcon"></i> &nbsp; &nbsp;
         <span class="fs-24 fw-bold mt-2"> {{ 'SHARE_PLEDGE_STATUS' | translate}} </span>
 
     </button>
 
-    <div class="card">
+    <div class="card m-3">
         <div class="card-body">
             <div class="row">
               

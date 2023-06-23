@@ -21,17 +21,22 @@ export class ShareStatusComponent implements OnInit {
   shareTemplate: string;
   osid: any;
   shouldWrapText: boolean;
+  layout;
+  templateid;
 
   constructor(private sanitizer: DomSanitizer, private translate: TranslateService,
     private generalService: GeneralService,   public route: ActivatedRoute,
     private breakpointObserver: BreakpointObserver) { 
       this.route.params.subscribe(params => {
         this.osid = params['id'];
+        this.layout = params['layout'];
+        this.templateid = (params['templateid']) ? params['templateid'] : 1;
       });
     }
 
   ngOnInit(): void {
-    this.url = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/1';
+    this.url = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+
     this.breakpointObserver.observe([
       Breakpoints.Small, // Adjust breakpoints as needed
       Breakpoints.Medium,
