@@ -23,6 +23,7 @@ export class ShareStatusComponent implements OnInit {
   shouldWrapText: boolean;
   layout;
   templateid;
+  apiurl: string;
 
   constructor(private sanitizer: DomSanitizer, private translate: TranslateService,
     private generalService: GeneralService,   public route: ActivatedRoute,
@@ -35,7 +36,11 @@ export class ShareStatusComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.url = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+    this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+
+    if(window.location.host !== 'localhost:4200'){
+      this.url = window.location.origin + `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+    }
 
     this.breakpointObserver.observe([
       Breakpoints.Small, // Adjust breakpoints as needed
