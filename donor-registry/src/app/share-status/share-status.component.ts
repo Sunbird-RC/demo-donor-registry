@@ -30,7 +30,7 @@ export class ShareStatusComponent implements OnInit {
     private breakpointObserver: BreakpointObserver) { 
       this.route.params.subscribe(params => {
         this.osid = params['id'];
-        this.layout = params['layout'];
+        this.layout = params['layout'].toLowerCase();
         this.templateid = (params['templateid']) ? params['templateid'] : 1;
       });
     }
@@ -40,6 +40,9 @@ export class ShareStatusComponent implements OnInit {
 
     if(window.location.host !== 'localhost:4200'){
       this.url = window.location.origin + `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+    }else{
+      this.url = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+
     }
 
     this.breakpointObserver.observe([
