@@ -52,29 +52,7 @@ async function verifyAadhaarOTP(req, res) {
         }
         let abhaRegistered = await isABHARegistered(verifyAadhaarOTPResponse.healthIdNumber, true)
         if (abhaRegistered) {
-            let pledgeStatus = await getPledgeStatus(verifyAadhaarOTPResponse.healthIdNumber);
-            switch(pledgeStatus) {
-                case PLEDGE_STATUS.PLEDGED : 
-                    throw {
-                        status: 409,
-                        message: 'You have already registered as a pledger. Please login to view and download pledge certificate',
-                        response :{
-                            data:{ 
-                                details:[{"code": pledgeStatus}]
-                            }
-                        }
-                    }
-                case PLEDGE_STATUS.UNPLEDGED : 
-                    throw {
-                        status: 409,
-                        message: 'You have unpledged your exisitng pledge. Please login to update the pledge',
-                        response :{
-                            data:{ 
-                                details:[{"code": pledgeStatus}]
-                            }
-                        }
-                    }
-            } 
+            await utils.checkForPledgeStatusAndReturnError(verifyAadhaarOTPResponse.healthIdNumber);
         }
         const createAbhaNumberResponse = await profileService.getAndCacheEKYCProfile(clientSecretToken, verifyAadhaarOTPResponse.jwtResponse.token);
         res.json(createAbhaNumberResponse);
