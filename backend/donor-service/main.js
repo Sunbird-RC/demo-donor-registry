@@ -303,7 +303,7 @@ app.get('/certs/share/:entityName/:entityId/template/:templateId', async(req, re
             Accept: "image/svg+xml",
             "Content-Type": "application/json"
         }})).data;
-        res.send(responseImage);
+        res.contentType("image/svg+xml").send(responseImage);
     } catch(err) {
         console.error(err);
         err = {
