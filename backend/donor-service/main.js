@@ -584,7 +584,14 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
                 data["pledged"] = abhaRegistered
                 if (abhaRegistered) {
                     let pledgeStatus = await getPledgeStatus(data.healthIdNumber)
-                    data["pledgeStatus"] = pledgeStatus
+                    switch(pledgeStatus) {
+                        case true : 
+                            data["pledgeStatus"] = PLEDGE_STATUS.PLEDGED
+                            break;
+                        default : 
+                            data["pledgeStatus"] = pledgeStatus
+                            break;     
+                    } 
                 } else {
                     data["pledgeStatus"] = PLEDGE_STATUS.NOTPLEDGED
                 }
