@@ -39,9 +39,9 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="#">
             <#if properties.keycloakLogo = "NA">
-                <img src="${url.resourcesPath}/img/ndearLogo.svg" alt="">
+                <img src="${url.resourcesPath}/img/ndearLogo.svg" alt="" width="88%" height="auto">
             <#else>
-                <img src="${properties.keycloakLogo!}" alt="">
+                <img src="${properties.keycloakLogo!}" alt="" width="88%" height="auto">
             </#if>
 
 
