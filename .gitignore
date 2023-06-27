@@ -1,6 +1,7 @@
 .idea
 db-data
 backend/donor-service/node_modules
+backend/mock-donor-service/node_modules
 backend/donor-service/.env
 donor-registry/node_modules
 donor-registry/src/app/.DS_Store
