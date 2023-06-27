@@ -90,6 +90,17 @@ async function checkForPledgeStatusAndReturnError (abhaNumber) {
                     }
                 }
             }
+        case PLEDGE_STATUS.NOTPLEDGED :{
+            throw {
+                status: 409,
+                message: 'Please register as a pleder by loging in.',
+                response :{
+                    data:{ 
+                        details:[{"code": pledgeStatus}]
+                    }
+                }
+            }
+        }
         default : {
             throw {
                 status: 409,
