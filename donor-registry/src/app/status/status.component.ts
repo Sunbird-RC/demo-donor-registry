@@ -19,6 +19,7 @@ export class StatusComponent implements OnInit {
   layout;
   templateid;
   apiurl: string;
+  imageUrl: string;
 
   constructor(private sanitizer: DomSanitizer, private translate: TranslateService,
     private generalService: GeneralService, public route: ActivatedRoute,
@@ -32,16 +33,8 @@ export class StatusComponent implements OnInit {
 
   ngOnInit(): void {
     let url = `${getDonorServiceHost()}/Pledge/status/` + this.osid + '/template/' + this.templateid
-
-    this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;    // Example: Adding a new meta tag dynamically
-    this.metaService.addTag({ property: 'og:title', content: 'Share Pledge status in your social circle' });
-    this.metaService.addTag({ property: 'og:image', content: this.apiurl });
-    this.metaService.addTag({ property: 'og:image:width', content: '800' });
-    this.metaService.addTag({ property: 'og:image:height', content: '1000' });
-    this.metaService.addTag({ property: 'twitter:title', content: 'Share Pledge status in your social circle' });
-    this.metaService.addTag({ property: 'twitter:image', content: this.apiurl });
-    this.metaService.addTag({ property: 'twitter:image:src', content: this.apiurl });
-
+    this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;    
+    
     fetch(this.apiurl)
     .then(response => response.blob())
     .then(blob => {
@@ -51,9 +44,21 @@ export class StatusComponent implements OnInit {
       reader.onloadend = function () {
         let base64data = reader.result;
         self.templateContent = self.sanitizer.bypassSecurityTrustUrl('' + base64data);
+        self.imageUrl = URL.createObjectURL(blob);
+       self.addMetaTags(self.imageUrl);
       }
     });
+  }
 
+  addMetaTags(imageUrl)
+  {
+    this.metaService.addTag({ property: 'og:title', content: 'Share Pledge status in your social circle' });
+    this.metaService.addTag({ property: 'og:image', content: imageUrl });
+    this.metaService.addTag({ property: 'og:image:width', content: '800' });
+    this.metaService.addTag({ property: 'og:image:height', content: '1000' });
+    this.metaService.addTag({ property: 'twitter:title', content: 'Share Pledge status in your social circle' });
+    this.metaService.addTag({ property: 'twitter:image', content: imageUrl });
+    this.metaService.addTag({ property: 'twitter:image:src', content: imageUrl });
 
   }
 
