@@ -24,6 +24,7 @@ export class ShareStatusComponent implements OnInit {
   layout;
   templateid;
   apiurl: string;
+  isCopied: boolean;
 
   constructor(private sanitizer: DomSanitizer, private translate: TranslateService,
     private generalService: GeneralService,   public route: ActivatedRoute,
@@ -37,7 +38,7 @@ export class ShareStatusComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
-    this.url =  window.location.origin + '/' + this.layout+ '/status/' + this.osid + '/' + this.templateid;
+    this.url = window.location.origin + '/profile/certs/share/' + this.layout + '/' + this.osid + '/template/' + this.templateid;
 
     this.breakpointObserver.observe([
       Breakpoints.Small, // Adjust breakpoints as needed
@@ -48,14 +49,24 @@ export class ShareStatusComponent implements OnInit {
     });
 
     fetch(this.apiurl)
-      .then(response => response.text())
-      .then(data => {
-        this.templateContent = this.sanitizer.bypassSecurityTrustUrl('data:image/svg+xml;base64, ' + btoa(data));
+      .then(response => response.blob())
+      .then(blob => {
+        var reader = new FileReader();
+        let self = this;
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+          let base64data = reader.result;
+          self.templateContent = self.sanitizer.bypassSecurityTrustUrl('' + base64data);
+        }
       });
   }
 
   copyShareLink() {
-    navigator.clipboard.writeText(this.url)
+    navigator.clipboard.writeText(this.url);
+    this.isCopied = true;
+    setTimeout(() => {
+      this.isCopied = false;
+    }, 1000);
   }
 
   generateMailtoLink(): string {

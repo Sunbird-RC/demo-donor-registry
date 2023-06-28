@@ -97,9 +97,9 @@ const routes: Routes = [
 { path: 'certificate', component: CertificateComponent },
 { path: 'certificate/:stateVal/:identifier', component: CertificateComponent, canActivate: [AuthGuard] },
 { path: 'verify-certificate', component: VerifyCertificateComponent },
-{ path: 'profile/certs/share/:layout/:id', component: ShareStatusComponent, canActivate: [AuthGuard]},
-{ path: 'profile/certs/share/:layout/:id/template/:templateid', component: ShareStatusComponent },
-{ path: 'pledge/status/:id/:templateid', component: StatusComponent },
+{ path: ':layout/status/:id', component: ShareStatusComponent, canActivate: [AuthGuard]},
+{ path: 'profile/certs/share/:layout/:id/template/:templateid', component: StatusComponent },
+{ path: ':layout/status/:id/template/:templateid', component: ShareStatusComponent },
 
 
 

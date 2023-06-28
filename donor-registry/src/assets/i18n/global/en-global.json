@@ -261,7 +261,9 @@
     "POINT_SEVEN":"7. I state that particulars filled by me in the form are true and correct to the best of my knowledge and belief and nothing material has been concealed by me.",
     "SAVE_AS_DRAFT":"Save as draft",
     "CONFIRM_PLEDGE_REGISTRATION":"Confirm Pledge Registration",
-    "PLEASE_CONFIRM":"Please confirm to submit details"
+    "PLEASE_CONFIRM":"Please confirm to submit details",
+    "LINK_COPIED":"Link Copied",
+    "LOGIN_TOSHARE_PLEDGE_STATUS": "Login to share your pledge status"
 
 
 }
