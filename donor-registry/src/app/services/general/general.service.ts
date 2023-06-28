@@ -169,9 +169,11 @@ export class GeneralService {
 }
 
 export function getDonorServiceHost(): string {
-  if (window.location.host === 'localhost:4200') {
-    return 'https://demo-donor-registry.xiv.in/donor-service';
-  } else {
-    return '/donor-service';
+  //    return  localStorage.getItem('domainName') + '/donor-service';
+    if (window.location.host === 'localhost:4200') {
+   return  localStorage.getItem('domainName') + '/donor-service';    
+  //return 'https://demo-nha-donor-registry.xiv.in/donor-service';
+    } else {
+      return '/donor-service';
+    }
   }
-}
