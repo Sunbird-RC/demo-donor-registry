@@ -5,6 +5,13 @@ const {getRandomMockProfile, isMockProfilePresent} = require('../services/mock-p
 
 let uuidAbhaMap = new Map();
 let userTokenTxnIdMap = new Map();
+
+abhaRouter.post('/gateway/v0.5/sessions', (req, res) => {
+    res.send({
+        accessToken: 'randomToken',
+        expiresIn: '3600'
+    });
+})
 abhaRouter.post('/v1/auth/init', (req, res) => {
     if(isMockProfilePresent(req.body.healthid)) {
         const txnId = uuidv4();
