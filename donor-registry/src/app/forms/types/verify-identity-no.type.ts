@@ -64,8 +64,8 @@ export class VerifyIndentityCode extends FieldType {
     this.number = (<HTMLInputElement>document.getElementById(value)).value;
     if (this.number) {
       this.isIdentityNo = true;
-     
-   
+      console.log(typeof(this.number));
+      
       this.model1 = {
         "healthId": this.number
      
