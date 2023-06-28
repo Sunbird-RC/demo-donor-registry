@@ -1,23 +1,23 @@
 {
       "environment": "development",
-      "keycloak": {
-          "url": "https://demo-nha-donor-registry.sunbirdrc.dev/auth",
-          "clientId": "registry-frontend",
-          "realm": "sunbird-rc"
-      },
-      "configFolder": "/assets/config/ui-config",
-      "languageFolder": "/assets/i18n",
-      "title": "Organ donation registry",
-      "baseUrl": "http://localhost:4200/registry/api/v1",
-      "domainName" : "https://demo-nha-donor-registry.sunbirdrc.dev",
-      "schemaUrl": "http://localhost:4200/registry/api/docs/swagger.json",
-      "footerText": "Organ donation registry",
-      "languages": [
-          "en"
-      ],
+    "keycloak": {
+        "url": "/auth",
+        "clientId": "registry-frontend",
+        "realm": "sunbird-rc"
+    },
+    "configFolder": "/assets/config/ui-config",
+    "languageFolder": "/assets/i18n",
+    "title": "Organ donation registry",
+    "baseUrl": "/registry/api/v1",
+    "schemaUrl": "/registry/api/docs/swagger.json",
+    "footerText": "Organ donation registry",
+    "languages": [
+        "en",
+        "hi"
+    ],
       "appType": "attestation",
       "default_theme": {
-            "logoPath": "../../assets/images/NOTTO_WITH_TXT_LOGO.svg",
+            "logoPath": "../../assets/images/organ.svg",
       "primaryColor": "#1987B6",
       "secondaryColor": "#1987B6",
       "bodyBackground": "#F6F8FC",
@@ -33,7 +33,7 @@
       "cardBorder": "#00000020"
       },
       "dark_theme": {
-            "logoPath": "../../assets/images/NOTTO_WITH_TXT_LOGO.svg",
+            "logoPath": "../../assets/images/organ.svg",
       "primaryColor": "#1987B6",
       "secondaryColor": "#1987B6",
       "bodyBackground": "#080808",
