@@ -108,7 +108,10 @@ app.post('/auth/verifyOTP', async(req, res) => {
         const userToken = verifyOtp.token;
         const profile = await profileService.getAndCacheEKYCProfile(clientSecretToken, userToken);
         if (R.pathOr("", ["healthIdNumber"], profile) !== "") {
-            await utils.checkForPledgeStatusAndReturnError(profile.healthIdNumber)
+            let checkABHA = await isABHARegistered(profile.healthIdNumber, true);
+            if (checkABHA) {
+                await utils.checkForPledgeStatusAndReturnError(profile.healthIdNumber)
+            }
         }
         res.status(200).send(profile);
         console.log('Sent Profile KYC');
@@ -584,16 +587,9 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
                 data["pledged"] = abhaRegistered
                 if (abhaRegistered) {
                     let pledgeStatus = await getPledgeStatus(data.healthIdNumber)
-                    switch(pledgeStatus) {
-                        case true : 
-                            data["pledgeStatus"] = PLEDGE_STATUS.PLEDGED
-                            break;
-                        default : 
-                            data["pledgeStatus"] = pledgeStatus
-                            break;     
-                    } 
+                    data["pledgeStatus"] = pledgeStatus 
                 } else {
-                    data["pledgeStatus"] = PLEDGE_STATUS.NOTPLEDGED
+                    data["pledgeStatus"] = PLEDGE_STATUS.NOTPLEDGED // New User 
                 }
             }
         }
