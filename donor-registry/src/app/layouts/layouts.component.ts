@@ -771,7 +771,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
   navSharePage(osid)
   {
-    this.router.navigate(["profile/certs/share/Pledge", osid]);
+    this.router.navigate(["/Pledge/status/", osid]);
   }
   
 }

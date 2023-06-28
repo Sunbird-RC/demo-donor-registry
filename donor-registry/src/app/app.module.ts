@@ -142,6 +142,7 @@ import { VerifyModule } from 'vc-verification';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { ShareStatusComponent } from './share-status/share-status.component';
+import { StatusComponent } from './status/status.component';
 
 // import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
@@ -193,7 +194,8 @@ let configData = {
     VerifyCertificateComponent,
     TooltipWrapper,
     ShareStatusComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    StatusComponent
   ],
   imports: [
     BrowserModule,
