@@ -54,7 +54,7 @@ export class StatusComponent implements OnInit {
 
   addMetaTags(imageUrl)
   {
-    imageUrl = 'https://prod-cdn.preprod.co-vin.in/share-vaccination-status/prod/3_52834036974070_2.jpg';
+    // imageUrl = 'https://prod-cdn.preprod.co-vin.in/share-vaccination-status/prod/3_52834036974070_2.jpg';
     const metaTags = [
       { property: 'twitter:image:src', content: imageUrl  },
       { property: 'twitter:image', content: imageUrl },
