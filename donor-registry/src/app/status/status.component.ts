@@ -64,6 +64,8 @@ export class StatusComponent implements OnInit {
       { property: 'og:image', content: imageUrl },
       { property: 'og:url', content: imageUrl },
       { property: 'og:title', content: 'Share Pledge status in your social circle' },
+      { property: 'og:image:type', content: 'image/png'  },
+      { property: 'og:type', content: 'article'  }
     ];
     this.titleService.setTitle('Share your pledge status on social media');
  
