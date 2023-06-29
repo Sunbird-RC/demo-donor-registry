@@ -59,16 +59,16 @@ export class StatusComponent implements OnInit {
     const metaTags = [
       { property: 'twitter:image:src', content: imageUrl  },
       { property: 'twitter:image', content: imageUrl },
-      { property: 'twitter:title', content: 'Share Pledge status in your social circle' },
+      { property: 'twitter:title', content: 'Share pledge status in your social circle' },
       { property: 'og:image:height', content: '200' },
       { property: 'og:image:width', content: '200' },
       { property: 'og:image', content: imageUrl },
       { property: 'og:url', content: imageUrl },
-      { property: 'og:title', content: 'Share Pledge status in your social circle' },
+      { property: 'og:title', content: 'Share pledge status in your social circle' },
       { property: 'og:image:type', content: 'image/png'  },
       { property: 'og:type', content: 'article'  }
     ];
-   // this.titleService.setTitle('Share your pledge status on social media');
+   // this.titleService.setTitle('Share your pledge status on social circle');
  
     metaTags.forEach((tag) => {
       const existingTag = this.document.querySelector(`meta[property="${tag.property}"]`);
