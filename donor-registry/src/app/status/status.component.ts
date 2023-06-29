@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DomSanitizer, Meta } from '@angular/platform-browser';
+import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
 import { GeneralService, getDonorServiceHost } from '../services/general/general.service';
 import { ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
@@ -24,7 +24,7 @@ export class StatusComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer, private translate: TranslateService,
     private generalService: GeneralService, public route: ActivatedRoute,
-    @Inject(DOCUMENT) private document: Document,
+    @Inject(DOCUMENT) private document: Document, private titleService: Title,
     private metaService: Meta) {
     this.route.params.subscribe(params => {
       this.osid = params['id'];
@@ -56,15 +56,16 @@ export class StatusComponent implements OnInit {
   {
     imageUrl = 'https://prod-cdn.preprod.co-vin.in/share-vaccination-status/prod/3_52834036974070_2.jpg';
     const metaTags = [
-      { property: 'og:title', content: 'Share Pledge status in your social circle' },
-      { property: 'og:url', content: imageUrl },
-      { property: 'og:image', content: imageUrl },
-      { property: 'og:image:width', content: '800' },
-      { property: 'og:image:height', content: '1000' },
-      { property: 'twitter:title', content: 'Share Pledge status in your social circle' },
+      { property: 'twitter:image:src', content: imageUrl  },
       { property: 'twitter:image', content: imageUrl },
-      { property: 'twitter:image:src', content: imageUrl  }
+      { property: 'twitter:title', content: 'Share Pledge status in your social circle' },
+      { property: 'og:image:height', content: '200' },
+      { property: 'og:image:width', content: '200' },
+      { property: 'og:image', content: imageUrl },
+      { property: 'og:url', content: imageUrl },
+      { property: 'og:title', content: 'Share Pledge status in your social circle' },
     ];
+    this.titleService.setTitle('Share your pledge status on social media');
  
     metaTags.forEach((tag) => {
       const existingTag = this.document.querySelector(`meta[property="${tag.property}"]`);
