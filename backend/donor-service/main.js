@@ -23,7 +23,7 @@ const utils = require('./utils/utils');
 const {isABHARegistered, getKeyBasedOnEntityName} = require("./services/abhaProfile.service");
 const {SOCIAL_SHARE_TEMPLATE_MAP} = require("./configs/constants");
 const app = express();
-const {convertToSocialShareResponse} = require("./utils/utils");
+const {convertToSocialShareResponse, getFormatedRequest} = require("./utils/utils");
 
 (async() => {
     await redis.initRedis({REDIS_URL: config.REDIS_URL})
@@ -145,6 +145,36 @@ async function sendRegisteredNotifications(profile) {
 app.get('/health', async(req, res) => {
     res.status(200).send({status: 'UP'});
 });
+
+async function getUniqueFromIDgen (entityName, registrationCategory) {
+    let data = getFormatedRequest(entityName, registrationCategory);
+    const response = await axios({
+        method: 'post',
+        url: `${config.DIGIT_IDGEN_URL}/egov-idgen/id/_generate`,
+        headers: {
+            'Content-Type': 'application/json',
+            'accept': 'application/json'
+        },
+        data: data
+    }).then(function (response) {
+        return response.data;
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+    // idResponses: [ { id: 'D230000002' } ]
+    console.log(response);
+    return R.pathOr("", ["idResponses",0,"id"], response);
+}
+
+async function generateNottoIdUsingDigit(entityName) {
+    const registrationCategory = getKeyBasedOnEntityName(entityName);
+    if (registrationCategory === null) {
+        throw new Error(`Entity ${entityName} not supported`)
+    }
+    const uniqueId = await getNottoFromIDgen(entityName, registrationCategory);
+    return uniqueId; 
+}
 
 async function generateNottoId(entityName) {
     const year = new Date().getFullYear().toString().substring(2);

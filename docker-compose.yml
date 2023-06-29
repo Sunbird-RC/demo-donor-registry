@@ -334,3 +334,18 @@ services:
       NOTIFY_TEMPLATE_ID: ${NOTIFY_TEMPLATE_ID}
       UPDATE_TEMPLATE_ID: ${UPDATE_TEMPLATE_ID}
       UNPLEDGE_TEMPLATE_ID: ${UNPLEDGE_TEMPLATE_ID}
+  DigitIdGenration-service:
+    image: sreejith/idgen:latest
+    ports:
+      - "8088:8088"
+    depends_on:
+      db:
+        condition: service_healthy  
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/registry
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_FLYWAY_URL : jdbc:postgresql://db:5432/registry
+      SPRING_FLYWAY_USER: postgres
+      SPRING_FLYWAY_PASSWORD: postgres
+      ID_SEQUENCE_PADDING: 7
