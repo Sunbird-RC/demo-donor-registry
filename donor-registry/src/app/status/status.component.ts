@@ -67,7 +67,7 @@ export class StatusComponent implements OnInit {
       { property: 'og:image:type', content: 'image/png'  },
       { property: 'og:type', content: 'article'  }
     ];
-    this.titleService.setTitle('Share your pledge status on social media');
+   // this.titleService.setTitle('Share your pledge status on social media');
  
     metaTags.forEach((tag) => {
       const existingTag = this.document.querySelector(`meta[property="${tag.property}"]`);
