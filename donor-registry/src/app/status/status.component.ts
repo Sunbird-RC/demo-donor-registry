@@ -47,7 +47,7 @@ export class StatusComponent implements OnInit {
         let base64data = reader.result;
         self.templateContent = self.sanitizer.bypassSecurityTrustUrl('' + base64data);
         self.imageUrl = URL.createObjectURL(blob);
-       self.addMetaTags(self.imageUrl);
+        self.addMetaTags(self.apiurl);
       }
     });
   }
