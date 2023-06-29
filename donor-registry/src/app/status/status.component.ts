@@ -54,9 +54,10 @@ export class StatusComponent implements OnInit {
 
   addMetaTags(imageUrl)
   {
-   
+    imageUrl = 'https://prod-cdn.preprod.co-vin.in/share-vaccination-status/prod/3_52834036974070_2.jpg';
     const metaTags = [
       { property: 'og:title', content: 'Share Pledge status in your social circle' },
+      { property: 'og:url', content: imageUrl },
       { property: 'og:image', content: imageUrl },
       { property: 'og:image:width', content: '800' },
       { property: 'og:image:height', content: '1000' },
