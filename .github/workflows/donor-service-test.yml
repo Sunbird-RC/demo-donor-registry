@@ -1,0 +1,28 @@
+name: Publish Docker image
+
+on:
+  push:
+    branches: [ main, demo-donor  ]
+  pull_request:
+    branches: [ main, demo-donor  ]
+
+jobs:
+  donor_service_test:
+    name: Test donor service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: backend/donor-service
+
+      - name: Run tests
+        run: npm run test
+        working-directory: backend/donor-service
