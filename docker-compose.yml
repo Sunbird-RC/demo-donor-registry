@@ -313,6 +313,7 @@ services:
       REDIS_URL: ${REDIS_URL}
       REGISTRY_URL: ${REGISTRY_URL}
       CERTIFICATE_API_URL: http://certificate-api:8078
+      DIGIT_IDGEN_URL : http://digit-id-genration-service:8088
       ABHA_CLIENT_URL: ${ABHA_CLIENT_URL}
       CLIENT_ID: ${CLIENT_ID}
       CLIENT_SECRET: ${CLIENT_SECRET}
@@ -334,7 +335,7 @@ services:
       NOTIFY_TEMPLATE_ID: ${NOTIFY_TEMPLATE_ID}
       UPDATE_TEMPLATE_ID: ${UPDATE_TEMPLATE_ID}
       UNPLEDGE_TEMPLATE_ID: ${UNPLEDGE_TEMPLATE_ID}
-  DigitIdGenration-service:
+  digit-id-genration-service:
     image: sreejith/idgen:latest
     ports:
       - "8088:8088"
