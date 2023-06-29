@@ -172,7 +172,7 @@ async function generateNottoIdUsingDigit(entityName) {
     if (registrationCategory === null) {
         throw new Error(`Entity ${entityName} not supported`)
     }
-    const uniqueId = await getNottoFromIDgen(entityName, registrationCategory);
+    const uniqueId = await getUniqueFromIDgen(entityName, registrationCategory);
     return uniqueId; 
 }
 
