@@ -34,9 +34,11 @@ export class StatusComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let url = `${getDonorServiceHost()}/Pledge/status/` + this.osid + '/template/' + this.templateid
-    this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;    
-    
+    if (window.location.host !== 'localhost:4200') {
+      this.apiurl = window.location.origin + `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+    } else {
+      this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+    } 
     fetch(this.apiurl)
     .then(response => response.blob())
     .then(blob => {

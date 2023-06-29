@@ -37,7 +37,11 @@ export class ShareStatusComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+    if (window.location.host !== 'localhost:4200') {
+      this.apiurl = window.location.origin + `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+    } else {
+      this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
+    }
     this.url = window.location.origin + '/profile/certs/share/' + this.layout + '/' + this.osid + '/template/' + this.templateid;
 
     this.breakpointObserver.observe([
