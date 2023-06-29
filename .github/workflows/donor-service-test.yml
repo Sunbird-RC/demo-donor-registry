@@ -3,8 +3,12 @@ name: Test donor service
 on:
   push:
     branches: [ main, demo-donor  ]
+    paths:
+      - backend/donor-service/**
   pull_request:
     branches: [ main, demo-donor  ]
+    paths:
+      - backend/donor-service/**
 
 jobs:
   donor_service_test:
