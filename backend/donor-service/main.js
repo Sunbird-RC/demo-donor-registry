@@ -146,7 +146,7 @@ app.get('/health', async(req, res) => {
     res.status(200).send({status: 'UP'});
 });
 
-async function getUniqueFromIDgen (entityName, registrationCategory) {
+async function getUniqueIdFromIdGenService (entityName, registrationCategory) {
     let data = getFormatedRequest(entityName, registrationCategory);
     const response = await axios({
         method: 'post',
@@ -172,7 +172,7 @@ async function generateNottoIdUsingDigit(entityName) {
     if (registrationCategory === null) {
         throw new Error(`Entity ${entityName} not supported`)
     }
-    const uniqueId = await getUniqueFromIDgen(entityName, registrationCategory);
+    const uniqueId = await getUniqueIdFromIdGenService(entityName, registrationCategory);
     return uniqueId; 
 }
 
