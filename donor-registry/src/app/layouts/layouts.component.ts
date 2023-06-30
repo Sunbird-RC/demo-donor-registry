@@ -48,7 +48,10 @@ export class LayoutsComponent implements OnInit, OnChanges {
   tcUser: any;
   propertyName: any;
   isUnPledge = false;
-
+  selectLang = ["Assamese", "Bengali", "Gujarati","Hindi", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
+  languageNotSelected:boolean = false;
+  isLanguageSelected : boolean = false;
+  @ViewChild('modalRef') modalRef: any;
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
     private http: HttpClient,
@@ -62,6 +65,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
+    //share button social media
     this.subHeadername = [];
     if (this.publicData) {
       this.model = this.publicData;
@@ -632,18 +636,41 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
-  downloadPledgeCard(index:any){
+  onSelectLanguage(language: any){
+    this.selectedLanguageIndex = this.selectLang.indexOf(language);
+    this.isLanguageSelected = this.selectedLanguageIndex !== -1 || undefined;
+    if(this.isLanguageSelected){
+      this.languageNotSelected = false;
+    }
+  }
+  
+  checkIndex(i) {
+    this.index = i
+  }
+
+  downloadPledgeCard(){
+    if (!this.isLanguageSelected) {
+      this.languageNotSelected = true;
+    }
+    if(this.isLanguageSelected){
+    this.languageNotSelected = false;
+    if (this.modalRef) {
+      this.modalRef.nativeElement.classList.remove('show');
+      this.modalRef.nativeElement.style.display = 'none';
+      const modalBackdrop = document.querySelector('.modal-backdrop.fade.show');
+      if (modalBackdrop) {
+        modalBackdrop.remove();
+      }
+    }
     this.mode = this.getDeviceInfo();
-    this.orientation = (!this.mode) ? "_landscape" : '_portrait';
-    let state = this.model[index]['addressDetails'].state;
-    state = state.replace(/ /g, "_");
-    this.documentName = state + this.orientation;
+    this.orientation = (!this.mode) ? "_landscape" : '_portrait';    
+    this.selectedLanguage = this.selectLang[this.selectedLanguageIndex];
+    this.languageKey = this.selectedLanguage.toLowerCase() + '_portrait';
 
-
-    let pdfName = this.model[index]['osid'];
+    let pdfName = this.model[this.index].osid;
 
     let headerOptions = new HttpHeaders({
-      'template-key': this.documentName,
+      'template-key': this.languageKey,
       'Accept': 'application/pdf'
     });
 
@@ -662,6 +689,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
     })).subscribe((result: any) => {
     });
+  }
   }
 
   getDeviceInfo() {
@@ -695,9 +723,12 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
   successDelete()
 {
-  var modal =   document.getElementById("successDeleteModal")
-  modal.classList.add("show");
-  modal.style.display = "block";
+    var button = document.createElement("button");
+      button.setAttribute('data-toggle', 'modal');
+      button.setAttribute('data-target', `#successDeleteModal`);
+      document.body.appendChild(button)
+      button.click();
+      button.remove();
 }
 
   deleteData(model) {
@@ -733,4 +764,14 @@ export class LayoutsComponent implements OnInit, OnChanges {
   {
       this.resItem = res;
   }
+
+  refreshPage() {
+    window.location.reload();
+  }
+
+  navSharePage(osid)
+  {
+    this.router.navigate(["/Pledge/status/", osid]);
+  }
+  
 }

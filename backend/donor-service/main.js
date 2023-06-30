@@ -1,6 +1,7 @@
 const express = require('express');
 require('express-async-errors');
 const yaml = require('yamljs');
+const sharp = require('sharp');
 const swagger = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const axios = require('axios').default;
@@ -20,7 +21,11 @@ const services = require('./services/createAbha.service');
 const profileService = require('./services/abhaProfile.service');
 const utils = require('./utils/utils');
 const consumer = require('./consumer/esign.consumer');
+const {isABHARegistered, getKeyBasedOnEntityName} = require("./services/abhaProfile.service");
+const {SOCIAL_SHARE_TEMPLATE_MAP} = require("./configs/constants");
+
 const app = express();
+const {convertToSocialShareResponse} = require("./utils/utils");
 
 (async() => {
     await redis.initRedis({REDIS_URL: config.REDIS_URL})
@@ -119,17 +124,6 @@ app.post('/auth/verifyOTP', async(req, res) => {
 const getRegisteredCount = async(key) => {
     const value = await redis.getKey(key);
     return ((value === null ? 0 : parseInt(value)) + 1) + "";
-}
-
-function getKeyBasedOnEntityName(entityName) {
-    let category = null;
-    switch(entityName) {
-        case "Pledge":
-            category = "D";
-            break;
-
-    }
-    return category;
 }
 
 async function sendRegisteredNotifications(profile) {
@@ -282,6 +276,51 @@ app.delete('/:entityName/:entityId/', async (req, res) => {
         res.status(500).json(e);
     }
 });
+
+app.get('/certs/share/:entityName/:entityId/template/:templateId', async(req, res) => {
+    const entityName = req.params.entityName;
+    const entityId = req.params.entityId;
+    const templateId = req.params.templateId;
+    try {
+        const token = await getServiceAccountToken();
+        const userDataString = await getUserData(getKeyBasedOnEntityName(entityName) + entityId, {
+            ...req,
+            headers: {
+                ...req.headers,
+                'Content-Type': "application/json",
+                'Accept': "*/*",
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        const userData = JSON.parse(userDataString);
+        const responseData = convertToSocialShareResponse(entityName, userData);
+        const templateUrl = R.path([entityName, templateId], SOCIAL_SHARE_TEMPLATE_MAP);
+        if(!templateUrl) {
+            throw new Error(`template for '${entityName}' with id '${templateId}' not found`);
+        }
+        const svg = (await axios.post(`${config.CERTIFICATE_API_URL}/api/v1/certificate`, {
+            entityId: `share/${entityName}/${entityId}/template/${templateId}`,
+            entityName,
+            templateUrl,
+            certificate: JSON.stringify(responseData)
+        },{
+            headers: {
+            Accept: "image/svg+xml",
+            "Content-Type": "application/json"
+        }})).data;
+        const pngBuffer = await sharp(Buffer.from(svg))
+            .png()
+            .toBuffer();
+        res.contentType("image/png").send(pngBuffer);
+    } catch(err) {
+        console.error(err);
+        err = {
+            message: err?.response?.data || err?.message || err
+        }
+        res.status(500).json(err);
+    }
+});
+
 
 function validateEmergencyMobileNumberUpdated(profileFromReq, userData) {
     const userNotifyNumber = R.pathOr("", ["notificationDetails", "mobileNumber"], userData);
@@ -580,14 +619,6 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
     }
 });
 
-async function isABHARegistered(abhaId) {
-    abhaId = abhaId.replaceAll("-", "");
-    if (config.UNIQUE_ABHA_ENABLED) {
-        const key = getKeyBasedOnEntityName("Pledge");
-        return await redis.getKey(key + abhaId) !== null;
-    }
-    return false;
-}
 
 async function checkABHAIsUnique(abhaId) {
     if (await isABHARegistered(abhaId)) {

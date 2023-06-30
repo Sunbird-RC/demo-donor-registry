@@ -1,10 +1,11 @@
 const R = require('ramda')
+const {SOCIAL_SHARE_PROPERTY_PATHS_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require("../configs/constants");
 function calculateAge(date) {
-    var formattedDate = date.split("-")
-    var birthdateTimeStamp = new Date(formattedDate[2], parseInt(formattedDate[1]) - 1, formattedDate[0])
-    var currentDate = new Date();
-    var age = currentDate.getFullYear() - birthdateTimeStamp.getFullYear();
-    var monthDifference = currentDate.getMonth() - birthdateTimeStamp.getMonth();
+    const formattedDate = date.split("-");
+    const birthdateTimeStamp = new Date(formattedDate[2], parseInt(formattedDate[1]) - 1, formattedDate[0]);
+    const currentDate = new Date();
+    let age = currentDate.getFullYear() - birthdateTimeStamp.getFullYear();
+    const monthDifference = currentDate.getMonth() - birthdateTimeStamp.getMonth();
     if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < birthdateTimeStamp.getDate())) {
         age--;
     }
@@ -13,7 +14,7 @@ function calculateAge(date) {
 
 function getErrorObject(err) {
     console.debug(err);
-    let message = "";
+    let message;
     let status = err?.response?.status || err?.status || 500
     console.error(R.pathOr("", ["response","data"], err));
     switch (R.pathOr("", ["response","data","details",0,"code"], err)) {
@@ -38,6 +39,7 @@ function getErrorObject(err) {
         case 'HIS-1011':
         case 'HIS-2022':
         case 'HIS-2017':
+        case 'HIS-1041':
             message = R.pathOr("", ["response","data","details",0,"message"], err)
             break;
         default:
@@ -54,7 +56,18 @@ function getErrorObject(err) {
     };
 }
 
+const convertToSocialShareResponse = (entityName, userData) => {
+    if(R.path([entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP) === undefined) {
+        throw new Error("Social shareable property path not found");
+    }
+    return R.paths(R.pathOr([], [entityName], SOCIAL_SHARE_PROPERTY_PATHS_MAP), userData)
+        .reduce((res, value, i) => {
+            return R.assocPath(R.path([entityName, i], SOCIAL_SHARE_PROPERTY_PATHS_MAP), value, res);
+        }, {});
+}
+
 module.exports = {
     calculateAge,
-    getErrorObject
+    getErrorObject,
+    convertToSocialShareResponse,
 }

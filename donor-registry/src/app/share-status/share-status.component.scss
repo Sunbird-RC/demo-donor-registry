@@ -1,0 +1,146 @@
+.fa {
+    padding: 6px;
+    font-size: 20px;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius: 5px;
+  }
+  
+  .fa:hover {
+      opacity: 0.7;
+  }
+
+  .btn:hover {
+    opacity: 0.8;
+}
+  
+  .fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+  
+  .fa-twitter {
+    background: #55ACEE;
+    color: white;
+  }
+  
+  .fa-google {
+    background: #dd4b39;
+    color: white;
+  }
+  
+  .fa-linkedin {
+    background: #007bb5;
+    color: white;
+  }
+  
+  .fa-youtube {
+    background: #bb0000;
+    color: white;
+  }
+  
+  .fa-instagram {
+    background: #125688;
+    color: white;
+  }
+
+  .fa-whatsapp {
+    background: #28b416;
+    color: white;
+  }
+
+  .fa-whatsapp {
+    background: #28b416;
+    color: white;
+  }
+  
+  .fa-envelope {
+    background: #db0909;
+    color: white;
+  }
+
+  .copyBtn{
+    background-color: #22B02E !important;
+    color: white !important;
+    font-weight: 500;
+    margin-left: -105px;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .inputCp{
+    height: 48px;
+    left: 0px;
+    top: 0px;
+    border-radius: 4px;
+  }
+
+  .svgTemplate{
+    height: 282px;
+    width: 282px;
+    left: 71px;
+    top: 195px;
+    border: 1px solid #EFEFEF;
+  }
+
+  .copyLinkBox{
+    border: 1px solid #EFEFEF;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+  }
+
+  .copyLinkSpan{
+    overflow: hidden;
+    max-width: 250px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .span-wrap {
+    white-space: nowrap; /* Default: No wrapping */
+  }
+
+  @media (max-width: 575px) {
+    .copyLinkSpan{
+      max-width: 100px;
+    }
+  }
+
+  @media (min-width: 574px) and (max-width: 774px) {
+    .copyLinkSpan{
+      max-width: 100px;
+    }
+  }
+
+  @media (min-width: 775px) and (max-width: 954px) {
+    .copyLinkSpan{
+      max-width: 176px;
+    }
+  }
+
+    @media (min-width: 955px) and (max-width: 1169px) {
+    .copyLinkSpan{
+      max-width: 322px;
+    }
+  }
+
+  @media (min-width: 1170px) {
+    .copyLinkSpan{
+      max-width: 400px;
+    }
+  }
+ 
+  .bgcopy{
+    height: 21px;
+    margin:  -25px -101px !important ;
+       text-align: center;
+    padding: 2px 8px !important;
+    border: 1px solid rgb(220, 225, 220) !important;
+    border-radius: 5px !important;
+    background-color: #ffffff;
+    position: absolute;
+  }

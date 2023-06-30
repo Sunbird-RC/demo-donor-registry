@@ -27,76 +27,113 @@
     <br />
 
     <div *ngIf="layout == 'pledge'" class="mx-5">
-        <span class="fs-24 fw-bold pl-3">Pledger Details </span>
+        <span class="fs-24 fw-bold pl-3"> {{'PLEDGER_DETAILS' | translate}}</span>
 
 
 
-        <div class="card m-3" *ngFor="let item of model;let i = index">
+        <div class="card m-3" *ngFor="let item of model; let i = index">
             <div class="mb-1 text-wb card-body lh-lg d-flex justify-content-between pledge-crd">
                 <div>
                     <span class="fs-24 fw-bold">{{item?.personalDetails?.firstName}}
                         {{item?.personalDetails?.lastName}}</span> <br>
-                    <!-- <img src="assets/images/verified.png" /> <span class="fs-14>"> {{'VERIFIED' | translate}} </span> <br> -->
-    
-                    <a href="form/pledge-setup/{{item?.osid}}" *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
+
+                    <a href="form/pledge-setup/{{item?.osid}}"
+                        *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
                         <button class="fs-14 btn btn-primary-green submit-button mt-2 fw-bold">
                             {{'EDIT' | translate}}
                         </button>
                     </a>
-    
+
                     <a *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
-                        <button class="fs-14 fw-bold btn btn-primary-green submit-button ml-2 mt-2" (click)="actionData(item)" data-mdb-toggle="tooltip" data-toggle="modal"
-                        data-target="#deleteModalPledge">
-                             {{'UNPLEDGE' | translate}}
-                        </button> 
-                    </a> 
+                        <button class="fs-14 fw-bold btn btn-primary-green submit-button ml-2 mt-2"
+                            (click)="actionData(item)" data-mdb-toggle="tooltip" data-toggle="modal"
+                            data-target="#deleteModalPledge">
+                            {{'UNPLEDGE' | translate}}
+                        </button>
+                    </a>
                 </div>
                 <div class="pledge-btn">
-                    <div  *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
-                        <!-- <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}" target="_blank"> -->
-                            <button type="button" class="fs-14 fw-bold btn btn-primary-green submit-button " data-mdb-toggle="tooltip" (click)="downloadPledgeCard(i)">
+                    <div *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
+                        <button type="button" data-mdb-toggle="tooltip"
+                            class="fs-14 fw-bold btn btn-primary-green submit-button" data-toggle="modal"
+                            data-target="#selectLanguage" (click)="checkIndex(i)">
                             <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
-                            </button>                           
-                            <!-- </a> -->
-                            <p class="mt-1 fs-10 ml-3 fw-bold">{{item?.pledgeDetails.osUpdatedAt | date : 'dd-MM-y : H:mm'}}</p>
-                          
+                        </button>
+                           <button (click)="navSharePage(item?.osid)" type="button" class="fs-14 ml-2 fw-bold btn btn-primary-green submit-button" >
+                        <i aria-hidden="true" class="fa fa-share"></i> {{'SHARE' | translate}}
+                    </button>
+                        <p class="mt-1 fs-10 ml-3 fw-bold">{{item?.pledgeDetails.osUpdatedAt | date : 'dd-MM-y : H:mm'}}
+                        </p>
+                       
                     </div>
-                   
-                        
-                        <a  *ngIf="!item?.pledgeDetails?.organs?.length && !item?.pledgeDetails?.tissues?.length">
-                            <button class="fs-14 fw-bold btn btn-primary-green submit-button" (click)="pledgeAgain(item?.osid)">
+
+
+                    <a *ngIf="!item?.pledgeDetails?.organs?.length && !item?.pledgeDetails?.tissues?.length">
+                        <button class="fs-14 fw-bold btn btn-primary-green submit-button"
+                            (click)="pledgeAgain(item?.osid)">
                             Pledge Again
-                            </button>
-                        </a>
-             
+                        </button>
+                    </a>
+
 
                 </div>
-                          
-                
+
+
             </div>
 
-                          
+
 
         </div>
 
     </div>
+
+ <!--Select Language Modal-->
+ <div id="selectLanguage" class="modal fade" tabindex="-1" role="dialog" #modalRef
+ aria-labelledby="selectLanguage" aria-hidden="true">
+ <div class="modal-dialog" role="document">
+     <div class="p-4 modal-content">
+         <div class="modal-body">
+
+             <div class="d-flex flex-column justify-content-center align-items-center">
+                 <div class="p24 mb-2 mt-2 fw-bold"> {{'DOWNLOAD_CERTIFICATE' | translate}} </div>
+                 <div class="fs-14 mb-2 mt-2"> {{'SELECT_LANG_TO_DOWNLD_CERTIFICATE' | translate}} </div>
+
+                 <select (change)="onSelectLanguage($event.target.value)"
+                     class="fs-14 form-control" style="width: 200px;">
+                     <option value="" selected>{{'SELECT_LANGUAGE' | translate}}</option>
+                     <option *ngFor="let lang of selectLang">{{ lang }}</option>
+                 </select>
+                 <p *ngIf="languageNotSelected" class="red fs-12">{{'PLZ_SELECT_LANG' | translate}}</p>
+                
+                 <div class="container-fluid mt-3">
+                     <button data-dismiss="modal" class="btn btn-secondary-notto btn-style mb-2">{{'CANCEL'| translate}}</button>
+                     <button id="" type="submit" class="btn btn-primary-notto btn-stle float-end submit-button mb-2"
+                      (click)="downloadPledgeCard()">{{'DOWNLOAD' | translate}}</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+</div>
+<!--Select language Modal -->
+
     <!--Delete Modal Pledge -->
     <div id="deleteModalPledge" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModalPledge"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="p-4 modal-content">
                 <div class="modal-body">
-                    
+
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
-                        <div class="p24 mb-2 mt-2 fw-bold"> Do you want to unpledge? </div>
+                        <div class="p24 mb-2 mt-2 fw-bold"> {{'DO_YOU_UNPLEDGE' | translate}} </div>
 
                         <div class="container-fluid mt-3">
-                            <button data-dismiss="modal" class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
+                            <button data-dismiss="modal" class="btn btn-secondary-notto btn-style mb-2">{{'CANCEL' | translate}}</button>
                             <a class="mt-3">
                                 <button id="" type="submit"
                                     class="btn btn-primary-notto btn-stle float-end submit-button mb-2"
-                                    (click)="deleteData(resItem)" data-dismiss="modal">Yes, Unpledge</button>
+                                    (click)="deleteData(resItem)" data-dismiss="modal">{{'YES_UNPLEDGE' | translate}}</button>
                             </a>
                         </div>
                     </div>
@@ -106,30 +143,33 @@
     </div>
 
     <!--Delete Modal Pledge-->
- 
-     <!--confirmation  Pledge Again -->
-     <div id="confirmationModalPledgeAgain" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModalPledgeAgain" aria-hidden="true">
+
+    <!--confirmation  Pledge Again -->
+    <div id="confirmationModalPledgeAgain" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="confirmationModalPledgeAgain" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="p-4 modal-content">   
-            <div class="modal-body">
-              <div class="d-flex flex-column justify-content-center align-items-center">
-               <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
-              <div class="p24 mb-2 mt-2 fw-bold"> Do you want to pledge again?</div>
-             
-              <div class="container-fluid mt-3">
-             
-               <button data-dismiss="modal" id="cancelBtn"  class="btn btn-secondary-notto btn-style mb-2">Cancel</button>
-            
-              <a class="mt-3"  id="myId" class="btn btn-primary-notto btn-stle float-end submit-button mb-2">Yes, Pledge
-              </a>
+            <div class="p-4 modal-content">
+                <div class="modal-body">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
+                        <div class="p24 mb-2 mt-2 fw-bold"> {{'DO_PLEDGE_AGAIN' | translate}}</div>
+
+                        <div class="container-fluid mt-3">
+
+                            <button data-dismiss="modal" id="cancelBtn"
+                                class="btn btn-secondary-notto btn-style mb-2">{{'CANCEL' | translate}}</button>
+
+                            <a class="mt-3" id="myId"
+                                class="btn btn-primary-notto btn-stle float-end submit-button mb-2">{{'YES_PLEDGE' | translate}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
-          </div>
-          </div>
         </div>
-      </div>
-      
-      <!--confirmation Pledge Again-->
+    </div>
+
+    <!--confirmation Pledge Again-->
     <!-- Success Delete Modal Pledge -->
     <div id="successDeleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successDeleteModal"
         aria-hidden="true">
@@ -138,22 +178,18 @@
                 <div class="modal-body">
                     <div class="d-flex flex-column justify-content-center align-items-center">
                         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
-                      
+
                         <h3 class="mb-1 text-wb">
-                           
-                            
-                           <span id="firstName"> {{resItem?.personalDetails?.firstName}}</span> &nbsp;<span id="lastName">{{resItem?.personalDetails?.lastName}}</span>
-                            <div>has successfully unpledged</div>
+
+
+                            <span id="firstName"> {{resItem?.personalDetails?.firstName}}</span> &nbsp;<span
+                                id="lastName">{{resItem?.personalDetails?.lastName}}</span>
+                            <div>{{'HAS_SUCCESSFULLY_UNPLEDGED' | translate}}</div>
                         </h3>
-                        <div class="container-fluid mt-3 d-flex w-100 justify-content-between align-items-center">
-                         <div>  <button type="button" class="btn btn-secondary-notto btn-style" data-dismiss="modal">Close</button></div>
-                           
-                         <div>  <a class="mt-3" href="profile/Pledge/">
-                                <button type="button" class="btn btn-primary-notto btn-style" data-dismiss="modal">OK</button>
-                                <!-- <button id=""type="button" data-dismiss="modal"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2"   data-dismiss="modal">OK</button> -->
-                            </a>
-                        </div> 
-                        </div>
+                           <div (click)="refreshPage()"> 
+                                    <button type="button" class="btn btn-primary-notto btn-style mt-3"
+                                        data-dismiss="modal">{{'OK' | translate}}</button>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -375,14 +411,14 @@
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <h6 class="modal-title">Download Verifiable Credentials</h6>
+                            <h6 class="modal-title">{{'DOWNLOAD_VC'| translate}}</h6>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
                             <iframe width="100%" height="100%" [src]="url"></iframe>
                             <span class="badge font-weight-bold badge-info p-2" data-mdb-toggle="tooltip"
-                                (click)="dowbloadCard1()">Download</span>
+                                (click)="dowbloadCard1()">{{'DOWNLOAD'| translate}}</span>
 
                             <!-- <app-layouts layout={{layout}} identifier={{identifier}} public="true"></app-layouts> -->
                         </div>

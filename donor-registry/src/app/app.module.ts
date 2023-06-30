@@ -131,7 +131,9 @@ import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-v
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { initTheme } from './theme.config';
 import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
-import { VerifyMobileNo } from './forms/types/verify-mobileno.type'
+import { VerifyMobileNo } from './forms/types/verify-mobileno.type';
+import { VerifyAadhaar } from './forms/types/verify-aadhaar.type';
+
 import { FormlyTemplateType } from './forms/types/template.type';
 import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbox.type';
 import { CertificateComponent } from './certificate/certificate.component';
@@ -139,6 +141,8 @@ import { TooltipWrapper } from './forms/types/tooltip.type';
 import { VerifyModule } from 'vc-verification';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { ShareStatusComponent } from './share-status/share-status.component';
+import { StatusComponent } from './status/status.component';
 
 // import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
@@ -166,6 +170,7 @@ let configData = {
     AutocompleteTypeComponent,
     VerifyIndentityCode,
     VerifyMobileNo,
+    VerifyAadhaar,
     FormlyColorInput,
     FormlyFieldStepper,
     HeaderComponent,
@@ -188,6 +193,9 @@ let configData = {
     CertificateComponent,
     VerifyCertificateComponent,
     TooltipWrapper,
+    ShareStatusComponent,
+    SafeHtmlPipe,
+    StatusComponent
   ],
   imports: [
     BrowserModule,
@@ -257,6 +265,8 @@ let configData = {
         { name: 'color', component: FormlyColorInput },
         { name: 'verify-code', component: VerifyIndentityCode },
         { name: 'verify-mobileno', component: VerifyMobileNo },
+        { name: 'verify-aadhaar', component: VerifyAadhaar },
+
         { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
         { name: 'template', component: FormlyTemplateType }
       ],

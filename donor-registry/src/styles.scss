@@ -896,11 +896,11 @@ li {
     // width: 212px;
     // height: 53px;
     padding: 13px;
-    background: #D66025;
+    background: #D66025 !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: #fff !important;
     font-size: 20px;
     border-radius: 5px;
 }
@@ -1467,3 +1467,7 @@ formly-multi-schema-type .card {
 .mlf-14{
     margin-left: -14px !important;
 }
+
+:disabled {
+    opacity: 0.4;
+  }
