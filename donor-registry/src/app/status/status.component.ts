@@ -29,7 +29,8 @@ export class StatusComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.osid = params['id'];
       this.layout = params['layout'].toLowerCase();
-      this.templateid = (params['templateid']) ? params['templateid'] : 1;
+      // this.templateid = (params['templateid']) ? params['templateid'] : 1;
+      this.templateid = 1;
     });
   }
 
