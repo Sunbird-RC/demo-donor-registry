@@ -35,11 +35,13 @@ export class StatusComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (window.location.host !== 'localhost:4200') {
+     if (window.location.host !== 'localhost:4200') {
       this.apiurl = window.location.origin + `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
     } else {
       this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
-    } 
+    }
+
+    this.addMetaTags(this.apiurl);
     fetch(this.apiurl)
     .then(response => response.blob())
     .then(blob => {
@@ -50,14 +52,14 @@ export class StatusComponent implements OnInit {
         let base64data = reader.result;
         self.templateContent = self.sanitizer.bypassSecurityTrustUrl('' + base64data);
         self.imageUrl = URL.createObjectURL(blob);
-        self.addMetaTags(self.apiurl);
+       
       }
     });
   }
 
   addMetaTags(imageUrl)
   {
-    imageUrl = 'https://prod-cdn.preprod.co-vin.in/share-vaccination-status/prod/3_52834036974070_2.jpg';
+   
     const metaTags = [
       { property: 'twitter:image:src', content: imageUrl  },
       { property: 'twitter:image', content: imageUrl },
