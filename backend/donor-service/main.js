@@ -1,6 +1,7 @@
 const express = require('express');
 require('express-async-errors');
 const yaml = require('yamljs');
+const sharp = require('sharp');
 const swagger = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const axios = require('axios').default;
@@ -306,7 +307,7 @@ app.get('/certs/share/:entityName/:entityId/template/:templateId', async(req, re
         if(!templateUrl) {
             throw new Error(`template for '${entityName}' with id '${templateId}' not found`);
         }
-        const responseImage = (await axios.post(`${config.CERTIFICATE_API_URL}/api/v1/certificate`, {
+        const svg = (await axios.post(`${config.CERTIFICATE_API_URL}/api/v1/certificate`, {
             entityId: `share/${entityName}/${entityId}/template/${templateId}`,
             entityName,
             templateUrl,
@@ -316,7 +317,10 @@ app.get('/certs/share/:entityName/:entityId/template/:templateId', async(req, re
             Accept: "image/svg+xml",
             "Content-Type": "application/json"
         }})).data;
-        res.send(responseImage);
+        const pngBuffer = await sharp(Buffer.from(svg))
+            .png()
+            .toBuffer();
+        res.contentType("image/png").send(pngBuffer);
     } catch(err) {
         console.error(err);
         err = {

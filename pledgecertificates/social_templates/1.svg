@@ -19,6 +19,10 @@
 <path fill-rule="evenodd" clip-rule="evenodd" d="M58.9455 129.409C59.1571 129.62 59.1571 129.963 58.9455 130.175L53.258 135.862C53.0465 136.074 52.7035 136.074 52.492 135.862L49.7837 133.154C49.5721 132.942 49.5721 132.599 49.7837 132.388C49.9952 132.176 50.3381 132.176 50.5497 132.388L52.875 134.713L58.1795 129.409C58.391 129.197 58.734 129.197 58.9455 129.409Z" fill="black" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 <defs>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Lato&amp;family=Zilla+Slab&amp;display=swap');
+  </style>
+
 <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_585_19352" transform="scale(0.000778816 0.0008099)"/>
 </pattern>

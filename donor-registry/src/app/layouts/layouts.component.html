@@ -36,7 +36,6 @@
                 <div>
                     <span class="fs-24 fw-bold">{{item?.personalDetails?.firstName}}
                         {{item?.personalDetails?.lastName}}</span> <br>
-                    <!-- <img src="assets/images/verified.png" /> <span class="fs-14>"> {{'VERIFIED' | translate}} </span> <br> -->
 
                     <a href="form/pledge-setup/{{item?.osid}}"
                         *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
@@ -55,17 +54,14 @@
                 </div>
                 <div class="pledge-btn">
                     <div *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
-                        <!-- <a href="/certificate/{{item?.addressDetails.state}}/{{item.osid}}" target="_blank"> -->
                         <button type="button" data-mdb-toggle="tooltip"
                             class="fs-14 fw-bold btn btn-primary-green submit-button" data-toggle="modal"
                             data-target="#selectLanguage" (click)="checkIndex(i)">
                             <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
                         </button>
-                       <!-- <a [routerLink]='["share-status", item?.osid]'> 
-                           <button type="button" class="fs-14 ml-2 fw-bold btn btn-primary-green submit-button" >
-                        <i aria-hidden="true" class="fa fa-share"></i> {{'SHARE_YOUR_STATUS' | translate}}
+                           <button (click)="navSharePage(item?.osid)" type="button" class="fs-14 ml-2 fw-bold btn btn-primary-green submit-button" >
+                        <i aria-hidden="true" class="fa fa-share"></i> {{'SHARE' | translate}}
                     </button>
-                    </a> -->
                         <p class="mt-1 fs-10 ml-3 fw-bold">{{item?.pledgeDetails.osUpdatedAt | date : 'dd-MM-y : H:mm'}}
                         </p>
                        

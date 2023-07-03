@@ -1,22 +1,21 @@
-<app-header *ngIf="!public" [headerFor]="public" [tab]='tab'></app-header>
+<app-header [headerFor]='layout'></app-header>
 
 
-<div class="mt-190 pb-3 m-3">
+<div class="mt-190 pb-3">
 
-    <button class="gobackBtn d-flex fw-bold my-2" onClick="history.go(-1); return false;">
+    <button class="gobackBtn d-flex fw-bold m-2" onClick="history.go(-1); return false;">
         <i class="fa fa-angle-left primary-text backIcon"></i> &nbsp; &nbsp;
         <span class="fs-24 fw-bold mt-2"> {{ 'SHARE_PLEDGE_STATUS' | translate}} </span>
 
     </button>
 
-    <div class="card">
+    <div class="card m-3">
         <div class="card-body">
             <div class="row">
               
 
                 <div class="col-xl-3 col-lg-4 col-md-5 col-sm-6 col-12 my-3">
                     <img [src]="templateContent" alt="Status Image" class="rounded float-left svgTemplate">
-                    <!-- <div id="result"  class="rounded float-left svgTemplate"> </div> -->
                 </div>
                 <div class="col-xl-9 col-lg-8 col-md-7 col-sm-6 col-12 my-3">
 
@@ -24,12 +23,13 @@
                     <p class="p16  mt-2 mb-4">{{ 'THANKS_FOR_PLEDGE_YOUR_ORGANS' | translate}} </p>
 
                     <div class="input-group inputCp mb-3">
-                        <div class="copyLinkBox w-75 ">
-                            <span id="copyLink" class="ml-2">{{url}}</span>
+                        <div class="copyLinkBox w-75">
+                            <span [class.span-wrap]="shouldWrapText" class="ml-2 p14 copyLinkSpan">{{url}}</span>
                         </div>
                         <div>
-                            <button (click)="copyShareLink()" class="btn copyBtn mt-1 fw-bold btn-small"
-                                type="button">{{ 'COPY_LINK' | translate}}</button>
+                            <span *ngIf="isCopied" class=" p12 fw-bold bgcopy">{{'LINK_COPIED' | translate}}</span>
+                            <button (click)="copyShareLink()" class="btn copyBtn mt-1 fw-bold btn-small" id='copyLink2'
+                               type="button">{{ 'COPY_LINK' | translate}}</button>
                         </div>
                     </div>
 
@@ -39,9 +39,8 @@
                     <a class="fa fa-twitter" target="_blank"
                         href="https://twitter.com/intent/tweet?text={{url}}&hashtags=hashtag1,hashtag2"></a>
 
-                        <a class="fa fa-whatsapp" target="_blank"
-                        [href]="shareOnWhatsapp()"></a>
-                 
+                    <a class="fa fa-whatsapp" target="_blank" [href]="shareOnWhatsapp()"></a>
+                  
                     <a class="fa fa-linkedin" target="_blank"
                         href="https://www.linkedin.com/sharing/share-offsite/?url={{url}}"></a>
 
