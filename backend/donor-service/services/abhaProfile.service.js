@@ -22,6 +22,12 @@ async function isABHARegistered(abhaId, force=false) {
     return false;
 }
 
+async function getPledgeStatus(abhaId) {
+    abhaId = abhaId.replaceAll("-", "");
+    const key = getKeyBasedOnEntityName("Pledge");
+    return redis.getKey(key + abhaId);
+}
+
 function getKeyBasedOnEntityName(entityName) {
     let category = null;
     switch(entityName) {
@@ -36,5 +42,6 @@ function getKeyBasedOnEntityName(entityName) {
 module.exports = {
     getAndCacheEKYCProfile,
     isABHARegistered,
-    getKeyBasedOnEntityName
+    getKeyBasedOnEntityName,
+    getPledgeStatus
 }
