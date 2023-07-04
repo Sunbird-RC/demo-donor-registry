@@ -42,7 +42,20 @@ export class StatusComponent implements OnInit {
       this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
     }
 
-    this.metaService.updateTag({ property: 'og:title', content: 'Your updated title' });
+    this.metaService.updateTag({ property: 'og:title', content: 'Share Pledge status in your social circle...' });
+      this.metaService.updateTag({ property: 'og:url', content: this.apiurl });
+      this.metaService.updateTag({ property: 'og:image', content: this.apiurl });
+      this.metaService.updateTag({ property: 'og:image:width', content: '200' });
+      this.metaService.updateTag({ property: 'og:image:height', content: '200' });
+      this.metaService.updateTag({ property: 'twitter:title', content: 'Share Pledge status in your social circle...' });
+      this.metaService.updateTag({ property: 'twitter:image', content: this.apiurl });
+            this.metaService.updateTag({ property: 'twitter:card', content: "summary_large_image" });
+      this.metaService.updateTag({ property: 'twitter:image:src', content: this.apiurl });
+      this.metaService.updateTag({ property: 'og:image:type', content: 'image/png' });
+      this.metaService.updateTag({ property: 'og:type', content: 'article' });
+      
+      
+      
     fetch(this.apiurl)
     .then(response => response.blob())
     .then(blob => {
