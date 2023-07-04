@@ -21,8 +21,9 @@ export class StatusComponent implements OnInit {
   templateid;
   apiurl: string;
   imageUrl: string;
+ 
 
-  constructor(private sanitizer: DomSanitizer, private translate: TranslateService,
+  constructor(private sanitizer: DomSanitizer, private translate: TranslateService, 
     private generalService: GeneralService, public route: ActivatedRoute,
     @Inject(DOCUMENT) private document: Document, private titleService: Title,
     private metaService: Meta) {
@@ -41,7 +42,7 @@ export class StatusComponent implements OnInit {
       this.apiurl = `${getDonorServiceHost()}/certs/share/Pledge/` + this.osid + '/template/' + this.templateid;
     }
 
-    this.addMetaTags(this.apiurl);
+    this.metaService.updateTag({ property: 'og:title', content: 'Your updated title' });
     fetch(this.apiurl)
     .then(response => response.blob())
     .then(blob => {
