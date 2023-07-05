@@ -336,7 +336,7 @@ services:
       UPDATE_TEMPLATE_ID: ${UPDATE_TEMPLATE_ID}
       UNPLEDGE_TEMPLATE_ID: ${UNPLEDGE_TEMPLATE_ID}
   digit-id-genration-service:
-    image: sreejith/idgen:latest
+    image: sreejithk1903/idgen:latest
     ports:
       - "8088:8088"
     depends_on:
