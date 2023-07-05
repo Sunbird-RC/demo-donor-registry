@@ -20,8 +20,8 @@ const {encryptWithCertificate} = require("./services/encrypt.service");
 const services = require('./services/createAbha.service');
 const profileService = require('./services/abhaProfile.service');
 const utils = require('./utils/utils');
-const {isABHARegistered, getKeyBasedOnEntityName} = require("./services/abhaProfile.service");
-const {SOCIAL_SHARE_TEMPLATE_MAP} = require("./configs/constants");
+const {isABHARegistered, getKeyBasedOnEntityName, getPledgeStatus} = require("./services/abhaProfile.service");
+const {PLEDGE_STATUS, GENDER_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require('./configs/constants')
 const app = express();
 const {convertToSocialShareResponse, getFormatedRequest} = require("./utils/utils");
 
@@ -67,7 +67,7 @@ const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
         profile.personalDetails.fatherName = profileFromRedis.fatherName;
     }
     profile.personalDetails.dob = (`${profileFromRedis.yearOfBirth}-${String(profileFromRedis.monthOfBirth).padStart(2, '0')}-${String(profileFromRedis.dayOfBirth).padStart(2, '0')}`);
-    profile.personalDetails.gender = constants.GENDER_MAP[profileFromRedis.gender];
+    profile.personalDetails.gender = GENDER_MAP[profileFromRedis.gender];
     profile.personalDetails.photo = profileFromRedis.profilePhoto;
     profile.addressDetails.state = toTitleCase(profileFromRedis.stateName);
     profile.addressDetails.district = profileFromRedis.districtName;
@@ -98,6 +98,7 @@ app.post('/auth/verifyOTP', async(req, res) => {
     console.log('Verifying OTP and sending Profile KYC');
     const transactionId = req.body.transactionId;
     const otp = req.body.otp;
+    let pledgeStatusToSend;
     const clientSecretToken = await getAbhaApisAccessToken();
     try {
         const verifyOtp = (await axios.post(`${config.BASE_URL}/v1/auth/confirmWithMobileOTP`, {
@@ -107,7 +108,13 @@ app.post('/auth/verifyOTP', async(req, res) => {
         console.debug('OTP verified', verifyOtp);
         const userToken = verifyOtp.token;
         const profile = await profileService.getAndCacheEKYCProfile(clientSecretToken, userToken);
-        res.send(profile);
+        if (R.pathOr("", ["healthIdNumber"], profile) !== "") {
+            let checkABHA = await isABHARegistered(profile.healthIdNumber, true);
+            if (checkABHA) {
+                await utils.checkForPledgeStatusAndReturnError(profile.healthIdNumber)
+            }
+        }
+        res.status(200).send(profile);
         console.log('Sent Profile KYC');
     } catch(err) {
         console.error(err);
@@ -211,7 +218,7 @@ app.post('/register/:entityName', async(req, res) => {
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
         await incrementNottoId(entityName);
         const abha = profileFromReq.identificationDetails.abha;
-        await redis.storeKey(getKeyBasedOnEntityName(entityName) + abha, "true");
+        await redis.storeKey(getKeyBasedOnEntityName(entityName) + abha, PLEDGE_STATUS.PLEDGED); // 0 ---> pledged 
         const osid = inviteReponse.result[entityName].osid;
         const esignFileData = (await getESingDoc(abha)).data;
         const uploadESignFileRes = await uploadESignFile(osid, esignFileData);
@@ -295,6 +302,12 @@ app.delete('/:entityName/:entityId/', async (req, res) => {
         const updateApiResponse = (await axios.put(`${config.REGISTRY_URL}/api/v1/${entityName}/${entityId}`,
             userData,
             {headers: {Authorization: req.headers.authorization}})).data;
+        await redis.storeKey(
+            getKeyBasedOnEntityName(entityName) + userData.identificationDetails.abha, 
+            PLEDGE_STATUS.UNPLEDGED
+        ); // 1 ---> unpledged 
+        //TODO 
+        // use the revoke API from S_RC core
         await sendUnpledgeNotification(userData)
         res.status(200).json(updateApiResponse);
     } catch (e) {
@@ -604,7 +617,14 @@ app.post('/auth/mobile/verifyOTP', async(req, res) => {
         console.debug('OTP verified', verifyOtpResponse);
         if (R.pathOr([], ["mobileLinkedHid"], verifyOtpResponse).length > 0) {
             for (const data of verifyOtpResponse.mobileLinkedHid) {
-                data["pledged"] = await isABHARegistered(data.healthIdNumber)
+                let abhaRegistered = await isABHARegistered(data.healthIdNumber, true)
+                data["pledged"] = abhaRegistered
+                if (abhaRegistered) {
+                    let pledgeStatus = await getPledgeStatus(data.healthIdNumber)
+                    data["pledgeStatus"] = pledgeStatus 
+                } else {
+                    data["pledgeStatus"] = PLEDGE_STATUS.NOTPLEDGED // New User 
+                }
             }
         }
         res.send(verifyOtpResponse);

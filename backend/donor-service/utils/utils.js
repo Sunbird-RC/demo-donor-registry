@@ -1,5 +1,6 @@
 const R = require('ramda')
-const {SOCIAL_SHARE_PROPERTY_PATHS_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require("../configs/constants");
+const {SOCIAL_SHARE_PROPERTY_PATHS_MAP, SOCIAL_SHARE_TEMPLATE_MAP, PLEDGE_STATUS} = require("../configs/constants");
+const { getPledgeStatus } = require('../services/abhaProfile.service');
 function calculateAge(date) {
     const formattedDate = date.split("-");
     const birthdateTimeStamp = new Date(formattedDate[2], parseInt(formattedDate[1]) - 1, formattedDate[0]);
@@ -82,12 +83,60 @@ const getFormatedRequest = ( entityName, entityCategory) =>  {
             }
         ]
     }
+}
    
+async function checkForPledgeStatusAndReturnError (abhaNumber) {
+    let pledgeStatus = await getPledgeStatus(abhaNumber);
+    switch(pledgeStatus) {
+        case PLEDGE_STATUS.PLEDGED : 
+            throw {
+                status: 409,
+                message: 'You have already registered as a pledger. Please login to view and download pledge certificate',
+                response :{
+                    data:{ 
+                        details:[{"code": pledgeStatus}]
+                    }
+                }
+            }
+        case PLEDGE_STATUS.UNPLEDGED : 
+            throw {
+                status: 409,
+                message: 'You have unpledged your exisitng pledge. Please login to update the pledge',
+                response :{
+                    data:{ 
+                        details:[{"code": pledgeStatus}]
+                    }
+                }
+            }
+        case PLEDGE_STATUS.NOTPLEDGED :{
+            throw {
+                status: 409,
+                message: 'Please register as a pleder by loging in.',
+                response :{
+                    data:{ 
+                        details:[{"code": pledgeStatus}]
+                    }
+                }
+            }
+        }
+        default : {
+            throw {
+                status: 409,
+                message: 'You have already registered as a pledger. Please login to view and download pledge certificate',
+                response :{
+                    data:{ 
+                        details:[{"code": PLEDGE_STATUS.PLEDGED}]
+                    }
+                }
+            }
+        }
+    } 
 }
 
 module.exports = {
     calculateAge,
     getErrorObject,
     convertToSocialShareResponse,
-    getFormatedRequest
+    getFormatedRequest,
+    checkForPledgeStatusAndReturnError
 }

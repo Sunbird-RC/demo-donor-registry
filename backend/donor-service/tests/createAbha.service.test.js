@@ -11,6 +11,7 @@ describe('to create abha from aadhaar number', () => {
     const sessionService = require('../services/sessions.service')
     const utils = require('../utils/utils')
     const abhaProfile = require('../services/abhaProfile.service');
+    const {PLEDGE_STATUS} =require('../configs/constants');
     beforeEach(() => {
         jest.resetModules();
         jest.resetAllMocks();
@@ -51,11 +52,21 @@ describe('to create abha from aadhaar number', () => {
             AADHAAR_EXPIRY: 100
         }
     });
+    jest.mock('../configs/constants', ()=> {
+        return {
+           PLEDGE_STATUS : {
+            "PLEDGED": "0", 
+            "UNPLEDGED": "1",
+            "NOTPLEDGED": "2"
+           }
+        }
+    });
     jest.mock("axios");
     jest.mock('../services/abhaProfile.service', () => {
         return {
             getAndCacheEKYCProfile: jest.fn(),
-            isABHARegistered: jest.fn()
+            isABHARegistered: jest.fn(),
+            getPledgeStatus : jest.fn()
         }
     });
 
@@ -295,7 +306,13 @@ describe('to create abha from aadhaar number', () => {
         jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve({data: mockVerify}))
         jest.spyOn(abhaProfile, 'getAndCacheEKYCProfile').mockReturnValue(Promise.resolve(mockAbhaProfile))
         jest.spyOn(abhaProfile, 'isABHARegistered').mockReturnValue(Promise.resolve(true))
+        jest.spyOn(abhaProfile, 'getPledgeStatus').mockReturnValue(Promise.resolve("0"))
         jest.spyOn(res, 'send')
+        jest.replaceProperty(PLEDGE_STATUS, 'PLEDGED', '0');
+        jest.replaceProperty(PLEDGE_STATUS, 'UNPLEDGED', '1');
+        jest.replaceProperty(PLEDGE_STATUS, 'NOTPLEDGED', '2');
+
+
         await controller.verifyAadhaarOTP(req, res)
         expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/verifyOTP', {
             txnId: 'txnId',
@@ -307,7 +324,7 @@ describe('to create abha from aadhaar number', () => {
         });
         expect(abhaProfile.isABHARegistered).toBeCalled()
         expect(res.send).toHaveBeenCalledWith({
-            "code": "",
+            "code": "0",
             "message": "You have already registered as a pledger. Please login to view and download pledge certificate",
             "status": 409,
         })
@@ -323,10 +340,12 @@ describe('error flows to create abha from aadhaar', () => {
     jest.resetModules();
     const axios = require('axios').default
     const config = require('../configs/config');
-    const { AADHAAR_EXPIRY } = require('../configs/constants')
+    const { AADHAAR_EXPIRY} = require('../configs/constants')
     const encryptService = require('../services/encrypt.service')
     const sessionService = require('../services/sessions.service')
     const utils = require('../utils/utils')
+    const abhaProfile = require('../services/abhaProfile.service');
+    const {PLEDGE_STATUS} = require('../configs/constants');
 
     const res = {
         send: function(d){},
@@ -345,6 +364,14 @@ describe('error flows to create abha from aadhaar', () => {
             }
         }
     });
+    jest.mock('../services/abhaProfile.service', () => {
+        return {
+            getAndCacheEKYCProfile: jest.fn(),
+            isABHARegistered: jest.fn(),
+            getPledgeStatus : jest.fn()
+        }
+    });
+    
     jest.mock('../services/sessions.service', () => {
         return {
             getAbhaApisAccessToken: () => {
@@ -360,7 +387,12 @@ describe('error flows to create abha from aadhaar', () => {
     })
     jest.mock('../configs/constants', () => {
         return {
-            AADHAAR_EXPIRY: 100
+            AADHAAR_EXPIRY: 100,
+            PLEDGE_STATUS : {
+                "PLEDGED": "0", 
+                "UNPLEDGED": "1",
+                "NOTPLEDGED": "2"
+            }
         }
     });
     jest.mock("axios");
@@ -534,6 +566,95 @@ describe('error flows to create abha from aadhaar', () => {
             message: 'Please check back and registry with us when you are 18.',
             code: ''
         });
+    });
+
+
+    test('should return error message if abha is already registered and is pledged', async () => {
+        const req = {
+            body: {
+                otp: 'otp',
+                txnId: 'txnId'
+            }
+        }
+        const mockVerify = {
+            new: false,
+            jwtResponse: {
+                token: 'usertoken'
+            }
+        }
+        const mockAbhaProfile = {
+            'name': 'Dummy',
+            'healthId': 'dummy'
+        }
+        jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve({data: mockVerify}))
+        jest.spyOn(abhaProfile, 'getAndCacheEKYCProfile').mockReturnValue(Promise.resolve(mockAbhaProfile))
+        jest.spyOn(abhaProfile, 'isABHARegistered').mockReturnValue(Promise.resolve(true))
+        jest.spyOn(abhaProfile, 'getPledgeStatus').mockReturnValue(Promise.resolve("0"))
+        jest.spyOn(res, 'send')
+        jest.replaceProperty(PLEDGE_STATUS, 'PLEDGED', '0');
+        jest.replaceProperty(PLEDGE_STATUS, 'UNPLEDGED', '1');
+        jest.replaceProperty(PLEDGE_STATUS, 'NOTPLEDGED', '2');
+
+
+        await controller.verifyAadhaarOTP(req, res)
+        expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/verifyOTP', {
+            txnId: 'txnId',
+            otp: 'mockotp'
+        }, {
+            headers: {
+                Authorization: 'Bearer token'
+            }
+        });
+        expect(abhaProfile.isABHARegistered).toBeCalled()
+        expect(res.send).toHaveBeenCalledWith({
+            "code": "0",
+            "message": "You have already registered as a pledger. Please login to view and download pledge certificate",
+            "status": 409,
+        })
+    });
+
+    test('should return error message if abha is already registered and is UnPledged', async () => {
+        const req = {
+            body: {
+                otp: 'otp',
+                txnId: 'txnId'
+            }
+        }
+        const mockVerify = {
+            new: false,
+            jwtResponse: {
+                token: 'usertoken'
+            }
+        }
+        const mockAbhaProfile = {
+            'name': 'Dummy',
+            'healthId': 'dummy'
+        }
+        jest.spyOn(axios, 'post').mockReturnValue(Promise.resolve({data: mockVerify}))
+        jest.spyOn(abhaProfile, 'getAndCacheEKYCProfile').mockReturnValue(Promise.resolve(mockAbhaProfile))
+        jest.spyOn(abhaProfile, 'isABHARegistered').mockReturnValue(Promise.resolve(true))
+        jest.spyOn(abhaProfile, 'getPledgeStatus').mockReturnValue(Promise.resolve("1"))
+        jest.spyOn(res, 'send')
+        jest.replaceProperty(PLEDGE_STATUS, 'PLEDGED', '0');
+        jest.replaceProperty(PLEDGE_STATUS, 'UNPLEDGED', '1');
+        jest.replaceProperty(PLEDGE_STATUS, 'NOTPLEDGED', '2');
+
+
+        await controller.verifyAadhaarOTP(req, res)
+        expect(axios.post).toHaveBeenCalledWith('http://localhost:4000/v2/registration/aadhaar/verifyOTP', {
+            txnId: 'txnId',
+            otp: 'mockotp'
+        }, {
+            headers: {
+                Authorization: 'Bearer token'
+            }
+        });
+        expect(abhaProfile.isABHARegistered).toBeCalled()
+        expect(res.send).toHaveBeenCalledWith({
+            "code": "1",
+            "message": "You have unpledged your exisitng pledge. Please login to update the pledge",
+            "status": 409,
+        })
     });
 
     test('should return error when wrong transactionId in checkAndGenerateAbhaOrMobileOTP', async() => {

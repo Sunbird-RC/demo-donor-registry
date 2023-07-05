@@ -4,7 +4,8 @@ const { encryptWithCertificate } = require('./encrypt.service');
 const {getAbhaApisAccessToken} = require('./sessions.service')
 const profileService = require('./abhaProfile.service');
 const utils = require('../utils/utils')
-const {isABHARegistered} = require("./abhaProfile.service");
+const {isABHARegistered, getPledgeStatus} = require("./abhaProfile.service");
+const { PLEDGE_STATUS } = require('../configs/constants');
 
 async function generateAadhaarOTP(req, res) {
     const generateOtpUrl = config.BASE_URL + '/v2/registration/aadhaar/generateOtp';
@@ -49,11 +50,9 @@ async function verifyAadhaarOTP(req, res) {
             res.json({new: verifyAadhaarOTPResponse.new, txnId: verifyAadhaarOTPResponse.txnId})
             return;
         }
-        if (await isABHARegistered(verifyAadhaarOTPResponse.healthIdNumber, true)) {
-            throw {
-                status: 409,
-                message: 'You have already registered as a pledger. Please login to view and download pledge certificate'
-            }
+        let abhaRegistered = await isABHARegistered(verifyAadhaarOTPResponse.healthIdNumber, true)
+        if (abhaRegistered) {
+            await utils.checkForPledgeStatusAndReturnError(verifyAadhaarOTPResponse.healthIdNumber);
         }
         const createAbhaNumberResponse = await profileService.getAndCacheEKYCProfile(clientSecretToken, verifyAadhaarOTPResponse.jwtResponse.token);
         res.json(createAbhaNumberResponse);
