@@ -214,7 +214,7 @@ app.post('/register/:entityName', async(req, res) => {
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
-        profile.identificationDetails.nottoId = await generateNottoId(entityName);
+        profile.identificationDetails.nottoId = await generateNottoIdUsingDigit(entityName);
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
         await incrementNottoId(entityName);
         const abha = profileFromReq.identificationDetails.abha;
