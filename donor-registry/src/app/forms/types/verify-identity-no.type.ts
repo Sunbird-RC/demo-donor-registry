@@ -71,7 +71,6 @@ export class VerifyIndentityCode extends FieldType {
             this.isIdentityNo = true;
             this.isConfirmPopup = true;
             this.showConfirmPopup = true;
-            console.log(data);
             this.transactionId = data.txnId;
           },
           error: (error) => {
@@ -82,7 +81,6 @@ export class VerifyIndentityCode extends FieldType {
               localStorage.getItem('formtype') != 'recipient' &&
               localStorage.getItem('formtype') != 'livedonor'
             ) {
-              // alert(this.errorMessage);
             }
             this.isGotErr = true;
             this.isAbhaNoErr = true;
@@ -204,7 +202,6 @@ export class VerifyIndentityCode extends FieldType {
               this.err409 = true;
               this.errHeading = 'Already Pledged';
               this.errorMessage = error?.error['message'];
-              //this.closePops('verifyOtpModal');
               this.closeAllModal();
               this.openPopup('errorMessagePop');
             }
