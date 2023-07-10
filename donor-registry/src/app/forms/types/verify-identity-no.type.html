@@ -126,5 +126,31 @@
         </div>
       </div>
     </div>
+
+     <!-- Error message handled -->
+ <div  class="modal fade hide" id="errorMessagePop" tabindex="-1" role="dialog"
+ aria-labelledby="errorMessagePop" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+ <div class="modal-dialog" role="document">
+   <div class="p-4 modal-content text-center">
+     <div class="modal-body">
+      <!-- ------------------------ -->
+      <span  class="p24 mb-2 mt-2 mb-2 fw-bold">{{errHeading}}</span>
+      <br /><br />
+      <span  class="p12 lh-32">{{errorMessage}}</span> <br /><br />
+       <div class="d-flex justify-content-center">
+         <button [hidden]="err409" type="button"  data-dismiss="modal" 
+           class="btn btn-primary-notto btn-style w-50 submit-button mb-2">
+           {{'OK' | translate}}
+         </button>
+         <a [hidden]="!err409" href="/login"> <button type="button" 
+         class="btn btn-primary-notto btn-style w-100 submit-button mb-2">
+         {{'LOGIN' | translate}}
+       </button></a>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>
+
   </div>
   
