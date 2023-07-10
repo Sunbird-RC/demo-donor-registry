@@ -34,6 +34,8 @@ export class VerifyIndentityCode extends FieldType {
   err401: boolean = false;
   err429: boolean = false;
   showConfirmPopup:boolean = false;
+  err409: boolean;
+  errHeading: string;
 
   constructor(private http: HttpClient, public generalService: GeneralService,public router: Router,) {
     super();
@@ -198,13 +200,44 @@ export class VerifyIndentityCode extends FieldType {
               this.err429 = true;
 
             }
+            if (error?.error['status'] == '409') {
+              this.err409 = true;
+              this.errHeading = 'Already Pledged';
+              this.errorMessage = error?.error['message'];
+              //this.closePops('verifyOtpModal');
+              this.closeAllModal();
+              this.openPopup('errorMessagePop');
+            }
          
             console.error('There was an error!', error);
           },
         });
     }
   }
+  openPopup(id) {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
+  }
 
+  closeAllModal() {
+
+    const modalBackdrop = document.querySelectorAll('.modal-backdrop.fade.show');
+    const modalopen = document.querySelector('.modal-open');
+    if (modalBackdrop) {
+      modalBackdrop.forEach((element) => {
+        element.classList.remove('modal-backdrop', 'fade', 'show');
+      });
+    }
+
+    if (modalopen) {
+      document.body.classList.remove('modal-open');
+    }
+
+  }
   closePops(id) {
   $(id).modal('hide');
   Array.from(document.querySelectorAll('.modal-backdrop')).forEach((el) => el.classList.remove('modal-backdrop'));
