@@ -23,7 +23,7 @@ const utils = require('./utils/utils');
 const {isABHARegistered, getKeyBasedOnEntityName, getPledgeStatus} = require("./services/abhaProfile.service");
 const {PLEDGE_STATUS, GENDER_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require('./configs/constants')
 const app = express();
-const {convertToSocialShareResponse} = require("./utils/utils");
+const {convertToSocialShareResponse, getFormatedRequest} = require("./utils/utils");
 
 (async() => {
     await redis.initRedis({REDIS_URL: config.REDIS_URL})
@@ -153,6 +153,36 @@ app.get('/health', async(req, res) => {
     res.status(200).send({status: 'UP'});
 });
 
+async function getUniqueIdFromIdGenService (entityName, registrationCategory) {
+    let data = getFormatedRequest(entityName, registrationCategory);
+    const response = await axios({
+        method: 'post',
+        url: `${config.DIGIT_IDGEN_URL}/egov-idgen/id/_generate`,
+        headers: {
+            'Content-Type': 'application/json',
+            'accept': 'application/json'
+        },
+        data: data
+    }).then(function (response) {
+        return response.data;
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+    // idResponses: [ { id: 'D230000002' } ]
+    console.log(response);
+    return R.pathOr("", ["idResponses",0,"id"], response);
+}
+
+async function generateNottoIdUsingDigit(entityName) {
+    const registrationCategory = getKeyBasedOnEntityName(entityName);
+    if (registrationCategory === null) {
+        throw new Error(`Entity ${entityName} not supported`)
+    }
+    const uniqueId = await getUniqueIdFromIdGenService(entityName, registrationCategory);
+    return uniqueId; 
+}
+
 async function generateNottoId(entityName) {
     const year = new Date().getFullYear().toString().substring(2);
     const registrationCategory = getKeyBasedOnEntityName(entityName);
@@ -184,7 +214,7 @@ app.post('/register/:entityName', async(req, res) => {
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
     const entityName = req.params.entityName;
     try {
-        profile.identificationDetails.nottoId = await generateNottoId(entityName);
+        profile.identificationDetails.nottoId = await generateNottoIdUsingDigit(entityName);
         const inviteReponse = (await axios.post(`${config.REGISTRY_URL}/api/v1/${entityName}/invite`, profile)).data;
         await incrementNottoId(entityName);
         const abha = profileFromReq.identificationDetails.abha;

@@ -67,6 +67,24 @@ const convertToSocialShareResponse = (entityName, userData) => {
         }, {});
 }
 
+const getFormatedRequest = ( entityName, entityCategory) =>  {
+    return {
+        "RequestInfo": {
+            "apiId": "donorRegistry",
+            "ver": "13",
+            "ts": 0,
+            "msgId": "getUniqueId"
+        },
+        "idRequests": [
+            {
+                "idName": `sunbird.rc.${entityName}`,
+                "tenantId": `s.rc.${entityName}`,
+                "format": `${entityCategory}[cy:yy][SEQ_${entityCategory}_SRC_NUM]`
+            }
+        ]
+    }
+}
+   
 async function checkForPledgeStatusAndReturnError (abhaNumber) {
     let pledgeStatus = await getPledgeStatus(abhaNumber);
     switch(pledgeStatus) {
@@ -119,5 +137,6 @@ module.exports = {
     calculateAge,
     getErrorObject,
     convertToSocialShareResponse,
+    getFormatedRequest,
     checkForPledgeStatusAndReturnError
 }

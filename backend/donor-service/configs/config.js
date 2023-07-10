@@ -5,6 +5,7 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REGISTRY_URL = process.env.REGISTRY_URL;
 const CERTIFICATE_API_URL = process.env.CERTIFICATE_API_URL;
+const DIGIT_IDGEN_URL = process.env.DIGIT_IDGEN_URL;
 const EXPIRE_PROFILE = process.env.EXPIRE_PROFILE;
 const ESIGN_ESP_URL = process.env.ESIGN_ESP_URL;
 const ESIGN_ESP_PDF_URL = process.env.ESIGN_ESP_PDF_URL;
@@ -46,5 +47,6 @@ module.exports = {
     NOTIFY_TEMPLATE_ID,
     ABHA_CLIENT_URL,
     UPDATE_TEMPLATE_ID,
-    UNPLEDGE_TEMPLATE_ID
+    UNPLEDGE_TEMPLATE_ID,
+    DIGIT_IDGEN_URL
 }
