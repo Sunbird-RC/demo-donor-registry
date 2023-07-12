@@ -1,16 +1,16 @@
 {
       "environment": "development",
       "keycloak": {
-      "url": "https://demo-nha-donor-registry.sunbirdrc.dev/auth",
+      "url": "/auth",
       "clientId": "registry-frontend",
       "realm": "sunbird-rc"
       },
       "configFolder": "/assets/config/ui-config",
       "languageFolder": "/assets/i18n",
       "title": "Organ donation registry",
-      "baseUrl": "https://demo-nha-donor-registry.sunbirdrc.dev/registry/api/v1",
-        "domainName" : "https://demo-nha-donor-registry.sunbirdrc.dev",
-      "schemaUrl": "https://demo-nha-donor-registry.sunbirdrc.dev/registry/api/docs/swagger.json",
+      "baseUrl": "/registry/api/v1",
+        "domainName" : "https://demo-nha-donor-registry.xiv.in",
+      "schemaUrl": "/registry/api/docs/swagger.json",
       "footerText": "Organ donation registry",
       "languages": [
       "en"    
