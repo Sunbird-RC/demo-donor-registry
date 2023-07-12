@@ -259,7 +259,10 @@
   "CONFIRM_PLEDGE_REGISTRATION": "प्रतिज्ञा पंजीकरण की पुष्टि करें",
   "PLEASE_CONFIRM": "कृपया विवरण सबमिट करने की पुष्टि करें",
   "LINK_COPIED":"लिंक कॉपी केली",
-  "LOGIN_TOSHARE_PLEDGE_STATUS": "तुमची तारण स्थिती शेअर करण्यासाठी लॉग इन करा"
+  "LOGIN_TOSHARE_PLEDGE_STATUS": "तुमची तारण स्थिती शेअर करण्यासाठी लॉग इन करा",
+  "CLICK_TO_LOGIN":"लॉगिन करने के लिए यहां क्लिक करें",
+  "YOU_UNPLEDGED":"आप पहले ही गिरवी रख चुके हैं",
+  "CLICK_TO_PLEDGE_AGAIN":"फिर से प्रतिज्ञा करने के लिए यहां क्लिक करें"
 
 
 }
