@@ -193,6 +193,7 @@ export class VerifyIndentityCode extends FieldType {
               this.err401 = true;
               this.err429 = false;
               this.optVal = "";
+              this.err409 = false;
             }
             if( error?.error['status'] == '429')
             {
@@ -201,6 +202,7 @@ export class VerifyIndentityCode extends FieldType {
               this.isIdentityNo = true;
               this.err401 = false;
               this.err429 = true;
+              this.err409 = false;
 
             }
             if (error?.error['status'] == '409') {
