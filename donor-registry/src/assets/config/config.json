@@ -9,7 +9,7 @@
       "languageFolder": "/assets/i18n",
       "title": "Organ donation registry",
       "baseUrl": "/registry/api/v1",
-        "domainName" : "https://demo-nha-donor-registry.xiv.in",
+        "domainName" : "https://demo-nha-donor-registry.sunbirdrc.dev",
       "schemaUrl": "/registry/api/docs/swagger.json",
       "footerText": "Organ donation registry",
       "languages": [
