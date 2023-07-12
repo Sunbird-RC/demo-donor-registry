@@ -133,7 +133,11 @@
                         <span class="mr-2 text-grey-color">ABHA number</span>
                         <span class="fw-bold">{{profile.healthIdNumber}}</span>
                       </p>
-                      <p class="text-success" [hidden]="!profile?.pledged">{{'ALREADY_REGISTERED' | translate}}</p>
+                      <a *ngIf="profile?.pledgeStatus == 1" href="/login"><p class="text-success" [hidden]="!profile?.pledged">{{'ALREADY_REGISTERED' | translate}} . <b>Click here to login</b></p>
+                        </a>
+                        <a *ngIf="profile?.pledgeStatus == 0" href="/login"><p class="text-success" [hidden]="!profile?.pledged">You have already unpledged. <b>Click here to pledge again</b></p>
+                        </a>
+                     
                     </div>
                   </li>
                 </ul>
