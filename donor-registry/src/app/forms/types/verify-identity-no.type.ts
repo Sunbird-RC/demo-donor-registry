@@ -36,13 +36,15 @@ export class VerifyIndentityCode extends FieldType {
   showConfirmPopup:boolean = false;
   err409: boolean;
   errHeading: string;
+  errorCode: any;
+  
 
   constructor(private http: HttpClient, public generalService: GeneralService,public router: Router,) {
     super();
   }
 
   ngOnInit(): void {
-    if(this.router.url == "/form/signup"){
+      if(this.router.url == "/form/signup"){
       this.signupForm = true;
      }
     localStorage.removeItem('form_value');
@@ -71,6 +73,7 @@ export class VerifyIndentityCode extends FieldType {
             this.isIdentityNo = true;
             this.isConfirmPopup = true;
             this.showConfirmPopup = true;
+            console.log(data);
             this.transactionId = data.txnId;
           },
           error: (error) => {
@@ -81,6 +84,7 @@ export class VerifyIndentityCode extends FieldType {
               localStorage.getItem('formtype') != 'recipient' &&
               localStorage.getItem('formtype') != 'livedonor'
             ) {
+              // alert(this.errorMessage);
             }
             this.isGotErr = true;
             this.isAbhaNoErr = true;
@@ -179,6 +183,7 @@ export class VerifyIndentityCode extends FieldType {
           },
           error: (error) => {
             this.errorMessage = error?.error['message'];
+            this.closeAllModal();
             this.customErrCode = (error?.error['status'])? error?.error['status'] : "";
             if( error?.error['status'] == '401')
             {
@@ -188,6 +193,7 @@ export class VerifyIndentityCode extends FieldType {
               this.err401 = true;
               this.err429 = false;
               this.optVal = "";
+              this.err409 = false;
             }
             if( error?.error['status'] == '429')
             {
@@ -196,14 +202,17 @@ export class VerifyIndentityCode extends FieldType {
               this.isIdentityNo = true;
               this.err401 = false;
               this.err429 = true;
+              this.err409 = false;
 
             }
             if (error?.error['status'] == '409') {
+              this.isGotErr = true;
+              console.log(error);
+              this.errorCode = error?.error['code'];
               this.err409 = true;
               this.errHeading = 'Already Pledged';
               this.errorMessage = error?.error['message'];
-              this.closeAllModal();
-              this.openPopup('errorMessagePop');
+             
             }
          
             console.error('There was an error!', error);
@@ -212,6 +221,7 @@ export class VerifyIndentityCode extends FieldType {
     }
   }
   openPopup(id) {
+    console.log(id);
     var button = document.createElement("button");
     button.setAttribute('data-toggle', 'modal');
     button.setAttribute('data-target', `#${id}`);
@@ -235,6 +245,7 @@ export class VerifyIndentityCode extends FieldType {
     }
 
   }
+  
   closePops(id) {
   $(id).modal('hide');
   Array.from(document.querySelectorAll('.modal-backdrop')).forEach((el) => el.classList.remove('modal-backdrop'));
