@@ -36,13 +36,15 @@ export class VerifyIndentityCode extends FieldType {
   showConfirmPopup:boolean = false;
   err409: boolean;
   errHeading: string;
+  errorCode: any;
+  
 
   constructor(private http: HttpClient, public generalService: GeneralService,public router: Router,) {
     super();
   }
 
   ngOnInit(): void {
-    if(this.router.url == "/form/signup"){
+      if(this.router.url == "/form/signup"){
       this.signupForm = true;
      }
     localStorage.removeItem('form_value');
@@ -181,6 +183,7 @@ export class VerifyIndentityCode extends FieldType {
           },
           error: (error) => {
             this.errorMessage = error?.error['message'];
+            this.closeAllModal();
             this.customErrCode = (error?.error['status'])? error?.error['status'] : "";
             if( error?.error['status'] == '401')
             {
@@ -201,12 +204,13 @@ export class VerifyIndentityCode extends FieldType {
 
             }
             if (error?.error['status'] == '409') {
+              this.isGotErr = true;
+              console.log(error);
+              this.errorCode = error?.error['code'];
               this.err409 = true;
               this.errHeading = 'Already Pledged';
               this.errorMessage = error?.error['message'];
-              //this.closePops('verifyOtpModal');
-              this.closeAllModal();
-              this.openPopup('errorMessagePop');
+             
             }
          
             console.error('There was an error!', error);
@@ -215,6 +219,7 @@ export class VerifyIndentityCode extends FieldType {
     }
   }
   openPopup(id) {
+    console.log(id);
     var button = document.createElement("button");
     button.setAttribute('data-toggle', 'modal');
     button.setAttribute('data-target', `#${id}`);
@@ -238,6 +243,7 @@ export class VerifyIndentityCode extends FieldType {
     }
 
   }
+  
   closePops(id) {
   $(id).modal('hide');
   Array.from(document.querySelectorAll('.modal-backdrop')).forEach((el) => el.classList.remove('modal-backdrop'));
