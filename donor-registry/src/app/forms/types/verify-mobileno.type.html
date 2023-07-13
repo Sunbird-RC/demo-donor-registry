@@ -133,9 +133,10 @@
                         <span class="mr-2 text-grey-color">ABHA number</span>
                         <span class="fw-bold">{{profile.healthIdNumber}}</span>
                       </p>
-                      <a *ngIf="profile?.pledgeStatus == 1" href="/login"><p class="text-success" [hidden]="!profile?.pledged">{{'ALREADY_REGISTERED' | translate}} . {{'CLICK_TO_LOGIN' | translate}} </p>
+                      <a *ngIf="profile?.pledgeStatus == 1" href="/login"><div class="text-success" [hidden]="!profile?.pledged">{{'ALREADY_REGISTERED' | translate }} .{{'CLICK_TO_LOGIN' | translate }} </div>
+                       
                         </a>
-                        <a *ngIf="profile?.pledgeStatus == 0" href="/login"><p class="text-success" [hidden]="!profile?.pledged">{{'YOU_UNPLEDGED' | translate}}. {{'CLICK_TO_PLEDGE_AGAIN' | translate}} </p>
+                        <a *ngIf="profile?.pledgeStatus == 0" href="/login"><div class="text-success" [hidden]="!profile?.pledged">{{'YOU_UNPLEDGED' | translate }}. {{'CLICK_TO_PLEDGE_AGAIN' | translate}}</div>
                         </a>
                      
                     </div>
