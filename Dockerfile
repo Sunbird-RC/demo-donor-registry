@@ -10,4 +10,4 @@ RUN npm run build -- --outputPath=./dist/out
 FROM dockerhub/sunbird-rc-nginx
 COPY --from=build /app/dist/out/ /usr/share/nginx/html/admin
 RUN rm /usr/share/nginx/html/admin/ngsw.json
-COPY /imports/nginx.conf /etc/nginx/conf.d/default.conf
+COPY /nginx.conf /etc/nginx/conf.d/default.conf
