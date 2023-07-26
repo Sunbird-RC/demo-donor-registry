@@ -22,6 +22,7 @@ const INVITE_TEMPLATE_ID = process.env.INVITE_TEMPLATE_ID;
 const NOTIFY_TEMPLATE_ID = process.env.NOTIFY_TEMPLATE_ID;
 const UPDATE_TEMPLATE_ID = process.env.UPDATE_TEMPLATE_ID;
 const UNPLEDGE_TEMPLATE_ID = process.env.UNPLEDGE_TEMPLATE_ID;
+const API_KEY = process.env.API_KEY;
 module.exports = {
     REDIS_URL,
     BASE_URL,
@@ -46,5 +47,6 @@ module.exports = {
     NOTIFY_TEMPLATE_ID,
     ABHA_CLIENT_URL,
     UPDATE_TEMPLATE_ID,
-    UNPLEDGE_TEMPLATE_ID
+    UNPLEDGE_TEMPLATE_ID,
+    API_KEY
 }
