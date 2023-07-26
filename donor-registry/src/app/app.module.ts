@@ -66,6 +66,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { config } from 'process';
 import { ColorPickerModule } from 'ngx-color-picker';
+// import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
+
 
 
 //form validations
@@ -109,6 +111,10 @@ export function constValidationMessage(err, field: FormlyFieldConfig) {
   return `should be equal to constant "${field.templateOptions.const}"`;
 }
 
+export function errValidatorMessage(error: any, field: FormlyFieldConfig) {
+  return `Please Enter ${field.templateOptions.label}`;
+}
+
 function initConfig(config: AppConfig) {
   return () => config.load()
 }
@@ -125,9 +131,28 @@ import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-v
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { initTheme } from './theme.config';
 import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
+import { VerifyMobileNo } from './forms/types/verify-mobileno.type';
+import { VerifyAadhaar } from './forms/types/verify-aadhaar.type';
+
 import { FormlyTemplateType } from './forms/types/template.type';
+import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbox.type';
+import { CertificateComponent } from './certificate/certificate.component';
+import { TooltipWrapper } from './forms/types/tooltip.type';
+// import { VerifyModule } from 'vc-verification';
+
+// import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { ShareStatusComponent } from './share-status/share-status.component';
+import { StatusComponent } from './status/status.component';
+
 // import { FormlyFieldSelect } from './forms/types/select.type';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
+
+let baseConfig = require('../assets/config/config.json')
+
+let configData = {
+  baseUrl: baseConfig['baseUrl']
+  }   
+
 
 @NgModule({
   declarations: [
@@ -144,6 +169,8 @@ import { FormlyTemplateType } from './forms/types/template.type';
     PanelsComponent, EditPanelComponent, AddPanelComponent, TablesComponent,
     AutocompleteTypeComponent,
     VerifyIndentityCode,
+    VerifyMobileNo,
+    VerifyAadhaar,
     FormlyColorInput,
     FormlyFieldStepper,
     HeaderComponent,
@@ -161,7 +188,13 @@ import { FormlyTemplateType } from './forms/types/template.type';
     ScanQrCodeComponent,
     BrowseDocumentsComponent,
     AuthImagePipe,
-    FormlyTemplateType
+    FormlyTemplateType,
+    FormlyFieldNgSelectAllCheckbox,
+    CertificateComponent,
+    TooltipWrapper,
+    ShareStatusComponent,
+    SafeHtmlPipe,
+    StatusComponent
   ],
   imports: [
     BrowserModule,
@@ -177,7 +210,6 @@ import { FormlyTemplateType } from './forms/types/template.type';
     Bootstrap4FrameworkModule,
     AngularMultiSelectModule,
     NgSelectModule,
-
     HttpClientModule,
     TranslateModule.forRoot(),
 
@@ -188,9 +220,10 @@ import { FormlyTemplateType } from './forms/types/template.type';
     FormlyModule.forRoot({
       extras: { resetFieldOnHide: true },
       wrappers: [{ name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
-      { name: 'panel', component: PanelWrapperComponent }],
+      { name: 'panel', component: PanelWrapperComponent },
+      { name: 'tooltip', component: TooltipWrapper }],
       validationMessages: [
-        { name: 'required', message: '' },
+        { name: 'required', message:  errValidatorMessage },
 
       ],
       types: [
@@ -225,8 +258,12 @@ import { FormlyTemplateType } from './forms/types/template.type';
         },
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
         { name: 'multiselect', component: FormlyFieldNgSelect },
+        { name: 'selectall-checkbox', component: FormlyFieldNgSelectAllCheckbox },
         { name: 'color', component: FormlyColorInput },
         { name: 'verify-code', component: VerifyIndentityCode },
+        { name: 'verify-mobileno', component: VerifyMobileNo },
+        { name: 'verify-aadhaar', component: VerifyAadhaar },
+
         { name: 'stepper', component: FormlyFieldStepper, wrappers: [] },
         { name: 'template', component: FormlyTemplateType }
       ],
@@ -271,6 +308,7 @@ import { FormlyTemplateType } from './forms/types/template.type';
 
 export class AppModule {
   languages;
+
   constructor(translate: TranslateService, authConfig: AuthConfigService) {
 
     authConfig.getConfig().subscribe((config) => {
@@ -299,5 +337,6 @@ export class AppModule {
     });
 
   }
+
 }
 

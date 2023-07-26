@@ -69,19 +69,15 @@
                 "fields": [
                     {
                         "name": "recipientDetails.firstName",
-                        "title": "Donors"
+                        "title": "Recipients"
                     },
                     {
-                        "name": "recipientDetails.mobileNumber",
-                        "title": "Mobile Number"
+                        "name": "bloodGroupDetails.group",
+                        "title": "Blood Group"
                     },
                     {
-                        "name": "recipientDetails.emailId",
-                        "title": "HLA Cross Match"
-                    },
-                    {
-                        "name": "status",
-                        "title": "Status"
+                        "name": "organsOrTissues.organsNeeded",
+                        "title": "Organs or Tissues Needed"
                     },
                     {
                         "custom": true,
