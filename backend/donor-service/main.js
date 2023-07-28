@@ -533,7 +533,9 @@ async function getESingDoc(abha) {
         url: config.ESIGN_ESP_PDF_URL.replace(':transactionId', eSingTransactionId),
         responseEncoding: 'binary',
         responseType: 'arraybuffer',
-        headers: {},
+        headers: {
+            'apikey': `${config.API_KEY}`,
+        },
         httpsAgent: new https.Agent({
             rejectUnauthorized: false
         })
