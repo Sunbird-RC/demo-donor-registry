@@ -581,7 +581,8 @@ export class FormsComponent implements OnInit {
 
 
   ngOnInit(): void { 
-   
+    this.hideLoader();
+   //this.addLoader();
     localStorage.removeItem('notReadOnly');
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
@@ -746,13 +747,13 @@ export class FormsComponent implements OnInit {
           this.property['pledgeDetails'].properties['other']['widget']['formlyConfig']['defaultValue'] = false;
         }
 
-        if (this.property.hasOwnProperty('emergencyDetails') && this.property['emergencyDetails']['properties'].hasOwnProperty('relation')) {
-          this.property['emergencyDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "";
-        }
+        // if (this.property.hasOwnProperty('emergencyDetails') && this.property['emergencyDetails']['properties'].hasOwnProperty('relation')) {
+        //    this.property['emergencyDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "Select";
+        // }
 
-        if (this.property.hasOwnProperty('notificationDetails') && this.property['notificationDetails']['properties'].hasOwnProperty('relation')) {
-          this.property['notificationDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "";
-        }
+        // if (this.property.hasOwnProperty('notificationDetails') && this.property['notificationDetails']['properties'].hasOwnProperty('relation')) {
+        //    this.property['notificationDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "";
+        // }
 
         delete this.property['emergencyDetails']['oneOf'];
         delete this.property['notificationDetails']['oneOf'];
@@ -1964,6 +1965,7 @@ export class FormsComponent implements OnInit {
        
         return false;
       }
+      this.addLoader();
       // if (this.model.hasOwnProperty('pledgeDetails')) {
       //   this.model["pledgeDetails"]["organs"] = Object.keys(this.model["pledgeDetails"]["organs"]);
       //   this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
@@ -2358,9 +2360,11 @@ export class FormsComponent implements OnInit {
       }
 
       this.checkOtherVal();
+    
+     
 
       await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
-
+        this.hideLoader();
         let x = screen.width / 2 - 500;
         let y = screen.height / 2 - 400;
         const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
@@ -2381,9 +2385,11 @@ export class FormsComponent implements OnInit {
             this.http.get<any>(`${getDonorServiceHost()}/esign/${this?.model['identificationDetails']['abha']}/status`)
               .subscribe((res) => {
                 checkESignStatus = false;
+                
                 console.log(res)
               }, (err) => {
                 console.log(err)
+              
               });
           } catch (e) {
             console.log(e)
@@ -2391,10 +2397,13 @@ export class FormsComponent implements OnInit {
           await new Promise(r => setTimeout(r, 3000));
           if (count++ === 400) {
             checkESignStatus = false;
+           
             alert("Esign session expired. Please try again");
           }
         }
+       
         eSignWindow.close();
+        
 
         if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
           this.model['emergencyDetails'] = {}
@@ -2431,8 +2440,8 @@ export class FormsComponent implements OnInit {
       });
     } else {
       this.callPostAPI();
-    }
-
+    } 
+  
   }
 
   async callPostAPI(url = this.apiUrl) {
@@ -2481,7 +2490,7 @@ export class FormsComponent implements OnInit {
     this.routeNew = "/esign/init/" + this.entityName + "/" + this.identifier;
 
     await this.http.put<any>(`${getDonorServiceHost()}` + this.routeNew, { data: this.model }).subscribe(async (res) => {
-
+      this.hideLoader();
       let x = screen.width / 2 - 500;
       let y = screen.height / 2 - 400;
       const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
@@ -2720,7 +2729,33 @@ export class FormsComponent implements OnInit {
   confirmInfo() {
     this.submit();
   }
+  
+  addLoader(){
 
+    const elements = document.getElementsByClassName('loader');
+
+    if (elements.length > 0) {
+      const firstElement = elements[0] as HTMLElement;
+      // Now you can access the style property
+      firstElement.style.display = 'block';
+      document.getElementsByTagName("body")[0].style.opacity = "0.4";
+     // document.getElementsByTagName("body")[0].style.backgroun = "red !important";
+    
+    }
+  }
+
+  hideLoader(){
+    const elements = document.getElementsByClassName('loader');
+
+    if (elements.length > 0) {
+      const firstElement = elements[0] as HTMLElement;
+      // Now you can access the style property
+      firstElement.style.display = 'none';
+      document.getElementsByTagName("body")[0].style.opacity = "1";
+     
+    }
+  }
+  
   getValue(item, fieldsPath) {
     var propertySplit = fieldsPath.split(".");
 

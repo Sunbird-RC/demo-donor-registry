@@ -250,7 +250,7 @@ let configData = {
           },
         },
         { name: 'boolean', extends: 'checkbox' },
-        { name: 'enum', extends: 'select' },
+        { name: 'enum', extends: 'multiselect' },
         { name: 'null', component: NullTypeComponent, wrappers: ['form-field'] },
         { name: 'array', component: ArrayTypeComponent },
         { name: 'object', component: ObjectTypeComponent },
