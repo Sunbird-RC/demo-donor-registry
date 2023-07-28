@@ -5,12 +5,12 @@ import { FieldType } from '@ngx-formly/core';
   selector: 'formly-field-ng-select',
   styleUrls: ["../forms.component.scss"],
   template: `
-  <span class="fw-bold p12">{{ to.label }}</span> <br>
+  <span class="fw-bold p12">{{ to.label }}</span>
     <ng-select [items]="to.options"
       [bindLabel]="labelProp"
       [bindValue]="valueProp"
       [multiple]="to.multiple"
-      [placeholder]="to.placeholder"
+      [placeholder]="to.placeholder? to.placeholder : 'Select'"
       [formControl]="formControl">
     </ng-select>
   `,
@@ -19,4 +19,5 @@ export class FormlyFieldNgSelect extends FieldType {
   get labelProp(): string { return this.to.labelProp || 'label'; }
   get valueProp(): string { return this.to.valueProp || 'value'; }
   get groupProp(): string { return this.to.groupProp || 'group'; }
+  
 }

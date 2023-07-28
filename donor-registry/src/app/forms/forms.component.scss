@@ -116,3 +116,34 @@
   font-size: x-large;
   margin-top: 0rem !important;
 }
+
+
+.loader {
+  
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  display: -webkit-box;
+display: -moz-box;
+display: -ms-flexbox;
+display: -webkit-flex;
+display: flex;
+-webkit-flex-wrap: wrap;
+flex-wrap: wrap;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+  
+}
+
+.loading {
+  border: 5px solid #ccc;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border-top-color: #079e14;
+  border-left-color: #079e14;
+  animation: spin 1s infinite ease-in;
+}
+
