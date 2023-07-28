@@ -104,7 +104,7 @@
       <div class="modal-body">
         <div class="d-flex flex-column justify-content-center align-items-center">
          <div><img class="check-logo" src="assets/images/circle-check.png"></div>
-        <div class="p14 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'" onclick="$('#cover-spin').show(0)"> {{'CONFIRM_PLEDGE_REGISTRATION' | translate}}</div>
+        <div class="p14 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> {{'CONFIRM_PLEDGE_REGISTRATION' | translate}}</div>
         <div class="p14 mb-2 mt-2 fw-bold">{{'PLEASE_CONFIRM' | translate}}</div>
         <div class="container-fluid mt-3">
         <button data-dismiss="modal"  class="btn btn-bg nav-link-color btn-sec-bg mb-2">{{'CANCEL' | translate}}</button>
@@ -362,14 +362,6 @@
   </div>
 </ng-template>
 
-
-<!-- <div  class="d-flex justify-content-center">
-  <div class="spinner-border" style="width: 5rem; height: 5rem;" role="status">
-    <span class="sr-only">{{'LOADING'| translate}}...</span>
-  </div>
-</div> -->
-
-
 <div class="loader">
   <div class="loading">
   </div>
@@ -378,11 +370,6 @@
 <script>
     $('#btn-one').click(function () {
         $('#btn-one').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Loading...').addClass('disabled');
-    });
-
-    $('#btn-two').click(function () {
-      window.print("hello");
-      $('#cover-spin').show(0)
     });
 </script>
 

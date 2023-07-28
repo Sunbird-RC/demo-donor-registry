@@ -2739,8 +2739,6 @@ export class FormsComponent implements OnInit {
       // Now you can access the style property
       firstElement.style.display = 'block';
       document.getElementsByTagName("body")[0].style.opacity = "0.4";
-     // document.getElementsByTagName("body")[0].style.backgroun = "red !important";
-    
     }
   }
 
