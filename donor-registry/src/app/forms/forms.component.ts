@@ -748,7 +748,7 @@ export class FormsComponent implements OnInit {
         }
 
         // if (this.property.hasOwnProperty('emergencyDetails') && this.property['emergencyDetails']['properties'].hasOwnProperty('relation')) {
-        //    this.property['emergencyDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "Select";
+        //    this.property['emergencyDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "";
         // }
 
         // if (this.property.hasOwnProperty('notificationDetails') && this.property['notificationDetails']['properties'].hasOwnProperty('relation')) {
