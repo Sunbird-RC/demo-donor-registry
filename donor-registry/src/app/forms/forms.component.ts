@@ -2738,8 +2738,14 @@ export class FormsComponent implements OnInit {
       const firstElement = elements[0] as HTMLElement;
       // Now you can access the style property
       firstElement.style.display = 'block';
-      document.getElementsByTagName("body")[0].style.opacity = "0.4";
+      if(document.getElementsByTagName("body")[0] != null){
+        document.getElementsByTagName("body")[0].style.opacity = "0.4";
+
+      }
     }
+    setTimeout(() => {
+      this.hideLoader()
+    }, 7000);
   }
 
   hideLoader(){
@@ -2749,8 +2755,11 @@ export class FormsComponent implements OnInit {
       const firstElement = elements[0] as HTMLElement;
       // Now you can access the style property
       firstElement.style.display = 'none';
-      document.getElementsByTagName("body")[0].style.opacity = "1";
+      if(document.getElementsByTagName("body")[0] != null){
+        document.getElementsByTagName("body")[0].style.opacity = "1";
+      }
      
+
     }
   }
   
