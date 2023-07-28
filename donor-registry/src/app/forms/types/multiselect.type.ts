@@ -5,7 +5,9 @@ import { FieldType } from '@ngx-formly/core';
   selector: 'formly-field-ng-select',
   styleUrls: ["../forms.component.scss"],
   template: `
-  <span class="fw-bold p12">{{ to.label }}</span>
+  <span class="fw-bold p12">{{ to.label }} 
+  <span *ngIf="to.required && to.hideRequiredMarker !== true">*</span>
+  </span>
     <ng-select [items]="to.options"
       [bindLabel]="labelProp"
       [bindValue]="valueProp"
