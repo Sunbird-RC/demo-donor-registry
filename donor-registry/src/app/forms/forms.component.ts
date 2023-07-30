@@ -2394,7 +2394,7 @@ export class FormsComponent implements OnInit {
           } catch (e) {
             console.log(e)
           }
-          await new Promise(r => setTimeout(r, 600));
+          await new Promise(r => setTimeout(r, 400));
           if (count++ === 400) {
             checkESignStatus = false;
            
@@ -2513,14 +2513,14 @@ export class FormsComponent implements OnInit {
             .subscribe((res) => {
               checkESignStatus = false;
               console.log(res)
-
+              
             }, (err) => {
               console.log(err)
             });
         } catch (e) {
           console.log(e)
         }
-        await new Promise(r => setTimeout(r, 600));
+        await new Promise(r => setTimeout(r, 400));
         if (count++ === 400) {
           checkESignStatus = false;
           alert("Esign session expired. Please try again");
