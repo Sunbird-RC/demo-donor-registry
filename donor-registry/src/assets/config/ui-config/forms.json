@@ -432,7 +432,8 @@
                     },
                     {
                       "name": "relation",
-                      "class": "col-lg-4 col-sm-12"
+                      "class": "col-lg-4 col-sm-12",
+                      "required": true
                     },
                     {
                       "name": "otherRelation",

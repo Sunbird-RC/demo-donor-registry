@@ -2416,6 +2416,7 @@ export class FormsComponent implements OnInit {
         this.checkOtherVal();
 
         await this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
+          this.hideLoader();
           if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
 
 
