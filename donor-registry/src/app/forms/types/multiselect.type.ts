@@ -5,6 +5,7 @@ import { FieldType } from '@ngx-formly/core';
   selector: 'formly-field-ng-select',
   styleUrls: ["../forms.component.scss"],
   template: `
+  <div class="mb-3">
   <span class="fw-bold p12">{{ to.label }} 
   <span *ngIf="to.required && to.hideRequiredMarker !== true">*</span>
   </span>
@@ -13,8 +14,14 @@ import { FieldType } from '@ngx-formly/core';
       [bindValue]="valueProp"
       [multiple]="to.multiple"
       [placeholder]="to.placeholder? to.placeholder : 'Select'"
-      [formControl]="formControl">
+      [formControl]="formControl"
+      >
     </ng-select>
+    <span  role="alert" *ngIf="showError && formControl.errors">
+    <formly-validation-message [field]="field" class="errMsg"></formly-validation-message>
+    </span>
+    <div>
+
   `,
 })
 export class FormlyFieldNgSelect extends FieldType {

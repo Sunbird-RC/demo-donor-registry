@@ -156,7 +156,7 @@
               </a>
             </div>
             <div *ngIf="!isAllAbhaRegister" class="text-center">
-              <button data-dismiss="modal" id="cancelBtn"
+              <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
                 class="btn btn-primary-notto fw-bold btn-style mb-2">{{'OK' | translate}}</button>
               <a class="mt-3">
               </a>
