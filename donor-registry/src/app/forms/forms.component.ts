@@ -2364,7 +2364,7 @@ export class FormsComponent implements OnInit {
      
 
       await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
-        this.hideLoader();
+       
         let x = screen.width / 2 - 500;
         let y = screen.height / 2 - 400;
         const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
@@ -2490,7 +2490,7 @@ export class FormsComponent implements OnInit {
     this.routeNew = "/esign/init/" + this.entityName + "/" + this.identifier;
 
     await this.http.put<any>(`${getDonorServiceHost()}` + this.routeNew, { data: this.model }).subscribe(async (res) => {
-      this.hideLoader();
+     
       let x = screen.width / 2 - 500;
       let y = screen.height / 2 - 400;
       const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
@@ -2512,6 +2512,7 @@ export class FormsComponent implements OnInit {
             .subscribe((res) => {
               checkESignStatus = false;
               console.log(res)
+
             }, (err) => {
               console.log(err)
             });
@@ -2537,6 +2538,7 @@ export class FormsComponent implements OnInit {
       this.tempUrl = `${getDonorServiceHost()}/register/Pledge` + "/" + this.identifier;
       // this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
       await this.http.put<any>(this.tempUrl, this.model).subscribe((res) => {
+        this.hideLoader();
         if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
           if (this.form == 'signup' && this.identifier) {
             this.openModal('pledgeAgainCardModal');
@@ -2552,11 +2554,12 @@ export class FormsComponent implements OnInit {
         else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
           this.toastMsg.error('error', res.params.errmsg);
           this.isSubmitForm = false;
+          this.hideLoader();
         }
       }, (err) => {
         this.toastMsg.error('error', err.error.params.errmsg);
         this.isSubmitForm = false;
-
+        this.hideLoader();
       });
 
       setTimeout(() => {
@@ -2743,9 +2746,7 @@ export class FormsComponent implements OnInit {
 
       }
     }
-    setTimeout(() => {
-      this.hideLoader()
-    }, 7000);
+
   }
 
   hideLoader(){
