@@ -272,6 +272,7 @@ export class FormsComponent implements OnInit {
 
       }
 
+  
 
      
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
@@ -1877,6 +1878,7 @@ export class FormsComponent implements OnInit {
     } else {
       document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
     }
+    
 
     if (isVerify !== "true") {
 
@@ -1940,7 +1942,7 @@ export class FormsComponent implements OnInit {
   }
 
   submit(button = "") {
-    this.loadSchema();
+    
     this.isSubmitForm = true;
     let dateSpan = document.getElementById('mobileno');
     dateSpan.classList.remove('ng-invalid');
