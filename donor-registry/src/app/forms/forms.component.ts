@@ -1940,6 +1940,7 @@ export class FormsComponent implements OnInit {
   }
 
   submit(button = "") {
+    this.loadSchema();
     this.isSubmitForm = true;
     let dateSpan = document.getElementById('mobileno');
     dateSpan.classList.remove('ng-invalid');
