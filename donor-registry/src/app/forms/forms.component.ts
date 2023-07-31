@@ -145,6 +145,7 @@ export class FormsComponent implements OnInit {
   optionAdded: boolean = false;
   isVerified: string;
   isFormEdited: boolean = false;
+  count: number = 0;
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -779,8 +780,12 @@ export class FormsComponent implements OnInit {
 
   }
 
-  onFormChange() {
-    this.isFormEdited = true;
+  onFormChange(event) {
+    if (this.count != 0) {
+      this.isFormEdited = true;
+    } else {
+      this.count++;
+    }
   }
 
   loadSchema() {
