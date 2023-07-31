@@ -23,6 +23,14 @@ const NOTIFY_TEMPLATE_ID = process.env.NOTIFY_TEMPLATE_ID;
 const UPDATE_TEMPLATE_ID = process.env.UPDATE_TEMPLATE_ID;
 const UNPLEDGE_TEMPLATE_ID = process.env.UNPLEDGE_TEMPLATE_ID;
 const API_KEY = process.env.API_KEY;
+const ABDM_KAFKA = process.env.ABDM_KAFKA || 'localhost:5101';
+const ESIGN_STATUS = Object.freeze({
+  'PENDING': 0,
+  'SUCCESS': 1,
+  'FAILED': 2
+});
+const EXPIRE_ESIGN_VALID_STATUS = process.env.EXPIRE_ESIGN_VALID_STATUS || 2*60;
+const PREVENT_3RD_PARTY_ESIGN_VALIDATION = process.env.PREVENT_3RD_PARTY_ESIGN_VALIDATION || true;
 module.exports = {
     REDIS_URL,
     BASE_URL,
@@ -48,5 +56,9 @@ module.exports = {
     ABHA_CLIENT_URL,
     UPDATE_TEMPLATE_ID,
     UNPLEDGE_TEMPLATE_ID,
-    API_KEY
+    API_KEY,
+    ABDM_KAFKA,
+    EXPIRE_ESIGN_VALID_STATUS,
+    ESIGN_STATUS,
+    PREVENT_3RD_PARTY_ESIGN_VALIDATION
 }

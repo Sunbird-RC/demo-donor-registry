@@ -24,15 +24,19 @@ const {isABHARegistered, getKeyBasedOnEntityName, getPledgeStatus} = require("./
 const {PLEDGE_STATUS, GENDER_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require('./configs/constants')
 const app = express();
 const {convertToSocialShareResponse} = require("./utils/utils");
+const consumer = require('./consumer/esign.consumer');
 
 (async() => {
     await redis.initRedis({REDIS_URL: config.REDIS_URL})
+    const esignConsumer = await consumer.initSubscription();
+    consumer.readEsignMessage(esignConsumer);
 })();
 
+
+const PREVENT_3RD_PARTY_ESIGN_VALIDATION = config.PREVENT_3RD_PARTY_ESIGN_VALIDATION;
 const swaggerDocs = yaml.load('./abha-swagger.yaml');
 app.use(bodyParser.urlencoded({extended: false, limit: '500kb'}));
 app.use((bodyParser.json({limit: '500kb'})));
-
 app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
 
 if (config.LOG_LEVEL === "DEBUG") {
@@ -346,6 +350,18 @@ app.post('/esign/init', async (req, res) => {
         // const pledge = JSON.parse(req.query.data)
         const pledge = req.body.data;
         const esignData = await getEsignData(pledge);
+        if (PREVENT_3RD_PARTY_ESIGN_VALIDATION) { 
+            const verificationData = {
+                "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
+                "lastName": R.pathOr("", ["personalDetails", "lastName"], pledge),
+                "dob": R.pathOr("", ["personalDetails", "dob"], pledge),
+                "pincode": R.pathOr("", ["addressDetails", "pincode"], pledge)
+            };
+            for(const[key, value] of Object.entries(verificationData)) {
+                console.log(key, value)
+                await redis.storeHashWithExpiry(esignData.txnId + "-esign-verification", key, value, config.EXPIRE_ESIGN_VALID_STATUS)
+            }
+        }
         res.send({
             signUrl: esignData.espUrl,
             xmlContent: esignData.xmlContent,
@@ -445,6 +461,18 @@ app.put('/esign/init/:entityName/:entityId', async(req, res) => {
             throw {error: 'You can only modify Pledge details or Emergency Contact Details'};
         }
         const esignData = await getEsignData(req.body.data);
+        if (PREVENT_3RD_PARTY_ESIGN_VALIDATION) { 
+            const verificationData = {
+                "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
+                "lastName": R.pathOr("", ["personalDetails", "lastName"], pledge),
+                "dob": R.pathOr("", ["personalDetails", "dob"], pledge),
+                "pincode": R.pathOr("", ["addressDetails", "pincode"], pledge)
+            };
+            for(const[key, value] of Object.entries(verificationData)) {
+                console.log(key, value)
+                await redis.storeHashWithExpiry(esignData.txnId + "-esign-verification", key, value, config.EXPIRE_ESIGN_VALID_STATUS)
+            }
+        }
         res.send({
             signUrl: esignData.espUrl,
             xmlContent: esignData.xmlContent,
@@ -545,7 +573,30 @@ async function getESingDoc(abha) {
 app.get('/esign/:abha/status', async (req, res) => {
     console.log("Get status api called")
     try {
-        await getESingDoc(req.params.abha)
+        if (PREVENT_3RD_PARTY_ESIGN_VALIDATION) {
+            console.log("Kafka working")
+            const transactionID = await redis.getKey(getEsginKey(req.params.abha))
+             // sample message data from kafka ----> 
+
+            // const data = {
+            //     "firstName": "Govind",
+            //     "lastName": "Kedia",
+            //     "dob": "29-01-1986",
+            //     "middleName": "ABC",
+            //     "pincode": "412101"
+            // }
+            if(await redis.getHash(transactionID) === null || (await redis.getHash(transactionID)).status === config.ESIGN_STATUS.FAILED.toString()) {
+                res.status(403).send({message: config.ESIGN_STATUS.FAILED.toString()})
+                return
+            }
+            else if((await redis.getHash(transactionID)).status === config.ESIGN_STATUS.SUCCESS.toString()){
+                res.status(200).send({message: "SUCCESS"})
+                return
+            }
+            res.status(404).send({message: "NOT GENEREATED"});
+        } else {
+
+            await getESingDoc(req.params.abha)
             .then(function (response) {
                 res.send({message: "SUCCESS"})
             })
@@ -553,6 +604,7 @@ app.get('/esign/:abha/status', async (req, res) => {
                 console.error(error)
                 res.status(404).send({message: "NOT GENERATED"})
             });
+        }   
     } catch (e) {
         // console.error(e)
         res.status(404).send({message: "NOT GENERATED"})
