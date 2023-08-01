@@ -146,6 +146,7 @@ export class FormsComponent implements OnInit {
   isVerified: string;
   isFormEdited: boolean = false;
   count: number = 0;
+  eSignWindowClosed: boolean = false;
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -191,9 +192,9 @@ export class FormsComponent implements OnInit {
                 ...this.model,
                 "personalDetails": {
                   ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
-                  "firstName": this.tempData?.firstName,
+                  "firstName": this.tempData?.firstName, 
                   "middleName": this.tempData?.middleName,
-                  "lastName": this.tempData?.lastName,
+                  "lastName": (this.tempData?.lastName),
                   "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
                   "emailId": (this.tempData?.email) ? this.tempData?.email : "",
                   "mobileNumber": this.tempData?.mobile,
@@ -2386,6 +2387,16 @@ export class FormsComponent implements OnInit {
 \t\tdocument.getElementById("formid").submit();
 \t</script>`);
         eSignWindow.focus();
+        let _self = this;
+        let checkLoaderStatus = setInterval(checkWindowStatus, 1000);
+        function checkWindowStatus() {
+            if (eSignWindow.closed) {
+              _self.hideLoader();
+              clearInterval(checkLoaderStatus);
+              checkESignStatus = false;
+              _self.eSignWindowClosed = true;
+            }
+        }
         let checkESignStatus = true;
         let count = 0;
         while (checkESignStatus) {
@@ -2412,7 +2423,7 @@ export class FormsComponent implements OnInit {
        
         eSignWindow.close();
         
-  
+ 
 
         if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
           this.model['emergencyDetails'] = {}
@@ -2442,11 +2453,19 @@ export class FormsComponent implements OnInit {
             this.isSubmitForm = false;
           }
         }, (err) => {
-          this.toastMsg.error('error', err.error.params.errmsg);
-          this.isSubmitForm = false;
+          if(err.error.params != undefined){
+            this.hideLoader();
+            this.toastMsg.error('error', err.error.params.errmsg);
+            this.isSubmitForm = false;
+          }
+        
         });
-        localStorage.removeItem(this.model['identificationDetails']['abha']);
-        localStorage.removeItem('isVerified');
+
+        if(!this.eSignWindowClosed){
+          localStorage.removeItem(this.model['identificationDetails']['abha']);
+          localStorage.removeItem('isVerified');
+        }
+     
       });
     } else {
       this.callPostAPI();
@@ -2514,6 +2533,16 @@ export class FormsComponent implements OnInit {
     \t\tdocument.getElementById("formid").submit();
     \t</script>`);
       eSignWindow.focus();
+      let _self = this;
+    let checkLoaderStatus = setInterval(checkWindowStatus, 1000);
+    function checkWindowStatus() {
+        if (eSignWindow.closed) {
+          _self.hideLoader();
+          clearInterval(checkLoaderStatus);
+          checkESignStatus = false;
+          _self.eSignWindowClosed = true;
+        }
+    }
       let checkESignStatus = true;
       let count = 0;
       while (checkESignStatus) {
@@ -2567,14 +2596,19 @@ export class FormsComponent implements OnInit {
           this.hideLoader();
         }
       }, (err) => {
+        this.hideLoader();
         this.toastMsg.error('error', err.error.params.errmsg);
         this.isSubmitForm = false;
         this.hideLoader();
       });
 
       setTimeout(() => {
-        localStorage.removeItem(this.model['identificationDetails']['abha']);
-        localStorage.removeItem('isVerified'); 
+        
+          if(!this.eSignWindowClosed){
+            localStorage.removeItem(this.model['identificationDetails']['abha']);
+            localStorage.removeItem('isVerified');
+          }
+        
       }, 3000);
 
     });
