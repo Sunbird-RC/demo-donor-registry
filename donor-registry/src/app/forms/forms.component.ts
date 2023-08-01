@@ -194,7 +194,7 @@ export class FormsComponent implements OnInit {
                   ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
                   "firstName": this.tempData?.firstName, 
                   "middleName": this.tempData?.middleName,
-                  "lastName": (this.tempData?.lastName),
+                  "lastName": this.tempData?.lastName,
                   "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
                   "emailId": (this.tempData?.email) ? this.tempData?.email : "",
                   "mobileNumber": this.tempData?.mobile,
