@@ -85,11 +85,6 @@ spec:
                 configMapKeyRef: # populate from a ConfigMap
                   name: donor-registry-config   # ... with this name
                   key: ESIGN_FORM_SIGN_URL
-            - name: ESIGN_FORM_REPLACE_URL
-              valueFrom:
-                configMapKeyRef: # populate from a ConfigMap
-                  name: donor-registry-config   # ... with this name
-                  key: ESIGN_FORM_REPLACE_URL
             - name: PORTAL_PLEDGE_REGISTER_URL
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
