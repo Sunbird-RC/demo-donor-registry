@@ -56,8 +56,8 @@ spec:
               value: admin
             - name: KEYCLOAK_PASSWORD
               value: admin
-            - name: KEYCLOAK_IMPORT
-              value: /opt/jboss/keycloak/imports/realm-export.json
+#            - name: KEYCLOAK_IMPORT
+#              value: /opt/jboss/keycloak/imports/realm-export.json
             - name: PROXY_ADDRESS_FORWARDING
               value: "true"
             - name: KEYCLOAK_PORTAL_TITLE
