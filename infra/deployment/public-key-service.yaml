@@ -22,10 +22,18 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 3300
-          envFrom:
-            - configMapRef:
-                name: "certificate-signer-keys"
           env:
             - name: CONFIG_BASE_PATH
               value: /etc/keys
+          resources:
+            requests:
+              cpu: 500m
+              memory: 2G
+          volumeMounts:
+            - name: certificate-signer-keys
+              mountPath: /etc/signer
+      volumes:
+        - name: certificate-signer-keys
+          configMap:
+            name: certificate-signer-keys
       restartPolicy: Always
