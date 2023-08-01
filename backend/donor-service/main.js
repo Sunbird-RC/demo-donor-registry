@@ -240,6 +240,7 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
         const updateApiResponse = (await axios.put(`${config.REGISTRY_URL}/api/v1/${entityName}/${entityId}`, profileFromReq, {headers: {...req.headers}})).data;
         const esignFileData = (await getESingDoc(profileFromReq.identificationDetails.abha)).data;
         const uploadESignFileRes = await uploadESignFile(entityId, esignFileData);
+        await redis.storeKey(getKeyBasedOnEntityName(entityName) + profileFromReq?.identificationDetails?.abha, PLEDGE_STATUS.PLEDGED);
         console.log(uploadESignFileRes);
         await sendUpdatedNotification(userData);
         await sendNotificationToEmergencyDetailsIfUpdated(profileFromReq, userData);
