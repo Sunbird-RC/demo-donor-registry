@@ -19,7 +19,7 @@ spec:
       containers:
         - name: registry
           image: srprasanna/sunbird-rc-core:v0.0.13-7
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:

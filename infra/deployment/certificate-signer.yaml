@@ -19,7 +19,7 @@ spec:
       containers:
         - name: certificate-signer
           image: dockerhub/sunbird-rc-certificate-signer:v0.0.13
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8079
           env:

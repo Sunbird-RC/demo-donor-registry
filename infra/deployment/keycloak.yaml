@@ -19,7 +19,7 @@ spec:
       containers:
         - name: keycloak
           image: srprasanna/sunbird-rc-keycloak:v0.0.13-4
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

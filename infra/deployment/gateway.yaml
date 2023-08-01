@@ -19,7 +19,7 @@ spec:
       containers:
         - name: gateway
           image: tejashjl/sunbird-rc-donor-portal:main
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
       restartPolicy: Always

@@ -19,7 +19,7 @@ spec:
       containers:
         - name: certificate-pdf
           image: srprasanna/certificate-pdf-service:v0.0.1-beta
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8003
       restartPolicy: Always

@@ -19,7 +19,7 @@ spec:
       containers:
         - name: context-proxy-service
           image: dockerhub/sunbird-rc-context-proxy-service
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 4400
       restartPolicy: Always

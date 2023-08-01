@@ -19,7 +19,7 @@ spec:
       containers:
         - name: notification-ms
           image: srprasanna/notification-service:v0.0.1-beta
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8765
           env:

@@ -19,7 +19,7 @@ spec:
       containers:
         - name: certificate-api
           image: srprasanna/sunbird-rc-certificate-api:v0.0.13-1
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8078
           env:

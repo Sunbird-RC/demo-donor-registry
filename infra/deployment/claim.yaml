@@ -19,7 +19,7 @@ spec:
       containers:
         - name: claim-ms
           image: dockerhub/sunbird-rc-claim-ms:v0.0.13
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8082
           env:
