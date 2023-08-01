@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: sunbird
+  namespace: sunbirdrc
   name: keycloak
   labels:
     app: keycloak
@@ -30,27 +30,27 @@ spec:
             - name: DB_ADDR
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: DB_URL
             - name: DB_PORT
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: DB_PORT
             - name: DB_DATABASE
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: DB_NAME
             - name: DB_USER
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: DB_USERNAME
             - name: DB_PASSWORD
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: DB_PASSWORD
             - name: KEYCLOAK_USER
               value: admin
@@ -77,43 +77,43 @@ spec:
             - name: MESSAGE_TEMPLATE
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: MESSAGE_TEMPLATE
             - name: NOTIFICATION_SERVICE_URL
               value: http://notification-ms:8765/notification-service/v1/notification
             - name: REGISTER_URL
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: REGISTER_URL
             - name: INVALID_REGISTRATION
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: INVALID_REGISTRATION
             - name: INVALID_USERNAME
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: INVALID_USERNAME
             - name: VALID_OTP
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: VALID_OTP
             - name: OTP_MAX_RETRY_LIMIT
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: OTP_MAX_RETRY_LIMIT
             - name: MAX_RETRIES_LIMIT_MESSAGE
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: MAX_RETRIES_LIMIT_MESSAGE
             - name: MAX_RESEND_TRIES
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: MAX_RESEND_TRIES
       restartPolicy: Always

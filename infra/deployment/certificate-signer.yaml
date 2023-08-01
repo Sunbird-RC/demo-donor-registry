@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: sunbird
+  namespace: sunbirdrc
   name: certificate-signer
   labels:
     app: certificate-signer
@@ -24,5 +24,5 @@ spec:
             - containerPort: 8079
           env:
             - name: PORT
-              value: 8079
+              value: "8079"
       restartPolicy: Always

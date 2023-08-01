@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: sunbird
+  namespace: sunbirdrc
   name: claim-ms
   labels:
     app: claim-ms
@@ -26,17 +26,17 @@ spec:
             - name: connectionInfo_uri
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: DB_CONNECTION_URL
             - name: connectionInfo_username
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: DB_USERNAME
             - name: connectionInfo_password
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: DB_PASSWORD
             - name: sunbirdrc_url
               value: http://registry:8081

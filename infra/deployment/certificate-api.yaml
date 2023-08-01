@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: sunbird
+  namespace: sunbirdrc
   name: certificate-api
   labels:
     app: certificate-api
@@ -24,12 +24,12 @@ spec:
             - containerPort: 8078
           env:
             - name: PORT
-              value: 8078
+              value: "8078"
             - name: QR_TYPE
               value: URL
             - name: CERTIFICATE_DOMAIN_URL
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
-                  name: donorRegistryConfig   # ... with this name
+                  name: donor-registry-config   # ... with this name
                   key: CERTIFICATE_DOMAIN_URL
       restartPolicy: Always

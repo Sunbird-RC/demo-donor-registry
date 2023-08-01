@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: sunbird
+  namespace: sunbirdrc
   name: public-key-service
   labels:
     app: public-key-service
