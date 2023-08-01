@@ -31,7 +31,7 @@ spec:
               memory: 2G
           volumeMounts:
             - name: certificate-signer-keys
-              mountPath: /etc/signer
+              mountPath: /etc/keys
       volumes:
         - name: certificate-signer-keys
           configMap:
