@@ -205,7 +205,7 @@ export class FormsComponent implements OnInit {
                   "addressLine1": this.tempData?.address,
                   "country": "India",
                   "state": `${titleCase(this.tempData?.stateName)}`,
-                  "district": this.tempData?.townName,
+                  "district": this.tempData?.districtName,
                   "pincode": this.tempData?.pincode,
 
                 },
@@ -2412,6 +2412,7 @@ export class FormsComponent implements OnInit {
        
         eSignWindow.close();
         
+  
 
         if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
           this.model['emergencyDetails'] = {}
