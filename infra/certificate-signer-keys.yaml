@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: certificate-signer-keys
 data:
-  config.json: |-
+  config.json: |
     {
       "issuers": {
         "default": {
