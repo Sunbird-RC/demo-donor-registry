@@ -32,7 +32,7 @@ services:
       timeout: 5s
       retries: 5
   registry:
-    image: tejashjl/sunbird-rc-core:v0.0.13-7
+    image: ghcr.io/sunbird-rc/demo-donor-registry/sunbird-rc-core:v0.0.13-7
     volumes:
       - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/home/sunbirdrc/config/public/_schemas
     environment:
@@ -90,7 +90,7 @@ services:
       timeout: 10s
       retries: 10
   keycloak:
-    image: varadeth/sunbird-rc-keycloak:v0.0.13-4
+    image: ghcr.io/sunbird-rc/demo-donor-registry/sunbird-rc-keycloak:v0.0.13-4
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
       - ${PWD}/${KEYCLOAK_THEMES_DIR-keycloak/themes/nha}:/opt/jboss/keycloak/themes/nha
@@ -168,7 +168,7 @@ services:
       timeout: 10s
       retries: 10
   certificate-api:
-    image: tejashjl/sunbird-rc-certificate-api:v0.0.13-1
+    image: ghcr.io/sunbird-rc/demo-donor-registry/sunbird-rc-certificate-api:v0.0.13-1
     environment:
       - PORT=8078
       - QR_TYPE=URL

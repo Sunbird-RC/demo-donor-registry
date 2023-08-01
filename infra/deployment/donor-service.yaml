@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbird
+  name: donor-service
+  labels:
+    app: donor-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: donor-service
+  template:
+    metadata:
+      name: donor-service
+      labels:
+        app: donor-service
+    spec:
+      containers:
+        - name: donor-service
+          image: ghcr.io/sunbird-rc/demo-donor-registry/donor-service:v0.0.1-beta
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3003
+          env:
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: REDIS_URL
+            - name: REGISTRY_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: REGISTRY_URL
+            - name: CERTIFICATE_API_URL
+              value: http://certificate-api:8078
+            - name: ABHA_CLIENT_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: ABHA_CLIENT_URL
+            - name: CLIENT_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: CLIENT_ID
+            - name: CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: CLIENT_SECRET
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: BASE_URL
+            - name: SERVICE_ACCOUNT_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: SERVICE_ACCOUNT_CLIENT_SECRET
+            - name: KEYCLOAK_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: KEYCLOAK_URL
+            - name: EXPIRE_PROFILE
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: EXPIRE_PROFILE
+            - name: ESIGN_ESP_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: ESIGN_ESP_URL
+            - name: ESIGN_ESP_PDF_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: ESIGN_ESP_PDF_URL
+            - name: ESIGN_FORM_SIGN_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: ESIGN_FORM_SIGN_URL
+            - name: ESIGN_FORM_REPLACE_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: ESIGN_FORM_REPLACE_URL
+            - name: PORTAL_PLEDGE_REGISTER_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: PORTAL_PLEDGE_REGISTER_URL
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: LOG_LEVEL
+            - name: NUMBER_OF_DIGITS
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: NUMBER_OF_DIGITS
+            - name: UNIQUE_ABHA_ENABLED
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: UNIQUE_ABHA_ENABLED
+            - name: NOTIFICATION_SERVICE_URL
+              value: http://notification-ms:8765/notification-service/v1/notification
+            - name: LOGIN_LINK
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: LOGIN_LINK
+            - name: INVITE_TEMPLATE_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: INVITE_TEMPLATE_ID
+            - name: NOTIFY_TEMPLATE_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: NOTIFY_TEMPLATE_ID
+            - name: UPDATE_TEMPLATE_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: UPDATE_TEMPLATE_ID
+            - name: UNPLEDGE_TEMPLATE_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: UNPLEDGE_TEMPLATE_ID
+            - name: API_KEY
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: API_KEY
+      restartPolicy: Always

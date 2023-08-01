@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbird
+  name: certificate-signer
+  labels:
+    app: certificate-signer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: certificate-signer
+  template:
+    metadata:
+      name: certificate-signer
+      labels:
+        app: certificate-signer
+    spec:
+      containers:
+        - name: certificate-signer
+          image: dockerhub/sunbird-rc-certificate-signer:v0.0.13
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8079
+          env:
+            - name: PORT
+              value: 8079
+      restartPolicy: Always

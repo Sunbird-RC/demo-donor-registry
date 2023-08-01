@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbird
+  name: claim-ms
+  labels:
+    app: claim-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: claim-ms
+  template:
+    metadata:
+      name: claim-ms
+      labels:
+        app: claim-ms
+    spec:
+      containers:
+        - name: claim-ms
+          image: dockerhub/sunbird-rc-claim-ms::v0.0.13
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
+          env:
+            - name: connectionInfo_uri
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: DB_CONNECTION_URL
+            - name: connectionInfo_username
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: DB_USERNAME
+            - name: connectionInfo_password
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donorRegistryConfig   # ... with this name
+                  key: DB_PASSWORD
+            - name: sunbirdrc_url
+              value: http://registry:8081
+      restartPolicy: Always

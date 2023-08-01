@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: donorRegistryConfig
+  namespace: sunbird
+  selfLink: /api/v1/namespaces/sunbird/configmaps/donorRegistryConfig
+data:
+  RELEASE_VERSION: v0.0.13
+  PORTAL_RELEASE_VERSION: main
+  SCHEMA_DIR: schemas
+  CLIENT_ID: SBX_002738
+  CLIENT_SECRET: 8cb55a08-0b23-478e-a471-2214d2f0c1ba
+  REDIS_URL: redis://redis:6379
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  BASE_URL: https://healthidsbx.abdm.gov.in/api
+  SERVICE_ACCOUNT_CLIENT_SECRET: bdd6dc1e-055e-419d-a601-4bc9786049b1
+  REGISTRY_URL: http://registry:8081
+  EXPIRE_PROFILE: 1800
+  ESIGN_ESP_URL: https://digisignsbx.abdm.gov.in/digiSign/genEspRequest
+  ESIGN_ESP_PDF_URL: https://digisignsbx.abdm.gov.in/digiSign/pdf/:transactionId
+  ESIGN_FORM_SIGN_URL: https://es-staging.cdac.in/esignlevel2/2.1/form/signdoc
+  KEYCLOAK_URL: http://keycloak:8080
+  KEYCLOAK_SECRET: 84d6d675-99e7-45b6-b38a-c03274ff4777
+  NUMBER_OF_DIGITS: 7
+  UNIQUE_ABHA_ENABLED: "false"
+  LOG_LEVEL: DEBUG
+  SMPP_ENTITY_ID: 1001548700000010184
+  SMPP_PASSWORD: Hc(P52)h
+  SMPP_SOURCE: NHASMS
+  SMPP_USER_NAME: NOTTOSMS
+  SMS_URL: http://103.16.59.21:8080/bulksms/bulksms
+  MESSAGE_TEMPLATE: {\n  \"message\":
+    \"OTP to login NOTTO pledge registry is %s. This One Time Password will be valid for 10 mins NOTTO, NHA\",\n  \"templateId\": \"1007167663248853122\"\n}
+  LOGIN_LINK: https://bit.ly/pledgelogin
+  INVITE_TEMPLATE_ID: 1007167721422175806
+  NOTIFY_TEMPLATE_ID: 1007167688904577464
+  REGISTER_URL: https://dev-donor-registry.abdm.gov.in/form/signup
+  INVALID_REGISTRATION: Entered ABHA/mobile number is not registered
+  INVALID_USERNAME: Please enter valid ABHA/Mobile number
+  VALID_OTP: Please enter valid OTP
+  MAX_RETRIES_LIMIT_MESSAGE: You got redirected because of maximum number of failed otp retries. Please start the login process again
+  OTP_MAX_RETRY_LIMIT: 5
+  MAX_RESEND_TRIES: 3
+  ABHA_CLIENT_URL: https://dev.abdm.gov.in/gateway/v0.5/sessions
+  UPDATE_TEMPLATE_ID: 1007167938747846205
+  UNPLEDGE_TEMPLATE_ID: 1007167938758884275
+  CERTIFICATE_DOMAIN_URL: https://dev-donor-registry.abdm.gov.in/profile
+  DB_URL: db
+  DB_PORT: 5432
+  DB_NAME: registry
+  DB_USERNAME: registry
+  DB_PASSWORD: registry123
+  DB_CONNECTION_URL: jdbc:postgresql://db:5432/registry
+  ES_CONNECTION_URL: es:9200
+  ES_SECURITY_ENABLED: "false"
+  ES_USERNAME: elastic
+  ES_PASSWORD: elastic
