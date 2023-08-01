@@ -132,4 +132,23 @@ spec:
                 configMapKeyRef: # populate from a ConfigMap
                   name: donor-registry-config   # ... with this name
                   key: API_KEY
+      hostAliases:
+        - hostnames:
+            - "dev.abdm.gov.in"
+          ip: 100.65.201.152
+        - hostnames:
+            - "healthidsbx.abdm.gov.in"
+          ip: 100.96.1.21
+        - hostnames:
+            - "digisignsbx.abdm.gov.in"
+          ip: 100.96.1.55
+        - hostnames:
+            - "digisignbeta.abdm.gov.in"
+          ip: 100.65.160.208
+        - hostnames:
+            - "digisign2dev.abdm.gov.internal"
+          ip: 100.65.158.60
+        - hostnames:
+            - "digisign2sbx.abdm.gov.internal"
+          ip: 100.65.160.201
       restartPolicy: Always
