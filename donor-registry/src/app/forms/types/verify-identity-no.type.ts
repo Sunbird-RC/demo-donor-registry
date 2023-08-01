@@ -209,8 +209,15 @@ export class VerifyIndentityCode extends FieldType {
               this.isGotErr = true;
               console.log(error);
               this.errorCode = error?.error['code'];
+              if(this.errorCode == 0){
+                this.errHeading = 'Already Pledged';
+              }
+              else if(this.errorCode == 1){
+                this.errHeading = 'Already Unpledged';
+              }
+             
               this.err409 = true;
-              this.errHeading = 'Already Pledged';
+              
               this.errorMessage = error?.error['message'];
              
             }

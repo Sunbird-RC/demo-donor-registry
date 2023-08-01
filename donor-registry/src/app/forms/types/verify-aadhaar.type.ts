@@ -42,6 +42,7 @@ export class VerifyAadhaar extends FieldType {
   correctAadhar: boolean = false;
   err409: boolean = false;
   errHeading: string;
+  errorCode: any;
 
 
   constructor(private http: HttpClient, public generalService: GeneralService, public router: Router,
@@ -198,8 +199,15 @@ export class VerifyAadhaar extends FieldType {
             }
             if (error?.error['status'] == '409') {
               this.err409 = true;
-              this.errHeading = 'Already Pledged';
-              this.errorMessage = 'To download the pledge certificate, please login with ABHA number or mobile number';
+             
+              this.errorCode = error?.error['code'];
+              if(this.errorCode == 0){
+                this.errHeading = 'Already Pledged';
+              }
+              else if(this.errorCode == 1){
+                this.errHeading = 'Already Unpledged';
+              }
+              this.errorMessage = error?.error['message'];
               this.closePops('verifyOtpModal');
               this.closeAllModal();
               this.openPopup('errorMessagePop');
