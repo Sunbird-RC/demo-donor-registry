@@ -22,6 +22,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 3300
+          envFrom:
+            - configMapRef:
+                name: "certificate-signer-keys"
           env:
             - name: CONFIG_BASE_PATH
               value: /etc/keys

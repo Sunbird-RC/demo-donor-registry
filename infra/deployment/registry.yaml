@@ -22,6 +22,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: "registry-schema"
           env:
             - name: connectionInfo_uri
               valueFrom:

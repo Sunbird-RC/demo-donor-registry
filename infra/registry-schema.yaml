@@ -1,0 +1,2321 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: registry-schema
+data:
+  Common.json: |
+    {
+      "$schema": "http://json-schema.org/draft-07/schema",
+      "title": "Common",
+      "definitions": {
+        "PersonalDetails": {
+          "type": "object",
+          "title": "Personal Details",
+          "required": [
+            "firstName",
+            "lastName",
+            "fatherName",
+            "motherName",
+            "dob",
+            "gender",
+            "mobileNumber"
+          ],
+          "properties": {
+            "firstName": {
+              "type": "string",
+              "title": "First Name",
+              "readOnly": true
+            },
+            "middleName": {
+              "type": "string",
+              "title": "Middle Name",
+              "readOnly": true
+            },
+            "lastName": {
+              "type": "string",
+              "title": "Last Name",
+              "readOnly": true
+            },
+            "fatherName": {
+              "type": "string",
+              "title": "Father’s/Husband’s Name",
+              "readOnly": true
+            },
+            "motherName": {
+              "type": "string",
+              "title": "Mother’s Name"
+            },
+            "dob": {
+              "type": "string",
+              "format": "date",
+              "title": "Date of Birth",
+              "readOnly": true
+            },
+            "gender": {
+              "type": "string",
+              "enum": [
+                "Male",
+                "Female",
+                "Transgender"
+              ],
+              "title": "Gender",
+              "readOnly": true
+            },
+            "bloodGroup": {
+              "type": "string",
+              "enum": [
+                "A+",
+                "A-",
+                "B+",
+                "B-",
+                "AB+",
+                "AB-",
+                "O+",
+                "O-"
+              ],
+              "title": "Blood Group"
+            },
+            "emailId": {
+              "type": "string",
+              "title": "Email Id",
+              "oneOf": [
+                { "enum": [ "" ] },
+                { "format": "email" }
+              ]
+            },
+            "mobileNumber": {
+              "type": "string",
+              "pattern": "^[6-9]\\d{9}$",
+              "title": "Mobile Number",
+              "readOnly": true
+            },
+            "photo": {
+              "type": "string"
+            }
+          }
+        },
+        "AddressDetails": {
+          "type": "object",
+          "title": "Address Details",
+          "required": [
+            "addressLine1",
+            "country",
+            "state",
+            "district",
+            "pincode"
+          ],
+          "properties": {
+            "addressLine1": {
+              "type": "string",
+              "title": "Address Line 1",
+              "readOnly": true
+            },
+            "addressLine2": {
+              "type": "string",
+              "title": "Address Line 2"
+            },
+            "country": {
+              "type": "string",
+              "title": "Country",
+              "readOnly": true
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "Andaman and Nicobar Islands",
+                "Andhra Pradesh",
+                "Arunachal Pradesh",
+                "Assam",
+                "Bihar",
+                "Chandigarh",
+                "Chhattisgarh",
+                "Dadra and Nagar Haveli",
+                "Daman and Diu",
+                "Delhi",
+                "Goa",
+                "Gujarat",
+                "Haryana",
+                "Himachal Pradesh",
+                "Jammu and Kashmir",
+                "Jharkhand",
+                "Karnataka",
+                "Kerala",
+                "Ladakh",
+                "Lakshadweep",
+                "Madhya Pradesh",
+                "Maharashtra",
+                "Manipur",
+                "Meghalaya",
+                "Mizoram",
+                "Nagaland",
+                "Odisha",
+                "Puducherry",
+                "Punjab",
+                "Rajasthan",
+                "Sikkim",
+                "Tamil Nadu",
+                "Telangana",
+                "Tripura",
+                "Uttar Pradesh",
+                "Uttarakhand",
+                "West Bengal"
+              ],
+              "title": "State",
+              "readOnly": true
+            },
+            "district": {
+              "type": "string",
+              "title": "District",
+              "readOnly": true
+            },
+            "pincode": {
+              "type": "string",
+              "title": "Pincode",
+              "readOnly": true
+            }
+          }
+        },
+        "IdentificationDetails": {
+          "type": "object",
+          "required": [
+            "abha",
+            "nottoId"
+          ],
+          "title": "Identification Details",
+          "properties": {
+            "abha": {
+              "type": "string",
+              "title": "ABHA Number",
+              "pattern": "^\\d{14}$"
+            },
+            "nottoId": {
+              "type": "string",
+              "title": "NOTTO ID"
+            }
+          }
+        },
+        "PledgeDetails": {
+          "type": "object",
+          "title": "Pledge Details",
+          "properties": {
+            "organs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Liver",
+                  "Kidney",
+                  "Heart",
+                  "Intestine",
+                  "Pancreas",
+                  "Lungs"
+                ]
+              },
+              "title": "Organs to Pledge"
+            },
+            "tissues": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Bone",
+                  "Heart Valve",
+                  "Skin",
+                  "Cornea",
+                  "Cartilage",
+                  "Blood Vessels"
+                ]
+              },
+              "title": "Tissues to Pledge"
+            },
+            "other": {
+              "type": "string",
+              "title": "Other Organs or Tissues",
+              "description": "(Please select atleast one organ or tissue above to add other organs or tissues",
+              "enum": [
+                "Other Organs or Tissues",
+                ""
+              ]
+            },
+            "otherOrgans": {
+              "type": "string",
+              "title": "Enter Organs/Tissues Name"
+            }
+          },
+          "anyOf": [
+            {
+              "required": [ "organs" ]
+            },
+            {
+              "required": [ "tissues" ]
+            },
+            {
+              "required": [ "organs", "tissues" ]
+            }
+          ],
+          "oneOf": [
+            {
+              "properties": {
+                "other": {
+                  "const": "Other Organs or Tissues"
+                }
+              },
+              "required": [ "otherOrgans" ]
+            },
+            {
+              "properties": {
+                "other": {
+                  "not": {
+                    "const": "Other Organs or Tissues"
+                  }
+                }
+              },
+              "required": [ ]
+            }
+          ]
+        },
+        "EmergencyDetails": {
+          "type": "object",
+          "required": [
+            "name",
+            "relation",
+            "mobileNumber"
+          ],
+          "title": "Emergency Contact Details",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name"
+            },
+            "relation": {
+              "type": "string",
+              "enum": [
+                "Spouse",
+                "Son",
+                "Daughter",
+                "Father",
+                "Mother",
+                "Brother",
+                "Sister",
+                "Grand Father",
+                "Grand Mother",
+                "Grand Son",
+                "Grand Daughter",
+                "Other"
+              ],
+              "title": "Relation"
+            },
+            "otherRelation": {
+              "type": "string",
+              "title": "Other Relation"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "pattern": "^[6-9]\\d{9}$",
+              "title": "Mobile Number"
+            }
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "relation": {
+                  "const": "Other"
+                }
+              },
+              "required": [ "otherRelation" ]
+            },
+            {
+              "properties": {
+                "relation": {
+                  "not": {
+                    "const": "Other"
+                  }
+                }
+              },
+              "required": [ ]
+            }
+          ]
+        },
+        "NotificationDetails": {
+          "type": "object",
+          "required": [ ],
+          "title": "Members to be notified",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name"
+            },
+            "relation": {
+              "type": "string",
+              "enum": [
+                "Spouse",
+                "Son",
+                "Daughter",
+                "Father",
+                "Mother",
+                "Brother",
+                "Sister",
+                "Grand Father",
+                "Grand Mother",
+                "Grand Son",
+                "Grand Daughter",
+                "Other"
+              ],
+              "title": "Relation"
+            },
+            "otherRelation": {
+              "type": "string",
+              "title": "Other Relation"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "pattern": "^[6-9]\\d{9}$",
+              "title": "Mobile Number"
+            }
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "relation": {
+                  "const": "Other"
+                }
+              },
+              "required": [ "otherRelation" ]
+            },
+            {
+              "properties": {
+                "relation": {
+                  "not": {
+                    "const": "Other"
+                  }
+                }
+              },
+              "required": [ ]
+            }
+          ]
+        },
+        "WitnessDetails": {
+          "type": "object",
+          "title": "Witness Details",
+          "required": [
+            "name",
+            "mobileNumber"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "pattern": "^[6-9]\\d{9}$",
+              "title": "Mobile Number"
+            }
+          }
+        }
+    
+      }
+    }
+  LiveDonor.json: |
+    {
+      "$schema": "http://json-schema.org/draft-07/schema",
+      "type": "object",
+      "properties": {
+        "LiveDonor": {
+          "$ref": "#/definitions/LiveDonor"
+        }
+      },
+      "required": [
+        "LiveDonor"
+      ],
+      "title": "LiveDonor",
+      "definitions": {
+        "LiveDonor": {
+          "$id": "#/properties/LiveDonor",
+          "type": "object",
+          "title": "The LiveDonor Schema",
+          "required": [],
+          "properties": {
+            "donorDetails": {
+              "$ref": "#/definitions/DonorDetails"
+            },
+            "recipientDetails": {
+              "$ref": "#/definitions/RecipientDetails"
+            },
+            "proofOfRelation": {
+              "$ref": "#/definitions/ProofOfRelation"
+            },
+            "medicalDetails": {
+              "$ref": "#/definitions/MedicalDetails"
+            },
+            "medicalHistory": {
+              "$ref": "#/definitions/MedicalHistory"
+            },
+            "bloodGroupDetails": {
+              "$ref": "#/definitions/BloodGroupDetails"
+            },
+            "hematology": {
+              "$ref": "#/definitions/Hematology"
+            },
+            "urineExam": {
+              "$ref": "#/definitions/UrineExam"
+            },
+            "biochemistry": {
+              "$ref": "#/definitions/Biochemistry"
+            },
+            "ekg": {
+              "$ref": "#/definitions/EKG"
+            },
+            "thyroidFunction": {
+              "$ref": "#/definitions/ThyroidFunction"
+            },
+            "virology": {
+              "$ref": "#/definitions/Virology"
+            },
+            "radiology": {
+              "$ref": "#/definitions/Radiology"
+            },
+            "clearances": {
+              "$ref": "#/definitions/Clearances"
+            },
+            
+            "donorHLA": {
+              "$ref": "#/definitions/DonorHLATypingDetails"
+            },
+            "recipientHLA": {
+              "$ref": "#/definitions/RecipientHLATypingDetails"
+            },
+            "crossMatchDetails": {
+              "$ref": "#/definitions/CrossMatchDetails"
+            },
+            "dnaProfiling": {
+              "$ref": "#/definitions/DnaProfiling"
+            },
+            "form4": {
+              "type": "string",
+              "format": "file",
+              "title": "Form 4 (For certification of medical fitness of living donor)"
+            },
+            "form5": {
+              "type": "string",
+              "format": "file",
+              "title": "Form 5\t(For certification of genetic relationship of living donor with recipient)"
+            },
+            "swapDetails": {
+              "$ref": "#/definitions/SwapDetails"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "Pending",
+                "Processing"
+              ]
+            }
+          }
+        },
+        "DonorDetails": {
+          "title": "Details of the Donor",
+          "type": "object",
+          "required": [
+            "firstName",
+            "lastName",
+            "dob",
+            "gender",
+            "mobileNumber",
+            "identificationProof",
+            "identificationValue",
+            "residentialProof",
+            "residentialValue"
+          ],
+          "properties": {
+            "firstName": {
+              "type": "string",
+              "title": "First Name"
+            },
+            "middleName": {
+              "type": "string",
+              "title": "Middle Name"
+            },
+            "lastName": {
+              "type": "string",
+              "title": "Last Name"
+            },
+            "fatherName": {
+              "type": "string",
+              "title": "Father’s Name"
+            },
+            "motherName": {
+              "type": "string",
+              "title": "Mother’s Name"
+            },
+            "dob": {
+              "type": "string",
+              "format": "date",
+              "title": "Date of Birth"
+            },
+            "gender": {
+              "type": "string",
+              "enum": [
+                "Male",
+                "Female",
+                "Transgender"
+              ],
+              "title": "Gender"
+            },
+            "emailId": {
+              "type": "string",
+              "format": "email",
+              "title": "Email Id"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "pattern": "^[6-9]\\d{9}$",
+              "title": "Mobile Number"
+            },
+            "identificationProof": {
+              "type": "string",
+              "enum": [
+                "Voter Id",
+                "Aadhaar",
+                "Driving License",
+                "Passport no",
+                "PAN",
+                "Ration no"
+              ],
+              "title": "Identification Proof"
+            },
+            "identificationValue": {
+              "type": "string",
+              "title": "ABHA Number"
+            },
+            "residentialProof": {
+              "type": "string",
+              "enum": [
+                "Voter Id",
+                "Aadhaar",
+                "Driving License",
+                "Passport no",
+                "Ration no"
+              ],
+              "title": "Residential Proof"
+            },
+            "residentialValue": {
+              "type": "string",
+              "title": "Residential Number"
+            }
+          }
+        },
+        "RecipientRegistryDetails": {
+          "title": "Details of the Recipient",
+          "type": "object",
+          "required": [
+            "firstName",
+            "lastName",
+            "dob",
+            "gender",
+            "mobileNumber",
+            "identificationProof",
+            "identificationValue",
+            "residentialProof",
+            "residentialValue"
+          ],
+          "properties": {
+            "nationality": {
+              "type": "string",
+              "enum": [
+                "Indian",
+                "Foreign"
+              ],
+              "title": "Nationality"
+            },
+            "firstName": {
+              "type": "string",
+              "title": "First Name"
+            },
+            "middleName": {
+              "type": "string",
+              "title": "Middle Name"
+            },
+            "lastName": {
+              "type": "string",
+              "title": "Last Name"
+            },
+            "fatherName": {
+              "type": "string",
+              "title": "Father’s Name"
+            },
+            "motherName": {
+              "type": "string",
+              "title": "Mother’s Name"
+            },
+            "dob": {
+              "type": "string",
+              "format": "date",
+              "title": "Date of Birth"
+            },
+            "gender": {
+              "type": "string",
+              "enum": [
+                "Male",
+                "Female",
+                "Transgender"
+              ],
+              "title": "Gender"
+            },
+            "emailId": {
+              "type": "string",
+              "format": "email",
+              "title": "Email Id"
+            },
+            "mobileNumber": {
+              "type": "string",
+              "pattern": "^[6-9]\\d{9}$",
+              "title": "Mobile Number"
+            },
+            "identificationProof": {
+              "type": "string",
+              "enum": [
+                "Voter Id",
+                "Aadhaar",
+                "Driving License",
+                "Passport no",
+                "PAN",
+                "Ration no"
+              ],
+              "title": "Identification Proof"
+            },
+            "identificationValue": {
+              "type": "string",
+              "title": "ABHA Number"
+            },
+            "residentialProof": {
+              "type": "string",
+              "enum": [
+                "Voter Id",
+                "Aadhaar",
+                "Driving License",
+                "Passport no",
+                "Ration no"
+              ],
+              "title": "Residential Proof"
+            },
+            "residentialValue": {
+              "type": "string",
+              "title": "Residential Number"
+            },
+            "passportNumber": {
+              "type": "string",
+              "title": "Passport Number"
+            },
+            "form21": {
+              "type": "string",
+              "format": "file",
+              "title": "Form 21"
+            },
+            "country": {
+              "type": "string",
+              "title": "Country",
+              "enum": [
+                "SriLanka",
+                "Brazil",
+                "UAE",
+                "Russia"
+              ]
+            },
+            "mobileNumberWithCode": {
+              "type": "string",
+              "title": "Mobile Number With Country Code"
+            }
+          },
+          "oneOf": [
+            {
+              "properties": {
+                "nationality": {"const": "Foreign"}
+              },
+              "required": ["passportNumber", "form21", "country", "mobileNumberWithCode"]
+            },
+            {
+              "properties": {
+                "nationality": {"const": "Indian"}
+              },
+              "required": []
+            }
+          ]
+        },
+        "RecipientDetails": {
+          "title": "Details of the Recipient",
+          "type": "object",
+          "required": [
+            "recipientId"
+          ],
+          "properties": {
+            "recipientId": {
+              "type": "string",
+              "title":"Recipient id"
+            }
+          }
+        },
+        "ProofOfRelation": {
+          "type": "object",
+          "title": "Relation of Donor and Recipient",
+          "required": [
+            "relation",
+            "relationType"
+          ],
+          "properties": {
+            "relationType": {
+              "type": "string",
+              "enum": [
+                "related",
+                "unrelated"
+              ],
+              "title":"Relation Type"
+            },
+            "relation": {
+              "type": "string",
+              "enum": [
+                "father",
+                "mother",
+                "spouse"
+              ],
+              "title":"Relation"
+            },
+            "form": {
+              "type": "string",
+              "format": "file",
+              "title": "Upload Form # for ## Relative"
+            },
+            "documentaryEvidence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "documentaryType": {
+                    "type": "string"
+                  },
+                  "documentaryUri": {
+                    "type": "string",
+                    "format": "file"
+                  },
+                  "issuedDate": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "MedicalDetails": {
+          "type": "object",
+          "title": "Medical Details",
+          "required": [
+            "height",
+            "weight",
+            "bmi"
+          ],
+          "properties": {
+            "height": {
+              "type": "string",
+              "title": "Height (in CMS)"
+            },
+            "weight": {
+              "type": "string",
+              "title": "Weight (in KG)"
+            },
+            "bmi": {
+              "type": "string",
+              "title": "BMI"
+            }
+          }
+        },
+        "MedicalHistory": {
+          "type": "object",
+          "title": "Medical History",
+          "required": [
+            "hypertension",
+            "systolic",
+            "diastolic",
+            "diabetes",
+            "gfr",
+            "historyIllness"
+          ],
+          "properties": {
+            "hypertension": {
+              "type": "string",
+              "enum": [
+                "yes",
+                "no"
+              ],
+              "title": "Hypertension"
+            },
+            "systolic": {
+              "type": "number",
+              "title": "Systolic mm HG"
+            },
+            "diastolic": {
+              "type": "number",
+              "title": "Diastolic mm HG"
+            },
+            "diabetes": {
+              "type": "string",
+              "enum": [
+                "yes",
+                "no"
+              ],
+              "title": "Diabetes"
+            },
+            "gfr": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "enum": [
+                    "DTPR/e",
+                    "GFR",
+                    "RCL"
+                  ],
+                  "title": "GFR (Method)"
+                },
+                "result": {
+                  "type": "string",
+                  "title": "GFR (Result)"
+                }
+              }
+            },
+            "historyIllness": {
+              "type": "string",
+              "title": "History of any other illness"
+            }
+          }
+        },
+        "BloodGroupDetails": {
+          "type": "object",
+          "title": "Blood Group Details",
+          "required": [
+            "group",
+            "transfusion"
+          ],
+          "properties": {
+            "group": {
+              "type": "string",
+              "enum": [
+                "A+",
+                "A-",
+                "B+",
+                "B-",
+                "AB+",
+                "AB-",
+                "O+",
+                "O-"
+              ],
+              "title": "Blood Group"
+            },
+            "transfusion": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "type": "string",
+                  "enum": [
+                    "yes",
+                    "no"
+                  ],
+                  "title": "Transfusion"
+                },
+                "lastTransfusionDate": {
+                  "type": "string",
+                  "format": "date",
+                  "title":"Date"
+                }
+              }
+            }
+          }
+        },
+        "CrossMatchDetails": {
+          "type": "object",
+          "title": "Cross Matching",
+          "properties": {
+            "crossMatchStatus": {
+              "type": "string",
+              "enum": [
+                "positive",
+                "negative"
+              ],
+              "title":"Cross Match Status"
+            },
+            "crossMatchDate": {
+              "type": "string",
+              "format": "date",
+              "title":"Date"
+            },
+            "crossMatchFile": {
+              "type": "string",
+              "format": "file",
+              "title":"Upload"
+            }
+          }
+        },
+        "DnaProfiling": {
+          "type": "object",
+          "title" : "DNA Profiling (Only for near relatives)",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "yes",
+                "no"
+              ],
+              "title": "Status"
+            },
+            "date": {
+              "type": "string",
+              "format": "date",
+              "title":"Date"
+            },
+            "dnaFile": {
+              "type": "string",
+              "format": "file",
+              "title":"Upload"
+            }
+          }
+        },
+        "SwapDetails": {
+          "type": "object",
+          "title": "Are you looking for a swap?",
+          "properties": {
+            "swapStatus": {
+              "type": "string",
+              "enum": [
+                "yes",
+                "no"
+              ],
+              "title":"Status"
+            },
+            "donorConsent": {
+              "type": "string",
+              "title":"Donor ABHA Number *"
+            },
+            "recipientConsent": {
+              "type": "string",
+              "title":"Recipient ABHA Number *"
+            }
+          }
+        },
+        "DonorHLATypingDetails": {
+          "type": "object",
+          "title": "HLA Typing - Donor (Only for near relatives)",
+          "required": [
+            "a",
+            "b",
+            "dr",
+            "dq",
+            "other"
+          ],
+          "properties": {
+            "a": {
+              "type": "string",
+              "title":"A"
+            },
+            "b": {
+              "type": "string",
+              "title":"B"
+            },
+            "dr": {
+              "type": "string",
+              "title":"DR"
+            },
+            "dq": {
+              "type": "string",
+              "title":"DQ"
+            },
+            "other": {
+              "type": "string",
+              "title":"Other"
+            }
+          }
+        },
+        "RecipientHLATypingDetails": {
+          "type": "object",
+          "title": "HLA Typing - Recipient",
+          "required": [
+            "a",
+            "b",
+            "dr",
+            "dq",
+            "other"
+          ],
+          "properties": {
+            "a": {
+              "type": "string",
+              "title":"A"
+            },
+            "b": {
+              "type": "string",
+              "title":"B"
+            },
+            "dr": {
+              "type": "string",
+              "title":"DR"
+            },
+            "dq": {
+              "type": "string",
+              "title":"DQ"
+            },
+            "other": {
+              "type": "string",
+              "title":"Other"
+            }
+          }
+        },
+        "Hematology": {
+          "type": "object",
+          "title": "Hematology",
+          "properties": {
+            "hb": {
+              "type": "string",
+              "title": "Hb(gm/dl)"
+            },
+            "tlc": {
+              "type": "string",
+              "title": "TLC (cells/mm^3)"
+            },
+            "dcl": {
+              "type": "string",
+              "title": "DCL"
+            },
+            "platelets": {
+              "type": "string",
+              "title": "Platelets (x1000 cells/mm^3)"
+            },
+            "pbSmear": {
+              "type": "string",
+              "title": "PB Smear"
+            },
+            "esr": {
+              "type": "string",
+              "title": "ESR (mm)"
+            }
+          }
+        },
+        "UrineExam":  {
+          "type": "object",
+          "title": "Urine Exam",
+          "properties": {
+            "sugar": {
+              "type": "string",
+              "title": "Sugar"
+            },
+            "sediment": {
+              "type": "string",
+              "title": "Sediment"
+            },
+            "proCrRatio": {
+              "type": "string",
+              "title": "Pro./Cr. Ratio"
+            },
+            "protein": {
+              "type": "string",
+              "title": "24 Hr. Protein"
+            },
+            "eGfr": {
+              "title": "eGFR",
+              "type": "string"
+            }
+          }
+        },
+        "Biochemistry": {
+          "type": "object",
+          "title": "Biochemistry",
+          "properties": {
+            "calcium": {
+              "type": "string",
+              "title": "Calcium(mg/dl)"
+            },
+            "uricAcid": {
+              "title": "Uric Acid (mg/dl)",
+              "type": "string"
+            },
+            "ldl": {
+              "title": "LDL(mg/dl)",
+              "type": "string"
+            },
+            "triglycerides": {
+              "title": "Triglycerides",
+              "type": "string"
+            },
+            "bSugarPP": {
+              "title": "B. Sugar(pp)(mg/dl)",
+              "type": "string"
+            },
+            "phosphate": {
+              "type": "string",
+              "title": "Phosphate(mg/dl)"
+            },
+            "tCholestrol": {
+              "type": "string",
+              "title": "T. Cholesterol(mg/dl)"
+            },
+            "hdl": {
+              "type": "string",
+              "title": "HDL(mg/dl)"
+            },
+            "bSugarF": {
+              "title": "B. Sugar (F) (mg/dl)",
+              "type": "string"
+            },
+            "hba1c": {
+              "title": "HbA1C (%)",
+              "type": "string"
+            }
+          }
+        },
+        "EKG":  {
+          "title": "EKG",
+          "type": "object",
+          "required": [],
+          "properties": {
+            "ekg": {
+              "type": "string",
+              "title": "EKG"
+            }
+          }
+        },
+        "ThyroidFunction": {
+          "title": "Thyroid Function",
+          "type": "object",
+          "properties": {
+            "t3": {
+              "type": "string",
+              "title": "T3 (mg/dl)"
+            },
+            "t4": {
+              "type": "string",
+              "title": "T4 (ug/dl)"
+            },
+            "tsh": {
+              "type": "string",
+              "title": "TSH (µU/dl)"
+            }
+          }
+        },
+        "Virology":  {
+          "title": "Virology",
+          "type": "object",
+          "required": ["hbsag", "cmvigg", "ebvigg", "antiHIV", "antiHCV", "antiHPV", "cmvigm", "ebvigm" ],
+          "properties": {
+            "hbsag": {
+              "title": "HBsAg",
+              "type": "string",
+              "enum": [
+                "Positive",
+                "Negetive"
+              ]
+            },
+            "cmvigg": {
+              "title": "CMV-igG",
+              "type": "string",
+              "enum": [
+                "Positive",
+                "Negetive"
+              ]
+            },
+            "ebvigg": {
+              "title": "EBV-IgG",
+              "type": "string",
+              "enum": [
+                "Positive",
+                "Negetive"
+              ]
+            },
+            "antiHIV": {
+              "title": "Anti-HIV",
+              "type": "string",
+              "enum": [
+                "Positive",
+                "Negetive"
+              ]
+            },
+            "antiHCV": {
+              "title": "Anti-HCV",
+              "type": "string",
+              "enum": [
+                "Positive",
+                "Negetive"
+              ]
+            },
+            "antiHPV": {
+              "title": "antiHPV",
+              "type": "string",
+              "enum": [
+                "Positive",
+                "Negetive"
+              ]
+            },
+            "cmvigm": {
+              "title": "CMV-igM",
+              "type": "string",
+              "enum": [
+                "Positive",
+                "Negetive"
+              ]
+            },
+            "ebvigm": {
+              "title": "EBV-Igm",
+              "type": "string",
+              "enum": [
+                "Positive",
+                "Negetive"
+              ]
+            }
+          }
+        },
+        "Radiology": {
+          "title": "Radiology",
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "title": "Date",
+              "format": "date"
+            },
+            "xrayChest": {
+              "type": "object",
+              "title": "X-ray Chest",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "title": "Date",
+                  "format": "date"
+                },
+                "value": {
+                  "type": "string",
+                  "title": "Value"
+                }
+              }
+            },
+            "usabdomen": {
+              "type": "object",
+              "title": "U/S abdomen",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "title": "Date",
+                  "format": "date"
+                },
+                "value": {
+                  "type": "string",
+                  "title": "Value"
+                }
+              }
+            },
+            "kub": {
+              "type": "object",
+              "title": "KUB",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "title": "Date",
+                  "format": "date"
+                },
+                "value": {
+                  "type": "string",
+                  "title": "Value"
+                }
+              }
+            },
+            "echo": {
+              "type": "object",
+              "title": "ECHO",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "title": "Date",
+                  "format": "date"
+                },
+                "value": {
+                  "type": "string",
+                  "title": "Value"
+                }
+              }
+            },
+            "others": {
+              "type": "object",
+              "title": "Others",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "title": "Date",
+                  "format": "date"
+                },
+                "value": {
+                  "type": "string",
+                  "title": "Value"
+                }
+              }
+            },
+            "hrct": {
+              "type": "object",
+              "title": "HRCT",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "title": "Date",
+                  "format": "date"
+                },
+                "value": {
+                  "type": "string",
+                  "title": "Value"
+                }
+              }
+            },
+            "carotid": {
+              "type": "object",
+              "title": "Carotid Doppler",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "title": "Date",
+                  "format": "date"
+                },
+                "value": {
+                  "type": "string",
+                  "title": "Value"
+                }
+              }
+            }
+          }
+        },
+        "Clearances":  {
+          "title": "Clearances",
+          "type": "object",
+          "properties": {
+            "cardiac": {
+              "title": "Cardiac",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No",
+                "Not Needed"
+              ]
+            },
+            "respiratory": {
+              "title": "Respiratory",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No",
+                "Not Needed"
+              ]
+            },
+            "psychiatry": {
+              "title": "Psychiatry",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No",
+                "Not Needed"
+              ]
+            },
+            "gynae": {
+              "title": "Gynae",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No",
+                "Not Needed"
+              ]
+            },
+            "others": {
+              "title": "Others",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No",
+                "Not Needed"
+              ]
+            },
+            "gastroenterology": {
+              "title": "Gastroenterology",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "renal": {
+              "title": "Renal",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "dental": {
+              "title": "Dental",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "pulmonology": {
+              "title": "Pulmonology",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "gynecology": {
+              "title": "Gynecology",
+              "type": "string",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            }
+          }
+        },
+        "OrgansOrTissues": {
+          "title": "Organs or Tissues Needed",
+          "type": "object",
+          "anyOf": [
+            {
+              "required": ["organsNeeded"]
+            },
+            {
+              "required": ["tissuesNeeded"]
+            },
+            {
+              "required": ["organsNeeded", "tissuesNeeded"]
+            }
+          ],
+          "properties": {
+            "organsNeeded": {
+              "title": "Organs Needed",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Liver",
+                  "Kidney",
+                  "Heart",
+                  "Intestine",
+                  "Pancreas",
+                  "Lungs"
+                ]
+              },
+              "$id": "#/properties/organsNeeded"
+            },
+            "tissuesNeeded": {
+              "title": "Tissues Needed",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Bone",
+                  "Heart Valve",
+                  "Skin",
+                  "Cornea",
+                  "Cartilage",
+                  "Blood Vessels"
+                ]
+              },
+              "$id": "#/properties/tissuesNeeded"
+            }
+          }
+        },
+        "Form4": {
+          "title": "Form 4",
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string",
+              "format": "file"
+            }
+          }
+        },
+        "LiverExamination": {
+          "title": "Liver Examination Details",
+          "type": "object",
+          "required": ["typeOfFailure", "primaryDiagnosis", "titre", "treatmentTaken", "onLifeSupport"],
+          "properties": {
+            "typeOfFailure": {
+              "type": "string",
+              "title": "Type of Liver Failure"
+            },
+            "primaryDiagnosis": {
+              "required": ["date", "report"],
+              "type": "object",
+              "title": "Primary Diagnosis",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "title": "Date"
+                },
+                "report": {
+                  "type": "string",
+                  "format": "file",
+                  "title": "Report"
+                }
+              }
+            },
+            "onsetOfDisease": {
+              "required": ["date", "report"],
+              "type": "object",
+              "title": "Month and Year of onset of disease",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "title": "Date"
+                },
+                "report": {
+                  "type": "string",
+                  "format": "file",
+                  "title": "Report"
+                }
+              }
+            },
+            "titre": {
+              "required": ["date", "report"],
+              "type": "object",
+              "title": "Titre",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "title": "Date"
+                },
+                "report": {
+                  "type": "string",
+                  "format": "file",
+                  "title": "Titre"
+                }
+              }
+            },
+            "treatmentTaken": {
+              "type": "string",
+              "title": "Treatment Taken"
+            },
+            "onLifeSupport": {
+              "type": "string",
+              "title": "On life Support",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            }
+          }
+        },
+        "PRA": {
+          "type": "object",
+          "title": "PRA",
+          "required": [],
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date",
+              "title": "Date"
+            },
+            "method": {
+              "type": "string",
+              "title": "Method",
+              "enum": [
+                "ELISA",
+                "Luminex"
+              ]
+            },
+            "result": {
+              "title": "Result",
+              "type": "string",
+              "enum": ["Positive", "Negetive"]
+            }
+          }
+        },
+        "Comorbidity": {
+          "type": "object",
+          "required": [],
+          "title": "Comorbidity",
+          "properties": {
+            "systemicDisease": {
+              "title": "Systemic disease - date, duration, details",
+              "type": "object",
+              "required": [],
+              "properties": {
+                "hypothyroidism": {
+                  "type": "object",
+                  "title": "Hypothyroidism",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "title": "Date",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                },
+                "pulmonary": {
+                  "type": "object",
+                  "title": "Pulmonary",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "title": "Date",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                },
+                "others": {
+                  "type": "object",
+                  "title": "Others",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "title": "Date",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                },
+                "liverDisease": {
+                  "type": "object",
+                  "title": "Liver Disease",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "title": "Date",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                },
+                "ckd": {
+                  "title": "CKD",
+                  "type": "string"
+                }
+              }
+            },
+            "bacterialInfection": {
+              "title": "Bacterial Infection -date, duration, details",
+              "type": "object",
+              "required": [],
+              "properties": {
+                "tb": {
+                  "type": "object",
+                  "title": "TB",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "title": "Date",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                },
+                "other": {
+                  "type": "object",
+                  "title": "Other",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "title": "Date",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                }
+              }
+            },
+            "hepaticViral": {
+              "title": "Hepatic Viral Infection – date, duration, details",
+              "type": "object",
+              "required": [],
+              "properties": {
+                "hbv": {
+                  "type": "object",
+                  "title": "HBV",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "title": "Date",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                },
+                "hcv": {
+                  "type": "object",
+                  "title": "HCV",
+                  "properties": {
+                    "date": {
+                      "type": "string",
+                      "title": "Date",
+                      "format": "date"
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "Value"
+                    }
+                  }
+                }
+              }
+            },
+            "other": {
+              "title": "Other Infection",
+              "type": "object",
+              "required": [],
+              "properties": {
+                "hiv1": {
+                  "title": "HIV-I",
+                  "type": "string"
+                },
+                "hiv2": {
+                  "title": "HIV-II",
+                  "type": "string"
+                },
+                "hsp": {
+                  "title": "HSP",
+                  "type": "string"
+                },
+                "igg": {
+                  "title": "IgG",
+                  "type": "string"
+                },
+                "igm": {
+                  "title": "IGM",
+                  "type": "string"
+                },
+                "toxoplasma": {
+                  "title": "Toxoplasma",
+                  "type": "string"
+                },
+                "addiction": {
+                  "title": "Addiction",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                },
+                "previousCardiac": {
+                  "title": "Previous Cardiac Surgery",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                },
+                "aicd": {
+                  "title": "AICD",
+                  "type": "string",
+                  "enum": ["Yes", "No"]
+                }
+              }
+            }
+          }
+        },
+        "LiverFunctionTest": {
+          "type": "object",
+          "title": "Liver Function Tests",
+          "required": [],
+          "properties": {
+            "tbilirubin": {
+              "type": "string",
+              "title": "T. Bilirubin (mg/dl)"
+            },
+            "directBilirubin": {
+              "type": "string",
+              "title": "Direct Bilirubin (mg/dl)"
+            },
+            "ast": {
+              "type": "string",
+              "title": "AST (IU/dl)"
+            },
+            "alt": {
+              "type": "string",
+              "title": "ALT (IU/dl)"
+            },
+            "alk": {
+              "type": "string",
+              "title": "T. Protein (g/dl)"
+            },
+            "alb": {
+              "type": "string",
+              "title": "Alb (g/dl)"
+            }
+          }
+        },
+        "CoagulationProfile": {
+          "type": "object",
+          "title": "Coagulation Profile",
+          "required": [],
+          "properties": {
+            "prothrombin": {
+              "type": "string",
+              "title": "Prothrombin Time(Sec)"
+            },
+            "inr": {
+              "type": "string",
+              "title": "INR"
+            },
+            "aptt": {
+              "type": "string",
+              "title": "aPTT(Sec)"
+            }
+          }
+        },
+        "KidneyFunctionTests": {
+          "type": "object",
+          "title": "Kidney Function Tests",
+          "required": [],
+          "properties": {
+            "bloodUrea": {
+              "type": "string",
+              "title": "Blood Urea(mg/dl)"
+            },
+            "sCreatinine": {
+              "type": "string",
+              "title": "S. Creatinine(mg/dl)"
+            },
+            "sodium": {
+              "type": "string",
+              "title": "Sodium(meg/L)"
+            },
+            "potassium": {
+              "type": "string",
+              "title": "Potassium(meg/dl)"
+            }
+          }
+        },
+        "ECHO": {
+          "type": "object",
+          "title": "ECHO",
+          "required": [],
+          "properties": {
+            "date": {
+              "type": "string",
+              "title": "Date",
+              "format": "date"
+            },
+            "ef": {
+              "type": "string",
+              "title": "EF(%)"
+            },
+            "rightHeartFilling": {
+              "type": "string",
+              "title": "Right Heart Filling"
+            },
+            "mr": {
+              "type": "string",
+              "title": "MR",
+              "enum": [
+                "Yes",
+                "No"
+              ]
+            },
+            "mugaScan": {
+              "type": "string",
+              "title": "Muga Scan"
+            }
+          }
+        },
+        "Report": {
+          "type": "object",
+          "title": "Report",
+          "required": [],
+          "properties": {
+            "date": {
+              "type": "string",
+              "title": "Date",
+              "format": "date"
+            },
+            "file": {
+              "type": "string",
+              "format": "file",
+              "title": "Report"
+            }
+          }
+        }
+      },
+      "_osConfig": {
+        "privateFields": [],
+        "indexFields": [],
+        "uniqueIndexFields": [],
+        "systemFields": [
+          "osCreatedAt",
+          "osUpdatedAt",
+          "osCreatedBy",
+          "osUpdatedBy"
+        ],
+        "inviteRoles": [
+          "anonymous"
+        ],
+        "roles": [
+          "anonymous"
+        ],
+        "ownershipAttributes": []
+      }
+    }
+  Pledge.json: |
+    {
+      "$schema": "http://json-schema.org/draft-07/schema",
+      "type": "object",
+      "properties": {
+        "Pledge": {
+          "$ref": "#/definitions/Pledge"
+        }
+      },
+      "required": [
+        "Pledge"
+      ],
+      "title": "Pledge",
+      "definitions": {
+        "Pledge": {
+          "$id": "#/properties/Pledge",
+          "type": "object",
+          "title": "The Pledge Schema",
+          "required": [
+            "personalDetails",
+            "emergencyDetails",
+            "pledgeDetails",
+            "identificationDetails"
+          ],
+          "properties": {
+            "personalDetails": {
+              "$ref": "Common.json/#/definitions/PersonalDetails"
+            },
+            "identificationDetails": {
+              "$ref": "Common.json/#/definitions/IdentificationDetails"
+            },
+            "addressDetails": {
+              "$ref": "Common.json/#/definitions/AddressDetails"
+            },
+            "pledgeDetails": {
+              "$ref": "Common.json/#/definitions/PledgeDetails"
+            },
+            "emergencyDetails": {
+              "$ref": "Common.json/#/definitions/EmergencyDetails"
+            },
+            "notificationDetails": {
+              "$ref": "Common.json/#/definitions/NotificationDetails"
+            },
+            "instituteReference": {
+              "type": "string",
+              "title": "Mention the Institution/NGO through which you are taking the pledge"
+            }
+          }
+        }
+      },
+      "_osConfig": {
+        "internalFields": [
+          "$.personalDetails.firstName",
+          "$.personalDetails.middleName",
+          "$.personalDetails.lastName",
+          "$.personalDetails.fatherName",
+          "$.personalDetails.motherName",
+          "$.personalDetails.dob",
+          "$.personalDetails.gender",
+          "$.personalDetails.bloodGroup",
+          "$.personalDetails.emailId",
+          "$.personalDetails.mobileNumber",
+          "$.identificationDetails.abha",
+          "$.addressDetails",
+          "$.pledgeDetails",
+          "$.notificationDetails",
+          "$.instituteReference"
+        ],
+        "enableSearch": "false",
+        "indexFields": [],
+        "uniqueIndexFields": [],
+        "systemFields": [
+          "osCreatedAt",
+          "osUpdatedAt",
+          "osCreatedBy",
+          "osUpdatedBy"
+        ],
+        "credentialTemplate": {
+          "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/contexts/vc-context.json"
+          ],
+          "type": [
+            "VerifiableCredential",
+            "ProofOfOrganPledge"
+          ],
+          "id": "https://dev-donor-registry.abdm.gov.in/pledgecredentials/{{osid}}",
+          "issuer": "https://dev-donor-registry.abdm.gov.in",
+          "issuanceDate": "{{osUpdatedAt}}",
+          "credentialSubject": {
+            "type": "Person",
+            "id": "did:abha:{{identificationDetails.abha}}",
+            "nottoId": "{{identificationDetails.nottoId}}",
+            "name": "{{personalDetails.firstName}} {{personalDetails.middleName}} {{personalDetails.lastName}}",
+            "dob": "{{personalDetails.dob}}",
+            "gender": "{{personalDetails.gender}}",
+            "fatherName": "{{personalDetails.fatherName}}",
+            "bloodGroup": "{{personalDetails.bloodGroup}}",
+            "pledge": {
+              "type": "OrganPledge",
+              "organs": "{{#each pledgeDetails.organs}}{{#if @index}}, {{/if}}{{this}}{{/each}}",
+              "tissues": "{{#each pledgeDetails.tissues}}{{#if @index}}, {{/if}}{{this}}{{/each}}",
+              "additionalOrgans": "{{pledgeDetails.other}}"
+            },
+            "emergency": {
+              "type": "Emergency",
+              "name": "{{emergencyDetails.name}}",
+              "otherRelation": "{{emergencyDetails.otherRelation}}",
+              "relation": "{{emergencyDetails.relation}}"
+            },
+            "address": {
+              "addressLine1": "{{addressDetails.addressLine1}}",
+              "addressLine2": "{{addressDetails.addressLine2}}",
+              "district": "{{addressDetails.district}}",
+              "state": "{{addressDetails.state}}",
+              "country": "{{addressDetails.country}}",
+              "pincode": "{{addressDetails.pincode}}"
+            }
+          },
+          "evidence": [
+            {
+              "type": [
+                "eKYC"
+              ],
+              "verifier": "https://healthidsbx.abdm.gov.in/",
+              "evidenceDocument": "ABHA",
+              "subjectPresence": "online",
+              "refId": "{{identificationDetails.abha}}"
+            }
+          ],
+          "nonTransferable": "true"
+        },
+        "inviteRoles": [
+          "anonymous"
+        ],
+        "roles": [
+          "donor-service"
+        ],
+        "ownershipAttributes": [
+          {
+            "email": "/identificationDetails/abha",
+            "mobile": "/personalDetails/mobileNumber",
+            "userId": "/personalDetails/mobileNumber"
+          }
+        ],
+        "certificateTemplates": {
+          "assamese_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Assamese_portrait_",
+          "bengali_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Bengali_portrait_",
+          "gujarati_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Gujarati_portrait_",
+          "hindi_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Hindi_portrait_",
+          "kannada_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Kannada_portrait_",
+          "malayalam_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Malayalam_portrait_",
+          "marathi_portrait":"https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Marathi_portrait_",
+          "odia_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Odia_portrait_",
+          "punjabi_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Punjabi_portrait_",
+          "tamil_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Tamil_portrait_",
+          "telugu_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Telugu_portrait_",
+          "urdu_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Urdu_portrait_"
+        }
+      }
+    }
+  Recipent.json: |
+    {
+      "$schema": "http://json-schema.org/draft-07/schema",
+      "type": "object",
+      "properties": {
+        "Recipient": {
+          "$ref": "#/definitions/Recipient"
+        }
+      },
+      "required": [
+        "Recipient"
+      ],
+      "title": "Recipient",
+      "definitions": {
+        "Recipient": {
+          "$id": "#/properties/Recipient",
+          "type": "object",
+          "title": "The Recipient Schema",
+          "required": [],
+          "properties": {
+            "recipientDetails": {
+              "$ref": "LiveDonor.json/#/definitions/RecipientRegistryDetails"
+            },
+            "organsOrTissues": {
+              "$ref": "LiveDonor.json/#/definitions/OrgansOrTissues"
+            },
+            "report": {
+              "$ref": "LiveDonor.json/#/definitions/Report"
+            },
+            "medicalDetails": {
+              "$ref": "LiveDonor.json/#/definitions/MedicalDetails"
+            },
+            "medicalHistory": {
+              "$ref": "LiveDonor.json/#/definitions/MedicalHistory"
+            },
+            "bloodGroupDetails": {
+              "$ref": "LiveDonor.json/#/definitions/BloodGroupDetails"
+            },
+            "hematology": {
+              "$ref": "LiveDonor.json/#/definitions/Hematology"
+            },
+            "urineExam": {
+              "$ref": "LiveDonor.json/#/definitions/UrineExam"
+            },
+            "biochemistry": {
+              "$ref": "LiveDonor.json/#/definitions/Biochemistry"
+            },
+            "ekg": {
+              "$ref": "LiveDonor.json/#/definitions/EKG"
+            },
+            "thyroidFunction": {
+              "$ref": "LiveDonor.json/#/definitions/ThyroidFunction"
+            },
+            "virology": {
+              "$ref": "LiveDonor.json/#/definitions/Virology"
+            },
+            "radiology": {
+              "$ref": "LiveDonor.json/#/definitions/Radiology"
+            },
+            "clearances": {
+              "$ref": "LiveDonor.json/#/definitions/Clearances"
+            },
+            "recipientHLA": {
+              "$ref": "LiveDonor.json/#/definitions/RecipientHLATypingDetails"
+            },
+            "LiverExamination": {
+              "$ref": "LiveDonor.json/#/definitions/LiverExamination"
+            },
+            "PRA": {
+              "$ref": "LiveDonor.json/#/definitions/PRA"
+            },
+            "Comorbidity": {
+              "$ref": "LiveDonor.json/#/definitions/Comorbidity"
+            },
+            "LiverFunctionTest": {
+              "$ref": "LiveDonor.json/#/definitions/LiverFunctionTest"
+            },
+            "CoagulationProfile": {
+              "$ref": "LiveDonor.json/#/definitions/CoagulationProfile"
+            },
+            "KidneyFunctionTests": {
+              "$ref": "LiveDonor.json/#/definitions/KidneyFunctionTests"
+            },
+            "ECHO": {
+              "$ref": "LiveDonor.json/#/definitions/ECHO"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "Pending",
+                "Processing"
+              ]
+            }
+          }
+        }
+      },
+      "_osConfig": {
+        "privateFields": [],
+        "indexFields": [],
+        "uniqueIndexFields": [],
+        "systemFields": [
+          "osCreatedAt",
+          "osUpdatedAt",
+          "osCreatedBy",
+          "osUpdatedBy"
+        ],
+        "inviteRoles":["TransplantCoordinator"],
+        "roles": ["TransplantCoordinator"],
+        "ownershipAttributes": []
+      }
+    }
+  TransplantCoordinator.json: |
+    {
+      "$schema": "http://json-schema.org/draft-07/schema",
+      "type": "object",
+      "properties": {
+        "TransplantCoordinator": {
+          "$ref": "#/definitions/TransplantCoordinator"
+        }
+      },
+      "required": [
+        "TransplantCoordinator"
+      ],
+      "title":"TransplantCoordinator",
+      "definitions": {
+        "TransplantCoordinator": {
+          "$id": "#/properties/TransplantCoordinator",
+          "type": "object",
+          "title": "The TransplantCoordinator Schema",
+          "required": [
+          
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Name"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "title": "Email"
+            },
+            "mobile": {
+              "type": "string",
+              "pattern": "^[6-9]\\d{9}$",
+              "title": "Mobile"
+            },
+            "facilityId": {
+              "type": "string",
+              "title": "Hospital ID (FHR)"
+            },
+            "coordinatorId": {
+              "type": "string",
+              "title": "Coordinator ID (AHPR)"
+            },
+            "address": {
+              "$ref": "Common.json/#/definitions/AddressDetails"
+            }
+          }
+        }
+      },
+      "_osConfig": {
+        "privateFields": [],
+        "indexFields": [],
+        "uniqueIndexFields": [],
+        "systemFields": [
+          "osCreatedAt",
+          "osUpdatedAt",
+          "osCreatedBy",
+          "osUpdatedBy"
+        ],
+        "inviteRoles":["admin"],
+        "roles": [],
+        "ownershipAttributes": [
+          {
+            "email": "/email",
+            "mobile": "/mobile",
+            "userId": "/mobile"
+          }
+        ]
+      }
+    }
+
+
+  

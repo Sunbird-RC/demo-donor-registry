@@ -22,6 +22,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8079
+          envFrom:
+            - configMapRef:
+                name: "certificate-signer-keys"
           env:
             - name: PORT
               value: "8079"
