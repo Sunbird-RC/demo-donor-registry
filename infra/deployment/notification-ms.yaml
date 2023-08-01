@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: notification-ms
-          image: ghcr.io/sunbird-rc/demo-donor-registry/notification-service:v0.0.1-beta
+          image: srprasanna/notification-service:v0.0.1-beta
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8765

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: registry
-          image: ghcr.io/sunbird-rc/demo-donor-registry/sunbird-rc-core:v0.0.13-7
+          image: srprasanna/sunbird-rc-core:v0.0.13-7
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081

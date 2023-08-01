@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: certificate-pdf
-          image: ghcr.io/sunbird-rc/demo-donor-registry/certificate-pdf-service:v0.0.1-beta
+          image: srprasanna/certificate-pdf-service:v0.0.1-beta
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8003

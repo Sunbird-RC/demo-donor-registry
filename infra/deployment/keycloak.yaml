@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: ghcr.io/sunbird-rc/demo-donor-registry/sunbird-rc-keycloak:v0.0.13-4
+          image: srprasanna/sunbird-rc-keycloak:v0.0.13-4
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
