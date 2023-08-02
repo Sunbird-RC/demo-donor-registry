@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: donor-service
-          image: srprasanna/donor-service:v0.0.1-beta
+          image: srprasanna/donor-service
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
