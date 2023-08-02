@@ -228,7 +228,7 @@
     "SELECT_ABHA":"Select the ABHA number for which you wish to pledge.",
     "ALL_REGISTERED":"All Profiles are already registered for Pledge.",
     "ABHA_NUMBER":"ABHA Number",
-    "ALREADY_REGISTERED":"Already Registered for Pledge",
+    "ALREADY_REGISTERED":"You have already pledged.",
     "CLOSE":"Close",
     "ABHA_MULTIPLE_ENTRY":"ABHA number entered multiple times",
     "INVALID_ABHA":"Invalid ABHA number",
@@ -266,8 +266,8 @@
     "LOGIN_TOSHARE_PLEDGE_STATUS": "Login to share your pledge status",
     "CLICK_TO_LOGIN":"Click here to login",
     "YOU_UNPLEDGED":"You have unpledged your exisitng pledge",
-    "CLICK_TO_PLEDGE_AGAIN":"Click here to pledge again",
-    "LOGIN_TO_PLEDGE":"Click here to update the pledge"
+    "CLICK_TO_PLEDGE_AGAIN":"to download certificate or edit your pledge",
+    "LOGIN_TO_PLEDGE":"to update the pledge"
 
 
 
