@@ -134,6 +134,9 @@ spec:
                   key: API_KEY
       hostAliases:
         - hostnames:
+            - "redis-abdm-sahaj1.nha2prodpaas.tatacommunications.com"
+          ip: 100.96.24.3
+        - hostnames:
             - "dev.abdm.gov.in"
           ip: 100.65.201.152
         - hostnames:

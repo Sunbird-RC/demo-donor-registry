@@ -142,6 +142,13 @@ spec:
           volumeMounts:
             - name: registry-schemas
               mountPath: /home/sunbirdrc/config/public/_schemas
+      hostAliases:
+        - hostnames:
+            - "elasticsearch-abdm-sahaj1.nha2prodpaas.tatacommunications.com"
+          ip: 100.96.22.3
+        - hostnames:
+            - "redis-abdm-sahaj1.nha2prodpaas.tatacommunications.com"
+          ip: 100.96.24.3
       volumes:
         - name: registry-schemas
           configMap:
