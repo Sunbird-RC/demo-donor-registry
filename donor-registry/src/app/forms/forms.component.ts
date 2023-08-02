@@ -218,11 +218,11 @@ export class FormsComponent implements OnInit {
               localStorage.setItem('isAutoFill', "false");
 
               let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
-              // for (let propName in obj) {
-              //   if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
-              //     delete obj[propName];
-              //   }
-              // }
+              for (let propName in obj) {
+                if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+                  delete obj[propName];
+                }
+              }
               localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
             }
           }
@@ -323,11 +323,11 @@ export class FormsComponent implements OnInit {
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
         let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
-        // for (let propName in obj) {
-        //   if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
-        //     delete obj[propName];
-        //   }
-        // }
+        for (let propName in obj) {
+          if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+            delete obj[propName];
+          }
+        }
         localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
       }
       localStorage.setItem('isVerified', 'true')
