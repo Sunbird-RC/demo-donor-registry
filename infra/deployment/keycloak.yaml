@@ -25,6 +25,8 @@ spec:
           env:
             - name: KEYCLOAK_LOGO
               value: https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/imports/header_logo.svg
+            - name: KEYCLOAK_LOGLEVEL
+              value: "ALL"
             - name: DB_VENDOR
               value: postgres
             - name: DB_ADDR
