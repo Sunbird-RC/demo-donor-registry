@@ -57,7 +57,7 @@ spec:
               valueFrom:
                 configMapKeyRef: # populate from a ConfigMap
                   name: donor-registry-config   # ... with this name
-                  key: ES_USERNAME
+                  key: ES_PASSWORD
             - name: search_providerName
               value: dev.sunbirdrc.registry.service.ElasticSearchService
             - name: sunbird_sso_realm
