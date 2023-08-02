@@ -85,7 +85,7 @@
       ],
       "id": "https://dev-donor-registry.abdm.gov.in/pledgecredentials/{{osid}}",
       "issuer": "https://dev-donor-registry.abdm.gov.in",
-      "issuanceDate": "{{osUpdatedAt}}",
+      "issuanceDate": "{{formatTime osUpdatedAt}}",
       "credentialSubject": {
         "type": "Person",
         "id": "did:abha:{{identificationDetails.abha}}",
