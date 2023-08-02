@@ -649,6 +649,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
   downloadPledgeCard(){
+    
     if (!this.isLanguageSelected) {
       this.languageNotSelected = true;
     }
@@ -690,6 +691,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
     })).subscribe((result: any) => {
     });
   }
+    this.reset();
   }
 
   getDeviceInfo() {
@@ -772,6 +774,12 @@ export class LayoutsComponent implements OnInit, OnChanges {
   navSharePage(osid)
   {
     this.router.navigate(["/Pledge/status/", osid]);
+  }
+  reset(){
+    var DropdownList = (document.getElementById("mySelect")) as HTMLSelectElement;
+   
+    DropdownList.selectedIndex = 0;
+   // document.getElementById("my_select")[0].setAttribute('selected','selected');
   }
   
 }
