@@ -67,11 +67,11 @@ const getProfileFromUserAndRedis = (profileFromReq, profileFromRedis) => {
         profile.personalDetails.fatherName = profileFromRedis.fatherName;
     }
     profile.personalDetails.dob = (`${profileFromRedis.yearOfBirth}-${String(profileFromRedis.monthOfBirth).padStart(2, '0')}-${String(profileFromRedis.dayOfBirth).padStart(2, '0')}`);
-    profile.personalDetails.gender = GENDER_MAP[profileFromRedis.gender];
-    profile.personalDetails.photo = profileFromRedis.profilePhoto;
-    profile.addressDetails.state = toTitleCase(profileFromRedis.stateName);
-    profile.addressDetails.district = profileFromRedis.districtName;
-    profile.addressDetails.pincode = profileFromRedis.pincode;
+    profile.personalDetails.gender = GENDER_MAP[profileFromRedis.gender] || "Male";
+    profile.personalDetails.photo = profileFromRedis.profilePhoto || "";
+    profile.addressDetails.state = toTitleCase(profileFromRedis.stateName) || "";
+    profile.addressDetails.district = profileFromRedis.districtName || "";
+    profile.addressDetails.pincode = profileFromRedis.pincode || "";
     profile.identificationDetails.abha = String(profileFromRedis.healthIdNumber).replace(/-/g, '');
     return profile;
 }
