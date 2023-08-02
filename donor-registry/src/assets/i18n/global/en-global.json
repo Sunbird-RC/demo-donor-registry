@@ -266,8 +266,8 @@
     "LOGIN_TOSHARE_PLEDGE_STATUS": "Login to share your pledge status",
     "CLICK_TO_LOGIN":"Click here to login",
     "YOU_UNPLEDGED":"You have unpledged your exisitng pledge",
-    "CLICK_TO_PLEDGE_AGAIN":"Click here to download certificate or edit your pledge",
-    "LOGIN_TO_PLEDGE":"Click here to update the pledge"
+    "CLICK_TO_PLEDGE_AGAIN":"to download certificate or edit your pledge",
+    "LOGIN_TO_PLEDGE":"to update the pledge"
 
 
 
