@@ -22,4 +22,8 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 4400
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 2G
       restartPolicy: Always

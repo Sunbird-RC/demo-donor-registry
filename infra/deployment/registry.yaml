@@ -140,7 +140,7 @@ spec:
               value: "false"
           resources:
             requests:
-              cpu: 500m
+              cpu: 2000m
               memory: 2G
           volumeMounts:
             - name: registry-schemas

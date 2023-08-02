@@ -28,7 +28,7 @@ spec:
           resources:
             requests:
               cpu: 500m
-              memory: 2G
+              memory: 1G
           volumeMounts:
             - name: certificate-signer-keys
               mountPath: /etc/keys

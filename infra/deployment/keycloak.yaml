@@ -26,7 +26,10 @@ spec:
             - name: KEYCLOAK_LOGO
               value: https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/imports/header_logo.svg
             - name: KEYCLOAK_LOGLEVEL
-              value: "ALL"
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: LOG_LEVEL
             - name: DB_VENDOR
               value: postgres
             - name: DB_ADDR
@@ -118,4 +121,8 @@ spec:
                 configMapKeyRef: # populate from a ConfigMap
                   name: donor-registry-config   # ... with this name
                   key: MAX_RESEND_TRIES
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 4G
       restartPolicy: Always
