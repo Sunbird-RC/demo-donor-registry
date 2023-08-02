@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: varadeth/sunbird-rc-keycloak:v0.0.13-4
+          image: srprasanna/demo-donor-registry-keycloak:nhamain
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -61,8 +61,8 @@ spec:
               value: admin
             - name: KEYCLOAK_PASSWORD
               value: admin
-#            - name: KEYCLOAK_IMPORT
-#              value: /opt/jboss/keycloak/imports/realm-export.json
+            - name: KEYCLOAK_IMPORT
+              value: /opt/jboss/keycloak/imports/realm-export.json
             - name: PROXY_ADDRESS_FORWARDING
               value: "true"
             - name: KEYCLOAK_PORTAL_TITLE
