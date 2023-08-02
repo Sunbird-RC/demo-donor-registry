@@ -92,11 +92,20 @@ spec:
             - name: sunbird_keycloak_user_set_password
               value: "true"
             - name: filestorage_connection_url
-              value: http://100.96.38.232:9000
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: FILESTORE_URL
             - name: filestorage_access_key
-              value: admin
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: FILESTORE_ACCESS_KEY
             - name: filestorage_secret_key
-              value: "12345678"
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: FILESTORE_SECRET_KEY
             - name: filestorage_bucket_key
               value: issuance
             - name: registry_base_apis_enable
