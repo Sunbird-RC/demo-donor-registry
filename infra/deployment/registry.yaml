@@ -152,9 +152,6 @@ spec:
         - hostnames:
             - "redis-abdm-sahaj1.nha2prodpaas.tatacommunications.com"
           ip: 100.96.24.3
-        - hostnames:
-            - ""
-          ip: 100.96.38.227
       volumes:
         - name: registry-schemas
           configMap:
