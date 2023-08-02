@@ -59,7 +59,7 @@ spec:
                   name: donor-registry-config   # ... with this name
                   key: ES_PASSWORD
             - name: search_providerName
-              value: dev.sunbirdrc.registry.service.ElasticSearchService
+              value: dev.sunbirdrc.registry.service.NativeSearchService
             - name: sunbird_sso_realm
               value: sunbird-rc
             - name: sunbird_sso_url
