@@ -88,7 +88,7 @@
     </div>
 
  <!--Select Language Modal-->
- <div id="selectLanguage" class="modal fade" tabindex="-1" role="dialog" #modalRef
+ <div id="selectLanguage" class="modal fade" tabindex="-1" role="dialog" #modalRef data-backdrop="static"
  aria-labelledby="selectLanguage" aria-hidden="true">
  <div class="modal-dialog" role="document">
      <div class="p-4 modal-content">
@@ -98,15 +98,16 @@
                  <div class="p24 mb-2 mt-2 fw-bold"> {{'DOWNLOAD_CERTIFICATE' | translate}} </div>
                  <div class="fs-14 mb-2 mt-2"> {{'SELECT_LANG_TO_DOWNLD_CERTIFICATE' | translate}} </div>
 
-                 <select (change)="onSelectLanguage($event.target.value)"
+                 <select id="mySelect"  (change)="onSelectLanguage($event.target.value)"
                      class="fs-14 form-control" style="width: 200px;">
-                     <option value="" selected>{{'SELECT_LANGUAGE' | translate}}</option>
-                     <option *ngFor="let lang of selectLang">{{ lang }}</option>
+                     <option value="0">{{'SELECT_LANGUAGE' | translate}}</option>
+                     <option *ngFor="let lang of selectLang;">{{ lang }}</option>
+                   
                  </select>
                  <p *ngIf="languageNotSelected" class="red fs-12">{{'PLZ_SELECT_LANG' | translate}}</p>
                 
                  <div class="container-fluid mt-3">
-                     <button data-dismiss="modal" class="btn btn-secondary-notto btn-style mb-2">{{'CANCEL'| translate}}</button>
+                     <button data-dismiss="modal" class="btn btn-secondary-notto btn-style mb-2" (click)="reset()">{{'CANCEL'| translate}}</button>
                      <button id="" type="submit" class="btn btn-primary-notto btn-stle float-end submit-button mb-2"
                       (click)="downloadPledgeCard()">{{'DOWNLOAD' | translate}}</button>
                  </div>
