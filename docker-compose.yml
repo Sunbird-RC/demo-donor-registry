@@ -32,11 +32,11 @@ services:
       timeout: 5s
       retries: 5
   registry:
-    image: ghcr.io/sunbird-rc/demo-donor-registry/sunbird-rc-core:v0.0.13-7
+    image: tejashjl/sunbird-rc-core:v0.0.13-7
     volumes:
-      - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/home/sunbirdrc/config/public/_schemas
+      - /home/nhadmin/demo-donor-registry/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/home/sunbirdrc/config/public/_schemas
     environment:
-      - connectionInfo_uri=jdbc:postgresql://db:5432/registry
+      - connectionInfo_uri=jdbc:postgresql://db:5432/donor2
       - connectionInfo_username=postgres
       - connectionInfo_password=postgres
       - elastic_search_connection_url=es:9200
@@ -90,7 +90,7 @@ services:
       timeout: 10s
       retries: 10
   keycloak:
-    image: ghcr.io/sunbird-rc/demo-donor-registry/sunbird-rc-keycloak:v0.0.13-4
+    image: varadeth/sunbird-rc-keycloak:v0.0.13-4
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
       - ${PWD}/${KEYCLOAK_THEMES_DIR-keycloak/themes/nha}:/opt/jboss/keycloak/themes/nha
@@ -157,7 +157,6 @@ services:
     image: dockerhub/sunbird-rc-certificate-signer:${RELEASE_VERSION}
     environment:
       - PORT=8079
-      - TIME_ZONE=${TIME_ZONE-Asia/Kolkata}
     ports:
       - "8079:8079"
     volumes:
@@ -169,7 +168,7 @@ services:
       timeout: 10s
       retries: 10
   certificate-api:
-    image: ghcr.io/sunbird-rc/demo-donor-registry/sunbird-rc-certificate-api:v0.0.13-1
+    image: tejashjl/sunbird-rc-certificate-api:v0.0.13-1
     environment:
       - PORT=8078
       - QR_TYPE=URL
@@ -217,33 +216,33 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
-#  zookeeper:
-#    image: confluentinc/cp-zookeeper:latest
-#    ports:
-#      - "2181:2181"
-#    environment:
-#      ZOOKEEPER_CLIENT_PORT: "2181"
-#      ZOOKEEPER_TICK_TIME: "2000"
-#  kafka:
-#    image: confluentinc/cp-kafka:latest
-#    depends_on:
-#      zookeeper:
-#        condition: service_started
-#    ports:
-#      - "9092:9092"
-#    environment:
-#      KAFKA_BROKER_ID: "1"
-#      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-#      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9092,OUTSIDE://localhost:9094"
-#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT"
-#      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
-#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
-#    healthcheck:
-#      test:
-#        [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 10
+  #  zookeeper:
+  #    image: confluentinc/cp-zookeeper:latest
+  #    ports:
+  #      - "2181:2181"
+  #    environment:
+  #      ZOOKEEPER_CLIENT_PORT: "2181"
+  #      ZOOKEEPER_TICK_TIME: "2000"
+  #  kafka:
+  #    image: confluentinc/cp-kafka:latest
+  #    depends_on:
+  #      zookeeper:
+  #        condition: service_started
+  #    ports:
+  #      - "9092:9092"
+  #    environment:
+  #      KAFKA_BROKER_ID: "1"
+  #      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+  #      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9092,OUTSIDE://localhost:9094"
+  #      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT"
+  #      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
+  #      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+  #    healthcheck:
+  #      test:
+  #        [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
+  #      interval: 30s
+  #      timeout: 10s
+  #      retries: 10
   public-key-service:
     image: dockerhub/sunbird-rc-public-key-service
     environment:
@@ -267,9 +266,9 @@ services:
       timeout: 10s
       retries: 10
   nginx:
-    image: tejashjl/sunbird-rc-donor-portal:${PORTAL_RELEASE_VERSION}
+    build: .
     ports:
-      - "80:80"
+      - "82:80"
     depends_on:
       registry:
         condition: service_healthy
@@ -336,3 +335,10 @@ services:
       UPDATE_TEMPLATE_ID: ${UPDATE_TEMPLATE_ID}
       UNPLEDGE_TEMPLATE_ID: ${UNPLEDGE_TEMPLATE_ID}
       API_KEY: ${API_KEY}
+    extra_hosts:
+      - "dev.abdm.gov.in:100.65.201.152"
+      - "healthidsbx.abdm.gov.in:100.96.1.21"
+      - "digisignsbx.abdm.gov.in:100.96.1.55"
+      - "digisignbeta.abdm.gov.in:100.65.160.208"
+      - "digisign2dev.abdm.gov.internal:100.65.158.60"
+      - "digisign2sbx.abdm.gov.internal:100.65.160.201"

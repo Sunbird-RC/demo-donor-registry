@@ -6,7 +6,7 @@ build:
 	docker build -t srprasanna/certificate-pdf-service backend/certificate-pdf-service
 
 
-release: build
+release:
 	docker tag srprasanna/sunbird-rc-donor-portal srprasanna/sunbird-rc-donor-portal:$(PORTAL_RELEASE_VERSION)
 	docker tag srprasanna/donor-service srprasanna/donor-service:$(PORTAL_RELEASE_VERSION)
 	docker tag srprasanna/notification-service srprasanna/notification-service:$(PORTAL_RELEASE_VERSION)

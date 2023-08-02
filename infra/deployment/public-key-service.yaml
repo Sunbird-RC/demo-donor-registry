@@ -25,10 +25,10 @@ spec:
           env:
             - name: CONFIG_BASE_PATH
               value: /etc/keys
-          resources:
-            requests:
-              cpu: 500m
-              memory: 1G
+#          resources:
+#            requests:
+#              cpu: 500m
+#              memory: 1G
           volumeMounts:
             - name: certificate-signer-keys
               mountPath: /etc/keys

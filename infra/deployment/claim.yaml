@@ -40,8 +40,8 @@ spec:
                   key: DB_PASSWORD
             - name: sunbirdrc_url
               value: http://registry:8081
-          resources:
-            requests:
-              cpu: 1000m
-              memory: 2G
+#          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 2G
       restartPolicy: Always

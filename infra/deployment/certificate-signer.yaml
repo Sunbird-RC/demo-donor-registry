@@ -25,10 +25,10 @@ spec:
           env:
             - name: PORT
               value: "8079"
-          resources:
-            requests:
-              cpu: 1000m
-              memory: 2G
+#          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 2G
           volumeMounts:
             - name: certificate-signer-keys
               mountPath: /etc/signer

@@ -32,8 +32,8 @@ spec:
                 configMapKeyRef: # populate from a ConfigMap
                   name: donor-registry-config   # ... with this name
                   key: CERTIFICATE_DOMAIN_URL
-          resources:
-            requests:
-              cpu: 1000m
-              memory: 2G
+#          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 2G
       restartPolicy: Always

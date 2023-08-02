@@ -147,10 +147,10 @@ spec:
               value: "false"
             - name: invite_signature_enabled
               value: "false"
-          resources:
-            requests:
-              cpu: 2000m
-              memory: 2G
+#          resources:
+#            requests:
+#              cpu: 2000m
+#              memory: 2G
           volumeMounts:
             - name: registry-schemas
               mountPath: /home/sunbirdrc/config/public/_schemas
