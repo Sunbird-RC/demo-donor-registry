@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: srprasanna/demo-donor-registry-keycloak:nhamain
+          image: varadeth/sunbird-rc-keycloak:v0.0.13-4
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

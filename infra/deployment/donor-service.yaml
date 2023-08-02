@@ -158,4 +158,13 @@ spec:
         - hostnames:
             - "digisign2sbx.abdm.gov.internal"
           ip: 100.65.160.201
+        - hostnames:
+            - "digisign.abdm.gov.in"
+          ip:  100.96.1.17
+        - hostnames:
+            - "abha.abdm.gov.in"
+          ip: 100.65.203.204
+        - hostnames:
+            - "live.abdm.gov.in"
+          ip: 100.65.201.153
       restartPolicy: Always
