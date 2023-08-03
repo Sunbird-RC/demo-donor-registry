@@ -1,4 +1,4 @@
-PORTAL_RELEASE_VERSION = v0.0.1-beta
+PORTAL_RELEASE_VERSION = v1.0.0
 build:
 	docker build -t srprasanna/donor-service backend/donor-service
 	docker build -t srprasanna/sunbird-rc-donor-portal .
