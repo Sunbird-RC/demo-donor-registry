@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: tejashjl/sunbird-rc-donor-portal:main
+          image: srprasanna/sunbird-rc-donor-portal:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
