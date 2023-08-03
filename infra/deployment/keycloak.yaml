@@ -80,7 +80,7 @@ spec:
             - name: MOCK_OTP
               value: "false"
             - name: MESSAGE_TEMPLATE
-              value: "{\n  \"message\":\"OTP to login NOTTO pledge registry is %s. This One Time Password will be valid for 10 mins NOTTO, NHA\",\n  \"templateId\": \"1007167663248853122\"\n}"
+              value: '{\n  \"message\": \"OTP to login NOTTO pledge registry is %s. This One Time Password will be valid for 10 mins NOTTO, NHA\",\n  \"templateId\": \"1007167663248853122\"\n}'
             - name: NOTIFICATION_SERVICE_URL
               value: http://notification-ms:8765/notification-service/v1/notification
             - name: REGISTER_URL
