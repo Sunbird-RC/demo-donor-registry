@@ -760,6 +760,7 @@ export class FormsComponent implements OnInit {
 
         delete this.property['emergencyDetails']['oneOf'];
         delete this.property['notificationDetails']['oneOf'];
+        delete this.property['pledgeDetails']['oneOf'];
 
         this.ordering = this.formSchema.order;
         this.schema["type"] = "object";
