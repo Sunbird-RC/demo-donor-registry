@@ -2119,18 +2119,18 @@ data:
           }
         ],
         "certificateTemplates": {
-          "assamese_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Assamese_portrait_",
-          "bengali_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Bengali_portrait_",
-          "gujarati_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Gujarati_portrait_",
-          "hindi_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Hindi_portrait_",
-          "kannada_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Kannada_portrait_",
-          "malayalam_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Malayalam_portrait_",
-          "marathi_portrait":"https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Marathi_portrait_",
-          "odia_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Odia_portrait_",
-          "punjabi_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Punjabi_portrait_",
-          "tamil_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Tamil_portrait_",
-          "telugu_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Telugu_portrait_",
-          "urdu_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates/Urdu_portrait_"
+          "assamese_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Assamese_portrait_",
+          "bengali_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Bengali_portrait_",
+          "gujarati_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Gujarati_portrait_",
+          "hindi_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Hindi_portrait_",
+          "kannada_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Kannada_portrait_",
+          "malayalam_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Malayalam_portrait_",
+          "marathi_portrait":"https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Marathi_portrait_",
+          "odia_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Odia_portrait_",
+          "punjabi_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Punjabi_portrait_",
+          "tamil_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Tamil_portrait_",
+          "telugu_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Telugu_portrait_",
+          "urdu_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Urdu_portrait_"
         }
       }
     }
