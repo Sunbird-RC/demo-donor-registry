@@ -2059,9 +2059,9 @@ data:
             "VerifiableCredential",
             "ProofOfOrganPledge"
           ],
-          "id": "https://dev-donor-registry.abdm.gov.in/pledgecredentials/{{osid}}",
-          "issuer": "https://dev-donor-registry.abdm.gov.in",
-          "issuanceDate": "{{osUpdatedAt}}",
+          "id": "https://notto.abdm.gov.in/pledgecredentials/{{osid}}",
+          "issuer": "https://notto.abdm.gov.in",
+          "issuanceDate": "{{formatTime osUpdatedAt}}",
           "credentialSubject": {
             "type": "Person",
             "id": "did:abha:{{identificationDetails.abha}}",
@@ -2097,7 +2097,7 @@ data:
               "type": [
                 "eKYC"
               ],
-              "verifier": "https://healthidsbx.abdm.gov.in/",
+              "verifier": "https://abha.abdm.gov.in/",
               "evidenceDocument": "ABHA",
               "subjectPresence": "online",
               "refId": "{{identificationDetails.abha}}"
