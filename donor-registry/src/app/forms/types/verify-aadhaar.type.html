@@ -35,7 +35,8 @@ aria-hidden="true" data-keyboard="false" data-backdrop="static">
         {{'ENTER_OTP_MG' | translate}}
       </p>
       <span class="fw-bold p12">   {{'ENTER_OTP' | translate}}</span> <br />
-      <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
+      <input maxlength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control"
+      oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6)" />
       <br />
       <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
       <button type="button" (click)="submitOtp()" id="ifIncorrectOTP"
@@ -64,7 +65,8 @@ aria-hidden="true" data-keyboard="false" data-backdrop="static">
       </p>
       <span class="p14 mb-5 lh-lg">{{'MOBILE_LINK_AADHAAR' | translate}}</span> <br />
       <span class="fw-bold p14 mt-5">{{'ENTER_MOBILE_NUMBER' | translate}}</span> <br />
-      <input maxLength="10" type="input" [(ngModel)]="mobileNo" name="mobileNo" class="form-control" />
+      <input maxlength="10" type="input" [(ngModel)]="mobileNo" name="mobileNo" class="form-control"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10)" />
       <br />
       <div class="p12" id="mobmessage"></div>
       <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
@@ -92,7 +94,8 @@ aria-hidden="true" data-keyboard="false" data-backdrop="static">
         {{'ENTER_OTP_MG' | translate}}
       </p>
       <span class="fw-bold p12"> {{'ENTER_OTP' | translate}}</span> <br />
-      <input maxLength="6" type="input" [(ngModel)]="verifyoptVal" name="verifyoptVal" class="form-control" />
+      <input maxlength="6" type="input" [(ngModel)]="verifyoptVal" name="verifyoptVal" class="form-control"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6)" />
       <br />
       <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
       <button type="button" data-dismiss="modal"  (click)="verifyMobilesubmitOtp()" id="ifIncorrectOTP"
