@@ -666,12 +666,6 @@ export class LayoutsComponent implements OnInit, OnChanges {
       if (modalopen) {
         document.body.classList.remove('modal-open');
       }
-
-
-
-
-
-
     }
     this.mode = this.getDeviceInfo();
     this.orientation = (!this.mode) ? "_landscape" : '_portrait';    
@@ -701,7 +695,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
     })).subscribe((result: any) => {
     });
   }
-  //  this.reset();
+    this.reset();
   }
 
   getDeviceInfo() {
