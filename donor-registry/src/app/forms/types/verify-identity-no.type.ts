@@ -128,6 +128,9 @@ export class VerifyIndentityCode extends FieldType {
   }
 
   submitOtp() {
+    this.err409 = false;
+    this.err401 = false;
+    this.err429 = false;
     if (this.optVal) {
       this.model2 = {
         transactionId: this.transactionId,
@@ -217,6 +220,8 @@ export class VerifyIndentityCode extends FieldType {
               }
              
               this.err409 = true;
+              this.err401 = false;
+              this.err429 = false;
               
               this.errorMessage = error?.error['message'];
              
