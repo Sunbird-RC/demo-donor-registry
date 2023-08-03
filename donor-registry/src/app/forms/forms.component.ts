@@ -145,7 +145,6 @@ export class FormsComponent implements OnInit {
   optionAdded: boolean = false;
   isVerified: string;
   isFormEdited: boolean = false;
-  count: number = 0;
   eSignWindowClosed: boolean = false;
 
   ngAfterViewChecked() {
@@ -783,12 +782,8 @@ export class FormsComponent implements OnInit {
 
   }
 
-  onFormChange(event) {
-    if (this.count != 0) {
-      this.isFormEdited = true;
-    } else {
-      this.count++;
-    }
+  onFormChange() {
+    this.isFormEdited = true;
   }
 
   loadSchema() {
