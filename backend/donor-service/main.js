@@ -28,7 +28,9 @@ const consumer = require("./services/esign.consumer");
 
 (async() => {
     await redis.initRedis({REDIS_URL: config.REDIS_URL});
-    await consumer.initSubscription();
+    if (config.ESIGN_VALIDATION_PREVENT_3RD_PARTY) {
+        await consumer.initSubscription();
+    }
 })();
 const {getEsignVerificationKey} = require("./services/esign.consumer");
 const swaggerDocs = yaml.load('./abha-swagger.yaml');
