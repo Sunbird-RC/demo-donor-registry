@@ -348,7 +348,7 @@ app.post('/esign/init', async (req, res) => {
         // const pledge = JSON.parse(req.query.data)
         const pledge = req.body.data;
         const esignData = await getEsignData(pledge);
-        if (config.PREVENT_3RD_PARTY_ESIGN_VALIDATION) {
+        if (config.ESIGN_VALIDATION_PREVENT_3RD_PARTY) {
             const verificationData = {
                 "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
                 "middleName": R.pathOr("", ["personalDetails", "middleName"], pledge),
@@ -359,7 +359,7 @@ app.post('/esign/init', async (req, res) => {
             };
             for(const[key, value] of Object.entries(verificationData)) {
                 console.log(key, value)
-                await redis.storeHashWithExpiry(getEsignVerificationKey(esignData.txnId), key, value, config.EXPIRE_ESIGN_VALID_STATUS)
+                await redis.storeHashWithExpiry(getEsignVerificationKey(esignData.txnId), key, value, config.ESIGN_VALIDATION_EXPIRE_TIME)
             }
         }
         res.send({
@@ -560,7 +560,7 @@ async function getESingDoc(abha) {
 
 app.get('/esign/:abha/status', async (req, res) => {
     try {
-        if (config.PREVENT_3RD_PARTY_ESIGN_VALIDATION) {
+        if (config.ESIGN_VALIDATION_PREVENT_3RD_PARTY) {
             const transactionID = await redis.getKey(getEsginKey(req.params.abha))
             const storedTransaction = await redis.getHash(getEsignVerificationKey(transactionID));
             if(!storedTransaction || storedTransaction?.esignStatus === config.ESIGN_STATUS.PENDING.toString()) {

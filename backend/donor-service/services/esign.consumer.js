@@ -8,19 +8,20 @@ function getEsignVerificationKey(transactionId) {
     return `${transactionId}-esign-verification`;
 }
 const initSubscription = async () => {
-    const kafka = new Kafka ({
-        brokers: config.ABDM_KAFKA.split(",")
-        // 100.65.159.43:5101
-        // pkc-lq8v7.eu-central-1.aws.confluent.cloud:9092
-        // brokers: ['localhost:9092']
-    });
-    consumer = kafka.consumer({groupId: 'notto_esign_group_1'});
-    await consumer.subscribe({topic: 'esign_topic', fromBeginning: false });
-    await consumer.run({
-        autoCommit: false,
-        eachMessage: processEachMessage
-    });
-    console.log("Initialised the kafka connection ");
+    try {
+        const kafka = new Kafka ({
+            brokers: config.ESIGN_VALIDATION_KAFKA_BROKERS?.split(",")
+        });
+        consumer = kafka.consumer({groupId: config.ESIGN_VALIDATION_KAFKA_TOPIC_GROUP});
+        await consumer.subscribe({topic: config.ESIGN_VALIDATION_KAFKA_TOPIC, fromBeginning: false });
+        await consumer.run({
+            autoCommit: true,
+            eachMessage: processEachMessage
+        });
+        console.log("Initialised the kafka connection ");
+    } catch (e) {
+        console.log("Failed to initialise Kafka consumer ", e);
+    }
 }
 
 const processEachMessage = async ({ message }) => {
@@ -31,10 +32,10 @@ const processEachMessage = async ({ message }) => {
         if(Object.keys(enteredData).length !== 0) {
             const status = getEsignDataMatchStatus(enteredData, esignData);
             if(status.errors.length > 0 ) {
-                await redis.storeHashWithExpiry(esignVerificationKey, 'esignErrors', JSON.stringify(status.errors), config.EXPIRE_ESIGN_VALID_STATUS)
+                await redis.storeHashWithExpiry(esignVerificationKey, 'esignErrors', JSON.stringify(status.errors), config.ESIGN_VALIDATION_EXPIRE_TIME)
                 console.log("error validating esign data: ", status);
             }
-            await redis.storeHashWithExpiry(esignVerificationKey, 'esignStatus', status?.esign, config.EXPIRE_ESIGN_VALID_STATUS)
+            await redis.storeHashWithExpiry(esignVerificationKey, 'esignStatus', status?.esign, config.ESIGN_VALIDATION_EXPIRE_TIME)
         } else {
             console.log("Entered Data is null");
         }
