@@ -33,7 +33,8 @@
             {{'ENTER_OTP_MG' | translate}}
           </p>
           <span class="fw-bold p12"> {{'ENTER_OTP' | translate}}</span> <br />
-          <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
+          <input maxlength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6)" />
           <br />
           <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
           <button type="button" (click)="submitOtp()" id="ifIncorrectOTP"
