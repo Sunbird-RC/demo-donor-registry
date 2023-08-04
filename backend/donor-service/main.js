@@ -586,7 +586,7 @@ app.get('/esign/:abha/status', async (req, res) => {
                 return
             }
             res.status(404).send({
-                code: config.ESIGN_STATUS.EXPIRED.toString()
+                code: config.ESIGN_STATUS.EXPIRED.toString(),
                 message: "EXPIRED OR NOT GENERATED"
             })
         } else {
@@ -600,7 +600,7 @@ app.get('/esign/:abha/status', async (req, res) => {
                 .catch(function (error) {
                     console.error(error)
                     res.status(404).send({
-                        code: config.ESIGN_STATUS.EXPIRED.toString()
+                        code: config.ESIGN_STATUS.EXPIRED.toString(),
                         message: "EXPIRED OR NOT GENERATED"
                     })
                 });
@@ -608,7 +608,7 @@ app.get('/esign/:abha/status', async (req, res) => {
     } catch (e) {
         // console.error(e)
         res.status(404).send({
-            code: config.ESIGN_STATUS.EXPIRED.toString()
+            code: config.ESIGN_STATUS.EXPIRED.toString(),
             message: "EXPIRED OR NOT GENERATED"
         })
     }
