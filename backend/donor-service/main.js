@@ -567,6 +567,7 @@ app.get('/esign/:abha/status', async (req, res) => {
             const storedTransaction = await redis.getHash(getEsignVerificationKey(transactionID));
             if(!storedTransaction || storedTransaction?.esignStatus === config.ESIGN_STATUS.PENDING.toString()) {
                 res.status(404).send({
+                    preventThirdParty: true,
                     code: config.ESIGN_STATUS.PENDING.toString(),
                     message: !!storedTransaction ? "PENDING" : "NOT FOUND",
                 })
@@ -574,6 +575,7 @@ app.get('/esign/:abha/status', async (req, res) => {
             }
             if(storedTransaction?.esignStatus === config.ESIGN_STATUS.FAILED.toString()) {
                 res.status(403).send({
+                    preventThirdParty: true,
                     code: config.ESIGN_STATUS.FAILED.toString(),
                     message: "FAILED",
                     errors: JSON.parse(storedTransaction?.esignErrors)
@@ -588,6 +590,7 @@ app.get('/esign/:abha/status', async (req, res) => {
                 return
             }
             res.status(404).send({
+                preventThirdParty: true,
                 code: config.ESIGN_STATUS.EXPIRED.toString(),
                 message: "EXPIRED OR NOT GENERATED"
             })
@@ -602,8 +605,9 @@ app.get('/esign/:abha/status', async (req, res) => {
                 .catch(function (error) {
                     console.error(error)
                     res.status(404).send({
+                        preventThirdParty: false,
                         code: config.ESIGN_STATUS.EXPIRED.toString(),
-                        message: "EXPIRED OR NOT GENERATED"
+                        message: "NOT GENERATED"
                     })
                 });
         }
