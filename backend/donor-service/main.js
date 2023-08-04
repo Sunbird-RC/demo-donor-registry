@@ -24,15 +24,16 @@ const {isABHARegistered, getKeyBasedOnEntityName, getPledgeStatus} = require("./
 const {PLEDGE_STATUS, GENDER_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require('./configs/constants')
 const app = express();
 const {convertToSocialShareResponse} = require("./utils/utils");
+const consumer = require("./services/esign.consumer");
 
 (async() => {
-    await redis.initRedis({REDIS_URL: config.REDIS_URL})
+    await redis.initRedis({REDIS_URL: config.REDIS_URL});
+    await consumer.initSubscription();
 })();
-
+const {getEsignVerificationKey} = require("./services/esign.consumer");
 const swaggerDocs = yaml.load('./abha-swagger.yaml');
 app.use(bodyParser.urlencoded({extended: false, limit: '500kb'}));
 app.use((bodyParser.json({limit: '500kb'})));
-
 app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocs));
 
 if (config.LOG_LEVEL === "DEBUG") {
@@ -347,6 +348,20 @@ app.post('/esign/init', async (req, res) => {
         // const pledge = JSON.parse(req.query.data)
         const pledge = req.body.data;
         const esignData = await getEsignData(pledge);
+        if (config.PREVENT_3RD_PARTY_ESIGN_VALIDATION) {
+            const verificationData = {
+                "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
+                "middleName": R.pathOr("", ["personalDetails", "middleName"], pledge),
+                "lastName": R.pathOr("", ["personalDetails", "lastName"], pledge),
+                "dob": R.pathOr("", ["personalDetails", "dob"], pledge),
+                "pincode": R.pathOr("", ["addressDetails", "pincode"], pledge),
+                "esignStatus": config.ESIGN_STATUS.PENDING.toString()
+            };
+            for(const[key, value] of Object.entries(verificationData)) {
+                console.log(key, value)
+                await redis.storeHashWithExpiry(getEsignVerificationKey(esignData.txnId), key, value, config.EXPIRE_ESIGN_VALID_STATUS)
+            }
+        }
         res.send({
             signUrl: esignData.espUrl,
             xmlContent: esignData.xmlContent,
@@ -544,19 +559,58 @@ async function getESingDoc(abha) {
 }
 
 app.get('/esign/:abha/status', async (req, res) => {
-    console.log("Get status api called")
     try {
-        await getESingDoc(req.params.abha)
-            .then(function (response) {
-                res.send({message: "SUCCESS"})
+        if (config.PREVENT_3RD_PARTY_ESIGN_VALIDATION) {
+            const transactionID = await redis.getKey(getEsginKey(req.params.abha))
+            const storedTransaction = await redis.getHash(getEsignVerificationKey(transactionID));
+            if(!storedTransaction || storedTransaction?.esignStatus === config.ESIGN_STATUS.PENDING.toString()) {
+                res.status(404).send({
+                    code: config.ESIGN_STATUS.PENDING.toString(),
+                    message: !!storedTransaction ? "PENDING" : "NOT FOUND",
+                })
+                return
+            }
+            if(storedTransaction?.esignStatus === config.ESIGN_STATUS.FAILED.toString()) {
+                res.status(403).send({
+                    code: config.ESIGN_STATUS.FAILED.toString(),
+                    message: "FAILED",
+                    errors: JSON.parse(storedTransaction?.esignErrors)
+                })
+                return
+            }
+            else if(storedTransaction?.esignStatus === config.ESIGN_STATUS.SUCCESS.toString()){
+                res.status(200).send({
+                    code: config.ESIGN_STATUS.SUCCESS.toString(),
+                    message: "SUCCESS"
+                })
+                return
+            }
+            res.status(404).send({
+                code: config.ESIGN_STATUS.EXPIRED.toString()
+                message: "EXPIRED OR NOT GENERATED"
             })
-            .catch(function (error) {
-                console.error(error)
-                res.status(404).send({message: "NOT GENERATED"})
-            });
+        } else {
+            await getESingDoc(req.params.abha)
+                .then(function (response) {
+                    res.send({
+                        code: config.ESIGN_STATUS.SUCCESS.toString(),
+                        message: "SUCCESS"
+                    })
+                })
+                .catch(function (error) {
+                    console.error(error)
+                    res.status(404).send({
+                        code: config.ESIGN_STATUS.EXPIRED.toString()
+                        message: "EXPIRED OR NOT GENERATED"
+                    })
+                });
+        }
     } catch (e) {
         // console.error(e)
-        res.status(404).send({message: "NOT GENERATED"})
+        res.status(404).send({
+            code: config.ESIGN_STATUS.EXPIRED.toString()
+            message: "EXPIRED OR NOT GENERATED"
+        })
     }
 });
 
