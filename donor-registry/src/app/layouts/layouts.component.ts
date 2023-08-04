@@ -655,12 +655,16 @@ export class LayoutsComponent implements OnInit, OnChanges {
     }
     if(this.isLanguageSelected){
     this.languageNotSelected = false;
-    if (this.modalRef) {
+    if (this.modalRef && this.modalRef.nativeElement) {
       this.modalRef.nativeElement.classList.remove('show');
       this.modalRef.nativeElement.style.display = 'none';
+      const modalopen = document.querySelector('.modal-open');
       const modalBackdrop = document.querySelector('.modal-backdrop.fade.show');
       if (modalBackdrop) {
         modalBackdrop.remove();
+      }
+      if (modalopen) {
+        document.body.classList.remove('modal-open');
       }
     }
     this.mode = this.getDeviceInfo();
