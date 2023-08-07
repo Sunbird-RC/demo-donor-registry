@@ -41,7 +41,6 @@
         },
         "dob": {
           "type": "string",
-          "format": "date",
           "title": "Date of Birth",
           "readOnly": true
         },
