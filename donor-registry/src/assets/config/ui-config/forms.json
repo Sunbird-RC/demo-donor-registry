@@ -220,7 +220,6 @@
                     },
                     {
                       "name": "dob",
-                      "type": "date",
                       "class": "col-lg-4 col-sm-12",
                       "validation": {
                         "future": false
@@ -796,7 +795,6 @@
                     },
                     {
                       "name": "dob",
-                      "type": "date",
                       "class": "col-lg-4 col-sm-12",
                       "validation": {
                         "future": false
