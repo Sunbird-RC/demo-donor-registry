@@ -65,6 +65,8 @@ spec:
               value: /opt/jboss/keycloak/imports/realm-export.json
             - name: PROXY_ADDRESS_FORWARDING
               value: "true"
+            - name: FORGOT_ABHA
+              value: "https://abha.abdm.gov.in/login/recovery"
             - name: KEYCLOAK_PORTAL_TITLE
               value: ""
             - name: KEYCLOAK_PORTAL_SUB_TITLE
