@@ -13,6 +13,16 @@ async function initRedis(config) {
   await client.connect();
 }
 
+async function storeHashWithExpiry(key, field, value, expiry) {
+  await client.hSet(key, field, value)
+  await client.expire(key, expiry)
+}
+
+
+async function getHash(key) {
+  return await client.hGetAll(key);
+}
+
 async function storeKeyWithExpiry(key, value, expiryInSecs) {
   await client.set(key, value, {
     'EX': expiryInSecs,
@@ -42,5 +52,7 @@ module.exports = {
   getKey,
   deleteKey,
   increment,
-  storeKey
+  storeKey,
+  storeHashWithExpiry,
+  getHash
 };

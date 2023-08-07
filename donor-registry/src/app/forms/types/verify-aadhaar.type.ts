@@ -135,6 +135,7 @@ export class VerifyAadhaar extends FieldType {
 
 
   getProfile() {
+    this.err401 = false;
     let param = {
       "healthId": this.selectedProfile.healthIdNumber,
       "transactionId": this.linkedAbhaList.txnId,
@@ -161,7 +162,7 @@ export class VerifyAadhaar extends FieldType {
 
 
   submitOtp() {
-
+    this.err401 = false;
     if (this.optVal) {
       let param = {
         txnId: this.transactionId,
@@ -292,7 +293,7 @@ export class VerifyAadhaar extends FieldType {
   }
 
   submitOtpMobile() {
-
+    this.err401 = false;
     if (this.mobileNo && this.mobileNo.length == 10) {
 
       let dateSpan = document.getElementById('mobmessage');
@@ -345,6 +346,7 @@ export class VerifyAadhaar extends FieldType {
   }
 
   verifyMobilesubmitOtp() {
+    this.err401 = false;
     if (this.verifyoptVal) {
       let param = {
         txnId: this.verifymobileTxnId,

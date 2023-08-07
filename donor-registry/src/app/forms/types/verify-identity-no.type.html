@@ -15,7 +15,7 @@
     </div>
     <div *ngIf="signupForm" class="p12">
         {{ 'LINK_TO_ABHA' | translate }}
-        <a href="http://healthidsbx.abdm.gov.in/" target="_blank">{{
+        <a href="https://abha.abdm.gov.in/" target="_blank">{{
             'LINK' | translate
             }}</a>
     </div>
@@ -118,7 +118,8 @@
                         Enter the code sent to mobile number associated with your ABHA number
                     </p>
                     <span class="fw-bold p12"> Enter OTP</span> <br />
-                    <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
+                    <input maxlength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6)" />
                     <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
                     <br />
                     <button m type="button" (click)="submitOtp()"
