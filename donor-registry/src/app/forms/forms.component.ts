@@ -146,6 +146,7 @@ export class FormsComponent implements OnInit {
   isVerified: string;
   isFormEdited: boolean = false;
   eSignWindowClosed: boolean = false;
+  dateofBirth: any = null;
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -182,11 +183,37 @@ export class FormsComponent implements OnInit {
           const isAutoFill = localStorage.getItem('isAutoFill');
 
           if (this.tempData) {
+            
             if (isAutoFill != "false") {
               // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_0")).disabled = true;  
               // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_1")).disabled = true;  
               // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_2")).disabled = true;  
-
+              if (this.tempData.yearOfBirth || this.tempData.monthOfBirth || this.tempData.dayOfBirth)
+              {
+                if(this.tempData.yearOfBirth == null){
+                  this.tempData.yearOfBirth = "yyyy"
+                }else{
+                this.tempData.yearOfBirth = this.tempData.yearOfBirth;
+                }
+                if(this.tempData.dayOfBirth == null){
+                  this.tempData.dayOfBirth = "dd"
+                }else {
+                  this.tempData.dayOfBirth = ('0' + this.tempData?.dayOfBirth).slice(-2)
+                }
+                if(this.tempData.monthOfBirth == null){
+                  this.tempData.monthOfBirth = "mm"
+                }
+                else{
+                  this.tempData.monthOfBirth = ('0' + this.tempData?.monthOfBirth).slice(-2);
+                }
+                this.dateofBirth  =  this.tempData.yearOfBirth + "-" + this.tempData.monthOfBirth + "-" + this.tempData.dayOfBirth
+                console.log(this.dateofBirth);
+              }
+              if(this.tempData?.yearOfBirth && this.tempData?.monthOfBirth && this.tempData?.dayOfBirth){
+                 this.dateofBirth  =  this.tempData?.yearOfBirth + "-" + ('0' + this.tempData?.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData?.dayOfBirth).slice(-2)
+                }
+             
+            
               this.model = {
                 ...this.model,
                 "personalDetails": {
@@ -197,7 +224,8 @@ export class FormsComponent implements OnInit {
                   "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
                   "emailId": (this.tempData?.email) ? this.tempData?.email : "",
                   "mobileNumber": this.tempData?.mobile,
-                  "dob": this.tempData?.yearOfBirth + "-" + ('0' + this.tempData?.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData?.dayOfBirth).slice(-2)
+                  "dob":this.dateofBirth
+                 
 
                 },
                 "addressDetails": {
