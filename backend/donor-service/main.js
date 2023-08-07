@@ -475,7 +475,7 @@ app.put('/esign/init/:entityName/:entityId', async(req, res) => {
 });
 
 function validateIfNonEditableFieldsPresent(reqData, userData) {
-    const partiallyEditablePersonalDetails = Object.keys(userData.personalDetails).filter(key => !(['motherName', 'middleName', 'bloodGroup', 'emailId', 'photo', 'osUpdatedAt', 'osUpdatedBy'].includes(key)));
+    const partiallyEditablePersonalDetails = Object.keys(userData.personalDetails).filter(key => !(['motherName', 'middleName', 'bloodGroup', 'emailId', 'photo', 'osUpdatedAt', 'osUpdatedBy', 'dob'].includes(key)));
     const partiallyEditableAddressDetails = Object.keys(userData.addressDetails).filter(key => !(['addressLine2', 'osUpdatedBy', 'osUpdatedAt'].includes(key)));
     let result = !(userData.identificationDetails.abha === reqData.identificationDetails.abha && userData.identificationDetails.nottoId === reqData.identificationDetails.nottoId);
     for(const key of partiallyEditablePersonalDetails) {
