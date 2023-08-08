@@ -2431,6 +2431,13 @@ export class FormsComponent implements OnInit {
                 
                 console.log(res)
               }, (err) => {
+                if(err.code == "2" && err.preventThirdParty == "true")
+                {
+                  checkESignStatus = false;
+                }else if(err.code == "2" && err['errors'].length ){
+                  checkESignStatus = false;
+                  this.toastMsg.error("Error", err.errors);
+                }
                 console.log(err)
               
               });
@@ -2577,6 +2584,13 @@ export class FormsComponent implements OnInit {
               console.log(res)
               
             }, (err) => {
+              if(err.code == "2" && err.preventThirdParty == "true")
+                {
+                  checkESignStatus = false;
+                }else if(err.code == "2" && err['errors'].length ){
+                  checkESignStatus = false;
+                  this.toastMsg.error("Error", err.errors);
+                }
               console.log(err)
             });
         } catch (e) {
