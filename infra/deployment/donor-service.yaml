@@ -1,0 +1,170 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: donor-service
+  labels:
+    app: donor-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: donor-service
+  template:
+    metadata:
+      name: donor-service
+      labels:
+        app: donor-service
+    spec:
+      containers:
+        - name: donor-service
+          image: srprasanna/donor-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: REDIS_URL
+            - name: REGISTRY_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: REGISTRY_URL
+            - name: CERTIFICATE_API_URL
+              value: http://certificate-api:8078
+            - name: ABHA_CLIENT_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: ABHA_CLIENT_URL
+            - name: CLIENT_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: CLIENT_ID
+            - name: CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: CLIENT_SECRET
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: BASE_URL
+            - name: SERVICE_ACCOUNT_CLIENT_SECRET
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: SERVICE_ACCOUNT_CLIENT_SECRET
+            - name: KEYCLOAK_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: KEYCLOAK_URL
+            - name: EXPIRE_PROFILE
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: EXPIRE_PROFILE
+            - name: ESIGN_ESP_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: ESIGN_ESP_URL
+            - name: ESIGN_ESP_PDF_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: ESIGN_ESP_PDF_URL
+            - name: ESIGN_FORM_SIGN_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: ESIGN_FORM_SIGN_URL
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: LOG_LEVEL
+            - name: NUMBER_OF_DIGITS
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: NUMBER_OF_DIGITS
+            - name: UNIQUE_ABHA_ENABLED
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: UNIQUE_ABHA_ENABLED
+            - name: NOTIFICATION_SERVICE_URL
+              value: http://notification-ms:8765/notification-service/v1/notification
+            - name: LOGIN_LINK
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: LOGIN_LINK
+            - name: INVITE_TEMPLATE_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: INVITE_TEMPLATE_ID
+            - name: NOTIFY_TEMPLATE_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: NOTIFY_TEMPLATE_ID
+            - name: UPDATE_TEMPLATE_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: UPDATE_TEMPLATE_ID
+            - name: UNPLEDGE_TEMPLATE_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: UNPLEDGE_TEMPLATE_ID
+            - name: API_KEY
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: API_KEY
+#          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 2G
+      hostAliases:
+        - hostnames:
+            - "redis-abdm-sahaj1.nha2prodpaas.tatacommunications.com"
+          ip: 100.96.24.3
+        - hostnames:
+            - "dev.abdm.gov.in"
+          ip: 100.65.201.152
+        - hostnames:
+            - "healthidsbx.abdm.gov.in"
+          ip: 100.96.1.21
+        - hostnames:
+            - "digisignsbx.abdm.gov.in"
+          ip: 100.96.1.55
+        - hostnames:
+            - "digisignbeta.abdm.gov.in"
+          ip: 100.65.160.208
+        - hostnames:
+            - "digisign2dev.abdm.gov.internal"
+          ip: 100.65.158.60
+        - hostnames:
+            - "digisign2sbx.abdm.gov.internal"
+          ip: 100.65.160.201
+        - hostnames:
+            - "digisign.abdm.gov.in"
+          ip:  100.96.1.17
+        - hostnames:
+            - "abha.abdm.gov.in"
+          ip: 100.65.203.204
+        - hostnames:
+            - "live.abdm.gov.in"
+          ip: 100.65.201.153
+      restartPolicy: Always

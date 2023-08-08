@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: certificate-pdf
+  labels:
+    app: certificate-pdf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: certificate-pdf
+  template:
+    metadata:
+      name: certificate-pdf
+      labels:
+        app: certificate-pdf
+    spec:
+      containers:
+        - name: certificate-pdf
+          image: srprasanna/certificate-pdf-service:v0.0.1-beta
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8003
+#          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 2G
+      restartPolicy: Always

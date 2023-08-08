@@ -1,0 +1,169 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: registry
+  labels:
+    app: registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registry
+  template:
+    metadata:
+      name: registry
+      labels:
+        app: registry
+    spec:
+      containers:
+        - name: registry
+          image: srprasanna/sunbird-rc-core:v0.0.13-7
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          env:
+            - name: connectionInfo_uri
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: DB_CONNECTION_URL
+            - name: connectionInfo_username
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: DB_USERNAME
+            - name: connectionInfo_password
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: DB_PASSWORD
+            - name: elastic_search_connection_url
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: ES_CONNECTION_URL
+            - name: elastic_search_auth_enabled
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: ES_SECURITY_ENABLED
+            - name: elastic_search_username
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: ES_USERNAME
+            - name: elastic_search_password
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: ES_PASSWORD
+            - name: search_providerName
+              value: dev.sunbirdrc.registry.service.NativeSearchService
+            - name: sunbird_sso_realm
+              value: sunbird-rc
+            - name: sunbird_sso_url
+              value: http://keycloak:8080/auth
+            - name: sunbird_sso_admin_client_id
+              value: admin-api
+            - name: sunbird_sso_client_id
+              value: registry-frontend
+            - name: sunbird_sso_admin_client_secret
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: KEYCLOAK_SECRET
+            - name: claims_url
+              value: http://claim-ms:8082
+            - name: sign_url
+              value: http://certificate-signer:8079/sign
+            - name: verify_url
+              value: http://certificate-signer:8079/verify
+            - name: sign_health_check_url
+              value: http://certificate-signer:8079/health
+            - name: signature_enabled
+              value: "true"
+            - name: pdf_url
+              value: http://certificate-pdf:8003/api/v1/certificatePDF
+            - name: certificate_health_check_url
+              value: http://certificate-api:8078/health
+            - name: template_base_url
+              value: http://registry:8081/api/v1/templates/ #Looks for certificate templates for pdf copy of the signed certificate
+            - name: sunbird_keycloak_user_set_password
+              value: "true"
+            - name: filestorage_connection_url
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: FILESTORE_URL
+            - name: filestorage_access_key
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: FILESTORE_ACCESS_KEY
+            - name: filestorage_secret_key
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: FILESTORE_SECRET_KEY
+            - name: filestorage_bucket_key
+              value: issuance
+            - name: registry_base_apis_enable
+              value: "false"
+            - name: sunbird_keycloak_user_password
+              value: abcd@123
+            - name: logging.level.root
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: LOG_LEVEL
+            - name: enable_external_templates
+              value: "true"
+            - name: async_enabled
+              value: "false"
+            - name: authentication_enabled
+              value: "true"
+            - name: kafka_bootstrap_address
+              value: kafka:9092
+            - name: webhook_enabled
+              value: "false"
+            - name: webhook_url
+              value: http://localhost:5001/api/v1/callback
+            - name: redis_host
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: REDIS_HOST
+            - name: redis_port
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: REDIS_PORT
+            - name: manager_type
+              value: DefinitionsManager
+            - name: external_entities
+              value: nha-admin
+            - name: invite_required_validation_enabled
+              value: "false"
+            - name: invite_signature_enabled
+              value: "false"
+#          resources:
+#            requests:
+#              cpu: 2000m
+#              memory: 2G
+          volumeMounts:
+            - name: registry-schemas
+              mountPath: /home/sunbirdrc/config/public/_schemas
+      hostAliases:
+        - hostnames:
+            - "elasticsearch-abdm-sahaj1.nha2prodpaas.tatacommunications.com"
+          ip: 100.96.22.3
+        - hostnames:
+            - "redis-abdm-sahaj1.nha2prodpaas.tatacommunications.com"
+          ip: 100.96.24.3
+      volumes:
+        - name: registry-schemas
+          configMap:
+            name: registry-schemas
+      restartPolicy: Always
+      

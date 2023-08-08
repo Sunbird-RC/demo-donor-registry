@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: gateway
+  labels:
+    app: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      name: gateway
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: srprasanna/sunbird-rc-donor-portal:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+#          resources:
+#            requests:
+#              cpu: 500m
+#              memory: 1G
+      restartPolicy: Always

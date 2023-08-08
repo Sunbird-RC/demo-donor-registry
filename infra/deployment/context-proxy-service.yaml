@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: context-proxy-service
+  labels:
+    app: context-proxy-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: context-proxy-service
+  template:
+    metadata:
+      name: context-proxy-service
+      labels:
+        app: context-proxy-service
+    spec:
+      containers:
+        - name: context-proxy-service
+          image: dockerhub/sunbird-rc-context-proxy-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4400
+#          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 2G
+      restartPolicy: Always

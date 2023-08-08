@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: certificate-signer
+  labels:
+    app: certificate-signer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: certificate-signer
+  template:
+    metadata:
+      name: certificate-signer
+      labels:
+        app: certificate-signer
+    spec:
+      containers:
+        - name: certificate-signer
+          image: srprasanna/demo-donor-certificate-signer:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8079
+          env:
+            - name: PORT
+              value: "8079"
+            - name: TIME_ZONE
+              value: "Asia/Kolkata"
+#          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 2G
+          volumeMounts:
+            - name: certificate-signer-keys
+              mountPath: /etc/signer
+      volumes:
+        - name: certificate-signer-keys
+          configMap:
+            name: certificate-signer-keys
+      restartPolicy: Always

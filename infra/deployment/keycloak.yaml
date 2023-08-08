@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      name: keycloak
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: srprasanna/demo-donor-registry-keycloak:nhamain
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KEYCLOAK_LOGO
+              value: https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/imports/header_logo.svg
+            - name: KEYCLOAK_LOGLEVEL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: LOG_LEVEL
+            - name: DB_VENDOR
+              value: postgres
+            - name: DB_ADDR
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: DB_URL
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: DB_PORT
+            - name: DB_DATABASE
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: DB_PASSWORD
+            - name: KEYCLOAK_USER
+              value: admin
+            - name: KEYCLOAK_PASSWORD
+              value: admin
+            - name: KEYCLOAK_IMPORT
+              value: /opt/jboss/keycloak/imports/realm-export.json
+            - name: PROXY_ADDRESS_FORWARDING
+              value: "true"
+            - name: FORGOT_ABHA
+              value: "https://abha.abdm.gov.in/login/recovery"
+            - name: KEYCLOAK_PORTAL_TITLE
+              value: ""
+            - name: KEYCLOAK_PORTAL_SUB_TITLE
+              value: ""
+            - name: SIGN_UP_LINK
+              value: /form/signup
+            - name: SHOW_FOOTER
+              value: "false"
+            - name: SHOW_BANNER
+              value: "false"
+            - name: LOGIN_USER_ID_TITLE
+              value: ABHA Number / Mobile Number
+            - name: MOCK_OTP
+              value: "false"
+            - name: MESSAGE_TEMPLATE
+              value: '{\n  \"message\": \"OTP to login NOTTO pledge registry is %s. This One Time Password will be valid for 10 mins NOTTO, NHA\",\n  \"templateId\": \"1007167663248853122\"\n}'
+            - name: NOTIFICATION_SERVICE_URL
+              value: http://notification-ms:8765/notification-service/v1/notification
+            - name: REGISTER_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: REGISTER_URL
+            - name: INVALID_REGISTRATION
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: INVALID_REGISTRATION
+            - name: INVALID_USERNAME
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: INVALID_USERNAME
+            - name: VALID_OTP
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: VALID_OTP
+            - name: OTP_MAX_RETRY_LIMIT
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: OTP_MAX_RETRY_LIMIT
+            - name: MAX_RETRIES_LIMIT_MESSAGE
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: MAX_RETRIES_LIMIT_MESSAGE
+            - name: MAX_RESEND_TRIES
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: MAX_RESEND_TRIES
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 3G
+      restartPolicy: Always

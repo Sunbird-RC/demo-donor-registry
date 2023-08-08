@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: notification-ms
+  labels:
+    app: notification-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-ms
+  template:
+    metadata:
+      name: notification-ms
+      labels:
+        app: notification-ms
+    spec:
+      containers:
+        - name: notification-ms
+          image: srprasanna/notification-service:v0.0.1-beta
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8765
+          env:
+            - name: KAFKA_ENABLED
+              value: "false"
+            - name: ENABLE_SMS
+              value: "true"
+            - name: ENABLE_EMAIL
+              value: "false"
+            - name: SMPP_ENTITY_ID
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: SMPP_ENTITY_ID
+            - name: SMPP_PASSWORD
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: SMPP_PASSWORD
+            - name: SMPP_SOURCE
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: SMPP_SOURCE
+            - name: SMPP_USER_NAME
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: SMPP_USER_NAME
+            - name: SMS_URL
+              valueFrom:
+                configMapKeyRef: # populate from a ConfigMap
+                  name: donor-registry-config   # ... with this name
+                  key: SMS_URL
+#          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 2G
+      restartPolicy: Always

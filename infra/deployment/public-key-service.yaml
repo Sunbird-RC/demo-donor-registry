@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sunbirdrc
+  name: public-key-service
+  labels:
+    app: public-key-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: public-key-service
+  template:
+    metadata:
+      name: public-key-service
+      labels:
+        app: public-key-service
+    spec:
+      containers:
+        - name: public-key-service
+          image: dockerhub/sunbird-rc-public-key-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3300
+          env:
+            - name: CONFIG_BASE_PATH
+              value: /etc/keys
+#          resources:
+#            requests:
+#              cpu: 500m
+#              memory: 1G
+          volumeMounts:
+            - name: certificate-signer-keys
+              mountPath: /etc/keys
+      volumes:
+        - name: certificate-signer-keys
+          configMap:
+            name: certificate-signer-keys
+      restartPolicy: Always
