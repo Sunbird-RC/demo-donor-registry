@@ -10,6 +10,7 @@ function getEsignVerificationKey(transactionId) {
 const initSubscription = async () => {
     try {
         const kafka = new Kafka ({
+            clientId: config.ESIGN_VALIDATION_CLIENT_ID,
             brokers: config.ESIGN_VALIDATION_KAFKA_BROKERS?.split(",")
         });
         consumer = kafka.consumer({groupId: config.ESIGN_VALIDATION_KAFKA_TOPIC_GROUP});
@@ -27,8 +28,11 @@ const initSubscription = async () => {
 const processEachMessage = async ({ message }) => {
     try {
         const esignData = JSON.parse(message.value.toString());
+        console.log("Received Kafka message: ", esignData);
         const esignVerificationKey = getEsignVerificationKey(esignData.transactionId.split('.')[0]);
-        const enteredData = await redis.getHash()
+        console.debug("Esign Verification Key: ", esignVerificationKey);
+        const enteredData = await redis.getHash(esignVerificationKey);
+        console.debug("Entered Data Was: ", enteredData);
         if(Object.keys(enteredData).length !== 0) {
             const status = getEsignDataMatchStatus(enteredData, esignData);
             if(status.errors.length > 0 ) {
@@ -49,7 +53,6 @@ const getEsignDataMatchStatus = (enteredData, esignData) => {
     const error = (msg, esignField, originalField) => {
         errors.push(`${msg}, esign '${esignField}' and original '${originalField}'`);
     }
-    if(!esignData?.signed) errors.push("Sign unsuccessful");
     if(enteredData.dob?.indexOf(esignData?.yob) < 0) error("Year of birth not matched", esignData?.yob, enteredData?.dob?.split("-")[0]);
     if(enteredData.pincode !== esignData.pincode) error("Pincode not matched", esignData?.pincode, enteredData?.pincode);
     if(!!esignData?.name) {
