@@ -2430,18 +2430,18 @@ export class FormsComponent implements OnInit {
                 checkESignStatus = false;
                 
                 console.log(res)
-              }, (err) => {
-               if (err.code == "2") {
-                checkESignStatus = false;
-                this.toastMsg.error("Error", err.errors);
-              } else if (err.code == "3") {
-                if (err.preventThirdParty == "true") {
-                  checkESignStatus = false;
-                  this.toastMsg.error("Error", err.message);
-                }
-              }
-                console.log(err);
-              });
+              }, ({ error: err }) => {
+              if (err?.code === "2") {
+               checkESignStatus = false;
+               this.toastMsg.error("Error", err?.errors);
+             } else if (err.code === "3") {
+               if (err?.preventThirdParty === true) {
+                 checkESignStatus = false;
+                 this.toastMsg.error("Error", err?.message);
+               }
+             }
+               console.log(err);
+             });
           } catch (e) {
             console.log(e)
           }
@@ -2584,18 +2584,18 @@ export class FormsComponent implements OnInit {
               checkESignStatus = false;
               console.log(res)
               
-            }, (err) => {
-              if (err.code == "2") {
-                checkESignStatus = false;
-                this.toastMsg.error("Error", err.errors);
-              } else if (err.code == "3") {
-                if (err.preventThirdParty == "true") {
-                  checkESignStatus = false;
-                  this.toastMsg.error("Error", err.message);
-                }
-              }
-              console.log(err)
-            });
+            },  ({ error: err }) => {
+              if (err?.code === "2") {
+               checkESignStatus = false;
+               this.toastMsg.error("Error", err?.errors);
+             } else if (err.code === "3") {
+               if (err?.preventThirdParty === true) {
+                 checkESignStatus = false;
+                 this.toastMsg.error("Error", err?.message);
+               }
+             }
+               console.log(err);
+             });
         } catch (e) {
           console.log(e)
         }
