@@ -2433,7 +2433,7 @@ export class FormsComponent implements OnInit {
               }, (err) => {
 
 
-                if(err.code == "2" && err.preventThirdParty == "true")
+                if(err.code == "2" && err.preventThirdParty == true)
                 {
                   checkESignStatus = false;
                   this.toastMsg.error("Error", err.errors);
@@ -2588,7 +2588,7 @@ export class FormsComponent implements OnInit {
               console.log(res)
               
             }, (err) => {
-              if(err.code == "2" && err.preventThirdParty == "true")
+              if(err.code == "2" && err.preventThirdParty == true)
                 {
                   checkESignStatus = false;
                   this.toastMsg.error("Error", err.errors);
