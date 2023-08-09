@@ -2431,13 +2431,15 @@ export class FormsComponent implements OnInit {
                 
                 console.log(res)
               }, (err) => {
-                if(err.code == "2" && err.preventThirdParty == "true")
-                {
+                if (err.code == "2") {
+                checkESignStatus = false;
+                this.toastMsg.error("Error", err.errors);
+              } else if (err.code == "3") {
+                if (err.preventThirdParty == "true") {
                   checkESignStatus = false;
-                }else if(err.code == "2" && err['errors'].length ){
-                  checkESignStatus = false;
-                  this.toastMsg.error("Error", err.errors);
+                  this.toastMsg.error("Error", err.message);
                 }
+              }
                 console.log(err)
               
               });
@@ -2584,13 +2586,15 @@ export class FormsComponent implements OnInit {
               console.log(res)
               
             }, (err) => {
-              if(err.code == "2" && err.preventThirdParty == "true")
-                {
+               if (err.code == "2") {
+                checkESignStatus = false;
+                this.toastMsg.error("Error", err.errors);
+              } else if (err.code == "3") {
+                if (err.preventThirdParty == "true") {
                   checkESignStatus = false;
-                }else if(err.code == "2" && err['errors'].length ){
-                  checkESignStatus = false;
-                  this.toastMsg.error("Error", err.errors);
+                  this.toastMsg.error("Error", err.message);
                 }
+              }
               console.log(err)
             });
         } catch (e) {
