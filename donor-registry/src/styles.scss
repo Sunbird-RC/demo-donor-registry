@@ -167,6 +167,7 @@ textarea.form-control {
     border: 0 !important;
 
 }
+
 .vc-btnPrimary {
     background: #D9552B !important;
 }
@@ -603,7 +604,7 @@ formly-autocomplete-type .ng-select {
 // }
 
 .ng-select {
-   // margin-bottom: 15px;
+    // margin-bottom: 15px;
     margin-top: 4px;
     width: 100%;
 }
@@ -1460,19 +1461,25 @@ formly-multi-schema-type .card {
     background-color: #b0b8b3;
 }
 
-.form-check-input:disabled  {
+.form-check-input:disabled {
     opacity: 0.2 !important;
 }
 
-.mlf-14{
+.mlf-14 {
     margin-left: -14px !important;
 }
 
 :disabled {
     opacity: 0.4;
-  }
+}
 
-  .blue-link{
-    color:#4285F4;
-    
-  }
+.blue-link {
+    color: #4285F4;
+
+}
+
+.toast-container.toast-top-full-width .ngx-toastr,
+.toast-container.toast-bottom-full-width .ngx-toastr {
+    width: 50% !important;
+    margin-top: 5% !important;
+}
