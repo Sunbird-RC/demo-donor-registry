@@ -178,6 +178,7 @@
                       },
                       "enableField": true,
                       "required": true
+                      
                     },
                     {
                       "name": "middleName",
@@ -190,13 +191,13 @@
                     },
                     {
                       "name": "lastName",
-                      "class": "col-lg-4 col-sm-12 required",
+                      "class": "col-lg-4 col-sm-12",
                       "validation": {
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid name"
                       },
-                      "enableField": true,
-                      "required": true
+                      "enableField": true
+                      
                     },
                     {
                       "name": "fatherName",
@@ -274,9 +275,9 @@
                   "fields": [
                     {
                       "name": "addressLine1",
-                      "class": "col-lg-4 col-sm-12 required",
-                      "enableField": true,
-                      "required": true
+                      "class": "col-lg-4 col-sm-12",
+                      "enableField": true
+                      
                     },
                     {
                       "name": "addressLine2",
@@ -284,40 +285,40 @@
                     },
                     {
                       "name": "country",
-                      "class": "col-lg-4 col-sm-12 required",
+                      "class": "col-lg-4 col-sm-12",
                       "validation": {
                         "pattern": "^[A-Z][a-zA-Z\\s-']+$",
                         "message": "Enter a valid country"
                       },
-                      "enableField": true,
-                      "required": true
+                      "enableField": true
+                      
                     },
                     {
                       "name": "state",
-                      "class": "col-lg-4 col-sm-12 required",
+                      "class": "col-lg-4 col-sm-12",
                       "enableField": true,
-                      "placeholder": "Select",
-                      "required": true
+                      "placeholder": "Select"
+                      
                     },
                     {
                       "name": "district",
-                      "class": "col-lg-4 col-sm-12 required",
+                      "class": "col-lg-4 col-sm-12",
                       "validation": {
                         "pattern": "^[a-zA-Z\\s-']+$",
                         "message": "Enter a valid district"
                       },
-                      "enableField": true,
-                      "required": true
+                      "enableField": true
+                    
                     },
                     {
                       "name": "pincode",
-                      "class": "col-lg-4 col-sm-12 required",
+                      "class": "col-lg-4 col-sm-12",
                       "validation": {
                         "pattern": "^[0-9]+$",
                         "message": "Enter a valid pincode"
                       },
-                      "enableField": true,
-                      "required": true
+                      "enableField": true
+                      
                     }
                   ]
                 }
@@ -748,12 +749,13 @@
                   "fields": [
                     {
                       "name": "firstName",
-                      "class": "col-lg-4 col-sm-12",
+                      "class": "col-lg-4 col-sm-12 required",
                       "pattern": "^[a-zA-Z\\s-']+$",
                       "validation": {
                         "message": "Enter a valid name"
                       },
-                      "enableField": true
+                      "enableField": true,
+                      "required": true
                     },
                     {
                       "name": "middleName",
