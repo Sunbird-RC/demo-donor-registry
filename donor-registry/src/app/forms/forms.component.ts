@@ -610,6 +610,7 @@ export class FormsComponent implements OnInit {
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient, public formService: FormService, private el: ElementRef) { }
 
 
+    
   ngOnInit(): void { 
     this.hideLoader();
    //this.addLoader();
