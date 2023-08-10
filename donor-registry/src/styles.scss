@@ -1475,8 +1475,14 @@ formly-multi-schema-type .card {
   .blue-link{
     color:#4285F4;
     
-  }
+ 
+}
 
+.toast-container.toast-top-full-width .ngx-toastr,
+.toast-container.toast-bottom-full-width .ngx-toastr {
+    width: 50% !important;
+    margin-top: 5% !important;
+}
 
 .scroll-pop{
     max-height: 300px; 
