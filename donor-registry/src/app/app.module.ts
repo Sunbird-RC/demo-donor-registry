@@ -55,10 +55,10 @@ import { SearchComponent } from '../app/discovery/search/search.component';
 import { AuthConfigService } from './authentication/auth-config.service';
 import { DocumentsComponent } from './documents/documents.component';
 import { AddDocumentComponent } from './documents/add-document/add-document.component';
-import {WebcamModule} from 'ngx-webcam';
+import { WebcamModule } from 'ngx-webcam';
 import { ScanDocumentComponent } from './documents/scan-document/scan-document.component';
 import { ScanQrCodeComponent } from './documents/scan-qr-code/scan-qr-code.component';
-import {QuarModule} from '@altack/quar';
+import { QuarModule } from '@altack/quar';
 import { BrowseDocumentsComponent } from './documents/browse-documents/browse-documents.component';
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -124,7 +124,7 @@ import { PagesComponent } from './pages/pages.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-import {AuthImagePipe} from '../app/layouts/doc-view/doc-view.component';
+import { AuthImagePipe } from '../app/layouts/doc-view/doc-view.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-view.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -151,7 +151,7 @@ let baseConfig = require('../assets/config/config.json')
 
 let configData = {
   baseUrl: baseConfig['baseUrl']
-  }   
+}
 
 
 @NgModule({
@@ -226,7 +226,7 @@ let configData = {
       { name: 'panel', component: PanelWrapperComponent },
       { name: 'tooltip', component: TooltipWrapper }],
       validationMessages: [
-        { name: 'required', message:  errValidatorMessage },
+        { name: 'required', message: errValidatorMessage },
 
       ],
       types: [
@@ -272,7 +272,7 @@ let configData = {
       ],
     }),
     ToastrModule.forRoot({
-      positionClass: 'toast-bottom-full-width',
+      positionClass: 'toast-top-full-width',
       preventDuplicates: true,
     }),
     NgxPaginationModule,
