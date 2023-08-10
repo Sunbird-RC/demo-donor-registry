@@ -923,7 +923,7 @@ li {
 .nvs {
     background: #121212;
     padding: 17px 18px;
-    color: #FFFFFF;
+    color: #FFFFFF !important;
     font-size: 17px;
 }
 
@@ -998,7 +998,7 @@ li {
     border-radius: 5px;
 
     a {
-        color: #fff;
+        color: #fff !important;
     }
 }
 
@@ -1483,3 +1483,10 @@ formly-multi-schema-type .card {
     width: 50% !important;
     margin-top: 5% !important;
 }
+
+.scroll-pop{
+    max-height: 300px; 
+    overflow-y: auto !important;
+}
+
+
