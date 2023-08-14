@@ -2006,8 +2006,11 @@ export class FormsComponent implements OnInit {
       }
 
       if (this.form == 'pledge-setup' || this.form == 'signup') {
-        this.checkOtherVal();
+        if (this.model.hasOwnProperty('aadhaar')) {
+          this.model['aadhaar'] = 'XXXXXXXX' + this.model['aadhaar'].substring(8);
+        }
 
+        this.checkOtherVal();
       }
 
 
