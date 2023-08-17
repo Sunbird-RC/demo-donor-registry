@@ -46,6 +46,10 @@ async function deleteKey(key) {
     await client.del(key);
 }
 
+async function getAllKeys(keyType) {
+  return await client.sendCommand(['KEYS', `${keyType}**************`]); 
+}
+
 module.exports = {
   storeKeyWithExpiry,
   initRedis,
@@ -54,5 +58,6 @@ module.exports = {
   increment,
   storeKey,
   storeHashWithExpiry,
-  getHash
+  getHash,
+  getAllKeys
 };

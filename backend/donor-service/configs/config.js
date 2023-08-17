@@ -34,6 +34,9 @@ const ESIGN_VALIDATION_EXPIRE_TIME = process.env.ESIGN_VALIDATION_EXPIRE_TIME ||
 const ESIGN_VALIDATION_PREVENT_3RD_PARTY = process.env.ESIGN_VALIDATION_PREVENT_3RD_PARTY === "true" || false;
 const ESIGN_VALIDATION_KAFKA_TOPIC = process.env.ESIGN_VALIDATION_TOPIC || 'esign_topic';
 const ESIGN_VALIDATION_KAFKA_TOPIC_GROUP = process.env.ESIGN_VALIDATION_TOPIC || 'notto_esign_group_1';
+const METRICS_URL = process.env.METRICS_URL || 'http://metrics:8070';
+const KAFKA_BROKER = process.env.KAFKA_BROKER || 'kafka:9092';
+const METRICS_TOPIC = process.env.METRICS_TOPIC || 'events';
 module.exports = {
     REDIS_URL,
     BASE_URL,
@@ -66,4 +69,7 @@ module.exports = {
     ESIGN_VALIDATION_PREVENT_3RD_PARTY,
     ESIGN_VALIDATION_KAFKA_TOPIC,
     ESIGN_VALIDATION_KAFKA_TOPIC_GROUP,
+    METRICS_URL,
+    KAFKA_BROKER,
+    METRICS_TOPIC
 }
