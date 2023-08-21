@@ -216,13 +216,6 @@ var portraitDataList = []CertificateDataConfig{
 		width:    0,
 	},
 	{
-		x:        205,
-		y:        604,
-		fontSize: 11,
-		template: "{{.CredentialSubject.Pledge.AdditionalOrgans}}",
-		width:    0,
-	},
-	{
 		x:          153,
 		y:          685,
 		fontSize:   0,
