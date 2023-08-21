@@ -283,7 +283,20 @@ export class FormsComponent implements OnInit {
 
 
     if ((this.form == 'pledge-setup' && this.identifier)) {
-      this.disabledFields();
+
+      if (document.getElementById("mobileno")) {
+        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true;
+
+      }
+
+      if (document.getElementById("aadhaar")) {
+        (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true;
+
+      }
+
+
+
+
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
       if (relationPlaceholder3) {
         const option = document.createElement('option');
@@ -291,12 +304,55 @@ export class FormsComponent implements OnInit {
         option.text = 'Select';
         relationPlaceholder3.insertBefore(option, relationPlaceholder3.firstChild);
       }
+
+      // if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
+      // {
+      //   (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
+      //   (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
+      // }
+      // if(document.getElementById("formly_105_radio_registrationBy_1_0") != null)
+      // {
+      // (document.getElementById("formly_105_radio_registrationBy_1_0") as any).disabled = true; 
+      // (document.getElementById("formly_105_radio_registrationBy_1_1") as any).disabled = true; 
+      // }
+
+      let notReadOnly = localStorage.getItem('notReadOnly');
+      if (!notReadOnly || notReadOnly === "[]") {
+        let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
+        // for (let propName in obj) {
+        //   if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+        //     delete obj[propName];
+        //   }
+        // }
+        localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
+      }
     }
-
-
     if (this.form == 'signup' && this.identifier) {
-      this.disabledFields();
-      localStorage.setItem('isVerified', 'true');
+      if (document.getElementById("mobileno")) {
+        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true;
+
+      }
+
+      if (document.getElementById("aadhaar")) {
+        (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true;
+
+      }
+
+
+      let notReadOnly = localStorage.getItem('notReadOnly');
+      if (!notReadOnly || notReadOnly === "[]") {
+        let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
+        // for (let propName in obj) {
+        //   if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+        //     delete obj[propName];
+        //   }
+        // }
+        localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
+      }
+      localStorage.setItem('isVerified', 'true')
+      //    if(this.model["personalDetails"]["middleName"]){  
+      //     (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
+      //  }
 
       if (document.getElementById("formly_109_radio_registrationBy_1_0") != null) {
         (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;
@@ -308,35 +364,12 @@ export class FormsComponent implements OnInit {
       }
 
     }
-  }
 
 
-  disabledFields() {
-    if (document.getElementById("mobileno")) {
-      (<HTMLInputElement>document.getElementById("mobileno")).disabled = true;
-    }
-
-    if (document.getElementById("aadhaar")) {
-      (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true;
-    }
-
-    if (this.model.hasOwnProperty('aadhaar')) {
-      this.model['aadhaar'] = 'XXXXXXXX' + this.model['aadhaar'].substring(8);
-    }
-
-    let notReadOnly = localStorage.getItem('notReadOnly');
-    if (!notReadOnly || notReadOnly === "[]") {
-      let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
-      // for (let propName in obj) {
-      //   if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
-      //     delete obj[propName];
-      //   }
-      // }
-      localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
-    }
   }
 
   ngAfterContentChecked(): void {
+
     if (this.model["memberToBeNotified"] == true) {
       this.flag = false;
       this.model = {

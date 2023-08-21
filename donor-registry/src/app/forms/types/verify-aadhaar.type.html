@@ -3,7 +3,7 @@
   <div class="d-flex">
     <input class="form-control" placeholder="XXXXXXXXXXXX" maxlength="12"
       oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9]/g,'')" id="{{ field.key }}"
-      [formControl]="formControl" [formlyAttributes]="field" pattern="[0-9X]{12}"
+      [formControl]="formControl" [formlyAttributes]="field" pattern="[0-9]{12}"
       [ngClass]="isNumberValid ? 'form-control' : 'form-control is-invalid'" required>
     <button id="verifybtn" class="fw-bold p14 pointer btn-holder btn-verify border-0" (click)="verifyOtp(field.key)"
       *ngIf="!isVerify" [disabled]="!consentGiven"> {{'VERIFY' | translate}}</button>
