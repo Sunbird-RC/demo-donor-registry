@@ -14,7 +14,7 @@ RUN apk update && apk add --no-cache nmap && \
       ttf-freefont \
       font-noto \
       nss
-RUN npm install --silent
+RUN npm install 
 COPY . ./
 RUN npm test
 CMD ["npm", "start"]
