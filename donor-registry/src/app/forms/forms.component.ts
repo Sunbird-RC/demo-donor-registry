@@ -168,7 +168,7 @@ export class FormsComponent implements OnInit {
         mobilePlaceholder['placeholder'] = "XXXXXXXXXX";
       }
 
-      const aadhaarPlaceHolder = document.getElementById('aadhaar');
+      const aadhaarPlaceHolder = document.getElementById('aadhaarMasked');
       if (aadhaarPlaceHolder) {
         aadhaarPlaceHolder['placeholder'] = "XXXXXXXXXXXX";
       }
@@ -247,6 +247,10 @@ export class FormsComponent implements OnInit {
               //   }
               // }
               localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
+
+              if (this.model.hasOwnProperty('aadhaarMasked') && !this.model.hasOwnProperty('aadhaar')) {
+                this.model['aadhaar'] = this.model['aadhaarMasked'];
+              }
             }
           }
         }
@@ -289,13 +293,14 @@ export class FormsComponent implements OnInit {
 
       }
 
-      if (document.getElementById("aadhaar")) {
-        (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true;
-
+      if (document.getElementById("aadhaarMasked")) {
+        (<HTMLInputElement>document.getElementById("aadhaarMasked")).disabled = true;
       }
 
 
-
+      if (this.model.hasOwnProperty('aadhaar')) {
+        this.model['aadhaarMasked'] =  'XXXXXXXX' + this.model['aadhaar'].substring(8);
+      }
 
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
       if (relationPlaceholder3) {
@@ -333,11 +338,14 @@ export class FormsComponent implements OnInit {
 
       }
 
-      if (document.getElementById("aadhaar")) {
-        (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true;
+      if (document.getElementById("aadhaarMasked")) {
+        (<HTMLInputElement>document.getElementById("aadhaarMasked")).disabled = true;
 
       }
 
+      if (this.model.hasOwnProperty('aadhaar')) {
+        this.model['aadhaarMasked'] =  'XXXXXXXX' + this.model['aadhaar'].substring(8);
+      }
 
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
@@ -1936,7 +1944,7 @@ export class FormsComponent implements OnInit {
     let dateSpan = document.getElementById('mobileno');
     dateSpan.classList.remove('ng-invalid');
 
-    let aadhaardiv = document.getElementById('aadhaar');
+    let aadhaardiv = document.getElementById('aadhaarMasked');
     aadhaardiv.classList.remove('ng-invalid');
 
     if (!this.form2.valid) {
