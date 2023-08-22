@@ -148,6 +148,7 @@ export class FormsComponent implements OnInit {
   eSignWindowClosed: boolean = false;
   dateofBirth: any = null;
   esignSuccess: boolean = false;
+  count: number = 0;
 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -297,11 +298,6 @@ export class FormsComponent implements OnInit {
         (<HTMLInputElement>document.getElementById("aadhaarMasked")).disabled = true;
       }
 
-
-      if (this.model.hasOwnProperty('aadhaar')) {
-        this.model['aadhaarMasked'] =  'XXXXXXXX' + this.model['aadhaar'].substring(8);
-      }
-
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
       if (relationPlaceholder3) {
         const option = document.createElement('option');
@@ -340,11 +336,6 @@ export class FormsComponent implements OnInit {
 
       if (document.getElementById("aadhaarMasked")) {
         (<HTMLInputElement>document.getElementById("aadhaarMasked")).disabled = true;
-
-      }
-
-      if (this.model.hasOwnProperty('aadhaar')) {
-        this.model['aadhaarMasked'] =  'XXXXXXXX' + this.model['aadhaar'].substring(8);
       }
 
       let notReadOnly = localStorage.getItem('notReadOnly');
@@ -789,7 +780,11 @@ export class FormsComponent implements OnInit {
   }
 
   onFormChange() {
-    this.isFormEdited = true;
+    if (this.count != 0) {
+      this.isFormEdited = true;
+    } else {
+      this.count++;
+    }
   }
 
   loadSchema() {
@@ -2299,6 +2294,11 @@ export class FormsComponent implements OnInit {
         this.model = res;
         this.identifier = res.osid;
       }
+
+      if (this.model.hasOwnProperty('aadhaar')) {
+        this.model['aadhaarMasked'] =  'XXXXXXXX' + this.model['aadhaar'].substring(8);
+      }
+      
       this.loadSchema()
     });
 
