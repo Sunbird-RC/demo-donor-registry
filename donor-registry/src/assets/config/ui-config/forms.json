@@ -113,9 +113,9 @@
                 }
               },
               {
-                "name": "aadhaar",
+                "name": "aadhaarMasked",
                 "custom": true,
-                "key": "aadhaar",
+                "key": "aadhaarMasked",
                 "type": "verify-aadhaar",
                 "element": {
                   "title": "Aadhaar Number",
@@ -697,9 +697,9 @@
                 }
               },
               {
-                "name": "aadhaar",
+                "name": "aadhaarMasked",
                 "custom": true,
-                "key": "aadhaar",
+                "key": "aadhaarMasked",
                 "type": "verify-aadhaar",
                 "element": {
                   "title": "Aadhaar Number",
