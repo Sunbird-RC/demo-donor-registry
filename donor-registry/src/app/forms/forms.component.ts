@@ -241,11 +241,13 @@ export class FormsComponent implements OnInit {
               localStorage.setItem('isAutoFill', "false");
 
               let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
-              // for (let propName in obj) {
-              //   if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
-              //     delete obj[propName];
-              //   }
-              // }
+              for (let propName in obj) {
+                if(propName == 'fatherName' || propName == 'motherName' || propName == 'mobileNumber' )
+                if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+                  delete obj[propName];
+                }
+              }
+              
               localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
 
               if (this.model.hasOwnProperty('aadhaarMasked') && !this.model.hasOwnProperty('aadhaar')) {
