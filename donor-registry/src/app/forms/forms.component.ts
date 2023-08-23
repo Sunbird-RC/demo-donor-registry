@@ -148,8 +148,7 @@ export class FormsComponent implements OnInit {
   eSignWindowClosed: boolean = false;
   dateofBirth: any = null;
   esignSuccess: boolean = false;
-  count: number = 0;
-
+ 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
     if (!this.organCheckbox) {
@@ -780,11 +779,8 @@ export class FormsComponent implements OnInit {
   }
 
   onFormChange() {
-    if (this.count != 0) {
-      this.isFormEdited = true;
-    } else {
-      this.count++;
-    }
+    this.isFormEdited = true;
+   
   }
 
   loadSchema() {
