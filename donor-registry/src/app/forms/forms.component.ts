@@ -780,11 +780,7 @@ export class FormsComponent implements OnInit {
 
   onFormChange() {
     this.isFormEdited = true;
-    // if (this.count != 0) {
-    //  
-    // } else {
-    //   this.count++;
-    // }
+   
   }
 
   loadSchema() {
