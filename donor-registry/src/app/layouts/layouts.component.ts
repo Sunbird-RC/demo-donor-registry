@@ -51,7 +51,6 @@ export class LayoutsComponent implements OnInit, OnChanges {
   selectLang = ["Assamese", "Bengali", "Gujarati","Hindi", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
   languageNotSelected:boolean = false;
   isLanguageSelected : boolean = false;
-  @ViewChild('modalRef') modalRef: any;
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
     private http: HttpClient,
