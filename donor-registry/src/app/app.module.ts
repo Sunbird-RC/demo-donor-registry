@@ -274,7 +274,7 @@ let configData = {
     ToastrModule.forRoot({
       positionClass: 'toast-top-full-width',
       preventDuplicates: true,
-      timeOut: 50000,
+      timeOut: 70000,
       enableHtml: true,
       maxOpened: 1
     }),

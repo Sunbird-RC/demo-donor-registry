@@ -15,7 +15,7 @@ export class ToastMessageService {
     this.toastr.success(message, title);
   }
 
-  error(title, message, duration = 3000) {
+  error(title, message, duration = 70000) {
     this.destroytoast();
     this.toastr.error(message, title, { timeOut: duration });
   }

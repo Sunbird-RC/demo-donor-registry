@@ -2376,12 +2376,12 @@ export class FormsComponent implements OnInit {
                 if (err?.code === "2") {
                   checkESignStatus = false;
                   let errMsg = err?.errors.join(",  <br>");
-                  this.toastMsg.error("Error", errMsg, 50000);
+                  this.toastMsg.error("Error", errMsg);
                 } else if (err.code === "3") {
                   if (err?.preventThirdParty === true) {
                     checkESignStatus = false;
                     let errMsg = err?.errors.join(",  <br>");
-                    this.toastMsg.error("Error", errMsg, 50000);
+                    this.toastMsg.error("Error", errMsg);
                   }
                 }
                 console.log(err);
@@ -2533,12 +2533,12 @@ export class FormsComponent implements OnInit {
               if (err?.code === "2") {
                 checkESignStatus = false;
                 let errMsg = err?.errors.join(",  <br>");
-                this.toastMsg.error("Error", errMsg, 50000);
+                this.toastMsg.error("Error", errMsg);
               } else if (err.code === "3") {
                 if (err?.preventThirdParty === true) {
                   checkESignStatus = false;
                   let errMsg = err?.errors.join(",  <br>");
-                  this.toastMsg.error("Error", errMsg, 50000);
+                  this.toastMsg.error("Error", errMsg);
                 }
               }
               console.log(err);
