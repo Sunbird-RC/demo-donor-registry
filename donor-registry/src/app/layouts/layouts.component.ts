@@ -51,7 +51,6 @@ export class LayoutsComponent implements OnInit, OnChanges {
   selectLang = ["Assamese", "Bengali", "Gujarati","Hindi", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
   languageNotSelected:boolean = false;
   isLanguageSelected : boolean = false;
-  @ViewChild('modalRef') modalRef: any;
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
     private http: HttpClient,
@@ -640,6 +639,8 @@ export class LayoutsComponent implements OnInit, OnChanges {
     this.selectedLanguageIndex = this.selectLang.indexOf(language);
     this.isLanguageSelected = this.selectedLanguageIndex !== -1 || undefined;
     if(this.isLanguageSelected){
+      let dowbloadCrt = document.getElementById('dowbloadCrt');
+      dowbloadCrt.setAttribute('data-dismiss', 'modal');
       this.languageNotSelected = false;
     }
   }
@@ -655,18 +656,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
     }
     if(this.isLanguageSelected){
     this.languageNotSelected = false;
-    if (this.modalRef && this.modalRef.nativeElement) {
-      this.modalRef.nativeElement.classList.remove('show');
-      this.modalRef.nativeElement.style.display = 'none';
-      const modalopen = document.querySelector('.modal-open');
-      const modalBackdrop = document.querySelector('.modal-backdrop.fade.show');
-      if (modalBackdrop) {
-        modalBackdrop.remove();
-      }
-      if (modalopen) {
-        document.body.classList.remove('modal-open');
-      }
-    }
+   
     this.mode = this.getDeviceInfo();
     this.orientation = (!this.mode) ? "_landscape" : '_portrait';    
     this.selectedLanguage = this.selectLang[this.selectedLanguageIndex];
@@ -691,6 +681,10 @@ export class LayoutsComponent implements OnInit, OnChanges {
       link.download = pdfName + '.pdf';
       link.click();
       window.URL.revokeObjectURL(link.href);
+
+      let dowbloadCrt = document.getElementById('dowbloadCrt');
+      dowbloadCrt.removeAttribute('data-dismiss');
+      this.isLanguageSelected = false;
 
     })).subscribe((result: any) => {
     });

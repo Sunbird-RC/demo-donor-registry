@@ -34,12 +34,13 @@ func (p *PdfService) loadFonts() error {
 func (p *PdfService) setData(dataConfig CertificateDataConfig, certificateData Certificate) error {
 	p.pdf.SetX(dataConfig.x)
 	p.pdf.SetY(dataConfig.y)
+	p.pdf.SetFillColor(29, 29, 29)
 	data, err := dataConfig.template.render(certificateData)
 	if err != nil {
 		log.Error(err)
 		return err
 	}
-	if err := p.pdf.SetFont("Lato-Regular", "", dataConfig.fontSize); err != nil {
+	if err := p.pdf.SetFont("Lato-Bold", "", dataConfig.fontSize); err != nil {
 		log.Error("Error while setting font ", err)
 		return err
 	}

@@ -184,6 +184,19 @@ app.post('/register/:entityName', async(req, res) => {
         res.status(401).send({message: 'Abha number verification expired. Please refresh the page and restart registration'});
         return;
     }
+    if (config.ESIGN_VALIDATION_PREVENT_3RD_PARTY) {
+        const transactionID = await redis.getKey(getEsginKey(req?.body?.identificationDetails?.abha))
+        const storedTransaction = await redis.getHash(getEsignVerificationKey(transactionID));
+        if(storedTransaction?.esignStatus !== config.ESIGN_STATUS.SUCCESS.toString()) {
+            res.status(401).send({
+                message: 'Unable to validate e-sign',
+                ...(storedTransaction?.esignStatus === config.ESIGN_STATUS.FAILED.toString()) ? {
+                    errors: JSON.parse(storedTransaction?.esignErrors),
+                    } :  {},
+            })
+            return
+        }
+    }
     let profileFromReq = req.body;
     profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
     const profile = getProfileFromUserAndRedis(profileFromReq, profileFromRedis);
@@ -237,6 +250,19 @@ app.put('/register/:entityName/:entityId', async(req, res) => {
     profileFromReq = JSON.parse(JSON.stringify(profileFromReq).replace(/\:null/gi, "\:\"\""));
     const entityName = req.params.entityName;
     const entityId = req.params.entityId;
+    if (config.ESIGN_VALIDATION_PREVENT_3RD_PARTY) {
+        const transactionID = await redis.getKey(getEsginKey(req?.body?.identificationDetails?.abha))
+        const storedTransaction = await redis.getHash(getEsignVerificationKey(transactionID));
+        if(storedTransaction?.esignStatus !== config.ESIGN_STATUS.SUCCESS.toString()) {
+            res.status(401).send({
+                message: 'Unable to validate e-sign',
+                ...(storedTransaction?.esignStatus === config.ESIGN_STATUS.FAILED.toString()) ? {
+                    errors: JSON.parse(storedTransaction?.esignErrors),
+                } :  {},
+            })
+            return
+        }
+    }
     const userData = JSON.parse(await getUserData(getKeyBasedOnEntityName(entityName) + entityId, req));
     try {
         if(validateIfNonEditableFieldsPresent(profileFromReq, userData)) {
@@ -345,27 +371,7 @@ function validateEmergencyMobileNumberUpdated(profileFromReq, userData) {
 
 app.post('/esign/init', async (req, res) => {
     try {
-        // if (!'data' in req.query) {
-        //     res.status(400).send(new Error('Pledge data not available'));
-        // }
-        console.log(req.query)
-        // const pledge = JSON.parse(req.query.data)
-        const pledge = req.body.data;
-        const esignData = await getEsignData(pledge);
-        if (config.ESIGN_VALIDATION_PREVENT_3RD_PARTY) {
-            const verificationData = {
-                "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
-                "middleName": R.pathOr("", ["personalDetails", "middleName"], pledge),
-                "lastName": R.pathOr("", ["personalDetails", "lastName"], pledge),
-                "dob": R.pathOr("", ["personalDetails", "dob"], pledge),
-                "pincode": R.pathOr("", ["addressDetails", "pincode"], pledge),
-                "esignStatus": config.ESIGN_STATUS.PENDING.toString()
-            };
-            for(const[key, value] of Object.entries(verificationData)) {
-                console.log(key, value)
-                await redis.storeHashWithExpiry(getEsignVerificationKey(esignData.txnId), key, value, config.ESIGN_VALIDATION_EXPIRE_TIME)
-            }
-        }
+        const esignData = await getEsignData(req.body.data);
         res.send({
             signUrl: esignData.espUrl,
             xmlContent: esignData.xmlContent,
@@ -444,8 +450,26 @@ const getEsignData = async(pledge) => {
         })
     });
     let xmlContent = apiResponse.data.espRequest;
-    await redis.storeKeyWithExpiry(getEsginKey(pledge.identificationDetails.abha), apiResponse.data.aspTxnId, config.EXPIRE_PROFILE)
+    await redis.storeKeyWithExpiry(getEsginKey(pledge.identificationDetails.abha), apiResponse.data.aspTxnId, config.EXPIRE_PROFILE);
+    await storeEsignTransaction(apiResponse?.data?.aspTxnId, pledge);
     return {xmlContent: xmlContent, txnId: apiResponse.data.aspTxnId, espUrl: apiResponse.data.espUrl};
+}
+
+const storeEsignTransaction = async (txnId, pledge) => {
+    if (config.ESIGN_VALIDATION_PREVENT_3RD_PARTY) {
+        const verificationData = {
+            "firstName": R.pathOr("", ["personalDetails", "firstName"], pledge),
+            "middleName": R.pathOr("", ["personalDetails", "middleName"], pledge),
+            "lastName": R.pathOr("", ["personalDetails", "lastName"], pledge),
+            "dob": R.pathOr("", ["personalDetails", "dob"], pledge),
+            "pincode": R.pathOr("", ["addressDetails", "pincode"], pledge),
+            "esignStatus": config.ESIGN_STATUS.PENDING.toString()
+        };
+        for(const[key, value] of Object.entries(verificationData)) {
+            console.log(key, value)
+            await redis.storeHashWithExpiry(getEsignVerificationKey(txnId), key, value, config.ESIGN_VALIDATION_EXPIRE_TIME)
+        }
+    }
 }
 
 const getUserData = async(key, req) => {
@@ -477,8 +501,8 @@ app.put('/esign/init/:entityName/:entityId', async(req, res) => {
 });
 
 function validateIfNonEditableFieldsPresent(reqData, userData) {
-    const partiallyEditablePersonalDetails = Object.keys(userData.personalDetails).filter(key => !(['motherName', 'middleName', 'bloodGroup', 'emailId', 'photo', 'osUpdatedAt', 'osUpdatedBy', 'dob'].includes(key)));
-    const partiallyEditableAddressDetails = Object.keys(userData.addressDetails).filter(key => !(['addressLine2', 'osUpdatedBy', 'osUpdatedAt'].includes(key)));
+    const partiallyEditablePersonalDetails = Object.keys(userData.personalDetails).filter(key => !(['motherName', 'lastName', 'middleName', 'gender', 'dob', 'bloodGroup', 'emailId', 'photo', 'osUpdatedAt', 'osUpdatedBy'].includes(key)));
+    const partiallyEditableAddressDetails = Object.keys(userData.addressDetails).filter(key => !(['addressLine1', 'addressLine2', 'country', 'state', 'district', 'pincode', 'osUpdatedBy', 'osUpdatedAt'].includes(key)));
     let result = !(userData.identificationDetails.abha === reqData.identificationDetails.abha && userData.identificationDetails.nottoId === reqData.identificationDetails.nottoId);
     for(const key of partiallyEditablePersonalDetails) {
         result = result || !(userData.personalDetails[key] === reqData.personalDetails[key]);

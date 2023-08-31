@@ -15,9 +15,9 @@ export class ToastMessageService {
     this.toastr.success(message, title);
   }
 
-  error(title, message) {
+  error(title, message, duration = 70000) {
     this.destroytoast();
-    this.toastr.error(message, title);
+    this.toastr.error(message, title, { timeOut: duration });
   }
 
   info(title, message) {
@@ -34,6 +34,6 @@ export class ToastMessageService {
    * Destroys IziToast
    */
   destroytoast() {
-      this.toastr.clear();
+    this.toastr.clear();
   }
 }

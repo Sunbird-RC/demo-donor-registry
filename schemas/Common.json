@@ -7,11 +7,8 @@
       "title": "Personal Details",
       "required": [
         "firstName",
-        "lastName",
         "fatherName",
         "motherName",
-        "dob",
-        "gender",
         "mobileNumber"
       ],
       "properties": {
@@ -91,11 +88,6 @@
       "type": "object",
       "title": "Address Details",
       "required": [
-        "addressLine1",
-        "country",
-        "state",
-        "district",
-        "pincode"
       ],
       "properties": {
         "addressLine1": {

@@ -259,8 +259,8 @@ export class VerifyAadhaar extends FieldType {
     let dateSpan = document.getElementById('mobmessage');
     dateSpan.classList.remove('text-danger');
     dateSpan.innerText = "";
-    document.getElementById('aadhaar').classList.remove('is-invalid');
-    (document.getElementById('aadhaar') as any).disabled = true;
+    document.getElementById('aadhaarMasked').classList.remove('is-invalid');
+    (document.getElementById('aadhaarMasked') as any).disabled = true;
 
     this.dataObj = data;
     let dayOfBirth = data?.dayOfBirth;
@@ -277,7 +277,7 @@ export class VerifyAadhaar extends FieldType {
       this.canRegister = false;
       this.openPopup('registerAge');
       this.isVerify = false;
-      (document.getElementById('aadhaar') as any).disabled = false;
+      (document.getElementById('aadhaarMasked') as any).disabled = false;
     } else {
 
       const healthIdNumber = this.dataObj.healthIdNumber.replaceAll('-', '');
@@ -287,7 +287,7 @@ export class VerifyAadhaar extends FieldType {
       localStorage.setItem('isVerified', JSON.stringify(this.isVerify));
       //  document.getElementById('closeModalButton').click();
       setTimeout(() => {
-        (document.getElementById('aadhaar') as any).focus();
+        (document.getElementById('aadhaarMasked') as any).focus();
       }, 1000);
     }
   }

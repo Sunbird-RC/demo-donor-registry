@@ -30,13 +30,22 @@ const ESIGN_STATUS = Object.freeze({
     'EXPIRED': 3,
 });
 const ESIGN_VALIDATION_KAFKA_BROKERS = process.env.ESIGN_VALIDATION_KAFKA_BROKERS || 'localhost:5101';
-const ESIGN_VALIDATION_EXPIRE_TIME = process.env.ESIGN_VALIDATION_EXPIRE_TIME || 2*60;
+let ESIGN_VALIDATION_EXPIRE_TIME = process.env.ESIGN_VALIDATION_EXPIRE_TIME || 2*60;
 const ESIGN_VALIDATION_PREVENT_3RD_PARTY = process.env.ESIGN_VALIDATION_PREVENT_3RD_PARTY === "true" || false;
-const ESIGN_VALIDATION_KAFKA_TOPIC = process.env.ESIGN_VALIDATION_TOPIC || 'esign_topic';
-const ESIGN_VALIDATION_KAFKA_TOPIC_GROUP = process.env.ESIGN_VALIDATION_TOPIC || 'notto_esign_group_1';
 const METRICS_URL = process.env.METRICS_URL || 'http://metrics:8070';
 const KAFKA_BROKER = process.env.KAFKA_BROKER || 'kafka:9092';
 const METRICS_TOPIC = process.env.METRICS_TOPIC || 'events';
+const ESIGN_VALIDATION_KAFKA_TOPIC = process.env.ESIGN_VALIDATION_KAFKA_TOPIC || 'esign_topic';
+const ESIGN_VALIDATION_KAFKA_TOPIC_GROUP = process.env.ESIGN_VALIDATION_KAFKA_TOPIC_GROUP || 'dev_esign_group_1';
+const ESIGN_VALIDATION_CLIENT_ID = process.env.ESIGN_VALIDATION_CLIENT_ID || "dev-esign-client";
+try {
+    ESIGN_VALIDATION_EXPIRE_TIME = parseInt(ESIGN_VALIDATION_EXPIRE_TIME, 10);
+    if(isNaN(ESIGN_VALIDATION_EXPIRE_TIME)) {
+        ESIGN_VALIDATION_EXPIRE_TIME = 120;
+    }
+} catch (e) {
+    console.log(e);
+}
 module.exports = {
     REDIS_URL,
     BASE_URL,
@@ -71,5 +80,6 @@ module.exports = {
     ESIGN_VALIDATION_KAFKA_TOPIC_GROUP,
     METRICS_URL,
     KAFKA_BROKER,
-    METRICS_TOPIC
+    METRICS_TOPIC,
+    ESIGN_VALIDATION_CLIENT_ID
 }

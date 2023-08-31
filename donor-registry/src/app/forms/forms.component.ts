@@ -146,7 +146,9 @@ export class FormsComponent implements OnInit {
   isVerified: string;
   isFormEdited: boolean = false;
   eSignWindowClosed: boolean = false;
-
+  dateofBirth: any = null;
+  esignSuccess: boolean = false;
+ 
   ngAfterViewChecked() {
     this.cdr.detectChanges();
     if (!this.organCheckbox) {
@@ -155,49 +157,71 @@ export class FormsComponent implements OnInit {
         this.addElement('Organs_and_Tissues_to_Pledge', 'Please select atleast one organs or tissues', 'oterrormsg')
       }
     }
-    if ( this.model.hasOwnProperty('pledgeDetails') && ( this.model['pledgeDetails']['organs'] || this.model['pledgeDetails']['tissues'])) {
+    if (this.model.hasOwnProperty('pledgeDetails') && (this.model['pledgeDetails']['organs'] || this.model['pledgeDetails']['tissues'])) {
       this.removeElement("oterrormsg");
       this.organCheckbox = false;
     }
 
     if (this.form == 'signup') {
       const mobilePlaceholder = document.getElementById('mobileno');
-      if(mobilePlaceholder){
+      if (mobilePlaceholder) {
         mobilePlaceholder['placeholder'] = "XXXXXXXXXX";
       }
 
- const aadhaarPlaceHolder = document.getElementById('aadhaar');
- if(aadhaarPlaceHolder){
-      aadhaarPlaceHolder['placeholder'] = "XXXXXXXXXXXX";
-}
+      const aadhaarPlaceHolder = document.getElementById('aadhaarMasked');
+      if (aadhaarPlaceHolder) {
+        aadhaarPlaceHolder['placeholder'] = "XXXXXXXXXXXX";
+      }
       if (localStorage.getItem('isVerified')) {
         this.tempData = JSON.parse(localStorage.getItem("form_value"));
 
-        if((this.model['registrationBy'] == 'aadhaar' || this.model['registrationBy'] == 'mobile') && this.tempData != null)
-        {
-          this.model["identificationDetails"]['abha'] =  this.tempData['healthIdNumber'].replace(/-/g, ""); 
+        if ((this.model['registrationBy'] == 'aadhaar' || this.model['registrationBy'] == 'mobile') && this.tempData != null) {
+          this.model["identificationDetails"]['abha'] = this.tempData['healthIdNumber'].replace(/-/g, "");
         }
         if (this.model["identificationDetails"] && this.model["identificationDetails"].hasOwnProperty('abha')) {
-         
+
           const isAutoFill = localStorage.getItem('isAutoFill');
 
           if (this.tempData) {
+
             if (isAutoFill != "false") {
-              // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_0")).disabled = true;  
-              // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_1")).disabled = true;  
-              // (<HTMLInputElement>document.getElementById("formly_20_radio_registrationBy_1_2")).disabled = true;  
+              if (this.tempData.yearOfBirth || this.tempData.monthOfBirth || this.tempData.dayOfBirth) {
+                if (this.tempData.yearOfBirth == null) {
+                  this.tempData.yearOfBirth = "yyyy"
+                } else {
+                  this.tempData.yearOfBirth = this.tempData.yearOfBirth;
+                }
+                if (this.tempData.dayOfBirth == null) {
+                  this.tempData.dayOfBirth = "dd"
+                } else {
+                  this.tempData.dayOfBirth = ('0' + this.tempData?.dayOfBirth).slice(-2)
+                }
+                if (this.tempData.monthOfBirth == null) {
+                  this.tempData.monthOfBirth = "mm"
+                }
+                else {
+                  this.tempData.monthOfBirth = ('0' + this.tempData?.monthOfBirth).slice(-2);
+                }
+                this.dateofBirth = this.tempData.yearOfBirth + "-" + this.tempData.monthOfBirth + "-" + this.tempData.dayOfBirth
+                console.log(this.dateofBirth);
+              }
+              if (this.tempData?.yearOfBirth && this.tempData?.monthOfBirth && this.tempData?.dayOfBirth) {
+                this.dateofBirth = this.tempData?.yearOfBirth + "-" + ('0' + this.tempData?.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData?.dayOfBirth).slice(-2)
+              }
+
 
               this.model = {
                 ...this.model,
                 "personalDetails": {
                   ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
-                  "firstName": this.tempData?.firstName, 
+                  "firstName": this.tempData?.firstName,
                   "middleName": this.tempData?.middleName,
                   "lastName": this.tempData?.lastName,
                   "gender": (this.tempData?.gender) ? `${GenderMap[this.tempData?.gender]}` : {},
                   "emailId": (this.tempData?.email) ? this.tempData?.email : "",
                   "mobileNumber": this.tempData?.mobile,
-                  "dob": this.tempData?.yearOfBirth + "-" + ('0' + this.tempData?.monthOfBirth).slice(-2) + "-" + ('0' + this.tempData?.dayOfBirth).slice(-2)
+                  "dob": this.dateofBirth
+
 
                 },
                 "addressDetails": {
@@ -218,11 +242,17 @@ export class FormsComponent implements OnInit {
 
               let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
               for (let propName in obj) {
+                if(propName == 'fatherName' || propName == 'motherName' || propName == 'mobileNumber' )
                 if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
                   delete obj[propName];
                 }
               }
+              
               localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
+
+              if (this.model.hasOwnProperty('aadhaarMasked') && !this.model.hasOwnProperty('aadhaar')) {
+                this.model['aadhaar'] = this.model['aadhaarMasked'];
+              }
             }
           }
         }
@@ -243,44 +273,38 @@ export class FormsComponent implements OnInit {
           selectElement.insertBefore(option, selectElement.firstChild);
         }
       });
-    
+
       this.optionAdded = true;
     }
-    
+
     setTimeout(() => {
       this.isVerified = localStorage.getItem('isVerified');
       this.cdr.detectChanges();
-     });
+    });
 
     if (this.model["consent"]) {
       document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
     }
 
 
-  
-    if ((this.form == 'pledge-setup' && this.identifier)){
 
-      if(document.getElementById("mobileno"))
-      {
-        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+    if ((this.form == 'pledge-setup' && this.identifier)) {
 
-      }
-
-      if(document.getElementById("aadhaar"))
-      {
-        (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true; 
+      if (document.getElementById("mobileno")) {
+        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true;
 
       }
 
-  
+      if (document.getElementById("aadhaarMasked")) {
+        (<HTMLInputElement>document.getElementById("aadhaarMasked")).disabled = true;
+      }
 
-     
       const relationPlaceholder3 = (<HTMLInputElement>document.getElementById("formly_155_enum_relation_1"));
-      if(relationPlaceholder3){
-      const option = document.createElement('option');
-          option.value = '';
-          option.text = 'Select';
-          relationPlaceholder3.insertBefore(option, relationPlaceholder3.firstChild); 
+      if (relationPlaceholder3) {
+        const option = document.createElement('option');
+        option.value = '';
+        option.text = 'Select';
+        relationPlaceholder3.insertBefore(option, relationPlaceholder3.firstChild);
       }
 
       // if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
@@ -305,54 +329,46 @@ export class FormsComponent implements OnInit {
         localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
       }
     }
-    if(this.form == 'signup' && this.identifier){
-      if(document.getElementById("mobileno"))
-      {
-        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true; 
+    if (this.form == 'signup' && this.identifier) {
+      if (document.getElementById("mobileno")) {
+        (<HTMLInputElement>document.getElementById("mobileno")).disabled = true;
 
       }
 
-      if(document.getElementById("aadhaar"))
-      {
-        (<HTMLInputElement>document.getElementById("aadhaar")).disabled = true; 
-
+      if (document.getElementById("aadhaarMasked")) {
+        (<HTMLInputElement>document.getElementById("aadhaarMasked")).disabled = true;
       }
-
 
       let notReadOnly = localStorage.getItem('notReadOnly');
       if (!notReadOnly || notReadOnly === "[]") {
         let obj = { ...this.model['personalDetails'], ...this.model['addressDetails'] };
-        for (let propName in obj) {
-          if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
-            delete obj[propName];
-          }
-        }
+        // for (let propName in obj) {
+        //   if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
+        //     delete obj[propName];
+        //   }
+        // }
         localStorage.setItem('notReadOnly', JSON.stringify(Object.keys(obj)));
       }
       localStorage.setItem('isVerified', 'true')
-    //    if(this.model["personalDetails"]["middleName"]){  
-    //     (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
-    //  }
-     
-      if(document.getElementById("formly_109_radio_registrationBy_1_0") != null)
-      {
-        (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;  
-        (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;  
+      //    if(this.model["personalDetails"]["middleName"]){  
+      //     (<HTMLInputElement>document.getElementById("formly_120_string_middleName_1")).disabled = true;  
+      //  }
+
+      if (document.getElementById("formly_109_radio_registrationBy_1_0") != null) {
+        (document.getElementById("formly_109_radio_registrationBy_1_0") as any).disabled = true;
+        (document.getElementById("formly_109_radio_registrationBy_1_1") as any).disabled = true;
       }
-      if(document.getElementById("formly_105_radio_registrationBy_1_0") != null)
-      {
-      (document.getElementById("formly_105_radio_registrationBy_1_0") as any).disabled = true; 
-      (document.getElementById("formly_105_radio_registrationBy_1_1") as any).disabled = true; 
+      if (document.getElementById("formly_105_radio_registrationBy_1_0") != null) {
+        (document.getElementById("formly_105_radio_registrationBy_1_0") as any).disabled = true;
+        (document.getElementById("formly_105_radio_registrationBy_1_1") as any).disabled = true;
       }
-       
+
     }
 
 
   }
 
   ngAfterContentChecked(): void {
-
-
 
     if (this.model["memberToBeNotified"] == true) {
       this.flag = false;
@@ -364,7 +380,7 @@ export class FormsComponent implements OnInit {
           "otherRelation": this.model["emergencyDetails"]['otherRelation'],
           "mobileNumber": this.model["emergencyDetails"]['mobileNumber'],
         },
-        "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"]: "mobile",
+        "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"] : "mobile",
         "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
         "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
         "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
@@ -393,7 +409,7 @@ export class FormsComponent implements OnInit {
                 "otherRelation": "",
                 "mobileNumber": "",
               },
-              "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"]: "mobile",
+              "registrationBy": (this.model["registrationBy"]) ? this.model["registrationBy"] : "mobile",
               "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
               "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
               "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
@@ -436,15 +452,6 @@ export class FormsComponent implements OnInit {
           tempData['dayOfBirth'] = "0" + tempData['dayOfBirth'];
         }
 
-
-        /*  this.model['donorDetails']['dob'] = tempData['yearOfBirth'] + "-" + tempData['monthOfBirth'] + "-" + tempData['dayOfBirth'];
-          this.model['donorDetails']['emailId'] = tempData['email'];
-          this.model['donorDetails']['firstName'] = tempData['firstName'];
-          this.model['donorDetails']['gender'] = (tempData['gender'] == 'F') ? "Female" : "Male",
-          this.model['donorDetails']['lastName'] = tempData['lastName'];
-          this.model['donorDetails']['middleName'] = tempData['middleName'];
-          this.model['donorDetails']['mobileNumber'] = (this.identifier) ? tempData['mobileNumber'] :  tempData['mobile'] ;
-     */
         this.model = {
           "donorDetails": {
             "identificationValue": this.model["donorDetails"]['identificationValue'],
@@ -582,9 +589,8 @@ export class FormsComponent implements OnInit {
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location, private http: HttpClient, public formService: FormService, private el: ElementRef) { }
 
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.hideLoader();
-   //this.addLoader();
     localStorage.removeItem('notReadOnly');
     this.route.params.subscribe(params => {
       this.add = this.router.url.includes('add');
@@ -749,14 +755,6 @@ export class FormsComponent implements OnInit {
           this.property['pledgeDetails'].properties['other']['widget']['formlyConfig']['defaultValue'] = false;
         }
 
-        // if (this.property.hasOwnProperty('emergencyDetails') && this.property['emergencyDetails']['properties'].hasOwnProperty('relation')) {
-        //    this.property['emergencyDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "";
-        // }
-
-        // if (this.property.hasOwnProperty('notificationDetails') && this.property['notificationDetails']['properties'].hasOwnProperty('relation')) {
-        //    this.property['notificationDetails'].properties['relation']['widget']['formlyConfig']['defaultValue'] = "";
-        // }
-
         delete this.property['emergencyDetails']['oneOf'];
         delete this.property['notificationDetails']['oneOf'];
         delete this.property['pledgeDetails']['oneOf'];
@@ -784,6 +782,7 @@ export class FormsComponent implements OnInit {
 
   onFormChange() {
     this.isFormEdited = true;
+   
   }
 
   loadSchema() {
@@ -1028,14 +1027,14 @@ export class FormsComponent implements OnInit {
                 'expressionProperties': {
                   "templateOptions.disabled": (model, formState, field1) => {
 
-                 if(this.model.hasOwnProperty('emergencyDetails')){
-                    if (this.model['emergencyDetails']['mobileNumber'] || this.model['emergencyDetails']['name'] || this.model['emergencyDetails']['relation']) {
-                      return false;
+                    if (this.model.hasOwnProperty('emergencyDetails')) {
+                      if (this.model['emergencyDetails']['mobileNumber'] || this.model['emergencyDetails']['name'] || this.model['emergencyDetails']['relation']) {
+                        return false;
+                      }
+                      else {
+                        return true;
+                      }
                     }
-                    else {
-                      return true;
-                    }
-                   } 
                   }
                 }
               }
@@ -1043,57 +1042,55 @@ export class FormsComponent implements OnInit {
           }
 
           if (field.hasOwnProperty('condition')) {
-          if(field.condition['type']  == 'checkLocalVarVal' ) {
-            let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
-  
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
-              'hideExpression': (model, formState, field1) => {
-  
-                if(field.condition.variableType == 'global')
-                {
-                  var val = this['field.condition.objectPath']
-  
-                }else{
-                  var val = localStorage.getItem(field.condition.objectPath);
+            if (field.condition['type'] == 'checkLocalVarVal') {
+              let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+
+              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+                'hideExpression': (model, formState, field1) => {
+
+                  if (field.condition.variableType == 'global') {
+                    var val = this['field.condition.objectPath']
+
+                  } else {
+                    var val = localStorage.getItem(field.condition.objectPath);
+                  }
+
+
+                  return (val != field.condition.isIt) ? true : false;
                 }
-              
-  
-                return (val != field.condition.isIt) ? true : false;
+              }
+              if (tempObj != undefined) {
+                tempObj['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
+                this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
+              }
+
+            }
+
+            if (field.condition['type'] == 'disable') {
+              let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
+
+              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
+                "expressionProperties": {
+                  "templateOptions.disabled": (model, formState, field1) => {
+
+                    if (field.condition.variableType == 'global') {
+                      var val = this['field.condition.objectPath']
+
+                    } else {
+                      var val = localStorage.getItem(field.condition.objectPath);
+                    }
+
+                    return (val == field.condition.isIt) ? true : false;
+                  }
+                }
+              }
+              if (tempObj != undefined) {
+                tempObj['expressionProperties'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['expressionProperties'];
+                this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
               }
             }
-            if (tempObj != undefined) {
-              tempObj['hideExpression'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['hideExpression'];
-              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
-            }
-  
           }
 
-          if(field.condition['type']  == 'disable' ) {
-            let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
-  
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
-              "expressionProperties" : {
-                 "templateOptions.disabled": (model, formState, field1) => {
-  
-                if(field.condition.variableType == 'global')
-                {
-                  var val = this['field.condition.objectPath']
-  
-                }else{
-                  var val = localStorage.getItem(field.condition.objectPath);
-                }
-              
-                return (val == field.condition.isIt) ? true : false;
-              }
-            }
-          }
-            if (tempObj != undefined) {
-              tempObj['expressionProperties'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['expressionProperties'];
-              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
-            }
-          }
-        }
-  
 
         } else {
           this.addWidget(fieldset, field, '')
@@ -1264,7 +1261,7 @@ export class FormsComponent implements OnInit {
             }
           }
         }
-        if(field.wrapper){
+        if (field.wrapper) {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['wrappers'] = [field.wrapper]
         }
         if (field.validation) {
@@ -1489,14 +1486,13 @@ export class FormsComponent implements OnInit {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
             'hideExpression': (model, formState, field1) => {
 
-              if(field.condition.variableType == 'global')
-              {
+              if (field.condition.variableType == 'global') {
                 var val = this['field.condition.objectPath']
 
-              }else{
+              } else {
                 var val = localStorage.getItem(field.condition.objectPath);
               }
-            
+
 
               return (val != field.condition.isIt) ? true : false;
             }
@@ -1539,25 +1535,24 @@ export class FormsComponent implements OnInit {
           }
 
 
-          if(field.condition.hasOwnProperty('objectPath') && field.condition.hasOwnProperty('variableType')) {
+          if (field.condition.hasOwnProperty('objectPath') && field.condition.hasOwnProperty('variableType')) {
             let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
-  
+
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
-              "expressionProperties" : {
-                 "templateOptions.disabled": (model, formState, field1) => {
-  
-                if(field.condition.variableType == 'global')
-                {
-                  var val = this['field.condition.objectPath']
-  
-                }else{
-                  var val = localStorage.getItem(field.condition.objectPath);
+              "expressionProperties": {
+                "templateOptions.disabled": (model, formState, field1) => {
+
+                  if (field.condition.variableType == 'global') {
+                    var val = this['field.condition.objectPath']
+
+                  } else {
+                    var val = localStorage.getItem(field.condition.objectPath);
+                  }
+
+                  return (val == field.condition.isIt) ? true : false;
                 }
-              
-                return (val == field.condition.isIt) ? true : false;
               }
             }
-          }
             if (tempObj != undefined) {
               tempObj['expressionProperties'] = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['expressionProperties'];
               this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = tempObj;
@@ -1875,35 +1870,33 @@ export class FormsComponent implements OnInit {
     } else {
       document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
     }
-    
+
 
     if (isVerify !== "true") {
 
-      if(this.model['registrationBy'] == 'abha')
-      {
+      if (this.model['registrationBy'] == 'abha') {
         let dateSpan = document.getElementById('abhamessage');
         dateSpan.classList.add('text-danger');
         dateSpan.innerText = "Please verify abha number";
         document.getElementById('abha').classList.add('is-invalid');
-       document.getElementById('abha').focus();
-      }else{
+        document.getElementById('abha').focus();
+      } else {
         let dateSpan = document.getElementById('mobmessage');
         dateSpan.classList.add('text-danger');
         dateSpan.innerText = "Please verify mobile number";
         document.getElementById('mobileno').classList.add('is-invalid');
         document.getElementById('mobileno').focus();
       }
-     
+
       isformVerity = false;
     } else {
-     
-      if(this.model['registrationBy'] == 'abha')
-      {
+
+      if (this.model['registrationBy'] == 'abha') {
         let dateSpan = document.getElementById('abhamessage');
         dateSpan.classList.remove('text-danger');
         dateSpan.innerText = "";
         document.getElementById('abha').classList.remove('is-invalid');
-      }else{
+      } else {
         let dateSpan = document.getElementById('mobmessage');
         dateSpan.classList.remove('text-danger');
         dateSpan.innerText = "";
@@ -1911,18 +1904,18 @@ export class FormsComponent implements OnInit {
       }
 
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues'] && this.model['personalDetails']['fatherName']) {
-         if(document.getElementById("formly_43_selectall-checkbox_organs_0_0") != null) {
+        if (document.getElementById("formly_43_selectall-checkbox_organs_0_0") != null) {
           document.getElementById("formly_43_selectall-checkbox_organs_0_0").focus();
-        }else if(document.getElementById("formly_236_selectall-checkbox_organs_0_1") != null){
+        } else if (document.getElementById("formly_236_selectall-checkbox_organs_0_1") != null) {
           document.getElementById("formly_236_selectall-checkbox_organs_0_1").focus();
         }
 
       }
 
       if (!this.model['personalDetails']['motherName'] && this.model['personalDetails']['fatherName']) {
-        if ( this.form == 'signup') {
+        if (this.form == 'signup') {
           document.getElementById("formly_31_string_motherName_4").focus();
-        }else{
+        } else {
           document.getElementById("formly_224_string_motherName_4").focus();
         }
       }
@@ -1939,12 +1932,12 @@ export class FormsComponent implements OnInit {
   }
 
   submit(button = "") {
-    
+
     this.isSubmitForm = true;
     let dateSpan = document.getElementById('mobileno');
     dateSpan.classList.remove('ng-invalid');
 
-    let aadhaardiv = document.getElementById('aadhaar');
+    let aadhaardiv = document.getElementById('aadhaarMasked');
     aadhaardiv.classList.remove('ng-invalid');
 
     if (!this.form2.valid) {
@@ -1961,26 +1954,21 @@ export class FormsComponent implements OnInit {
 
     if (this.form2.valid) {
       if (button === "") {
-        if(this.form == "signup"){
-        this.modalSuccessPledge('confirmationModalPledge')
+        if (this.form == "signup") {
+          this.modalSuccessPledge('confirmationModalPledge')
         }
-        if(this.form == "pledge-setup"){
-          this.modalSuccessPledge('confirmationDetailsEdit')      
+        if (this.form == "pledge-setup") {
+          this.modalSuccessPledge('confirmationDetailsEdit')
         }
-       
+
         return false;
       }
       this.addLoader();
-      // if (this.model.hasOwnProperty('pledgeDetails')) {
-      //   this.model["pledgeDetails"]["organs"] = Object.keys(this.model["pledgeDetails"]["organs"]);
-      //   this.model["pledgeDetails"]["tissues"] = Object.keys(this.model["pledgeDetails"]["tissues"]);
-      // }
 
       if (this.form == 'livedonor') {
         this.model["donorDetails"]["identificationProof"] = "Aadhaar";
         this.model["donorDetails"]["residentialProof"] = "Aadhaar";
         this.model["donorDetails"]["residentialValue"] = "PK90";
-        // this.model["crossMatchDetails"]["crossMatchDate"] = "2022-03-05";
         let recipientId = this.model["recipientDetails"]['identificationValue'];
         this.model["recipientDetails"] = {}
         this.model["recipientDetails"]["recipientId"] = recipientId;
@@ -1992,7 +1980,6 @@ export class FormsComponent implements OnInit {
 
       if (this.form == 'pledge-setup' || this.form == 'signup') {
         this.checkOtherVal();
-
       }
 
 
@@ -2142,15 +2129,6 @@ export class FormsComponent implements OnInit {
 
           if (!this.propertyId && !this.sorder) {
 
-            /*  var tempObj = []
-              for (let j = 0; j < res[property].length; j++) {
-                res[property][j].osUpdatedAt = new Date(res[property][j].osUpdatedAt);
-                tempObj.push(res[property][j])
-              }
-    
-             // tempObj.sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
-              this.propertyId = tempObj[0]["osid"];*/
-
             res[property].sort((a, b) => (b.sorder) - (a.sorder));
             this.propertyId = res[property][0]["osid"];
 
@@ -2204,8 +2182,6 @@ export class FormsComponent implements OnInit {
     });
 
   }
-
-
 
 
   filtersearchResult(term: string) {
@@ -2269,8 +2245,6 @@ export class FormsComponent implements OnInit {
   }
 
   getData() {
-    // this.generalService.isUserLoggedIn().then((log) => {
-    //   if (log != undefined) {
     var get_url;
     if (this.identifier) {
       if (this.propertyName != undefined) {
@@ -2300,12 +2274,6 @@ export class FormsComponent implements OnInit {
         } else if (this.form == 'pledge-setup') {
           this.identifier = res[0].osid;
           this.model = res[0];
-
-          // for (let i = 0; i < res.length; i++) {
-          //   if (localStorage.getItem('loggedInUserName') == res[i]['personalDetails']['firstName']) {
-          //     this.model = res[i];
-          //   }
-          // }
         }
         else {
           this.model = {};
@@ -2324,11 +2292,13 @@ export class FormsComponent implements OnInit {
         this.model = res;
         this.identifier = res.osid;
       }
+
+      if (this.model.hasOwnProperty('aadhaar')) {
+        this.model['aadhaarMasked'] =  'XXXXXXXX' + this.model['aadhaar'].substring(8);
+      }
+      
       this.loadSchema()
     });
-    //}
-
-    //})
 
   }
 
@@ -2365,11 +2335,11 @@ export class FormsComponent implements OnInit {
       }
 
       this.checkOtherVal();
-    
-     
+
+
 
       await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
-       
+
         let x = screen.width / 2 - 500;
         let y = screen.height / 2 - 400;
         const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
@@ -2386,12 +2356,12 @@ export class FormsComponent implements OnInit {
         let _self = this;
         let checkLoaderStatus = setInterval(checkWindowStatus, 1000);
         function checkWindowStatus() {
-            if (eSignWindow.closed) {
-              _self.hideLoader();
-              clearInterval(checkLoaderStatus);
-              checkESignStatus = false;
-              _self.eSignWindowClosed = true;
-            }
+          if (eSignWindow.closed) {
+            _self.hideLoader();
+            clearInterval(checkLoaderStatus);
+            checkESignStatus = false;
+            _self.eSignWindowClosed = true;
+          }
         }
         let checkESignStatus = true;
         let count = 0;
@@ -2400,11 +2370,21 @@ export class FormsComponent implements OnInit {
             this.http.get<any>(`${getDonorServiceHost()}/esign/${this?.model['identificationDetails']['abha']}/status`)
               .subscribe((res) => {
                 checkESignStatus = false;
-                
-                console.log(res)
-              }, (err) => {
-                console.log(err)
-              
+                this.esignSuccess = true;
+                console.log(res);
+              }, ({ error: err }) => {
+                if (err?.code === "2") {
+                  checkESignStatus = false;
+                  let errMsg = err?.errors.join(",  <br>");
+                  this.toastMsg.error("Error", errMsg);
+                } else if (err.code === "3") {
+                  if (err?.preventThirdParty === true) {
+                    checkESignStatus = false;
+                    let errMsg = err?.errors.join(",  <br>");
+                    this.toastMsg.error("Error", errMsg);
+                  }
+                }
+                console.log(err);
               });
           } catch (e) {
             console.log(e)
@@ -2412,61 +2392,61 @@ export class FormsComponent implements OnInit {
           await new Promise(r => setTimeout(r, 400));
           if (count++ === 400) {
             checkESignStatus = false;
-           
+
             alert("Esign session expired. Please try again");
           }
         }
-       
+
         eSignWindow.close();
-        
- 
-
-        if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
-          this.model['emergencyDetails'] = {}
-        }
-
-        if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
-          this.model['notificationDetails'] = {}
-        }
-
-        this.checkOtherVal();
-
-        await this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
-          this.hideLoader();
-          if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
 
 
-            if (this.isSaveAsDraft == "Pending") {
-              this.toastMsg.success('Success', "Successfully Saved !!");
-            } else {
-              this.modalSuccessPledge();
-              // this.router.navigate([this.redirectTo]);
+        if (this.esignSuccess) {
+          if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
+            this.model['emergencyDetails'] = {}
+          }
+
+          if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
+            this.model['notificationDetails'] = {}
+          }
+
+          this.checkOtherVal();
+
+          await this.http.post<any>(`${getDonorServiceHost()}/register/Pledge`, this.model).subscribe((res) => {
+            this.hideLoader();
+            if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+
+
+              if (this.isSaveAsDraft == "Pending") {
+                this.toastMsg.success('Success', "Successfully Saved !!");
+              } else {
+                this.modalSuccessPledge();
+              }
+
+
+            } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+              this.toastMsg.error('error', res.params.errmsg);
+              this.isSubmitForm = false;
+            }
+          }, (err) => {
+            if (err.error.params != undefined) {
+              this.hideLoader();
+              this.toastMsg.error('error', err.error.params.errmsg);
+              this.isSubmitForm = false;
             }
 
+          });
 
-          } else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
-            this.toastMsg.error('error', res.params.errmsg);
-            this.isSubmitForm = false;
+          if (!this.eSignWindowClosed) {
+            localStorage.removeItem(this.model['identificationDetails']['abha']);
+            localStorage.removeItem('isVerified');
           }
-        }, (err) => {
-          if(err.error.params != undefined){
-            this.hideLoader();
-            this.toastMsg.error('error', err.error.params.errmsg);
-            this.isSubmitForm = false;
-          }
-        
-        });
-
-        if(!this.eSignWindowClosed){
-          localStorage.removeItem(this.model['identificationDetails']['abha']);
-          localStorage.removeItem('isVerified');
         }
-     
+
       });
     } else {
       this.callPostAPI();
-    } 
-  
+    }
+
   }
 
   async callPostAPI(url = this.apiUrl) {
@@ -2515,7 +2495,7 @@ export class FormsComponent implements OnInit {
     this.routeNew = "/esign/init/" + this.entityName + "/" + this.identifier;
 
     await this.http.put<any>(`${getDonorServiceHost()}` + this.routeNew, { data: this.model }).subscribe(async (res) => {
-     
+
       let x = screen.width / 2 - 500;
       let y = screen.height / 2 - 400;
       const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
@@ -2530,15 +2510,15 @@ export class FormsComponent implements OnInit {
     \t</script>`);
       eSignWindow.focus();
       let _self = this;
-    let checkLoaderStatus = setInterval(checkWindowStatus, 1000);
-    function checkWindowStatus() {
+      let checkLoaderStatus = setInterval(checkWindowStatus, 1000);
+      function checkWindowStatus() {
         if (eSignWindow.closed) {
           _self.hideLoader();
           clearInterval(checkLoaderStatus);
           checkESignStatus = false;
           _self.eSignWindowClosed = true;
         }
-    }
+      }
       let checkESignStatus = true;
       let count = 0;
       while (checkESignStatus) {
@@ -2546,10 +2526,22 @@ export class FormsComponent implements OnInit {
           this.http.get<any>(`${getDonorServiceHost()}/esign/${this?.model['identificationDetails']['abha']}/status`)
             .subscribe((res) => {
               checkESignStatus = false;
+              this.esignSuccess = true;
               console.log(res)
-              
-            }, (err) => {
-              console.log(err)
+
+            }, ({ error: err }) => {
+              if (err?.code === "2") {
+                checkESignStatus = false;
+                let errMsg = err?.errors.join(",  <br>");
+                this.toastMsg.error("Error", errMsg);
+              } else if (err.code === "3") {
+                if (err?.preventThirdParty === true) {
+                  checkESignStatus = false;
+                  let errMsg = err?.errors.join(",  <br>");
+                  this.toastMsg.error("Error", errMsg);
+                }
+              }
+              console.log(err);
             });
         } catch (e) {
           console.log(e)
@@ -2561,51 +2553,48 @@ export class FormsComponent implements OnInit {
         }
       }
       eSignWindow.close();
-      this.checkOtherVal();
-      if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
-        this.model['emergencyDetails'] = {}
-      }
-
-      if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
-        this.model['notificationDetails'] = {}
-      }
-
-      this.tempUrl = `${getDonorServiceHost()}/register/Pledge` + "/" + this.identifier;
-      // this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
-      await this.http.put<any>(this.tempUrl, this.model).subscribe((res) => {
-        this.hideLoader();
-        if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-          if (this.form == 'signup' && this.identifier) {
-            this.openModal('pledgeAgainCardModal');
-          }
-          if (this.form == 'pledge-setup' && this.identifier) {
-
-
-
-            this.openModal('editCardModal');
-          }
-
+      if (this.esignSuccess) {
+        this.checkOtherVal();
+        if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
+          this.model['emergencyDetails'] = {}
         }
-        else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
-          this.toastMsg.error('error', res.params.errmsg);
-          this.isSubmitForm = false;
+
+        if (this.model.hasOwnProperty('notificationDetails') && this.model['notificationDetails']['relation'] == "") {
+          this.model['notificationDetails'] = {}
+        }
+
+        this.tempUrl = `${getDonorServiceHost()}/register/Pledge` + "/" + this.identifier;
+        await this.http.put<any>(this.tempUrl, this.model).subscribe((res) => {
           this.hideLoader();
-        }
-      }, (err) => {
-        this.hideLoader();
-        this.toastMsg.error('error', err.error.params.errmsg);
-        this.isSubmitForm = false;
-        this.hideLoader();
-      });
+          if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+            if (this.form == 'signup' && this.identifier) {
+              this.openModal('pledgeAgainCardModal');
+            }
+            if (this.form == 'pledge-setup' && this.identifier) {
+              this.openModal('editCardModal');
+            }
 
-      setTimeout(() => {
-        
-          if(!this.eSignWindowClosed){
+          }
+          else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+            this.toastMsg.error('error', res.params.errmsg);
+            this.isSubmitForm = false;
+            this.hideLoader();
+          }
+        }, (err) => {
+          this.hideLoader();
+          this.toastMsg.error('error', err.error.params.errmsg);
+          this.isSubmitForm = false;
+        });
+
+        setTimeout(() => {
+
+          if (!this.eSignWindowClosed) {
             localStorage.removeItem(this.model['identificationDetails']['abha']);
             localStorage.removeItem('isVerified');
           }
-        
-      }, 3000);
+
+        }, 3000);
+      }
 
     });
   }
@@ -2633,8 +2622,7 @@ export class FormsComponent implements OnInit {
   }
 
 
-  openModal(id)
-  {
+  openModal(id) {
     var button = document.createElement("button");
     button.setAttribute('data-toggle', 'modal');
     button.setAttribute('data-target', `#${id}`);
@@ -2772,8 +2760,8 @@ export class FormsComponent implements OnInit {
   confirmInfo() {
     this.submit();
   }
-  
-  addLoader(){
+
+  addLoader() {
 
     const elements = document.getElementsByClassName('loader');
 
@@ -2781,7 +2769,7 @@ export class FormsComponent implements OnInit {
       const firstElement = elements[0] as HTMLElement;
       // Now you can access the style property
       firstElement.style.display = 'block';
-      if(document.getElementsByTagName("body")[0] != null){
+      if (document.getElementsByTagName("body")[0] != null) {
         document.getElementsByTagName("body")[0].style.opacity = "0.4";
 
       }
@@ -2789,21 +2777,21 @@ export class FormsComponent implements OnInit {
 
   }
 
-  hideLoader(){
+  hideLoader() {
     const elements = document.getElementsByClassName('loader');
 
     if (elements.length > 0) {
       const firstElement = elements[0] as HTMLElement;
       // Now you can access the style property
       firstElement.style.display = 'none';
-      if(document.getElementsByTagName("body")[0] != null){
+      if (document.getElementsByTagName("body")[0] != null) {
         document.getElementsByTagName("body")[0].style.opacity = "1";
       }
-     
+
 
     }
   }
-  
+
   getValue(item, fieldsPath) {
     var propertySplit = fieldsPath.split(".");
 
