@@ -75,7 +75,9 @@
       "$.notificationDetails.mobileNumber",
       "$.emergencyDetails.name",
       "$.emergencyDetails.relation",
-      "$.emergencyDetails.mobileNumber"
+      "$.emergencyDetails.mobileNumber",
+      "$.aadhaar",
+      "$._osSignedData"
     ],
     "enableSearch": "false",
     "indexFields": [],

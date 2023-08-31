@@ -16,7 +16,12 @@ async function getMetrics(req, res) {
         let dataFromMetricsSerice = ((await axios.get(metricsURL)).data);
         let keys =  await redis.getAllKeys(key);
         keys = keys.filter((i) => i.length === lengthOfKey);
-        dataFromMetricsSerice[schemaType.toString().toLowerCase()]["UNPLEDGED"] = await getUnpledgedCount( keys);
+        if (Object.keys(dataFromMetricsSerice).length > 0 ) {
+            dataFromMetricsSerice[schemaType.toString().toLowerCase()]["UNPLEDGED"] = await getUnpledgedCount( keys);
+        } else {
+            dataFromMetricsSerice[schemaType.toString().toLowerCase()] = {};
+            dataFromMetricsSerice[schemaType.toString().toLowerCase()]["UNPLEDGED"] = await getUnpledgedCount( keys);
+        }
         res.json(dataFromMetricsSerice);
     } catch (err) {
         const error = utils.getErrorObject(err)

@@ -17,51 +17,25 @@ async function migrateDataToCH (entityName, entityId, accessToken) {
             'Authorization': `Bearer ${accessToken}`,
         }
     });
-    let transformedData = transformTheData(getTheDataFromRegistry.data);
-    let telemertryObject = getTelemtryObject( entityName , entityId,transformedData);
-    await kafkaClient.produceEventToKafka(topicName, telemertryObject) 
-    console.log("Migration was successfull!");
-
+    if (getTheDataFromRegistry.data && getTheDataFromRegistry.data != '') {
+      let transformedData = transformTheData(getTheDataFromRegistry.data, entityName);
+      let telemertryObject = getTelemtryObject( entityName , entityId,transformedData);
+      await kafkaClient.produceEventToKafka(topicName, telemertryObject) 
+      console.log("Migration was successfull!");
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    console.log(error?.response?.data);
     throw new Error("Error While DB Migration : ", error);
   }
 }
 
-let internalFields = [
-  "$.personalDetails.firstName",
-  "$.personalDetails.middleName",
-  "$.personalDetails.lastName",
-  "$.personalDetails.fatherName",
-  "$.personalDetails.motherName",
-  "$.personalDetails.dob",
-  "$.personalDetails.gender",
-  "$.personalDetails.bloodGroup",
-  "$.personalDetails.emailId",
-  "$.personalDetails.mobileNumber",
-  "$.personalDetails.photo",
-  "$.identificationDetails.abha",
-  "$.addressDetails.addressLine1",
-  "$.addressDetails.addressLine2",
-  "$.addressDetails.state",
-  "$.addressDetails.country",
-  "$.addressDetails.district",
-  "$.addressDetails.pincode",
-  "$.notificationDetails.name",
-  "$.notificationDetails.relation",
-  "$.notificationDetails.mobileNumber",
-  "$.emergencyDetails.name",
-  "$.emergencyDetails.relation",
-  "$.emergencyDetails.mobileNumber",
-  "$.pledgeDetails",
-  "$.aadhaar",
-  "$._osSignedData"
-]
 
-
-function transformTheData (data) {
+function transformTheData (data, entityName) {
   let transformedData = data
-  let getInternalFeilds = internalFields;
+  let getInternalFeilds = require(`../schemas/${entityName}.json`);
+  if (getInternalFeilds?._osConfig?.internalFields) getInternalFeilds = getInternalFeilds?._osConfig?.internalFields 
+  else throw new Error("Couldnt fetch the schema / internal feilds - check the schema directory!");
   for (let i=0 ; i < getInternalFeilds.length; i++) {
       let attribute = getInternalFeilds[i].split('$.')[1];
       op.del(transformedData, attribute);

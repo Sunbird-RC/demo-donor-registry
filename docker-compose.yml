@@ -78,7 +78,7 @@ services:
       - invite_required_validation_enabled=false
       - invite_signature_enabled=false
       - event_enabled=true
-      - event_topic=metrics
+      - event_topic=events
       - event_providerName=dev.sunbirdrc.registry.service.impl.KafkaEventService
     ports:
       - "8081:8081"
@@ -266,6 +266,9 @@ services:
         condition: service_healthy
   clickhouse:
     image: clickhouse/clickhouse-server:head-alpine
+    volumes:
+      - ./${ClickHosue_DIR-ch-data}:/var/lib/clickhouse
+      - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/app/schemas
     ports:
       - "9002:9000"
     healthcheck:
@@ -326,6 +329,8 @@ services:
       - "8003:8003"
   donor-service:
     build: backend/donor-service
+    volumes:
+      - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/app/schemas
     ports:
       - "3000:3000"
     healthcheck:
