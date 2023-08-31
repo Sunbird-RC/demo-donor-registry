@@ -5,7 +5,7 @@ const { Kafka, Partitioners } = require('kafkajs');
 async function produceEventToKafka(topic, telemetryEvent) {
 
 const kafka = new Kafka({
-  clientId: 'test-For-DB-Migration',
+  clientId: 'dB-Migration',
   brokers: config.KAFKA_BROKER?.split(","), // List your Kafka brokers
   createPartitioner: Partitioners.LegacyPartitioner
 });
