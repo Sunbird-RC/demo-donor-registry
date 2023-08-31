@@ -1,25 +1,24 @@
 {
-  "/api/v1": {
-    "target": "http://localhost:8081",
+  "/registry/api/v1": {
+    "target": "https://demo-nha-donor-registry.sunbirdrc.dev",
     "changeOrigin": true,
     "logLevel": "debug",
     "secure": false
 
   },
 
-  "/api": {
-    "target": "http://localhost:8081",
+  "/registry/api": {
+    "target": "https://demo-nha-donor-registry.sunbirdrc.dev",
     "changeOrigin": true,
     "logLevel": "debug",
     "secure": false
 
   },
 
-  "/api/docs": {
-    "target": "http://localhost:8081",
+  "/registry/api/docs": {
+    "target": "https://demo-nha-donor-registry.sunbirdrc.dev",
     "changeOrigin": true,
     "logLevel": "debug",
     "secure": false
-
   }
 }
