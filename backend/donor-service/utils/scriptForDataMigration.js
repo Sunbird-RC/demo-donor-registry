@@ -2,7 +2,6 @@ const { default: axios } = require('axios');
 const config = require('../configs/config');
 const op = require('object-path');
 const kafkaClient =require('../services/kafka.producer');
-const { Kafka, Partitioners } = require('kafkajs');
 
 
 const topicName = `${config.METRICS_TOPIC}`; 
@@ -20,7 +19,7 @@ async function migrateDataToCH (entityName, entityId, accessToken) {
     if (getTheDataFromRegistry.data && getTheDataFromRegistry.data != '') {
       let transformedData = transformTheData(getTheDataFromRegistry.data, entityName);
       let telemertryObject = getTelemtryObject( entityName , entityId,transformedData);
-      await kafkaClient.produceEventToKafka(topicName, telemertryObject) 
+      await kafkaClient.emitEventToKafka(topicName, telemertryObject) 
       console.log("Migration was successfull!");
     }
   } catch (error) {

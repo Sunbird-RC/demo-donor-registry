@@ -2,7 +2,7 @@ const config = require('../configs/config');
 const { Kafka, Partitioners } = require('kafkajs');
 
 // Connect and send the event
-async function produceEventToKafka(topic, telemetryEvent) {
+async function emitEventToKafka(topic, telemetryEvent) {
 
 const kafka = new Kafka({
   clientId: 'dB-Migration',
@@ -26,6 +26,6 @@ const producer = kafka.producer();
 }
 
 module.exports = {
-  produceEventToKafka
+  emitEventToKafka
 }
 

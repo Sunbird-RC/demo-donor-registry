@@ -77,7 +77,7 @@ services:
       - external_entities=nha-admin
       - invite_required_validation_enabled=false
       - invite_signature_enabled=false
-      - event_enabled=true
+      - event_enabled=${ENABLE_METRICS_SERVICE-false}
       - event_topic=${METRICS_TOPIC-events}
       - event_providerName=dev.sunbirdrc.registry.service.impl.KafkaEventService
     ports:
@@ -374,5 +374,5 @@ services:
       ESIGN_VALIDATION_KAFKA_TOPIC: ${ESIGN_VALIDATION_KAFKA_TOPIC}
       ESIGN_VALIDATION_KAFKA_TOPIC_GROUP: ${ESIGN_VALIDATION_KAFKA_TOPIC_GROUP}
       METRICS_URL: ${METRICS_URL}
-      KAFKA_BROKER: ${KAFKA_BROKER}
+      KAFKA_BROKER_FOR_METRICS_SERVICE: ${KAFKA_BROKER_FOR_METRICS_SERVICE}
       METRICS_TOPIC: ${METRICS_TOPIC}
