@@ -6,7 +6,7 @@ async function emitEventToKafka(topic, telemetryEvent) {
 
 const kafka = new Kafka({
   clientId: 'dB-Migration',
-  brokers: config.KAFKA_BROKER?.split(","), // List your Kafka brokers
+  brokers: config.KAFKA_BROKER_FOR_METRICS_SERVICE?.split(","), // List your Kafka brokers
   createPartitioner: Partitioners.LegacyPartitioner
 });
 
