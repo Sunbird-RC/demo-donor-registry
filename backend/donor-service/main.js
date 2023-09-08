@@ -25,6 +25,8 @@ const {PLEDGE_STATUS, GENDER_MAP, SOCIAL_SHARE_TEMPLATE_MAP} = require('./config
 const app = express();
 const {convertToSocialShareResponse} = require("./utils/utils");
 const consumer = require("./services/esign.consumer");
+const metricsService = require('./services/metrics.service');
+const dataMigrationScript = require('./utils/scriptForDataMigration');
 
 (async() => {
     await redis.initRedis({REDIS_URL: config.REDIS_URL});
@@ -749,4 +751,36 @@ app.use(function(err, req, res, next) {
         message: "Internal server error"
     })
 });
+
+// Metrics Sercvice Integration
+app.get('/getMetrics/:schemaType', (req,res) => metricsService.getMetrics(req,res));
+
+
+// Data Migration Script for NHA PROD
+// 
+// pathParmas ---> entityName ex: /Pledge
+// sample request body : 
+// {
+//     "osIdArray" : ["b6189f8f-9ef3-499f-961b-94bdd540f3cd"]
+// }
+app.post('/pushDataToCH/:entityName', async (req,res) => {
+    let entityName = req.params.entityName;
+    let osidArray = req.body.osIdArray;
+    console.log(osidArray, entityName);
+    let accessToken = await getServiceAccountToken();
+    try {
+        for (let i=0 ; i< osidArray.length; i++) {
+            await dataMigrationScript.migrateDataToCH(entityName,osidArray[i], accessToken);
+            await new Promise(resolve => setTimeout(resolve, 500)); // wait for 500 millisecons
+        }
+        res.status(200).send({
+            message: "Data Migaration Successfull!",
+        })
+    } catch (error) {
+        console.log("error while db migraiton",error);
+        res.status(500).send(error)
+    }
+    
+})
+
 app.listen('3000');

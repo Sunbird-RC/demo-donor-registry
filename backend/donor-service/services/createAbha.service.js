@@ -50,7 +50,7 @@ async function verifyAadhaarOTP(req, res) {
             res.json({new: verifyAadhaarOTPResponse.new, txnId: verifyAadhaarOTPResponse.txnId})
             return;
         }
-        let abhaRegistered = await isABHARegistered(verifyAadhaarOTPResponse.healthIdNumber, true)
+        let abhaRegistered = await isABHARegistered(verifyAadhaarOTPResponse.healthIdNumber)
         if (abhaRegistered) {
             await utils.checkForPledgeStatusAndReturnError(verifyAadhaarOTPResponse.healthIdNumber);
         }

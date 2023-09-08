@@ -43,6 +43,10 @@
         "instituteReference": {
           "type": "string",
           "title": "Mention the Institution/NGO through which you are taking the pledge"
+        },
+        "pledgeStatus":{
+          "type": "string",
+          "title": "Pledge Status"
         }
       }
     }
@@ -60,10 +64,20 @@
       "$.personalDetails.emailId",
       "$.personalDetails.mobileNumber",
       "$.identificationDetails.abha",
-      "$.addressDetails",
-      "$.pledgeDetails",
-      "$.notificationDetails",
-      "$.instituteReference"
+      "$.addressDetails.addressLine1",
+      "$.addressDetails.addressLine2",
+      "$.addressDetails.state",
+      "$.addressDetails.country",
+      "$.addressDetails.district",
+      "$.addressDetails.pincode",
+      "$.notificationDetails.name",
+      "$.notificationDetails.relation",
+      "$.notificationDetails.mobileNumber",
+      "$.emergencyDetails.name",
+      "$.emergencyDetails.relation",
+      "$.emergencyDetails.mobileNumber",
+      "$.aadhaar",
+      "$._osSignedData"
     ],
     "enableSearch": "false",
     "indexFields": [],

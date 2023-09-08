@@ -32,7 +32,7 @@ services:
       timeout: 5s
       retries: 5
   registry:
-    image: tejashjl/sunbird-rc-core:v0.0.13-7
+    image: dockerhub/sunbird-rc-core:v0.0.14
     volumes:
       - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/home/sunbirdrc/config/public/_schemas
     environment:
@@ -77,6 +77,9 @@ services:
       - external_entities=nha-admin
       - invite_required_validation_enabled=false
       - invite_signature_enabled=false
+      - event_enabled=${ENABLE_METRICS_SERVICE-false}
+      - event_topic=${METRICS_TOPIC-events}
+      - event_providerName=dev.sunbirdrc.registry.service.impl.KafkaEventService
     ports:
       - "8081:8081"
     depends_on:
@@ -84,6 +87,8 @@ services:
         condition: service_healthy
       db:
         condition: service_healthy
+      kafka:
+        condition: service_started
     healthcheck:
       test: [ "CMD-SHELL", "wget -nv -t1 --spider http://localhost:8081/health || exit 1" ]
       interval: 30s
@@ -217,33 +222,57 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
-#  zookeeper:
-#    image: confluentinc/cp-zookeeper:latest
-#    ports:
-#      - "2181:2181"
-#    environment:
-#      ZOOKEEPER_CLIENT_PORT: "2181"
-#      ZOOKEEPER_TICK_TIME: "2000"
-#  kafka:
-#    image: confluentinc/cp-kafka:latest
-#    depends_on:
-#      zookeeper:
-#        condition: service_started
-#    ports:
-#      - "9092:9092"
-#    environment:
-#      KAFKA_BROKER_ID: "1"
-#      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-#      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9092,OUTSIDE://localhost:9094"
-#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT"
-#      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
-#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
-#    healthcheck:
-#      test:
-#        [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
-#      interval: 30s
-#      timeout: 10s
-#      retries: 10
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: "2181"
+      ZOOKEEPER_TICK_TIME: "2000"
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      zookeeper:
+        condition: service_started
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: "1"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9092,OUTSIDE://localhost:9094"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+    healthcheck:
+      test:
+        [ "CMD", "kafka-topics", "--list", "--zookeeper", "zookeeper:2181" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+  metrics:
+    image: dockerhub/sunbird-rc-metrics
+    environment:
+      CLICK_HOUSE_URL: clickhouse:9000
+      CLICKHOUSE_DATABASE: default
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_METRICS_TOPIC: ${METRICS_TOPIC-events}
+      REDIS_URL: redis:6379
+    ports:
+      - "8070:8070"
+    depends_on:
+      kafka:
+        condition: service_started
+      registry:
+        condition: service_healthy
+  clickhouse:
+    image: clickhouse/clickhouse-server:head-alpine
+    volumes:
+      - ./${ClickHosue_DIR-ch-data}:/var/lib/clickhouse
+      - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/app/schemas
+    ports:
+      - "9002:9000"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
   public-key-service:
     image: dockerhub/sunbird-rc-public-key-service
     environment:
@@ -300,6 +329,8 @@ services:
       - "8003:8003"
   donor-service:
     build: backend/donor-service
+    volumes:
+      - ${PWD}/${SCHEMA_DIR-java/registry/src/main/resources/public/_schemas}:/app/schemas
     ports:
       - "3000:3000"
     healthcheck:
@@ -342,3 +373,6 @@ services:
       ESIGN_VALIDATION_KAFKA_BROKERS: ${ESIGN_VALIDATION_KAFKA_BROKERS}
       ESIGN_VALIDATION_KAFKA_TOPIC: ${ESIGN_VALIDATION_KAFKA_TOPIC}
       ESIGN_VALIDATION_KAFKA_TOPIC_GROUP: ${ESIGN_VALIDATION_KAFKA_TOPIC_GROUP}
+      METRICS_URL: ${METRICS_URL}
+      KAFKA_BROKER_FOR_METRICS_SERVICE: ${KAFKA_BROKER_FOR_METRICS_SERVICE}
+      METRICS_TOPIC: ${METRICS_TOPIC}
