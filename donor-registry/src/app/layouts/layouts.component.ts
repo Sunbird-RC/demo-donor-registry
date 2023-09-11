@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
-import { GeneralService } from '../services/general/general.service';
+import {GeneralService, getDonorServiceHost} from '../services/general/general.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { DomSanitizer, Title } from '@angular/platform-browser';
@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./layouts.component.scss']
 })
 export class LayoutsComponent implements OnInit, OnChanges {
+  [x: string]: any;
   @Input() layout;
   @Input() publicData;
 
@@ -46,8 +47,11 @@ export class LayoutsComponent implements OnInit, OnChanges {
   userName: any;
   tcUser: any;
   propertyName: any;
-
-
+  isUnPledge = false;
+  selectLang = ["Assamese", "Bengali", "Gujarati","Hindi", "Kannada", "Malayalam", "Marathi", "Odia", "Punjabi", "Tamil", "Telugu", "Urdu"]
+  languageNotSelected:boolean = false;
+  isLanguageSelected : boolean = false;
+  @ViewChild('modalRef') modalRef: any;
   constructor(private route: ActivatedRoute, public schemaService: SchemaService, private titleService: Title, public generalService: GeneralService, private modalService: NgbModal,
     public router: Router, public translate: TranslateService, public sanitizer: DomSanitizer,
     private http: HttpClient,
@@ -61,6 +65,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
+    //share button social media
     this.subHeadername = [];
     if (this.publicData) {
       this.model = this.publicData;
@@ -129,6 +134,7 @@ export class LayoutsComponent implements OnInit, OnChanges {
   }
 
   addData() {
+    if(this.layoutSchema.blocks.length){
     this.layoutSchema.blocks.forEach(block => {
       this.property = [];
       block['items'] = [];
@@ -416,6 +422,9 @@ export class LayoutsComponent implements OnInit, OnChanges {
       this.Data.push(block)
       this.schemaloaded = true;
     });
+  }else{
+    this.schemaloaded = true;
+  }
   }
 
   pushData(data) {
@@ -440,25 +449,56 @@ export class LayoutsComponent implements OnInit, OnChanges {
         this.model = res
       }
       else {
+        if(this.layout === 'pledge')
+        {
+          this.model = res;
+        }else{
+
+        
         if (res.length > 1) {
           this.model = res[res.length - 1];
+        
           this.identifier = res[res.length - 1].osid;
         } else {
           this.model = res[0];
           this.identifier = res[0].osid;
         }
       }
-      if (this.layout === 'pledge') {
+      }
+
+
+     /* if (this.layout === 'pledge') {
         if ('photo' in this.model['personalDetails']) {
           delete this.model['personalDetails']['photo'];
         }
-      }
+
+       this.isUnPledge = (!this.model['pledgeDetails'].organs.length && !this.model['pledgeDetails'].tissues.length) ? true : false;
+       
+      }*/
       this.getHeadingTitle(this.model);
 
       this.Data = [];
       localStorage.setItem('osid', this.identifier);
       this.addData()
     });
+  }
+
+  modalSuccessPledge(id = "downloadCardModalPledge") {
+    var button = document.createElement("button");
+    button.setAttribute('data-toggle', 'modal');
+    button.setAttribute('data-target', `#${id}`);
+    document.body.appendChild(button)
+    button.click();
+    button.remove();
+
+  }
+
+  pledgeAgain(id){
+    console.log(typeof(id));
+    var a = document.getElementById('myId'); //or grab it by tagname etc
+    var c = "form/signup/" + id;
+    a.setAttribute("href",c);
+    this.modalSuccessPledge('confirmationModalPledgeAgain');
   }
 
   includeFields(fields) {
@@ -596,6 +636,66 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
+  onSelectLanguage(language: any){
+    this.selectedLanguageIndex = this.selectLang.indexOf(language);
+    this.isLanguageSelected = this.selectedLanguageIndex !== -1 || undefined;
+    if(this.isLanguageSelected){
+      this.languageNotSelected = false;
+    }
+  }
+  
+  checkIndex(i) {
+    this.index = i
+  }
+
+  downloadPledgeCard(){
+    if (!this.isLanguageSelected) {
+      this.languageNotSelected = true;
+    }
+    if(this.isLanguageSelected){
+    this.languageNotSelected = false;
+    if (this.modalRef) {
+      this.modalRef.nativeElement.classList.remove('show');
+      this.modalRef.nativeElement.style.display = 'none';
+      const modalBackdrop = document.querySelector('.modal-backdrop.fade.show');
+      if (modalBackdrop) {
+        modalBackdrop.remove();
+      }
+    }
+    this.mode = this.getDeviceInfo();
+    this.orientation = (!this.mode) ? "_landscape" : '_portrait';    
+    this.selectedLanguage = this.selectLang[this.selectedLanguageIndex];
+    this.languageKey = this.selectedLanguage.toLowerCase() + '_portrait';
+
+    let pdfName = this.model[this.index].osid;
+
+    let headerOptions = new HttpHeaders({
+      'template-key': this.languageKey,
+      'Accept': 'application/pdf'
+    });
+
+    let requestOptions = { headers: headerOptions, responseType: 'blob' as 'blob' };
+    // post or get depending on your requirement
+    this.http.get(this.config.getEnv('baseUrl') + '/Pledge/' + pdfName, requestOptions).pipe(map((data: any) => {
+      let blob = new Blob([data], {
+        type: 'application/pdf' // must match the Accept type
+      });
+    
+      var link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = pdfName + '.pdf';
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+
+    })).subscribe((result: any) => {
+    });
+  }
+  }
+
+  getDeviceInfo() {
+    var r = new RegExp("Android|iPhone|iPad|iPod|BlackBerry|Mobile");
+    return r.test(navigator.userAgent);
+  }
 
   dowbloadCard() {
 
@@ -621,26 +721,35 @@ export class LayoutsComponent implements OnInit, OnChanges {
     });
   }
 
+  successDelete()
+{
+    var button = document.createElement("button");
+      button.setAttribute('data-toggle', 'modal');
+      button.setAttribute('data-target', `#successDeleteModal`);
+      document.body.appendChild(button)
+      button.click();
+      button.remove();
+}
 
-  deleteData() {
-
-
-    this.model = {
-
+  deleteData(model) {
+    model = {
       "pledgeDetails": {
-        "organs": {},
-        "tissues": {},
+        "organs": [],
+        "tissues": [],
         "others": ""
       },
-      "personalDetails": (this.model["personalDetails"]) ? this.model["personalDetails"] : {},
-      "identificationDetails": (this.model["identificationDetails"]) ? this.model["identificationDetails"] : {},
-      "addressDetails": (this.model["addressDetails"]) ? this.model["addressDetails"] : {},
-      "emergencyDetails": (this.model["emergencyDetails"]) ? this.model["emergencyDetails"] : {},
-      "notificationDetails": (this.model["notificationDetails"]) ? this.model["notificationDetails"] : {},
+      "personalDetails": (model["personalDetails"]) ? model["personalDetails"] : {},
+      "identificationDetails": (model["identificationDetails"]) ? model["identificationDetails"] : {},
+      "addressDetails": (model["addressDetails"]) ? model["addressDetails"] : {},
+      "emergencyDetails": (model["emergencyDetails"]) ? model["emergencyDetails"] : {},
+      "notificationDetails": (model["notificationDetails"]) ? model["notificationDetails"] : {},
     }
-    this.generalService.putData('/Pledge', this.identifier, this.model).subscribe((res) => {
+    this.http.delete<any>(`${getDonorServiceHost()}/Pledge/${this.resItem.osid}`).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL') {
-        this.router.navigate(['/profile/Pledge'])
+        console.log(res);
+        this.successDelete();
+        this.isUnPledge  = true;
+        //this.router.navigate(['/profile/Pledge'])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
 
@@ -650,4 +759,19 @@ export class LayoutsComponent implements OnInit, OnChanges {
 
     });
   }
+
+  actionData(res)
+  {
+      this.resItem = res;
+  }
+
+  refreshPage() {
+    window.location.reload();
+  }
+
+  navSharePage(osid)
+  {
+    this.router.navigate(["/Pledge/status/", osid]);
+  }
+  
 }

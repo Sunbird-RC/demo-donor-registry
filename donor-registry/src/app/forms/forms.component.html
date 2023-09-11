@@ -8,67 +8,73 @@
     <button *ngIf="form == 'livedonor' || form == 'recipient'" class="gobackBtn d-flex fw-bold" onClick="history.go(-1); return false;">
       <i class="fa fa-angle-left primary-text backIcon"></i>  &nbsp; &nbsp;
       <p class="p16" *ngIf="form == 'livedonor'">
-        <span class="p16" *ngIf="!identifier"> Add </span> 
-        <span class="p16" *ngIf="identifier"> Edit </span> Donor
+        <span class="p16" *ngIf="!identifier"> {{'ADD' | translate}} </span> 
+        <span class="p16" *ngIf="identifier"> {{'EDIT' | translate}} </span> {{'DONOR' | translate}}
         </p>
       <p class="p16" *ngIf="form == 'recipient'"> 
-        <span class="p16" *ngIf="!identifier"> Add </span> 
-        <span class="p16" *ngIf="identifier"> Edit </span> Recipient</p>
+        <span class="p16" *ngIf="!identifier"> {{'ADD' | translate}} </span> 
+        <span class="p16" *ngIf="identifier">  {{'EDIT' | translate}} </span> {{'RECEPIENT' | translate}}</p>
   </button>
 
-    <h3 class="font-weight-bold mb-2">  {{headingTitle}}</h3>
+  <button *ngIf="(form == 'pledge-setup' || form == 'signup') && identifier" class="gobackBtn d-flex fw-bold my-3" onClick="history.go(-1); return false;">
+    <i class="fa fa-angle-left primary-text backIcon"></i>  &nbsp; &nbsp;
+    <span class="fs-24 fw-bold" *ngIf="form == 'pledge-setup' && identifier"> {{'EDIT_DETAILS' | translate}} </span> 
+    <span class="fs-24 fw-bold" *ngIf="form == 'signup' && identifier"> {{'REGISTER_TO_PLEDGE' | translate}}</span> 
+ 
+</button>
+
+<div *ngIf="form == 'signup' && !identifier">
+  <h3 class="font-weight-bold mb-2">  {{headingTitle}}</h3>
     <h5 *ngIf="formDescription" class="font-weight-bold mb-2">  {{formDescription}}</h5>
     <h5 *ngIf="subDescription" class="font-weight-bold mb-2">  {{subDescription}}</h5>
 
+</div>
+  
     <div class="card mb-5">
       <div *ngIf="schemaloaded; else loader" class="card-body">
         <div> 
 
         
-          <form [formGroup]="form2" (ngSubmit)="submit()" *ngIf="fields">
-            <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form2"></formly-form>
+          <form [formGroup]="form2" (ngSubmit)="submit()" *ngIf="fields" #myForm="ngForm">
+            <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form2" (modelChange)="onFormChange()"></formly-form>
 
             <span *ngIf="form == 'livedonor'">
-              <span class="p14 fw-bold">I solemnly affirm and declare that:</span> <br>
-              <span class="p12">Sections 2, 9 and 19 of The Transplantation of Human Organs Act, 1994 have been explained to me and I confirm that:
+              <span class="p14 fw-bold">{{'I_AFFIRM' | translate}}</span> <br>
+              <span class="p12">{{'SECTION_TWO' | translate}}
               </span> <br>
-              <span class="p12">1. I understand the nature of criminal offences referred to in the sections.
+              <span class="p12">{{'POINT_ONE' | translate}}
               </span> <br>
-              <span class="p12">2. No payment as referred to in the sections of the Act has been made to me or will be made to me or any other person.
+              <span class="p12">{{'POINT_TWO' | translate}}
               </span>  <br>
-              <span class="p12">3. I am giving the consent and authorization to remove my <b>KIDNEY</b> of my own free will without any undue pressure, inducement, influence or allurement.
+              <span class="p12">{{'POINT_THREE' | translate}}
               </span> <br>
-              <span class="p12">4. I have been given a full explanation of the nature of the medical procedure involved and the risks involved for me in the removal of my <b>KIDNEY</b>. That explanation was given by (name of registered medical practitioner).
+              <span class="p12">{{'POINT_FOUR' | translate}}
               </span>  <br>
-              <span class="p12">5. I understand the nature of that medical procedure and of the risks to me as explained by that practitioner.
+              <span class="p12">{{'POINT_FIVE' | translate}}
               </span> <br>
-              <span class="p12">6. I understand that I may withdraw my consent to the removal of that organ at any time before the operation takes place.
+              <span class="p12">{{'POINT_SIX' | translate}}
               </span>  <br>
-              <span class="p12">7. I state that particulars filled by me in the form are true and correct to the best of my knowledge and belief and nothing material has been concealed by me.</span> <br>
-            
+              <span class="p12">{{'POINT_SEVEN' | translate}}</span> <br>
               <br />
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
                 <label class="form-check-label p14" for="flexCheckChecked">
-                 I Agree
+                  {{'I_AGREE' | translate}}
+
                 </label>
               </div>
             </span>
 
-
-            <div class="d-flex justify-content-end">
-              <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient'" type="submit" class="btn btn-primary float-end submit-button mb-2 w-155 h-50 mr-2" [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'REGISTER' | translate}}</button>
-            </div>
-
-           
             <div class="d-flex justify-content-between">
-              
+                <button id="submitBtn" *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && isVerified"  [disabled]="!isFormEdited" type="submit" class="btn-holder btn-size size-bts btn-centre">
+                  <div *ngIf="form == 'pledge-setup'">{{'SUBMIT' | translate}} </div>
+                  <div *ngIf="formSchema?.wrapper != 'stepper' && form != 'livedonor' && form != 'recipient' && form != 'pledge-setup'" >{{'REGISTER' | translate}}</div>
+                  </button>
+                <!-- <button id="submitBtn" *ngIf="form == 'pledge-setup'" type="submit" class="btn-holder btn-size size-bts btn-centre">{{'SUBMIT' | translate}}</button> -->
             
-              <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft ml-2 mt-2" [disabled]="!form2.valid">Save as Draft</button>
-              <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end btn-size"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
+              <button id="submitBtn" (click)="saveAsDraft('Pending')" *ngIf="form == 'livedonor' || form == 'recipient'" type="submit" class=" btn-save-as-draft sve-btnsv ml-2 mt-2" [disabled]="!form2.valid">{{'SAVE_AS_DRAFT' | translate}}</button>
+              <button id="submitBtn" (click)="saveAsDraft('Processing')" *ngIf="form == 'livedonor' || form == 'recipient'" type="button" class="btn-holder float-end akr size-bts"  [disabled]="!form2.valid" data-toggle="modal" data-target="#confirmationModal">{{'SUBMIT' | translate}}</button>
             </div>
-
-          
 
           </form>
         </div>
@@ -98,15 +104,15 @@
       <div class="modal-body">
         <div class="d-flex flex-column justify-content-center align-items-center">
          <div><img class="check-logo" src="assets/images/circle-check.png"></div>
-        <div class="p14 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> Confirm Pledge Registration</div>
-        <div class="p14 mb-2 mt-2 fw-bold">Please confirm to submit details</div>
+        <div class="p14 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> {{'CONFIRM_PLEDGE_REGISTRATION' | translate}}</div>
+        <div class="p14 mb-2 mt-2 fw-bold">{{'PLEASE_CONFIRM' | translate}}</div>
         <div class="container-fluid mt-3">
-        <button data-dismiss="modal"  class="btn btn-bg nav-link-color btn-sec-bg mb-2">Cancel</button>
+        <button data-dismiss="modal"  class="btn btn-style nav-link-color btn-secondary mb-2">{{'CANCEL' | translate}}</button>
         <a class="mt-3">
-          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary float-end submit-button mb-2" data-toggle="modal" data-target="#downloadCardModal" data-dismiss="modal">OK, Confirm</button>
+          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary float-end submit-button mb-2" data-toggle="modal" data-target="#downloadCardModal" data-dismiss="modal">{{'OK' | translate}}, {{'CONFIRM' | translate}}</button>
 
-       <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
-       <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
+       <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">{{'OK' | translate}}, {{'CONFIRM' | translate}}</button></a>
+       <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">{{'OK' | translate}}, {{'CONFIRM' | translate}}</button></a>
 
         </a>
       </div>
@@ -136,8 +142,178 @@
     </div>
   </div>
 </div>
-
 <!--Download card  Modal -->
+
+
+
+<!--confirmation Modal Pledge -->
+<div id="confirmationModalPledge" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationModalPledge" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">   
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
+        <div class="p24 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> Confirm Pledge Registration</div>
+        <div class="p14 mb-2 mt-2 fw-bold">Please confirm and you will be redirected to eSign Portal</div>
+        <div class="container-fluid mt-3">
+        <button data-dismiss="modal"  class="btn btn-secondary btn-style mb-2">Cancel</button>
+        <a class="mt-3">
+          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2 confirm-btn"  (click)="submit('Proceed')" data-dismiss="modal">Confirm & Proceed</button>
+
+       <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
+       <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
+
+        </a>
+      </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--confirmation Modal Pledge-->
+
+
+<!--confirmation Deatils Modal on Edit -->
+<div id="confirmationDetailsEdit" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="confirmationDetailsEdit" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">   
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+         <!-- <div><img class="check-logo" src="assets/images/circle-check.png"></div> -->
+        <div class="p24 mb-2 mt-2 fw-bold" *ngIf="form != 'livedonor' && form != 'recipient'"> Confirm Details</div>
+        <div class="p14 mb-2 mt-2">Your certificate will be updated and you will be redirected to eSign Portal</div>
+        <div class="container-fluid mt-3">
+        <button data-dismiss="modal"  class="btn btn-secondary btn-style mb-2">Cancel</button>
+        <a class="mt-3">
+          <button id=""type="submit"*ngIf="form != 'livedonor' && form != 'recipient'"  class="btn btn-primary-notto btn-stle float-end submit-button mb-2 confirm-btn"  (click)="submit('Proceed')" data-dismiss="modal">Confirm & Proceed</button>
+
+       <a *ngIf="form == 'livedonor'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
+       <a *ngIf="form == 'recipient'"> <button id=""type="submit" data-dismiss="modal" aria-label="Close" (click)="confirmInfo()" class="btn btn-primary float-end submit-button mb-2">OK, Confirm</button></a>
+
+        </a>
+      </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--confirmation Modal Pledge-->
+
+<!--Download card Modal Pledge-->
+<div  class="modal fade" id="downloadCardModalPledge"  tabindex="-1" role="dialog" aria-labelledby="downloadCardModalPledge" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">
+    
+      <div class="modal-body modal-body-mobile">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+         <div><img class="check-logo-pledge" src="assets/images/circle-check.png"></div>
+        <div class="p24 mb-2 mt-2 fw-bold">You've pledged successfully </div>
+        <div class="p14 mb-2 mt-2 text-center">To download the pledge certificate, please login with ABHA number or mobile number</div>
+        <a  href="/profile/Pledge" class="mt-3"> 
+        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">Login To Download Certificate</button>
+        </a>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--Download card  Modal Pledge-->
+
+
+<!--Edit card Modal Pledge-->
+<div  class="modal fade" id="editCardModal"  tabindex="-1" role="dialog" aria-labelledby="editCardModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">
+    
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+         <div><img class="check-logo-pledge" src="assets/images/circle-check.png"></div>
+        <div class="p24 mb-2 mt-2 fw-bold">You have successfully edited Pledge</div>
+        <div class="p14 mb-2 mt-2">To download the pledge certificate, click OK</div>
+       
+        <a  href="/profile/Pledge" class="mt-3"> 
+        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">{{'OK' | translate}}</button>
+        </a>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--Edit card  Modal Pledge-->
+
+<!--Pledge Again card Modal Pledge-->
+<div  class="modal fade" id="pledgeAgainCardModal"  tabindex="-1" role="dialog" aria-labelledby="pledgeAgainCardModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">
+    
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+         <div><img class="check-logo-pledge" src="assets/images/circle-check.png"></div>
+        <div class="p24 mb-2 mt-2 fw-bold">You have successfully pledged again</div>
+        <div class="p14 mb-2 mt-2">You can now download the pledge certificate</div>
+       
+        <a  href="/profile/Pledge" class="mt-3"> 
+        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">{{'OK' | translate}}</button>
+        </a>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--Pledge Again card  Modal Pledge-->
+
+<!--Error card Modal Pledge-->
+<div  class="modal fade" id="errorCardModal"  tabindex="-1" role="dialog" aria-labelledby="errorCardModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">
+    
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="p24 mb-2 mt-2 fw-bold">You have attempted too many times</div>
+        <div class="p14 mb-2 mt-2">Try again after some time </div>
+        <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- <button data-dismiss="modal"  class="btn btn-secondary btn-style mb-2">Cancel</button> -->
+        <!-- <a  href="/profile/Pledge" class="mt-3"> 
+        <button id=""type="submit" class="btn btn-primary-notto btn-style submit-button mb-2">{{'LOGIN' | translate}}</button>
+        </a> -->
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--Error card  Modal Pledge-->
+
+
+<!--Form Invalid card Modal Pledge-->
+<div  class="modal fade" id="formInvalidModal"  tabindex="-1" role="dialog" aria-labelledby="formInvalidModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="p-4 modal-content">
+    
+      <div class="modal-body">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+        <div class="p24 mb-2 mt-2 fw-bold">Fill up all the form fields</div>
+      
+    <!-- ?    <button data-dismiss="modal"  class="btn btn-secondary btn-style mb-2">Cancel</button> -->
+      
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>  
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!--Form Invalid Pledge-->
 
 <div *ngIf="schemaloaded; else loader" class="card-body">
   <div *ngIf="modal==='true'; else noModal" class="modal-body">
@@ -181,7 +357,7 @@
   <br>
   <div class="d-flex justify-content-center">
     <div class="spinner-border" style="width: 5rem; height: 5rem;" role="status">
-      <span class="sr-only">{{'LOADING'| translate}}| translate}}...</span>
+      <span class="sr-only">{{'LOADING'| translate}}...</span>
     </div>
   </div>
 </ng-template>

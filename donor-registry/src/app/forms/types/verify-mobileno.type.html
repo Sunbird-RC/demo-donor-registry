@@ -1,0 +1,190 @@
+<div>
+  <span class="fw-bold p12">{{ to.label }} <span class="red">*</span></span> <br />
+  <div class="d-flex">
+    <input oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9]/g,'')" id="{{ field.key }}"
+      [maxlength]="10" [formControl]="formControl" [formlyAttributes]="field" pattern="[1-9]{1}[0-9]{1}[0-9]{8}"
+      [ngClass]="isNumberValid ? 'form-control' : 'form-control is-invalid'" required />
+    <span class="fw-bold p14 pointer btn-holder btn-verify btn-verify-mobile" *ngIf="!isVerify" id="verifybtn"
+      (click)="verifyOtp(field.key)"> Verify </span>
+    <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerify">
+      <i class="fa fa-check-circle" aria-hidden="true"></i>
+    </span>
+  </div>
+  <div *ngIf="signupForm" class="p12 w-300">
+    {{ 'LINK_TO_ABHA' | translate }}
+    <a href="http://healthidsbx.abdm.gov.in/" target="_blank">{{
+        'LINK' | translate
+        }}</a>
+</div>
+  <div class="p12" id="mobmessage"></div>
+
+
+  <!-- Enter otp popup-->
+  <div class="modal fade" id="verifyOtpPopup" tabindex="-1" role="dialog" aria-labelledby="verifyOtpPopup"
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="p-4 modal-content">
+        <div class="close float-end" data-dismiss="modal" aria-label="Close" (click)="clearVal()">
+          <button class="border-0 bg-transparent float-end" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h3 class="fw-bold mb-3">{{'CONFIRM_OTP' | translate}}</h3>
+          <p class="p14">
+            {{'ENTER_OTP_MG' | translate}}
+          </p>
+          <span class="fw-bold p12"> {{'ENTER_OTP' | translate}}</span> <br />
+          <input maxLength="6" type="input" [(ngModel)]="optVal" name="optVal" class="form-control" />
+          <br />
+          <span *ngIf="err401" class="p12 red lh-32">{{errorMessage}}</span>
+          <button type="button" (click)="submitOtp()" id="ifIncorrectOTP"
+            class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+            data-target="#incorrectOTPModal">
+            {{'CONFIRM' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Incorrect OTP entered multiple times -->
+  <div *ngIf="incorrectOtpMultipleTime" class="modal fade hide" id="incorrectOTPModal" tabindex="-1" role="dialog"
+    aria-labelledby="incorrectOTPModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="p-4 modal-content">
+        <div class="modal-body">
+          <h5 class="fw-bold mb-3 text-center"> {{'INCORRECT_OTP_MULTIPLE' | translate}}
+          </h5>
+          <div class="text-center p14 lh-32 mb-2">
+            <span>{{'REACHED_MAX_VERIFY_ATTEMT' | translate}} </span> <br />
+            <span>{{'REFRESH_BROWSER_TRY_AGAIN' | translate}} </span>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button type="button" (click)="closeModal()" data-dismiss="modal"
+              class="btn btn-primary-notto btn-style w-50 submit-button mb-2">
+              {{'OK' | translate}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- below 18 age err popup -->
+  <div class="modal fade" [hidden]="false" id="canRegister" tabindex="-1" role="dialog" aria-labelledby="canRegister"
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="p-4 modal-content">
+        <div class="close float-end" data-dismiss="modal" aria-label="Close">
+          <span class=" float-end" aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body text-center">
+          <h3 class="fw-bold mb-3">{{'THANK_YOU_MSG' | translate}} </h3>
+          <p class="p14">{{'REGISTER_AGE' | translate}}</p>
+          <a href="https://www.notto.mohfw.gov.in/WriteReadData/Portal/News/779_1_Adobe_Scan_Jun_10__2022__1_.pdf#page=52"
+            target="_blank">{{'FOR_MORE_INFO' | translate}}</a>
+          <br />
+          <br />
+          <div class="container-fluid mt-3">
+            <button type="button" class="btn btn-primary-notto btn-style w-100 submit-button mb-2" data-toggle="modal"
+              (click)="clearVal()" data-dismiss="modal" aria-label="Close">{{'OK' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Display profile list-->
+  <div class="modal fade" id="selectProfileModel" tabindex="-1" role="dialog" aria-labelledby="selectProfileModel"
+    aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="p-4 modal-content">
+        <!-- <div class="close float-end" data-dismiss="modal" aria-label="Close">
+          <span class=" float-end" aria-hidden="true">&times;</span>
+        </div> -->
+        <div class="modal-body">
+          <div *ngIf="linkedAbhaList?.mobileLinkedHid.length">
+            <p class="p24 fw-bold text-center lh-32">{{'SELECT_PROFILE' | translate}}</p>
+
+            <div *ngIf="isAllAbhaRegister" class="text-center p14 lh-32 mb-2">
+              <span>{{'FOUND_ABHA' | translate}}</span> <br />
+              <span> {{'SELECT_ABHA' | translate}}</span>
+            </div>
+            <div *ngIf="!isAllAbhaRegister" class="text-center p14 lh-32 mb-2">
+              <span>{{'FOUND_ABHA' | translate}}</span> <br />
+              <span> {{'ALL_REGISTERED' | translate}}</span>
+            </div>
+
+
+            <div class="card">
+              <div class="card-body">
+                <ul>
+                  <li class="p12 d-flex my-4" *ngFor="let profile of linkedAbhaList?.mobileLinkedHid">
+                    <div class="mr-3">
+                      <input class="form-check-input" (change)="onItemChange(profile)"
+                        [disabled]="profile?.pledged? true : false" type="radio" name="aprofile"
+                        id="{{profile.healthIdNumber}}" value="{{profile}}">
+                    </div>
+                    <div>
+                      <p>
+                        <span class="mr-2 text-grey-color"> {{'NAME' | translate}}</span>
+                        <span class="fw-bold">{{profile.name}}</span>
+                      </p>
+                      <p>
+                        <span class="mr-2 text-grey-color">ABHA number</span>
+                        <span class="fw-bold">{{profile.healthIdNumber}}</span>
+                      </p>
+                      <p class="text-success" [hidden]="!profile?.pledged">{{'ALREADY_REGISTERED' | translate}}</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <br />
+
+            <div *ngIf="isAllAbhaRegister">
+              <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
+                class="btn btn-secondary fw-bold btn-style mb-2">{{'CANCEL' | translate}}</button>
+              <a class="mt-3">
+                <button type="btn" class="btn btn-primary-notto float-end fw-bold  mb-2" data-toggle="modal"
+                  data-target="#saveProfile" data-dismiss="modal" aria-label="Close" [disabled]="!selected"
+                  (click)="getProfile()">{{'NEXT' | translate}}</button>
+              </a>
+            </div>
+            <div *ngIf="!isAllAbhaRegister" class="text-center">
+              <button data-dismiss="modal" id="cancelBtn"
+                class="btn btn-primary-notto fw-bold btn-style mb-2">{{'OK' | translate}}</button>
+              <a class="mt-3">
+              </a>
+            </div>
+          </div>
+          <div *ngIf="!linkedAbhaList?.mobileLinkedHid.length && noLinkedAbha">
+            <div *ngIf="customErrCode == '427' || customErrCode == ''">
+              <p class="p24 fw-bold text-center lh-32">{{'NO_ABHA_NO_FOUND' | translate}}</p>
+
+              <div class="text-center p14 lh-32 mb-2">
+                <span>{{'DID_NOT_ABHA_LINKED_TO_MOBILE_NO' | translate}} </span> <br />
+                <span>{{'PLEASE_ENTER_ANOTHER_MOBILE_NUMBER' | translate}} </span>
+              </div>
+            </div>
+            <div *ngIf="customErrCode == '422'">
+              <p class="p24 fw-bold text-center lh-32">{{ errorMessage }}</p>
+            </div>
+            <div class="text-center">
+              <button data-dismiss="modal" id="cancelBtn" (click)="clearVal()"
+                class="btn btn-primary-notto fw-bold btn-style mb-2">{{'OK' | translate}}</button>
+              <a class="mt-3">
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <button id="closeModalButton" [hidden]="true" data-toggle="modal" data-target="#verifyOtpPopup"
+    class="btn btn-default" data-dismiss="modal">
+    {{'CLOSE' | translate}}
+  </button>
+
+
+</div>

@@ -20,6 +20,12 @@ import { ScanQrCodeComponent } from './documents/scan-qr-code/scan-qr-code.compo
 import { BrowseDocumentsComponent } from './documents/browse-documents/browse-documents.component';
 import { PagesComponent } from './pages/pages.component';
 import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-view.component';
+import { CertificateComponent } from './certificate/certificate.component';
+// import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
+import { ShareStatusComponent } from './share-status/share-status.component';
+import { StatusComponent } from './status/status.component';
+
+
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
 const routes: Routes = [
@@ -88,6 +94,15 @@ const routes: Routes = [
 // { path: 'document/detail', component: DocDetailViewComponent, canActivate: [AuthGuard] },
 // { path: 'document/view/:id', component: DocViewComponent, canActivate: [AuthGuard] },
 { path: 'discovery', component: SearchComponent },
+{ path: 'certificate', component: CertificateComponent },
+{ path: 'certificate/:stateVal/:identifier', component: CertificateComponent, canActivate: [AuthGuard] },
+// { path: 'verify-certificate', component: VerifyCertificateComponent },
+{ path: ':layout/status/:id', component: ShareStatusComponent, canActivate: [AuthGuard]},
+{ path: 'profile/certs/share/:layout/:id/template/:templateid', component: StatusComponent },
+{ path: ':layout/status/:id/template/:templateid', component: ShareStatusComponent },
+
+
+
 // { path: 'template', component: CreateCertificateComponent },
 
 
