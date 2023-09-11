@@ -39,13 +39,13 @@
 
                     <a href="form/pledge-setup/{{item?.osid}}"
                         *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
-                        <button class="fs-14 btn btn-primary-green submit-button mt-2 fw-bold">
+                        <button class="fs-14 btn btn-primary submit-button mt-2 fw-bold">
                             {{'EDIT' | translate}}
                         </button>
                     </a>
 
                     <a *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
-                        <button class="fs-14 fw-bold btn btn-primary-green submit-button ml-2 mt-2"
+                        <button class="fs-14 fw-bold btn btn-primary submit-button ml-2 mt-2"
                             (click)="actionData(item)" data-mdb-toggle="tooltip" data-toggle="modal"
                             data-target="#deleteModalPledge">
                             {{'UNPLEDGE' | translate}}
@@ -55,11 +55,11 @@
                 <div class="pledge-btn">
                     <div *ngIf="item?.pledgeDetails?.organs?.length || item?.pledgeDetails?.tissues?.length">
                         <button type="button" data-mdb-toggle="tooltip"
-                            class="fs-14 fw-bold btn btn-primary-green submit-button" data-toggle="modal"
+                            class="fs-14 fw-bold btn btn-primary submit-button" data-toggle="modal"
                             data-target="#selectLanguage" (click)="checkIndex(i)">
                             <i aria-hidden="true" class="fa fa-download"></i> {{'DOWNLOAD_DONOR_CARD' | translate}}
                         </button>
-                           <button (click)="navSharePage(item?.osid)" type="button" class="fs-14 ml-2 fw-bold btn btn-primary-green submit-button" >
+                           <button (click)="navSharePage(item?.osid)" type="button" class="fs-14 ml-2 fw-bold btn btn-primary submit-button" >
                         <i aria-hidden="true" class="fa fa-share"></i> {{'SHARE' | translate}}
                     </button>
                         <p class="mt-1 fs-10 ml-3 fw-bold">{{item?.pledgeDetails.osUpdatedAt | date : 'dd-MM-y : H:mm'}}
@@ -69,7 +69,7 @@
 
 
                     <a *ngIf="!item?.pledgeDetails?.organs?.length && !item?.pledgeDetails?.tissues?.length">
-                        <button class="fs-14 fw-bold btn btn-primary-green submit-button"
+                        <button class="fs-14 fw-bold btn btn-primary submit-button"
                             (click)="pledgeAgain(item?.osid)">
                             Pledge Again
                         </button>
@@ -106,7 +106,7 @@
                  <p *ngIf="languageNotSelected" class="red fs-12">{{'PLZ_SELECT_LANG' | translate}}</p>
                 
                  <div class="container-fluid mt-3">
-                     <button data-dismiss="modal" class="btn btn-secondary-notto btn-style mb-2">{{'CANCEL'| translate}}</button>
+                     <button data-dismiss="modal" class="btn btn-primary btn-style mb-2">{{'CANCEL'| translate}}</button>
                      <button id="" type="submit" class="btn btn-primary-notto btn-stle float-end submit-button mb-2"
                       (click)="downloadPledgeCard()">{{'DOWNLOAD' | translate}}</button>
                  </div>
