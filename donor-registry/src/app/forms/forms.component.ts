@@ -2378,7 +2378,7 @@ export class FormsComponent implements OnInit {
         let count = 0;
         while (checkESignStatus) {
           try {
-            this.http.get<any>(res)
+            this.http.get<any>(res.signUrl)
               .subscribe((response) => {
                 checkESignStatus = false;
                 console.log(response)
