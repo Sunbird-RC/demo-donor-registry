@@ -132,13 +132,13 @@ export class SearchComponent implements OnInit {
 
         fieldset.filters.forEach((filter, index1) => {
 
-          if (this.privateFields != [] && !this.privateFields.includes('$.' + filter.propertyPath)) {
+          if (this.privateFields.length && !this.privateFields.includes('$.' + filter.propertyPath)) {
 
             let fieldObj = {
               key: filter.key,
               type: 'input',
               className: 'col-sm-4',
-              templateOptions: {
+              props: {
                 label: this.translate.instant(filter.title),
               }
             }
@@ -146,11 +146,11 @@ export class SearchComponent implements OnInit {
 
             if (filter.type == 'autocomplete') {
               fieldObj.type = 'autocomplete';
-              fieldObj['templateOptions']['label'] = this.translate.instant(filter.title);
-              fieldObj['templateOptions']['placeholder'] = this.translate.instant(filter.placeholder);
+              fieldObj['props']['label'] = this.translate.instant(filter.title);
+              fieldObj['props']['placeholder'] = this.translate.instant(filter.placeholder);
 
 
-              fieldObj['templateOptions']['search$'] = (term) => {
+              fieldObj['props']['search$'] = (term) => {
                 if (term || term != '') {
                   var formData = {
                     "filters": {},
@@ -189,7 +189,7 @@ export class SearchComponent implements OnInit {
         this.fields = [this.data[0]];
 
         fieldset.results.fields.forEach((fields) => {
-          if (this.privateFields != [] && !this.privateFields.includes('$.' + fields.property)) {
+          if (this.privateFields.length && !this.privateFields.includes('$.' + fields.property)) {
             this.cardFields.push(fields);
           }
         });

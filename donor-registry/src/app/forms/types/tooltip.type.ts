@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FieldType } from '@ngx-formly/core';
+import { FieldWrapper } from '@ngx-formly/core';
 
 @Component({
     selector: 'tooltip-code',
@@ -34,7 +34,7 @@ import { FieldType } from '@ngx-formly/core';
 <!-- other organ and tissue modal end-->
      `
 })
-export class TooltipWrapper extends FieldType {
+export class TooltipWrapper extends FieldWrapper {
  
 }
 

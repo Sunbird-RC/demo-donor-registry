@@ -6,7 +6,6 @@ import {
     Pipe,
     PipeTransform,
     OnDestroy,
-    WrappedValue,
     ChangeDetectorRef
 } from '@angular/core';
 

@@ -12,7 +12,7 @@ import { ToastMessageService } from '../services/toast-message/toast-message.ser
 import { of as observableOf } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError } from 'rxjs';
-import { templateJitUrl } from '@angular/compiler';
+// import { templateJitUrl } from '@angular/compiler';
 import { HttpClient } from "@angular/common/http";
 import { FormService } from './form.service';
 
@@ -99,13 +99,13 @@ export class FormsComponent implements OnInit {
   definations = {};
   property = {};
   ordering;
-  required = [];
+  required: any[] = [];
   entityId: string;
   form2: FormGroup;
   model = {};
   options: FormlyFormOptions;
   fields: FormlyFieldConfig[];
-  customFields = [];
+  customFields: any[] = [];
   header = null;
   exLength: number = 0
   type: string;
@@ -113,8 +113,8 @@ export class FormsComponent implements OnInit {
   redirectTo: any;
   add: boolean;
   dependencies: any;
-  privateFields = [];
-  internalFields = [];
+  privateFields: any[] = [];
+  internalFields: any[] = [];
   privacyCheck: boolean = false;
   globalPrivacy;
   searchResult: any[];
@@ -151,6 +151,7 @@ export class FormsComponent implements OnInit {
  
   ngAfterViewChecked() {
     this.cdr.detectChanges();
+    localStorage.setItem('isVerified', 'true');
     if (!this.organCheckbox) {
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues']) {
         this.removeElement("oterrormsg");
@@ -213,7 +214,7 @@ export class FormsComponent implements OnInit {
               this.model = {
                 ...this.model,
                 "personalDetails": {
-                  ...('personalDetails' in this.model ? this.model['personalDetails'] : {}),
+                  ...(typeof this.model['personalDetails'] === 'object' ? { ...this.model['personalDetails'] } : {}),
                   "firstName": this.tempData?.firstName,
                   "middleName": this.tempData?.middleName,
                   "lastName": this.tempData?.lastName,
@@ -225,7 +226,7 @@ export class FormsComponent implements OnInit {
 
                 },
                 "addressDetails": {
-                  ...('addressDetails' in this.model ? this.model['addressDetails'] : {}),
+                  ...(typeof this.model['addressDetails'] === 'object' ? { ...this.model['addressDetails'] } : {}),
                   "addressLine1": this.tempData?.address,
                   "country": "India",
                   "state": `${titleCase(this.tempData?.stateName)}`,
@@ -283,7 +284,11 @@ export class FormsComponent implements OnInit {
     });
 
     if (this.model["consent"]) {
-      document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
+      let cele = document.getElementsByClassName('consent');
+      if(cele != null){
+        let cele1 = cele[0].getElementsByTagName('input');
+        if(cele != undefined) cele1[0].classList.remove('is-invalid');
+      }
     }
 
 
@@ -795,7 +800,7 @@ export class FormsComponent implements OnInit {
     }
 
     if (this.headingTitle) {
-      this.fields[0].templateOptions.label = '';
+      this.fields[0].props.label = '';
     }
 
     if (this.add) {
@@ -813,33 +818,33 @@ export class FormsComponent implements OnInit {
 
         if (this.privateFields.length || this.internalFields.length) {
 
-          let label = fieldObj.templateOptions.label;
+          let label = fieldObj.props.label;
           let key = fieldObj.key.replace(/^./, fieldObj.key[0].toUpperCase());
 
           if (this.schema.definitions[key] && this.schema.definitions[key].hasOwnProperty('description')) {
             let desc = this.checkString(fieldObj.key, this.schema.definitions[key]['description']);
-            fieldObj.templateOptions.label = (label ? label : desc);
+            fieldObj.props.label = (label ? label : desc);
           }
 
           if (this.privateFields.indexOf('$.' + fieldObj.key) >= 0) {
-            fieldObj.templateOptions['addonRight'] = {
+            fieldObj.props['addonRight'] = {
               class: "private-access d-flex flex-column",
               text: this.translate.instant('ONLY_BY_CONSENT')
             }
-            fieldObj.templateOptions.description = this.translate.instant('VISIBILITY_ATTRIBUTE_DEFINE');
+            fieldObj.props.description = this.translate.instant('VISIBILITY_ATTRIBUTE_DEFINE');
           } else if (this.internalFields.indexOf('$.' + fieldObj.key) >= 0) {
-            fieldObj.templateOptions['addonRight'] = {
+            fieldObj.props['addonRight'] = {
               class: "internal-access d-flex flex-column",
               text: this.translate.instant('ONLY_BY_ME')
             }
-            fieldObj.templateOptions.description = this.translate.instant('VISIBILITY_ATTRIBUTE_DEFINE');
+            fieldObj.props.description = this.translate.instant('VISIBILITY_ATTRIBUTE_DEFINE');
           }
         } else {
-          fieldObj.templateOptions['addonRight'] = {
+          fieldObj.props['addonRight'] = {
             class: "public-access d-flex flex-column",
             text: this.translate.instant('ANYONE')
           }
-          fieldObj.templateOptions.description = this.translate.instant('VISIBILITY_ATTRIBUTE_DEFINE');
+          fieldObj.props.description = this.translate.instant('VISIBILITY_ATTRIBUTE_DEFINE');
         }
       });
     } else {
@@ -865,7 +870,7 @@ export class FormsComponent implements OnInit {
     if (field.children.fields && field.children.fields.length > 0) {
       this.responseData.definitions[fieldset.definition].properties[field.name]['widget'] = {
         "formlyConfig": {
-          "templateOptions": {
+          "props": {
           }
         }
 
@@ -953,7 +958,7 @@ export class FormsComponent implements OnInit {
     if (this.formSchema.wrapper) {
       this.responseData.definitions[fieldset.definition].properties['widget'] = {
         "formlyConfig": {
-          "templateOptions": {
+          "props": {
           }
         }
       }
@@ -1025,7 +1030,7 @@ export class FormsComponent implements OnInit {
               let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
               this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
                 'expressionProperties': {
-                  "templateOptions.disabled": (model, formState, field1) => {
+                  "props.disabled": (model, formState, field1) => {
 
                     if (this.model.hasOwnProperty('emergencyDetails')) {
                       if (this.model['emergencyDetails']['mobileNumber'] || this.model['emergencyDetails']['name'] || this.model['emergencyDetails']['relation']) {
@@ -1071,7 +1076,7 @@ export class FormsComponent implements OnInit {
 
               this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
                 "expressionProperties": {
-                  "templateOptions.disabled": (model, formState, field1) => {
+                  "props.disabled": (model, formState, field1) => {
 
                     if (field.condition.variableType == 'global') {
                       var val = this['field.condition.objectPath']
@@ -1121,35 +1126,35 @@ export class FormsComponent implements OnInit {
   }
 
   addLockIcon(responseData) {
-    if (responseData.access == 'private' && responseData.widget.formlyConfig.templateOptions['type'] != "hidden") {
-      if (!responseData.widget.formlyConfig.templateOptions['addonRight']) {
-        responseData.widget.formlyConfig.templateOptions['addonRight'] = {}
+    if (responseData.access == 'private' && responseData.widget.formlyConfig.props['type'] != "hidden") {
+      if (!responseData.widget.formlyConfig.props['addonRight']) {
+        responseData.widget.formlyConfig.props['addonRight'] = {}
       }
-      if (!responseData.widget.formlyConfig.templateOptions['attributes']) {
-        responseData.widget.formlyConfig.templateOptions['attributes'] = {}
+      if (!responseData.widget.formlyConfig.props['attributes']) {
+        responseData.widget.formlyConfig.props['attributes'] = {}
       }
-      responseData.widget.formlyConfig.templateOptions['addonRight'] = {
+      responseData.widget.formlyConfig.props['addonRight'] = {
         class: "private-access",
         text: this.translate.instant('ONLY_BY_CONSENT')
 
       }
-      responseData.widget.formlyConfig.templateOptions['attributes'] = {
+      responseData.widget.formlyConfig.props['attributes'] = {
         style: "width: 100%;"
       }
 
-    } else if (responseData.access == 'internal' && responseData.widget.formlyConfig.templateOptions['type'] != "hidden") {
-      if (!responseData.widget.formlyConfig.templateOptions['addonRight']) {
-        responseData.widget.formlyConfig.templateOptions['addonRight'] = {}
+    } else if (responseData.access == 'internal' && responseData.widget.formlyConfig.props['type'] != "hidden") {
+      if (!responseData.widget.formlyConfig.props['addonRight']) {
+        responseData.widget.formlyConfig.props['addonRight'] = {}
       }
-      if (!responseData.widget.formlyConfig.templateOptions['attributes']) {
-        responseData.widget.formlyConfig.templateOptions['attributes'] = {}
+      if (!responseData.widget.formlyConfig.props['attributes']) {
+        responseData.widget.formlyConfig.props['attributes'] = {}
       }
-      responseData.widget.formlyConfig.templateOptions['addonRight'] = {
+      responseData.widget.formlyConfig.props['addonRight'] = {
         class: "internal-access",
         text: this.translate.instant('ONLY_BY_ME')
 
       }
-      responseData.widget.formlyConfig.templateOptions['attributes'] = {
+      responseData.widget.formlyConfig.props['attributes'] = {
         style: "width: 100%;"
       }
     }
@@ -1187,7 +1192,7 @@ export class FormsComponent implements OnInit {
       if (this.res != undefined && !this.res.hasOwnProperty('properties')) {
         this.responseData.definitions[fieldset.definition].properties[field.name]['widget'] = {
           "formlyConfig": {
-            "templateOptions": {
+            "props": {
             },
             "validation": {},
             "expressionProperties": {},
@@ -1198,11 +1203,11 @@ export class FormsComponent implements OnInit {
 
         if (field.placeholder) {
           let placeHolder = this.checkString(this.langKey, field.placeholder);
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = placeHolder;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['placeholder'] = placeHolder;
         }
 
         if (field.description) {
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['description'] = this.generalService.translateString(this.langKey + '.' + field.description);
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['description'] = this.generalService.translateString(this.langKey + '.' + field.description);
         }
 
         if (field.classGroup) {
@@ -1228,14 +1233,14 @@ export class FormsComponent implements OnInit {
         }
 
         if (field.hidden) {
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = "hidden";
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['type'] = "hidden";
           delete this.responseData.definitions[fieldset.definition].properties[field.name]['title']
         }
         if (field.required || field.children) {
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['required'] = field.required;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['required'] = field.required;
         }
         if (field.children) {
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['required'] = true;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['required'] = true;
         }
         if (field.format && field.format === 'file') {
           if (this.type && this.type.includes("property")) {
@@ -1243,14 +1248,14 @@ export class FormsComponent implements OnInit {
           }
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.format;
           if (field.multiple) {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['multiple'] = field.multiple;
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['multiple'] = field.multiple;
           }
           this.fileFields.push(field.name);
         }
 
-        if (this.privacyCheck && this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] != "hidden" && (this.privateFields.indexOf('$.' + childrenName) < 0) && (this.internalFields.indexOf('$.' + childrenName) < 0)) {
+        if (this.privacyCheck && this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['type'] != "hidden" && (this.privateFields.indexOf('$.' + childrenName) < 0) && (this.internalFields.indexOf('$.' + childrenName) < 0)) {
           if (this.privateFields.length || this.internalFields.length) {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions'] = {
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props'] = {
               addonRight: {
                 class: "public-access",
                 text: this.translate.instant('ANYONE'),
@@ -1403,10 +1408,10 @@ export class FormsComponent implements OnInit {
       if (field.autocomplete) {
 
         this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = "autocomplete";
-        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.generalService.translateString(this.responseData.definitions[fieldset.definition].properties[field.name]['title']);
-        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['label'] = field.autocomplete.responseKey;
+        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['placeholder'] = this.generalService.translateString(this.responseData.definitions[fieldset.definition].properties[field.name]['title']);
+        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['label'] = field.autocomplete.responseKey;
         var dataval = "{{value}}"
-        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['search$'] = (term) => {
+        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['search$'] = (term) => {
           if (term || term != '') {
             var datapath = this.findPath(field.autocomplete.body, dataval, '')
             this.setPathValue(field.autocomplete.body, datapath, term)
@@ -1447,7 +1452,7 @@ export class FormsComponent implements OnInit {
           let tempObj: any = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
-            'hideExpression': (model, formState, field1) => {
+            'hideExpression': () => {
               var val = this.getValue(this.model, field.condition.objectPath);
 
               return (val != field.condition.isIt) ? true : false;
@@ -1514,7 +1519,7 @@ export class FormsComponent implements OnInit {
 
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
             'expressionProperties': {
-              "templateOptions.disabled": (model, formState, field1) => {
+              "props.disabled": (model, formState, field1) => {
 
                 if (this.model['pledgeDetails'].hasOwnProperty('organs') && this.model['pledgeDetails'].organs.length) {
                   return false;
@@ -1540,7 +1545,7 @@ export class FormsComponent implements OnInit {
 
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
               "expressionProperties": {
-                "templateOptions.disabled": (model, formState, field1) => {
+                "props.disabled": (model, formState, field1) => {
 
                   if (field.condition.variableType == 'global') {
                     var val = this['field.condition.objectPath']
@@ -1595,6 +1600,7 @@ export class FormsComponent implements OnInit {
       if (field.hasOwnProperty('required') && field.required) {
         setTimeout(() => {
           let noSpace = document.getElementsByClassName('required');
+          if(noSpace != null){
           for (var i = 0; i < noSpace.length; i++) {
             noSpace[i].addEventListener("keydown", (e) => {
               if (e['keyCode'] === 32 && e.target['selectionStart'] === 0) {
@@ -1607,6 +1613,7 @@ export class FormsComponent implements OnInit {
               label.classList.add('red');
             });
           }
+        }
 
 
         }, 1000);
@@ -1615,6 +1622,7 @@ export class FormsComponent implements OnInit {
       if (field.hasOwnProperty('onlyNumber') && field.onlyNumber) {
         setTimeout(() => {
           let mobileNumber = document.getElementsByClassName('onlyNumber');
+          if(mobileNumber != null){
           for (var i = 0; i < mobileNumber.length; i++) {
 
             mobileNumber[i].addEventListener("keydown", (e) => {
@@ -1628,6 +1636,7 @@ export class FormsComponent implements OnInit {
               }
             });
           }
+        }
         }, 1000);
       }
 
@@ -1641,9 +1650,9 @@ export class FormsComponent implements OnInit {
             localStorage.removeItem("isVerified");
           }
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XXXXXXXXXXXXXX");
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['placeholder'] = this.translate.instant("XXXXXXXXXXXXXX");
           if (field.required) {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("XXXXXXXXXXXXXX");
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['placeholder'] = this.translate.instant("XXXXXXXXXXXXXX");
           }
         }
 
@@ -1665,43 +1674,43 @@ export class FormsComponent implements OnInit {
           }
 
 
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = 'array';
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['type'] = 'array';
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
           if (this.form == 'recipient') {
             this.model['organsOrTissues'] = { 'organsNeeded': ['Liver'] }
           }
         } else if (field.type === 'multiselect') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['multiple'] = true;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['multiple'] = true;
           if (field.required) {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name) + "*";
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name) + "*";
           } else {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name);
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name);
           }
 
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'] = [];
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['options'] = [];
           this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'].forEach(enumval => {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'].push({ label: enumval, value: enumval })
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['options'].push({ label: enumval, value: enumval })
           });
         } else if (field.type === 'selectall-checkbox') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = 'selectall-checkbox';
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['multiple'] = true;
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = 'array';
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['multiple'] = true;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['type'] = 'array';
 
           if (field.required) {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name) + "*";
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name) + "*";
           } else {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name);
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['placeholder'] = this.translate.instant("SELECT") + ' ' + this.generalService.translateString(this.langKey + '.' + field.name);
           }
 
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'] = [];
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['options'] = [];
           this.responseData.definitions[fieldset.definition].properties[field.name]['items']['enum'].forEach(enumval => {
-            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['options'].push({ label: enumval, value: enumval })
+            this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['options'].push({ label: enumval, value: enumval })
           });
         }
 
         else if (field.type === 'date') {
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = 'date';
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['type'] = 'date';
           if (field.validation && field.validation.future == false) {
             this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['modelOptions'] = {
               updateOn: 'blur'
@@ -1726,7 +1735,7 @@ export class FormsComponent implements OnInit {
           }
         }
         else {
-          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['type'] = field.type;
+          this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['type'] = field.type;
         }
       }
 
@@ -1737,7 +1746,7 @@ export class FormsComponent implements OnInit {
         let temp = this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'];
         this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig'] = {
           'expressionProperties': {
-            "templateOptions.disabled": (model, formState, field1) => {
+            "props.disabled": (model, formState, field1) => {
               const notReadOnly = JSON.parse(localStorage.getItem("notReadOnly"));
               if (!notReadOnly?.includes(field.name)) {
                 this.responseData.definitions[fieldset.definition].properties[field.name]['readOnly'] = false;
@@ -1757,7 +1766,7 @@ export class FormsComponent implements OnInit {
       }
 
       if (field.disabled || field.disable) {
-        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['disabled'] = field.disabled
+        this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['props']['disabled'] = field.disabled
       };
 
 
@@ -1788,7 +1797,7 @@ export class FormsComponent implements OnInit {
 
       this.res.properties[field.name]['widget'] = {
         "formlyConfig": {
-          "templateOptions": {
+          "props": {
 
           },
           "validation": {},
@@ -1797,23 +1806,23 @@ export class FormsComponent implements OnInit {
       }
 
       if (this.privacyCheck && (this.privateFields.indexOf('$.' + ParentName) < 0) && (this.internalFields.indexOf('$.' + ParentName) < 0)) {
-        if (!this.res.properties[field.name]['widget']['formlyConfig']['templateOptions']['addonRight']) {
-          this.res.properties[field.name]['widget']['formlyConfig']['templateOptions']['addonRight'] = {}
+        if (!this.res.properties[field.name]['widget']['formlyConfig']['props']['addonRight']) {
+          this.res.properties[field.name]['widget']['formlyConfig']['props']['addonRight'] = {}
         }
-        if (!this.res.properties[field.name]['widget']['formlyConfig']['templateOptions']['attributes']) {
-          this.res.properties[field.name]['widget']['formlyConfig']['templateOptions']['attributes'] = {}
+        if (!this.res.properties[field.name]['widget']['formlyConfig']['props']['attributes']) {
+          this.res.properties[field.name]['widget']['formlyConfig']['props']['attributes'] = {}
         }
-        this.res.properties[field.name]['widget']['formlyConfig']['templateOptions']['addonRight'] = {
+        this.res.properties[field.name]['widget']['formlyConfig']['props']['addonRight'] = {
           class: "public-access",
           text: this.translate.instant('ANYONE')
         }
-        this.res.properties[field.name]['widget']['formlyConfig']['templateOptions']['attributes'] = {
+        this.res.properties[field.name]['widget']['formlyConfig']['props']['attributes'] = {
           style: "width: 90%;"
         }
       }
 
       if (field.disabled || field.disable) {
-        this.res.properties[field.name]['widget']['formlyConfig']['templateOptions']['disabled'] = field.disabled
+        this.res.properties[field.name]['widget']['formlyConfig']['props']['disabled'] = field.disabled
       };
 
       let temp_access_field = '$.' + ParentName + '.' + childrenName + '.' + field.name;
@@ -1839,20 +1848,27 @@ export class FormsComponent implements OnInit {
 
   addElement(className: string, message: string, spanClassName: string) {
     let ele = document.getElementsByClassName(className)[0];
+    if(ele != null){
     let span = document.createElement('span');
     span.setAttribute('class', `text-danger ${spanClassName}`);
     span.innerText = message;
     ele.appendChild(span);
+    }
   }
 
   removeElement(className: string) {
-    document.getElementsByClassName(className)[0]?.remove();
+    let ele = document.getElementsByClassName(className);
+    if(ele != null) ele[0]?.remove();
   }
 
   checkValidation() {
 
     const isVerify = localStorage.getItem('isVerified');
     let isformVerity = true;
+    if(this.model['pledgeDetails']['tissues'] == undefined)
+    {
+      this.model['pledgeDetails']['tissues'] = [];
+    }
     if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues']) {
       this.removeElement("oterrormsg");
       this.addElement('Organs_and_Tissues_to_Pledge', 'Please select atleast one organs or tissues', 'oterrormsg')
@@ -1865,10 +1881,18 @@ export class FormsComponent implements OnInit {
 
 
     if (!this.model['consent']) {
-      document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.add('is-invalid')
+      let cEle = document.getElementsByClassName('consent');
+      if(cEle != null){
+        let cEle1 = cEle[0].getElementsByTagName('input');
+        if(cEle1 != undefined) cEle1[0].classList.add('is-invalid');
+      }
       isformVerity = false;
     } else {
-      document.getElementsByClassName('consent')[0].getElementsByTagName('input')[0].classList.remove('is-invalid')
+      let cEle = document.getElementsByClassName('consent');
+      if(cEle != null){
+        let cEle1 = cEle[0].getElementsByTagName('input');
+        if(cEle1 != undefined) cEle1[0].classList.remove('is-invalid');
+      }
     }
 
 
@@ -1876,16 +1900,28 @@ export class FormsComponent implements OnInit {
 
       if (this.model['registrationBy'] == 'abha') {
         let dateSpan = document.getElementById('abhamessage');
+        if(dateSpan != null){
         dateSpan.classList.add('text-danger');
         dateSpan.innerText = "Please verify abha number";
-        document.getElementById('abha').classList.add('is-invalid');
-        document.getElementById('abha').focus();
+        }
+
+        let rEle =  document.getElementById('abha');
+        if(rEle != null){
+          rEle.classList.add('is-invalid');
+          rEle.focus();
+        }
       } else {
         let dateSpan = document.getElementById('mobmessage');
+        if(dateSpan != null){
         dateSpan.classList.add('text-danger');
         dateSpan.innerText = "Please verify mobile number";
-        document.getElementById('mobileno').classList.add('is-invalid');
-        document.getElementById('mobileno').focus();
+        }
+
+        let rEle =  document.getElementById('mobileno');
+        if(rEle != null){
+          rEle.classList.add('is-invalid');
+          rEle.focus();
+        }
       }
 
       isformVerity = false;
@@ -1893,14 +1929,28 @@ export class FormsComponent implements OnInit {
 
       if (this.model['registrationBy'] == 'abha') {
         let dateSpan = document.getElementById('abhamessage');
+        if(dateSpan != null){
         dateSpan.classList.remove('text-danger');
         dateSpan.innerText = "";
-        document.getElementById('abha').classList.remove('is-invalid');
+        }
+
+        let rEle =  document.getElementById('abha');
+        if(rEle != null){
+          rEle.classList.remove('is-invalid');
+        }
+
       } else {
         let dateSpan = document.getElementById('mobmessage');
+        if(dateSpan != null){
         dateSpan.classList.remove('text-danger');
         dateSpan.innerText = "";
-        document.getElementById('mobileno').classList.remove('is-invalid');
+        }
+
+        let rEle =  document.getElementById('mobileno');
+        if(rEle != null){
+          rEle.classList.remove('is-invalid');
+        }
+
       }
 
       if (!this.model['pledgeDetails']['organs'] && !this.model['pledgeDetails']['tissues'] && this.model['personalDetails']['fatherName']) {
@@ -1914,9 +1964,11 @@ export class FormsComponent implements OnInit {
 
       if (!this.model['personalDetails']['motherName'] && this.model['personalDetails']['fatherName']) {
         if (this.form == 'signup') {
-          document.getElementById("formly_31_string_motherName_4").focus();
+          let fele = document.getElementById("formly_31_string_motherName_4");
+         if(fele != null) fele.focus();
         } else {
-          document.getElementById("formly_224_string_motherName_4").focus();
+          let fele = document.getElementById("formly_224_string_motherName_4");
+          if(fele != null) fele.focus();
         }
       }
 
@@ -1935,16 +1987,17 @@ export class FormsComponent implements OnInit {
 
     this.isSubmitForm = true;
     let dateSpan = document.getElementById('mobileno');
-    dateSpan.classList.remove('ng-invalid');
+    if(dateSpan != null) dateSpan.classList.remove('ng-invalid');
 
     let aadhaardiv = document.getElementById('aadhaarMasked');
-    aadhaardiv.classList.remove('ng-invalid');
-
+    if(aadhaardiv != null) aadhaardiv.classList.remove('ng-invalid');
+    this.checkOtherVal();
     if (!this.form2.valid) {
       const firstInvalidControl: HTMLElement = this.el.nativeElement.querySelector(
         "form .ng-invalid "
       );
-      firstInvalidControl.focus();
+
+     if(firstInvalidControl) firstInvalidControl.focus();
     }
 
     if (!this.checkValidation()) {
@@ -2633,6 +2686,7 @@ export class FormsComponent implements OnInit {
 
   modalSuccess() {
     var modal = document.getElementById("confirmationModal");
+    if(modal != null){
     modal.style.display = "block";
     window.onclick = function (event) {
       if (event.target == modal) {
@@ -2640,6 +2694,7 @@ export class FormsComponent implements OnInit {
         window.location = this.router.navigate(["/login"]);
       }
     }
+  }
 
   }
 
@@ -2765,7 +2820,7 @@ export class FormsComponent implements OnInit {
 
     const elements = document.getElementsByClassName('loader');
 
-    if (elements.length > 0) {
+    if (elements != null && elements.length > 0) {
       const firstElement = elements[0] as HTMLElement;
       // Now you can access the style property
       firstElement.style.display = 'block';
@@ -2780,7 +2835,7 @@ export class FormsComponent implements OnInit {
   hideLoader() {
     const elements = document.getElementsByClassName('loader');
 
-    if (elements.length > 0) {
+    if (elements != null && elements.length > 0) {
       const firstElement = elements[0] as HTMLElement;
       // Now you can access the style property
       firstElement.style.display = 'none';

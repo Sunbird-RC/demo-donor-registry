@@ -12,7 +12,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+// import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 // formly
 import { FormlyModule, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -42,7 +42,7 @@ import { FormlyFieldFile } from './forms/types/file.type';
 import { FileValueAccessor } from './forms/types/file-value-accessor';
 import { DocViewComponent } from './layouts/doc-view/doc-view.component';
 import { FormlyFieldNgSelect } from './forms/types/multiselect.type';
-import { Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
+// import { Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { AttestationComponent } from './tables/attestation/attestation.component';
 import { InstallComponent } from './install/install.component';
@@ -58,7 +58,7 @@ import { AddDocumentComponent } from './documents/add-document/add-document.comp
 import { WebcamModule } from 'ngx-webcam';
 import { ScanDocumentComponent } from './documents/scan-document/scan-document.component';
 import { ScanQrCodeComponent } from './documents/scan-qr-code/scan-qr-code.component';
-import { QuarModule } from '@altack/quar';
+// import {QuarModule} from '@altack/quar';
 import { BrowseDocumentsComponent } from './documents/browse-documents/browse-documents.component';
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -66,53 +66,53 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { config } from 'process';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
+// import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
 
 
 
 //form validations
 export function minItemsValidationMessage(err, field: FormlyFieldConfig) {
-  return `should NOT have fewer than ${field.templateOptions.minItems} items`;
+  if(field.props) return `should NOT have fewer than ${field.props.minItems} items`;
 }
 
 export function maxItemsValidationMessage(err, field: FormlyFieldConfig) {
-  return `should NOT have more than ${field.templateOptions.maxItems} items`;
+  if(field.props) return `should NOT have more than ${field.props.maxItems} items`;
 }
 
-export function minlengthValidationMessage(err, field: FormlyFieldConfig) {
-  return `should NOT be shorter than ${field.templateOptions.minLength} characters`;
+export function minLengthValidationMessage(err, field: FormlyFieldConfig) {
+  if(field.props) return `should NOT be shorter than ${field.props.minLength} characters`;
 }
 
-export function maxlengthValidationMessage(err, field: FormlyFieldConfig) {
-  return `should NOT be longer than ${field.templateOptions.maxLength} characters`;
+export function maxLengthValidationMessage(err, field: FormlyFieldConfig) {
+  if(field.props) return `should NOT be longer than ${field.props.maxLength} characters`;
 }
 
 export function minValidationMessage(err, field: FormlyFieldConfig) {
-  return `should be >= ${field.templateOptions.min}`;
+  if(field.props)  return `should be >= ${field.props.min}`;
 }
 
 export function maxValidationMessage(err, field: FormlyFieldConfig) {
-  return `should be <= ${field.templateOptions.max}`;
+  if(field.props) return `should be <= ${field.props.max}`;
 }
 
 export function multipleOfValidationMessage(err, field: FormlyFieldConfig) {
-  return `should be multiple of ${field.templateOptions.step}`;
+  if(field.props) return `should be multiple of ${field.props.step}`;
 }
 
 export function exclusiveMinimumValidationMessage(err, field: FormlyFieldConfig) {
-  return `should be > ${field.templateOptions.step}`;
+  if(field.props) return `should be > ${field.props.step}`;
 }
 
 export function exclusiveMaximumValidationMessage(err, field: FormlyFieldConfig) {
-  return `should be < ${field.templateOptions.step}`;
+  if(field.props) return `should be < ${field.props.step}`;
 }
 
 export function constValidationMessage(err, field: FormlyFieldConfig) {
-  return `should be equal to constant "${field.templateOptions.const}"`;
+  if(field.props) return `should be equal to constant "${field.props.const}"`;
 }
 
 export function errValidatorMessage(error: any, field: FormlyFieldConfig) {
-  return `Please Enter ${field.templateOptions.label}`;
+  if(field.props) return `Please Enter ${field.props.label}`;
 }
 
 function initConfig(config: AppConfig) {
@@ -124,8 +124,8 @@ import { PagesComponent } from './pages/pages.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-import { AuthImagePipe } from '../app/layouts/doc-view/doc-view.component';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import {AuthImagePipe} from '../app/layouts/doc-view/doc-view.component';
+// import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-view.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
@@ -138,7 +138,7 @@ import { FormlyTemplateType } from './forms/types/template.type';
 import { FormlyFieldNgSelectAllCheckbox } from './forms/types/select-all-checkbox.type';
 import { CertificateComponent } from './certificate/certificate.component';
 import { TooltipWrapper } from './forms/types/tooltip.type';
-import { VerifyModule } from 'vc-verification';
+//import { VerifyModule } from 'vc-verification';
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { ShareStatusComponent } from './share-status/share-status.component';
@@ -159,7 +159,7 @@ let configData = {
     AppComponent,
     FormsComponent,
     SearchComponent,
-    ArrayTypeComponent,
+    // ArrayTypeComponent,
     ObjectTypeComponent,
     MultiSchemaTypeComponent,
     NullTypeComponent,
@@ -191,7 +191,7 @@ let configData = {
     FormlyTemplateType,
     FormlyFieldNgSelectAllCheckbox,
     CertificateComponent,
-    VerifyCertificateComponent,
+    //VerifyCertificateComponent,
     TooltipWrapper,
     ShareStatusComponent,
     SafeHtmlPipe,
@@ -208,23 +208,24 @@ let configData = {
     NgbAccordionModule,
     FormlyBootstrapModule,
     KeycloakAngularModule,
-    Bootstrap4FrameworkModule,
-    AngularMultiSelectModule,
+    // Bootstrap4FrameworkModule,
+    // AngularMultiSelectModule,
     NgSelectModule,
-    VerifyModule.forChild(configData),
-    ZXingScannerModule,
+    // VerifyModule.forChild(configData),
+    // ZXingScannerModule,
     HttpClientModule,
     TranslateModule.forRoot(),
 
     WebcamModule,
     ColorPickerModule,
-    QuarModule,
-    NgxExtendedPdfViewerModule,
+    // QuarModule,
+    // NgxExtendedPdfViewerModule,
     FormlyModule.forRoot({
       extras: { resetFieldOnHide: true },
       wrappers: [{ name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
       { name: 'panel', component: PanelWrapperComponent },
-      { name: 'tooltip', component: TooltipWrapper }],
+     { name: 'tooltip', component: TooltipWrapper }
+],
       validationMessages: [
         { name: 'required', message: errValidatorMessage },
 
@@ -235,7 +236,7 @@ let configData = {
           name: 'number',
           extends: 'input',
           defaultOptions: {
-            templateOptions: {
+            props: {
               type: 'number',
             },
           },
@@ -244,7 +245,7 @@ let configData = {
           name: 'integer',
           extends: 'input',
           defaultOptions: {
-            templateOptions: {
+            props: {
               type: 'number',
             },
           },
@@ -252,7 +253,7 @@ let configData = {
         { name: 'boolean', extends: 'checkbox' },
         { name: 'enum', extends: 'multiselect' },
         { name: 'null', component: NullTypeComponent, wrappers: ['form-field'] },
-        { name: 'array', component: ArrayTypeComponent },
+       // { name: 'array', component: ArrayTypeComponent },
         { name: 'object', component: ObjectTypeComponent },
         { name: 'multischema', component: MultiSchemaTypeComponent },
         {
@@ -284,7 +285,7 @@ let configData = {
   ],
   exports: [TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [],
+  //entryComponents: [],
   bootstrap: [AppComponent],
   providers: [
     AppConfig,
@@ -319,7 +320,7 @@ export class AppModule {
 
     authConfig.getConfig().subscribe((config) => {
       this.languages = config.languages;
-      var installed_languages = [];
+      var installed_languages : any[]= [];
 
       for (let i = 0; i < this.languages.length; i++) {
         installed_languages.push({
@@ -332,13 +333,16 @@ export class AppModule {
       translate.addLangs(this.languages);
 
       if (localStorage.getItem('setLanguage') && this.languages.includes(localStorage.getItem('setLanguage'))) {
-        translate.use(localStorage.getItem('setLanguage'));
+        translate.use(localStorage.getItem('setLanguage') as string);
 
       } else {
         const browserLang = translate.getBrowserLang();
-        let lang = this.languages.includes(browserLang) ? browserLang : 'en';
-        translate.use(lang);
+        let lang  = this.languages.includes(browserLang) ? browserLang : 'en';
+        if(lang != undefined) 
+        {
+          translate.use(lang);
         localStorage.setItem('setLanguage', lang);
+        }
       }
     });
 

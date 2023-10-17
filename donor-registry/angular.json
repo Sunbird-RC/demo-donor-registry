@@ -20,6 +20,28 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+ "allowedCommonJsDependencies": [
+              "lodash",
+              "json-logic-js",
+              "@formio/vanilla-text-mask",
+              "fetch-ponyfill",
+              "moment",
+              "dompurify",
+              "jstimezonedetect",
+              "fetch-ponyfill",
+              "@formio/choices.js",
+              "keycloak-js",
+              "jszip",
+              "grapesjs-preset-webpage",
+              "moment-timezone/moment-timezone",
+              "@formio/core",
+              "autocompleter",
+              "@formio/text-mask-addons",
+              "browser-md5-file",
+              "downloadjs",
+              "jsoneditor",
+              "native-promise-only"
+           ],
             "outputPath": "dist/sunbird-rc-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -66,17 +88,21 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "5000mb",
+                  "maximumError": "5000mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "6000kb",
+                  "maximumError": "5000kb"
                 }
               ],
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true
             }
           }
         },
@@ -88,8 +114,14 @@
           "configurations": {
             "production": {
               "browserTarget": "opensaber-rc-ui:build:production"
+            },
+            "development": {
+              "browserTarget": "opensaber-rc-ui:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
+          
+
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -142,6 +174,5 @@
         }
       }
     }
-  },
-  "defaultProject": "opensaber-rc-ui"
+  }
 }

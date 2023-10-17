@@ -21,7 +21,7 @@ import { BrowseDocumentsComponent } from './documents/browse-documents/browse-do
 import { PagesComponent } from './pages/pages.component';
 import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-view.component';
 import { CertificateComponent } from './certificate/certificate.component';
-import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
+//import { VerifyCertificateComponent } from './verify-certificate/verify-certificate.component';
 import { ShareStatusComponent } from './share-status/share-status.component';
 import { StatusComponent } from './status/status.component';
 
@@ -96,7 +96,7 @@ const routes: Routes = [
 { path: 'discovery', component: SearchComponent },
 { path: 'certificate', component: CertificateComponent },
 { path: 'certificate/:stateVal/:identifier', component: CertificateComponent, canActivate: [AuthGuard] },
-{ path: 'verify-certificate', component: VerifyCertificateComponent },
+//{ path: 'verify-certificate', component: VerifyCertificateComponent },
 { path: ':layout/status/:id', component: ShareStatusComponent, canActivate: [AuthGuard]},
 { path: 'profile/certs/share/:layout/:id/template/:templateid', component: StatusComponent },
 { path: ':layout/status/:id/template/:templateid', component: ShareStatusComponent },

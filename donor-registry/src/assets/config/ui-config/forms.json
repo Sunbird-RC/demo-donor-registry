@@ -65,30 +65,31 @@
                 "element": {
                   "widget": {
                     "expressionProperties": {
-                      "templateOptions.disabled": true
+                      "props.disabled": true
                     },
                     "formlyConfig": {
                       "type": "radio",
-                      "className": "field-in-row p14 mt-2",
-                      "templateOptions": {
+                      "props": {
                         "placeholder": "XXXXXXXXXX",
                         "required": true,
                         "options": [
                           {
-                            "value": "Mobile Number",
-                            "key": "mobile"
+                            "label": "Mobile Number",
+                            "value": "mobile"
                           },
                           {
-                            "value": "ABHA Number",
-                            "key": "abha"
+                            "label": "ABHA Number",
+                            "value": "abha"
                           },
                           {
-                            "value": "Aadhaar Number",
-                            "key": "aadhaar"
+                            "label": "Aadhaar Number",
+                            "value": "aadhaar"
                           }
                         ]
                       },
-                      "defaultValue": "mobile"
+                      "defaultValue": "aadhaar",
+                      "className": "field-in-row p14 mt-2"
+
                     }
                   }
                 }
@@ -107,7 +108,7 @@
                       "placeholder": "Enter your name",
                       "type": "verify-mobileno",
                       "className": "col-lg-4 col-sm-12 mlf-14 mb-3",
-                      "hideExpression": "model.registrationBy != 'mobile'"
+                      "hideExpression": "model.registrationBy !== 'mobile'"
                     }
                   }
                 }
@@ -126,7 +127,7 @@
                       "placeholder": "Enter your aadhaar",
                       "type": "verify-aadhaar",
                       "className": "col-lg-12 col-sm-12 mlf-14 mb-3",
-                      "hideExpression": "model.registrationBy != 'aadhaar'"
+                      "hideExpression": "model.registrationBy !== 'aadhaar'"
                     }
                   }
                 }
@@ -135,7 +136,7 @@
                 "name": "identificationDetails",
                 "children": {
                   "definition": "IdentificationDetails",
-                  "formclass": "row mb-3",
+                  "x": "row mb-3",
                   "fields": [
                     {
                       "name": "abha",
@@ -379,11 +380,11 @@
                   "fields": [
                     {
                       "name": "organs",
-                      "type": "selectall-checkbox"
+                      "type": "multicheckbox"
                     },
                     {
                       "name": "tissues",
-                      "type": "selectall-checkbox"
+                      "type": "multicheckbox"
                     },
                     {
                       "name": "other",
@@ -570,7 +571,7 @@
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
                       "className": "checkbox consent",
-                      "templateOptions": {
+                      "props": {
                         "required": true
                       },
                       "defaultValue": false,
@@ -599,7 +600,7 @@
                       "type": "template",
                       "fieldGroupClassName": "controls",
                       "className": "checkbox",
-                      "templateOptions": {
+                      "props": {
                         "required": false
                       }
                     }
@@ -650,26 +651,26 @@
                 "element": {
                   "widget": {
                     "expressionProperties": {
-                      "templateOptions.disabled": true
+                      "props.disabled": true
                     },
                     "formlyConfig": {
                       "type": "radio",
                       "className": "field-in-row p14 mt-3",
-                      "templateOptions": {
+                      "props": {
                         "placeholder": "XXXXXXXXXX",
                         "required": true,
                         "options": [
                           {
                             "value": "Mobile Number",
-                            "key": "mobile"
+                            "label": "mobile"
                           },
                           {
                             "value": "ABHA Number",
-                            "key": "abha"
+                            "label": "abha"
                           },
                           {
                             "value": "Aadhaar Number",
-                            "key": "aadhaar"
+                            "label": "aadhaar"
                           }
                         ]
                       },
@@ -1079,7 +1080,7 @@
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
                       "className": "checkbox consent",
-                      "templateOptions": {
+                      "props": {
                         "required": true
                       },
                       "defaultValue": false,
@@ -1102,7 +1103,7 @@
                       "type": "template",
                       "fieldGroupClassName": "controls",
                       "className": "checkbox",
-                      "templateOptions": {
+                      "props": {
                         "required": false
                       }
                     }
@@ -1306,7 +1307,7 @@
                       "type": "checkbox",
                       "fieldGroupClassName": "controls",
                       "className": "checkbox consent",
-                      "templateOptions": {
+                      "props": {
                         "required": true
                       }
                     }

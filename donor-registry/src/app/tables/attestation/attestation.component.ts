@@ -26,7 +26,7 @@ export class AttestationComponent implements OnInit {
     {
       key: 'note',
       type: 'textarea',
-      templateOptions: {
+      props: {
         label: 'Reason for denied',
         required: true,
         description: "This note will be sent to user",
@@ -39,14 +39,14 @@ export class AttestationComponent implements OnInit {
     {
       key: 'note',
       type: 'textarea',
-      templateOptions: {
+      props: {
         label: 'Note (Maximum Characters limit 250)',
         maxLength: 250,
         description: "note sent on user",
       },
       validation: {
         messages: {
-          maxlength: "Maximum Characters limit exceeded (250)"
+          maxLength: "Maximum Characters limit exceeded (250)"
         }
       }
     }
@@ -190,8 +190,8 @@ export class AttestationComponent implements OnInit {
         this.claimData = res.claim;
         this.notes = res.notes;
         let noteDesc = 'This note will be sent to ' + this.claimData?.requestorName;
-        this.denyFields[0].templateOptions.description = noteDesc;
-        this.noteFields[0].templateOptions.description = noteDesc;
+        this.denyFields[0].props.description = noteDesc;
+        this.noteFields[0].props.description = noteDesc;
 
         this.attestationData = JSON.parse(this.claimData.propertyData);
 
@@ -317,7 +317,7 @@ export class AttestationComponent implements OnInit {
     //this.note = this.denyForm.value.note ? this.denyForm.value.note : this.note;
     let data = {
       "action": action,
-      "notes": this.denyForm.value.note ? this.denyForm.value.note : this.note
+      "notes": this.denyForm.value['note'] ? this.denyForm.value['note'] : this.note
     }
 
     let actionName = (action == 'REJECT_CLAIM') ? 'Rejected' : 'Accepted';
@@ -359,8 +359,8 @@ export class AttestationComponent implements OnInit {
 
   saveNote() {
     // localStorage.setItem('note', JSON.stringify(event));
-    console.log('evv noteForm -- ', this.noteForm.value.note);
-    this.note = this.noteForm.value.note;
+    console.log('evv noteForm -- ', this.noteForm.value['note']);
+    this.note = this.noteForm.value['note'];
     this.noteAdded = true;
   }
 

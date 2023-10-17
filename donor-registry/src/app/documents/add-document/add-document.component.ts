@@ -135,7 +135,7 @@ export class AddDocumentComponent implements OnInit {
       this.schema['properties'] = schema;
       this.schema['properties']['name']['widget'] = {};
       this.schema['properties']['name']['widget']['formlyConfig'] = {};
-      this.schema['properties']['name']['widget']['formlyConfig']['templateOptions'] = { required: true };
+      this.schema['properties']['name']['widget']['formlyConfig']['props'] = { required: true };
     } else {
       var schema: any = {
         "name": { "title": this.generalService.translateString('NAME_OF_DOCUMENT'), "type": "string" },
@@ -147,8 +147,8 @@ export class AddDocumentComponent implements OnInit {
       this.schema['properties']['fileUrl']['widget'] = {};
       this.schema['properties']['name']['widget']['formlyConfig'] = {};
       this.schema['properties']['fileUrl']['widget']['formlyConfig'] = { "type": "file" };
-      this.schema['properties']['name']['widget']['formlyConfig']['templateOptions'] = { required: true };
-      this.schema['properties']['fileUrl']['widget']['formlyConfig']['templateOptions'] = { required: true };
+      this.schema['properties']['name']['widget']['formlyConfig']['props'] = { required: true };
+      this.schema['properties']['fileUrl']['widget']['formlyConfig']['props'] = { required: true };
     }
 
     this.form2 = new FormGroup({});
@@ -218,7 +218,7 @@ export class AddDocumentComponent implements OnInit {
               this.schema_property[key]['widget'] = {
                 "formlyConfig": {
                   "defaultValue": datavalue,
-                  "templateOptions": {
+                  "props": {
                     required: true,
                     disabled: true
                   },
@@ -230,7 +230,7 @@ export class AddDocumentComponent implements OnInit {
               }
               if (this.schema_property[key]["hidden"]) {
                 this.schema_property[key]['widget']['type'] = 'input'
-                this.schema_property[key]['widget']['formlyConfig']['templateOptions']['type'] = 'hidden' ;
+                this.schema_property[key]['widget']['formlyConfig']['props']['type'] = 'hidden' ;
               }
             }
 
