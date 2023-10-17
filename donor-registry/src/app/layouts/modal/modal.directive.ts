@@ -110,13 +110,12 @@ import {
   
     get urlTree(): UrlTree {
       return this.router.createUrlTree(this.commands, {
-        relativeTo: this.route,
-        queryParams: this.queryParams,
-        fragment: this.fragment,
-        preserveQueryParams: attrBoolValue(this.preserve),
-        queryParamsHandling: this.queryParamsHandling,
-        preserveFragment: attrBoolValue(this.preserveFragment)
-      });
+    relativeTo: this.route,
+    queryParams: this.queryParams,
+    fragment: this.fragment,
+    queryParamsHandling: this.queryParamsHandling,
+    preserveFragment: attrBoolValue(this.preserveFragment)
+});
     }
   }
   
@@ -218,13 +217,12 @@ import {
   
     get urlTree(): UrlTree {
       return this.router.createUrlTree(this.commands, {
-        relativeTo: this.route,
-        queryParams: this.queryParams,
-        fragment: this.fragment,
-        preserveQueryParams: attrBoolValue(this.preserve),
-        queryParamsHandling: this.queryParamsHandling,
-        preserveFragment: attrBoolValue(this.preserveFragment)
-      });
+    relativeTo: this.route,
+    queryParams: this.queryParams,
+    fragment: this.fragment,
+    queryParamsHandling: this.queryParamsHandling,
+    preserveFragment: attrBoolValue(this.preserveFragment)
+});
     }
   }
   
