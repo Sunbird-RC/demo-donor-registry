@@ -1,7 +1,7 @@
 const express = require('express');
 const abhaRouter = express.Router()
 const {v4: uuidv4} = require('uuid');
-const {getRandomMockProfile, isMockProfilePresent} = require('../services/mock-profile.service');
+const {getRandomMockProfile, isMockProfilePresent, generateRandomABHA} = require('../services/mock-profile.service');
 
 let uuidAbhaMap = new Map();
 let userTokenTxnIdMap = new Map();
@@ -60,7 +60,7 @@ abhaRouter.post('/v1/auth/confirmWithMobileOTP', (req, res) => {
 
 abhaRouter.get('/v1/account/profile', (req, res) => {
     const abha = uuidAbhaMap.get(userTokenTxnIdMap.get(req.headers['x-token'].substring(7)));
-    const profile = getRandomMockProfile(abha);
+    const profile = getRandomMockProfile();
     res.send(profile);
 });
 
@@ -74,7 +74,7 @@ abhaRouter.post('/v2/registration/mobile/login/verifyOtp', (req, res) => {
     res.send({
         "mobileLinkedHid": [
             {
-                "healthIdNumber": "91-3075-5157-3552",
+                "healthIdNumber": generateRandomABHA(),
                 "healthId": "",
                 "name": "John Doe",
                 "profilePhoto": null,
