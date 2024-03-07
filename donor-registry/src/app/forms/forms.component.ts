@@ -2359,43 +2359,6 @@ export class FormsComponent implements OnInit {
 
       this.checkOtherVal();
 
-      await this.http.post<any>(`${getDonorServiceHost()}/esign/init`, { data: this.model }).subscribe(async (res) => {
-
-        let x = screen.width / 2 - 500;
-        let y = screen.height / 2 - 400;
-        const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
-        eSignWindow.document.write(`
-        <form action='${res.signUrl}' method="post" id="formid">
-\t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
-\t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
-\t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
-        </form>
-\t<script>
-\t\tdocument.getElementById("formid").submit();
-\t</script>`);
-        eSignWindow.focus();
-        let checkESignStatus = true;
-        let count = 0;
-        while (checkESignStatus) {
-          try {
-            this.http.get<any>(res.signUrl)
-              .subscribe((response) => {
-                checkESignStatus = false;
-                console.log(response)
-              }, (err) => {
-                console.log(err)
-              });
-          } catch (e) {
-            console.log(e)
-          }
-          await new Promise(r => setTimeout(r, 3000));
-          if (count++ === 400) {
-            checkESignStatus = false;
-            alert("Esign session expired. Please try again");
-          }
-        }
-        eSignWindow.close();
-
         if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
           this.model['emergencyDetails'] = {}
         }
@@ -2428,7 +2391,6 @@ export class FormsComponent implements OnInit {
         });
         localStorage.removeItem(this.model['identificationDetails']['abha']);
         localStorage.removeItem('isVerified');
-      });
     } else {
       this.callPostAPI();
     }
@@ -2480,42 +2442,6 @@ export class FormsComponent implements OnInit {
 
     this.routeNew = "/esign/init/" + this.entityName + "/" + this.identifier;
 
-    await this.http.put<any>(`${getDonorServiceHost()}` + this.routeNew, { data: this.model }).subscribe(async (res) => {
-
-      let x = screen.width / 2 - 500;
-      let y = screen.height / 2 - 400;
-      const eSignWindow = window.open('', 'pledge esign', "location=no, height=800, width=1000, left=" + x + ",top=" + y);
-      eSignWindow.document.write(`
-      <form action='${res.signUrl}' method="post" id="formid">
-    \t<input type="hidden" id="eSignRequest" name="eSignRequest" value='${res.xmlContent}'/>
-    \t<input type="hidden" id="aspTxnID" name="aspTxnID" value='${res.aspTxnId}'/>
-    \t<input type="hidden" id="Content-Type" name="Content-Type" value="application/xml"/>
-          </form>
-    \t<script>
-    \t\tdocument.getElementById("formid").submit();
-    \t</script>`);
-      eSignWindow.focus();
-      let checkESignStatus = true;
-      let count = 0;
-      while (checkESignStatus) {
-        try {
-          this.http.get<any>(`${getDonorServiceHost()}/esign/${this?.model['identificationDetails']['abha']}/status`)
-            .subscribe((res) => {
-              checkESignStatus = false;
-              console.log(res)
-            }, (err) => {
-              console.log(err)
-            });
-        } catch (e) {
-          console.log(e)
-        }
-        await new Promise(r => setTimeout(r, 3000));
-        if (count++ === 400) {
-          checkESignStatus = false;
-          alert("Esign session expired. Please try again");
-        }
-      }
-      eSignWindow.close();
       this.checkOtherVal();
       if (this.model.hasOwnProperty('emergencyDetails') && this.model['emergencyDetails']['relation'] == "") {
         this.model['emergencyDetails'] = {}
@@ -2554,8 +2480,6 @@ export class FormsComponent implements OnInit {
         localStorage.removeItem(this.model['identificationDetails']['abha']);
         localStorage.removeItem('isVerified'); 
       }, 3000);
-
-    });
   }
 
   checkOtherVal() {
